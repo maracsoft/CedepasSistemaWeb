@@ -206,7 +206,13 @@
               <p>Vista Cajero</p>
             </a>
           </li>
-
+          <li class="nav-item">
+            <a href="/listarDeEmpleado" class="nav-link">
+              <i class="fab fa-free-code-camp"></i>
+              <p>Listar Solic</p>
+            </a>
+          </li>
+          
 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

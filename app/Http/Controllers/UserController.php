@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,11 +21,24 @@ class UserController extends Controller
             $name=$request->get('name');
             $query=User::where('name','=',$name)->get();
             if($query->count()!=0){
-                $hashp=$query[0]->password;
-                $password=$request->get('password');
-                if(password_verify($password,$hashp))
+                $hashp=$query[0]->password; // guardamos la contraseña cifrada de la BD en hashp
+                $password=$request->get('password');    //guardamos la contraseña ingresada en password
+                if(password_verify($password,$hashp))       //comparamos con el metodo password_verifi ??¡ xdd
                 {
-                    return view('bienvenido');
+                        // Preguntamos si es admin o no
+                    if($name=='admin')
+                    {
+                        if(Auth::attempt($request->only('name','password'))) //este attempt es para que el Auth se inicie
+                            return view('bienvenido');
+                    }//si es user normal
+                    else{
+                        if(Auth::attempt($request->only('name','password')))
+                        return redirect()->route('empresa.index','0');
+    
+                    }
+                    
+                
+                
                 }
                 else{
                     return back()->withErrors(['password'=>'Contraseña no válido'])->withInput([request('password')]);

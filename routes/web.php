@@ -13,6 +13,27 @@ Route::get('/bienvenido', function () {
 });
 
 
+
+
+
+
+
+Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
+    ->name('orden.ventanaPago');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // usar dd("aaaaaaaaaa"); para debugear GA
 
 /**CATEGORIA */
