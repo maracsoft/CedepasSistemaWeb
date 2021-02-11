@@ -5,12 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('index');
+    return redirect()->route('solicitudFondos.listarEmp');
 });
 
-Route::get('/bienvenido', function () {
-    return view('bienvenido');
-});
 
 
 
@@ -31,6 +28,19 @@ Route::get('/revisar/{id}','SolicitudFondosController@revisar')
 
 Route::get('/crearSolicitudFondos','SolicitudFondosController@create')
 ->name('solicitudFondos.create');
+
+Route::get('/editarSolicitudFondos/{id}','SolicitudFondosController@edit')
+->name('solicitudFondos.edit');
+
+
+Route::get('/solicitudes/delete/{id}','SolicitudFondosController@delete')
+->name('solicitudFondos.delete');
+
+
+
+Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
+->name('solicitudFondos.update');
+
 
 Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solicitudFondos.store');
 

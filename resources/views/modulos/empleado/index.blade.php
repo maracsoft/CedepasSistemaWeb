@@ -66,7 +66,7 @@
 
 
                         {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                    <a href="" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
+                    <a href="{{route('solicitudFondos.edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
                     <!--
                     <a href="" class = "btn btn-danger"> 
                         <i class="fas fa-trash-alt"> </i> 
@@ -86,9 +86,9 @@
                           html : true
                       },
                       function(){//se ejecuta cuando damos a aceptar
-                        window.location.href='/categoria/delete/{{$itemSolicitud->codCategoria}}';
+                        window.location.href='/solicitudes/delete/{{$itemSolicitud->codSolicitud}}';
                       });"><i class="fas fa-trash-alt"> </i></a>
-
+                      
                 </td>
 
             </tr>
