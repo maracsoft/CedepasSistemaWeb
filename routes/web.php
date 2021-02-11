@@ -19,14 +19,20 @@ Route::get('/bienvenido', function () {
 
 
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
-    ->name('orden.ventanaPago');
+    ->name('solicitudFondos.listarEmp');
+
+Route::get('/listarDeJefe','SolicitudFondosController@listarSolicitudesParaJefe')
+    ->name('solicitudFondos.listarJefe');
+
+Route::get('/revisar/{id}','SolicitudFondosController@revisar')
+    ->name('solicitudFondos.revisar');
 
 
 
+Route::get('/crearSolicitudFondos','SolicitudFondosController@create')
+->name('solicitudFondos.create');
 
-
-
-
+Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solicitudFondos.store');
 
 
 
@@ -73,9 +79,9 @@ Route::resource('Factultad', 'FacultadController');  // es resource pq trabajamo
 Route::resource('Estudiante', 'EstudianteController');  // es resource pq trabajamos con varias rutas 
 Route::resource('cliente', 'ClienteController');  // es resource pq trabajamos con varias rutas 
 Route::resource('unidad', 'UnidadController');  // es resource pq trabajamos con varias rutas 
-Route::resource('cabeceraventa', 'CabeceraVentaController');  // es resource pq trabajamos con varias rutas 
+/* Route::resource('cabeceraventa', 'CabeceraVentaController');  // es resource pq trabajamos con varias rutas 
 
-
+ */
 Route::get ('unidad/{id}/confirmar','UnidadController@confirmar')->name('unidad.confirmar');
 Route::get ('cliente/{id}/confirmar','ClienteController@confirmar')->name('cliente.confirmar');
 Route::get ('Estudiante/{id}/confirmar','EstudianteController@confirmar')->name('Estudiante.confirmar');

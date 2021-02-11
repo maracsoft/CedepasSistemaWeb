@@ -15,4 +15,16 @@ class Empleado extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codUsuario','nombres','apellidos',
     'fechaNacimiento','codEmpleadoTipo','sexo','activo','codigoEmpleadoCedepas'];
+
+
+    //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
+    public function getNombrePorUser( $idAuth){
+        $lista = Empleado::where('codUsuario','=',$idAuth)->get();
+        return $lista[0]->nombres;
+
+    } 
+
+    
+
+
 }

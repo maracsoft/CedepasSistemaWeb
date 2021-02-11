@@ -100,7 +100,7 @@ class CabeceraVentaController extends Controller
             $producto_id = $request->get('cod_producto');
             $cantidad = $request->get('cantidad');
             $pventa = $request->get('pventa');            
-
+                
             $cont = 0;
                 
             while ($cont<count($producto_id)) {
