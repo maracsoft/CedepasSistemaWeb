@@ -13,7 +13,7 @@
  --}}
 
    
-        <form method="POST" action="{{route('rendicionFondos.reportes')}}">
+        <form method="POST" action="{{route('rendicionFondos.reportes')}}" onsubmit="return validarTextos()">
           @csrf
             <div class="container">
               <div class="row" style="background-color: red">
@@ -144,6 +144,18 @@
 @section('script')
 
 <script>
+
+    function validarTextos(){
+        if( $('#tipoInforme').val() == 4 && $('#ComboBoxSede').val() == 0)
+        {
+          alert('Seleccione una sede para reportar');
+          return false;
+        }
+
+
+      return true;
+    }
+
     function cambioSelect(){
       valor = $('#tipoInforme').val()
       if(valor==4)//empleados de una sede

@@ -166,10 +166,6 @@ class RendicionFondosController extends Controller
 
                 break;
                 
-                
-                
-                
-                
                 case '4':
                     $sede = Sede::findOrFail($request->ComboBoxSede);
             

@@ -63,7 +63,7 @@ Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendi
 
 Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
 
-Route::post('/reportes/aa', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
+Route::post('/reportes/ver', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
 
 
 
