@@ -46,13 +46,21 @@
       
             <tr>
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
-                <td>{{$itemSolicitud->fechaEmision  }}</td>
+                <td>{{$itemSolicitud->getFechaEmision() }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td>{{$itemSolicitud->getNombreProyecto()  }}</td>
                 <td>{{$itemSolicitud->totalSolicitado  }}</td>
                   
-                <td>{{$itemSolicitud->getNombreEstado()  }}</td>
+                <td>{{$itemSolicitud->getNombreEstado()  }} 
+                  @if($itemSolicitud->codEstadoSolicitud == 4)
+                    <br>
+                    S/.{{$itemSolicitud->getRendicion()->totalImporteRendido}}
+
+                  @endif
+                  
+
+                </td>
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
                   

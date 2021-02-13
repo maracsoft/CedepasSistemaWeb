@@ -6,8 +6,8 @@
 
 @section('contenido')
 
-<h1> Registrar rendicion de Fondos</h1>
-<form method = "POST" action = "{{route('rendicionFondos.store')}}"  >
+<h1> Registrar rendicion de gastos</h1>
+<form method = "POST" action = "{{route('rendicionFondos.store')}}" onsubmit="return validarTextos()"  >
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
@@ -342,6 +342,26 @@
             
     
         });
+
+        function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+            msj='';
+            
+            if($('#resumen').val()=='' )
+                msj='Debe ingresar el resumen';
+            
+            if( $('#cantElementos').val()<=0 )
+                msj='Debe ingresar Items';
+
+
+            if(msj!='')
+            {
+                alert(msj)
+                return false;
+            }
+
+            return true;
+        }
+
     
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
         function cadAleatoria(length) {

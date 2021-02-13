@@ -24,6 +24,7 @@ class SolicitudFondos extends Model
         return $sede->nombre;
 
     }
+
     public function getNombreProyecto(){
         $proyecto = Proyecto::findOrFail($this->codProyecto);
         return $proyecto->nombreProyecto;
@@ -48,8 +49,18 @@ class SolicitudFondos extends Model
             return "---";
         }
         else{
-            return $this->fechaRevisado;
+            $stringFecha =$this->fechaRevisado; 
+            $stringFecha =   str_replace('-','/',$stringFecha);
+            return $stringFecha;
         }
+
+    }
+
+    //MODIFICA EL VALOR PARA QUE SEA / en lugar de - 
+    public function getFechaEmision(){
+        $stringFecha =$this->fechaEmision; 
+            $stringFecha =   str_replace('-','/',$stringFecha);
+            return $stringFecha;
 
     }
 
@@ -57,5 +68,11 @@ class SolicitudFondos extends Model
         $emp = Empleado::findOrFail($this->codEmpleadoSolicitante);
         return $emp->nombres.' '.$emp->apellidos;
     }
+
+    public function getRendicion(){
+        $rend = (RendicionGastos::where('codSolicitud','=',$this->codSolicitud)->get()) [0];
+        return $rend;
+    }
+
 
 }

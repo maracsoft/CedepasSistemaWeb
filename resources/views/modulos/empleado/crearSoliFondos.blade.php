@@ -258,7 +258,7 @@
                         Registrar
                     </button>    
                    
-                    <a href="" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
                 </div>    
             </div>
         </div>
@@ -335,34 +335,35 @@
         function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
             
-             if($('#justificacion').val()=='' ){
+             if($('#justificacion').val()=='' )
                 msj='Debe ingresar la justificacion';
-            }
+            
 
-            if($('#ComboBoxProyecto').val()==0 ){
+            if($('#ComboBoxProyecto').val()==0 )
                 msj='Debe seleccionar el proyecto';
-            }
+            
 
-            if($('#ComboBoxSede').val()==0 ){
+            if($('#ComboBoxSede').val()==0 )
                 msj='Debe seleccionar la sede';
-            }
+            
 
-            if($('#ComboBoxBanco').val()==0 ){
+            if($('#ComboBoxBanco').val()==0 )
                 msj='Debe seleccionar el banco.';
-            }
-            if($('#girarAOrden').val()=='' ){
+            
+            if($('#girarAOrden').val()=='' )
                 msj='Debe ingresar la persona dueña de la cuenta.';
-            }
-            if($('#nroCuenta').val()=='' ){
+            
+            if($('#nroCuenta').val()=='' )
                 msj='Debe ingresar el nro de cuenta';
-            }
+            
+            if( $('#cantElementos').val()<=0 )
+                msj='Debe ingresar Items';
 
 
             if(msj!='')
             {
-            alert(msj)
-            return false;
-
+                alert(msj)
+                return false;
             }
 
             return true;
@@ -385,12 +386,12 @@
                 cont = item+1;
     
                 total=total +parseFloat(element.importe); 
-    
+                itemMasUno = item+1;
                 //importes.push(importe);
                 //item = getUltimoIndex();
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+item+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMasUno+'" readonly="readonly">'   +
                             '    </td>               '+
                             '    <td> '+
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
@@ -419,42 +420,6 @@
           
             //alert('se termino de actualizar la tabla con cont='+cont);
         }
-    
-    
-        /* function mostrarTipo(){ //ESTE METODO SE EJECUTA CUANDO SE CAMBIA ENTRE BOLETA Y FACTURA
-            codigo=$("#seltipo").val();   
-                $.get('/EncontrarTipo/'+codigo, function(data){                                 
-                    $('input[name=nrodoc]').val(data[0].serie + (data[0].numeracion) );   
-                    if(codigo==1){ //factura
-                        $('#divTotalSinIGV').show();
-                        $('#divIGV').show();
-                    }else{ //boleta
-                        $('#divTotalSinIGV').hide();
-                        $('#divIGV').hide();
-                    }
-                    
-          
-                    });
-            
-        }
-     */
-        /* function mostrarCliente(){                            
-            datosCliente=document.getElementById('cliente_id').value.split('_');        
-            $('#ruc').val(datosCliente[1]);  
-            $('#direccion').val(datosCliente[2]);    
-        } */
-    
-        /* function mostrarProducto(){      //se ejecuta cuando cambiamos el comboBox del producto
-                                   
-              producto_id=$("#producto_id").val();  
-                   
-                  $.get('/EncontrarProducto/'+producto_id, function(data){                         
-                      $('input[name=producto_id]').val(data[0].producto_id);   
-                      $('input[name=unidad]').val(data[0].unidad);    
-                      $('input[name=precio]').val(data[0].precio);    
-                      $('input[name=stock]').val(data[0].stock);  
-                    });
-         }      */   
     
     
         function agregarDetalle()
@@ -509,15 +474,11 @@
             $('#codigoPresupuestal').val('');
             
     }
-    
-    function limpiar(){
-        $("#cantidad").val(0);
-        //$("#precio").val(0);
-        $("#producto_id").val(0);
-    }
+
     
     /* Mostrar Mensajes de Error */
     function mostrarMensajeError(mensaje){
+        //console.log('a');
         $(".alert").css('display', 'block');
         $(".alert").removeClass("hidden");
         $(".alert").addClass("alert-danger");
