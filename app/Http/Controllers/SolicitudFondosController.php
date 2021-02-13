@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Environment\Console;
+use App\CDP;
 
 class SolicitudFondosController extends Controller
 
@@ -27,12 +28,14 @@ class SolicitudFondosController extends Controller
         $codUsuario = Auth::id(); //este es el idSolicitante 
 
         
-        $empleados = Empleado::where('codUsuario','=',$codUsuario)->get();
+        $empleados = Empleado::where('codUsuario','=',$codUsuario)
+        ->get();
         $empleado = $empleados[0];
 
         
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+        ->orderBy('codEstadoSolicitud','ASC')
         ->paginate();
 
         $buscarpor = "";
@@ -74,12 +77,75 @@ class SolicitudFondosController extends Controller
         return view('modulos.jefeAdmin.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
-
+    //funcion del jefe, despliega la vista de revision
     public function revisar($id){
-        return "aaaaaaaa";
+        $listaBancos = Banco::All();
+        $listaProyectos = Proyecto::All();
+        $listaSedes = Sede::All();
         
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
+       
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];    
+
+        return view('modulos.JefeAdmin.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+    }
+
+    public function aprobar( $id){
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $solicitud->codEstadoSolicitud = '2';
+
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+        $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+        $solicitud->fechaRevisado = Carbon::now()->subHours(5);
+
+        $solicitud->save();
+
+
+        return redirect()->route('solicitudFondos.listarJefe')
+        ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada');
+    }
+
+    public function rechazar( $id){
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $solicitud->codEstadoSolicitud = '3';
+
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+        $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+        $solicitud->fechaRevisado = Carbon::now()->subHours(5);
+
+
+        $solicitud->save();
+
+        return redirect()->route('solicitudFondos.listarJefe')
+        ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
+    }
+
+    //Despliega la vista de rendir esta solciitud. ES LO MISMO QUE UN CREATE EN EL RendicionFondosController
+    public function rendir($id){ //le pasamos id de la sol fondos
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $listaBancos = Banco::All();
+        $listaProyectos = Proyecto::All();
+        $listaSedes = Sede::All();
+        $listaCDP = CDP::All();
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+
+        $listaEmpleadosDeSede  = Empleado::All();
+        return view ('modulos.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
+        ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP'));
+
+
 
     }
+
+
+
+
+
     public function edit($id){ //id de la solicidu codSolicitud
 
         $listaBancos = Banco::All();

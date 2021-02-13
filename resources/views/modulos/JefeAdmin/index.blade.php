@@ -27,6 +27,7 @@
                 <th scope="col">Codigo Sol</th>
                 <th scope="col">Fecha emision</th>
                 <th scope="col">Sede</th>
+                <th scope="col">Empleado </th>
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado</th>
                 <th scope="col">Estado</th>
@@ -47,13 +48,14 @@
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->fechaEmision  }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
+                <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td>{{$itemSolicitud->getNombreProyecto()  }}</td>
                 <td>{{$itemSolicitud->totalSolicitado  }}</td>
                   
                 <td>{{$itemSolicitud->getNombreEstado()  }}</td>
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
-
+                  
 
                         {{-- MODIFICAR RUTAS DE Delete y Edit --}}
                     <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">

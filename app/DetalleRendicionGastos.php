@@ -17,4 +17,14 @@ class DetalleRendicionGastos extends Model
     'concepto','importe',
     'codigoPresupuestal','codTipoCDP'];
 
+    public function setTipoCDPPorNombre($nombreCDP){
+        $listacdp = CDP::where('nombreCDP','=',$nombreCDP)->get();
+        $cdp = $listacdp[0];
+        $this->codTipoCDP = $cdp->codTipoCDP;
+        
+    }
+    public function getNombreTipoCDP(){
+        $cdp = CDP::findOrFail($this->codTipoCDP);
+        return $cdp->nombreCDP;
+    }
 }

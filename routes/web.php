@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return redirect()->route('solicitudFondos.listarEmp');
+    return view('login');
 });
 
 
@@ -24,6 +24,17 @@ Route::get('/listarDeJefe','SolicitudFondosController@listarSolicitudesParaJefe'
 Route::get('/revisar/{id}','SolicitudFondosController@revisar')
     ->name('solicitudFondos.revisar');
 
+
+    
+Route::get('/SolicitudFondos/Aprobar/{id}','SolicitudFondosController@aprobar')
+->name('solicitudFondos.aprobar');
+
+Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
+->name('solicitudFondos.rendir');
+
+
+Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
+->name('solicitudFondos.rechazar');
 
 
 Route::get('/crearSolicitudFondos','SolicitudFondosController@create')
@@ -44,7 +55,11 @@ Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
 
 Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solicitudFondos.store');
 
+/* RENDICIONES */
 
+Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendicionFondos.store');
+
+Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
 
 
 

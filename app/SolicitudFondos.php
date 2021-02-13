@@ -35,15 +35,27 @@ class SolicitudFondos extends Model
 
     }
 
+    public function getNombreBanco(){
+        $banco = Banco::findOrFail($this->codBanco);
+        return $banco->nombreBanco;
+
+    }
+
+    
     public function getFechaRevision(){
-        if($this->fechaRevision == null )
+        if($this->fechaRevisado == null )
         {
             return "---";
         }
         else{
-            return $this->fechaRevision;
+            return $this->fechaRevisado;
         }
 
+    }
+
+    public function getNombreSolicitante(){
+        $emp = Empleado::findOrFail($this->codEmpleadoSolicitante);
+        return $emp->nombres.' '.$emp->apellidos;
     }
 
 }

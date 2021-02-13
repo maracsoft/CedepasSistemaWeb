@@ -63,32 +63,57 @@
                 <td>{{$itemSolicitud->getNombreEstado()  }}</td>
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
+                    @switch($itemSolicitud->codEstadoSolicitud)
+                        @case(1){{-- Si solamente está creada --}}
+                                
+                                {{-- MODIFICAR RUTAS DE Delete y Edit --}}
+                            <a href="{{route('solicitudFondos.edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <!--
+                            <a href="" class = "btn btn-danger"> 
+                                <i class="fas fa-trash-alt"> </i> 
+                                  Eliminar
+                            </a>
+                            -->
+                            <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                                  title:'¿Está seguro de eliminar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
+                                  //type: 'warning',  
+                                  type: 'warning',
+                                  showCancelButton: true,//para que se muestre el boton de cancelar
+                                  confirmButtonColor: '#3085d6',
+                                  cancelButtonColor: '#d33',
+                                  confirmButtonText:  'SI',
+                                  cancelButtonText:  'NO',
+                                  closeOnConfirm:     true,//para mostrar el boton de confirmar
+                                  html : true
+                              },
+                              function(){//se ejecuta cuando damos a aceptar
+                                window.location.href='/solicitudes/delete/{{$itemSolicitud->codSolicitud}}';
+                              });"><i class="fas fa-trash-alt"> </i></a>
+                              
+                            @break
+                        @case(2) {{-- YA FUE APROBADA --}}
+                            <a href="{{route('solicitudFondos.rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
+                              Rendir <i class="fas fa-list"></i>
+                            </a>
+                            @break
+                        @case(3) {{-- RECHAZADA --}}
 
 
-                        {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                    <a href="{{route('solicitudFondos.edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
-                    <!--
-                    <a href="" class = "btn btn-danger"> 
-                        <i class="fas fa-trash-alt"> </i> 
-                          Eliminar
-                    </a>
-                    -->
-                    <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
-                          title:'¿Está seguro de eliminar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
-                          //type: 'warning',  
-                          type: 'warning',
-                          showCancelButton: true,//para que se muestre el boton de cancelar
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
-                          confirmButtonText:  'SI',
-                          cancelButtonText:  'NO',
-                          closeOnConfirm:     true,//para mostrar el boton de confirmar
-                          html : true
-                      },
-                      function(){//se ejecuta cuando damos a aceptar
-                        window.location.href='/solicitudes/delete/{{$itemSolicitud->codSolicitud}}';
-                      });"><i class="fas fa-trash-alt"> </i></a>
-                      
+
+                            @break
+                        @case(4) {{-- RENDIDA --}}
+                            <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
+                              <i class="fas fa-eye"></i> Rendicion
+                            </a>
+                            
+                            @break
+                            
+
+                        @default
+                            
+                    @endswitch
+
+             
                 </td>
 
             </tr>

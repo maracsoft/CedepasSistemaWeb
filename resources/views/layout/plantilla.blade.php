@@ -10,6 +10,9 @@
   <!-- Font Awesome -->
  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
 
+ <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
+ <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
+ 
   
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -194,11 +197,17 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/adminlte/dist/js/demo.js"></script>
 
+<script src="/select2/bootstrap-select.min.js"></script>   
+
 <!-- PARA SOLUCIONAR EL PROBLEMA DE 'funcion(){' EN js--->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 <!-- LIBRERIAS PARA NOTIFICACION DE ELIMINACION--->
 <script src="/adminlte/dist/js/sweetalert.min.js"></script>
+
+<script src="/calendario/js/bootstrap-datepicker.min.js"></script>
+<script src="/calendario/locales/bootstrap-datepicker.es.min.js"></script>
+
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">
 </body>
 </html>

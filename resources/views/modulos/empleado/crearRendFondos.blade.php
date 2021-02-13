@@ -6,11 +6,13 @@
 
 @section('contenido')
 
-<h1> Registrar Nueva Solicitud de Fondos</h1>
-<form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" >
-        
+<h1> Registrar rendicion de Fondos</h1>
+<form method = "POST" action = "{{route('rendicionFondos.store')}}"  >
+    
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
+    {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
+    <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
     
     @csrf
     <div class="container" style="background-color: green">
@@ -25,52 +27,57 @@
                       <div class="col">
                             <div class="form-group" style="text-align:left; background-color:red">                            
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    <input type="text"  class="form-control" name="fecha" id="fecha" disabled
+                                    <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
                                         value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
                             </div>
                       </div>
-                      
+
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  style="width: 30%">
-                            <label for="fecha">Girar a la orden de</label>
+                              <label for="ComboBoxProyecto">Proyecto</label>
+
+                      </div>
+                      <div class="col"> {{-- input de proyecto --}}
+                          <input readonly type="text" class="form-control" name="proyecto" id="proyecto" value="{{$solicitud->getNombreProyecto()}}">    
+        
+                      </div>
+
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  style="width: 30%">
+                            <label for="fecha">Colaborador</label>
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="girarAOrden" id="girarAOrden">    
+                            <input  readonly type="text" class="form-control" name="colaboradorNombre" id="colaboradorNombre" value="{{$empleadoLogeado->nombres}}">    
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  style="width: 30%">
-                            <label for="fecha">Nro Cuenta</label>
+                            <label for="fecha">Cod Colaborador</label>
+
+                      </div>
+
+                      <div class="col">
+                            <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleadoLogeado->codigoEmpleadoCedepas}}">    
+                      </div>
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  style="width: 30%">
+                            <label for="fecha">Importe Recibido</label>
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="nroCuenta" id="nroCuenta">    
+                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
                       </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Banco</label>
-
-                      </div>
-                      <div class="col"> {{-- Combo box de banco --}}
-                            <select class="form-control"  id="ComboBoxBanco" name="ComboBoxBanco" >
-                                <option value="0">-- Seleccionar -- </option>
-                                @foreach($listaBancos as $itemBanco)
-                                    <option value="{{$itemBanco['codBanco']}}" >
-                                        {{$itemBanco->nombreBanco}}
-                                    </option>                                 
-                                @endforeach 
-                            </select>      
-                      </div>
+                      
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  style="width: 30%">
-                            <label for="codSolicitud">Codigo Solicitud</label>
+                            <label for="codSolicitud">Codigo Solicitud de Fondos</label>
 
                       </div>
-                      <div class="col"> 
-                            <input type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                      <div class="col">
+                            <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                       </div>
 
 
@@ -87,43 +94,31 @@
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
-                <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-
-                <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
-
+                <div class="container">
                     <div class="row">
-                        <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
-                                <label for="ComboBoxProyecto">Proyecto</label>
-
-                        </div>
-                        <div class="col"> {{-- Combo box de proyecto --}}
-                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" >
-                                    <option value="0">-- Seleccionar -- </option>
-                                    @foreach($listaProyectos as $itemProyecto)
-                                        <option value="{{$itemProyecto['codProyecto']}}" >
-                                            {{$itemProyecto->nombreProyecto}}
-                                        </option>                                 
-                                    @endforeach 
-                                </select>      
-                        </div>
-                        <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
-                                <label for="ComboBoxSede">Sede</label>
-                        </div>
-                        <div class="col"> {{-- Combo box de sede --}}
-                                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                                    <option value="0">-- Seleccionar -- </option>
-                                    @foreach($listaSedes as $itemSede)
-                                        <option value="{{$itemSede['codSede']}}" >
-                                            {{$itemSede->nombre}}
-                                        </option>                                 
-                                    @endforeach 
-                                </select>      
+                        <div class="col">
+                            <label for="fecha">Resumen de la actividad</label>
+                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+            
                         </div>
                     </div>
+
+                    <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+
+                        <div class="row">
+                          <div  style="width: 30%">
+                                <label for="fecha">Cod Rendicion</label>
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
+                          </div>
+                        </div>
+                    </div>
+
                 </div>
+
+                
+                
             </div>
         </div>
       </div>
@@ -146,30 +141,69 @@
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead >
-                        <th width="10%" class="text-center"></th>                                        
-                        <th width="40%"> 
-                            <div style=" background-color:blue;"> {{-- INPUT PARA CONCEPTO--}}
-                                <input type="text" class="form-control" name="concepto" id="concepto">     
+                        <th class="text-center">
+                                                     
+                                <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                    <input type="text"  class="form-control" name="fechaComprobante" id="fechaComprobante"
+                                          value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="font-size: 10pt;"> 
+                                    
+                                    <div class="input-group-btn">                                        
+                                        <button class="btn btn-primary date-set btn-sm" type="button">
+                                            <i class="fas fa-calendar fa-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                               
+                        
+                        
+                        
+                        </th>                                        
+                        <th> 
+                            <div style=" background-color:blue;"> {{-- INPUT PARA tipo--}}
+                                
+                                <select class="form-control"  id="ComboBoxCDP" name="ComboBoxCDP" >
+                                    <option value="-1">-Seleccionar- </option>
+                                    @foreach($listaCDP as $itemCDP)
+                                        <option value="{{$itemCDP->nombreCDP}}" >
+                                            {{$itemCDP->nombreCDP}}
+                                        </option>                                 
+                                    @endforeach 
+                                </select>        
+
+
+
                             </div>
                             
                         </th>                                 
-                        <th width="10%">
-                            <div style="background-color:blue;" > {{-- INPUT PARA importe--}}
-                                <input type="text" class="form-control" name="importe" id="importe">     
+                        <th>
+                            <div style="background-color:blue;" > {{-- INPUT PARA ncbte--}}
+                                <input type="text" class="form-control" name="ncbte" id="ncbte">     
                             </div>
                         </th>
-                        <th width="15%" class="text-center">
+                        <th  class="text-center">
+                            <div style="background-color:blue;"> {{-- INPUT PARA  concepto--}}
+                                <input type="text" class="form-control" name="concepto" id="concepto">     
+                            </div>
+
+                        </th>
+                        <th class="text-center">
+                            <div style="background-color:blue;"> {{-- INPUT PARA importe--}}
+                                <input type="text" class="form-control" name="importe" id="importe">     
+                            </div>
+
+                        </th>
+                        <th  class="text-center">
                             <div style="background-color:blue;"> {{-- INPUT PARA codigo presup--}}
                                 <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
                             </div>
 
                         </th>
-                        <th width="20%" class="text-center">
+                        <th  class="text-center">
                             <div style="background-color: blue; ">
                                 <button type="button" id="btnadddet" name="btnadddet" 
                                     class="btn btn-success" onclick="agregarDetalle()" >
                                     <i class="fas fa-plus"></i>
-                                     Agregar Detalle
+                                     Agregar
                                 </button>
                             </div>      
                         
@@ -179,12 +213,15 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Item</th>                                        
-                        <th width="40%">Concepto</th>                                 
-                        <th width="10%"> Importe</th>
-                        <th width="15%" class="text-center">Codigo Presupuestal</th>
+                        <th width="13%" class="text-center">Fecha</th>                                        
+                        <th width="13%">Tipo</th>                                 
+                        <th width="10%"> N° Cbte</th>
+                        <th width="20%" class="text-center">Concepto </th>
+                        <th width="10%" class="text-center">Importe </th>
+                        <th width="10%" class="text-center">Cod Presup </th>
+                        
                         <th width="20%" class="text-center">Opciones</th>                                            
-                     
+                        
                     </thead>
                     <tfoot>
 
@@ -252,7 +289,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit" 
+                    <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Registrar
@@ -283,13 +320,13 @@
 
 
 @section('script')
-     {{-- <script src="/public/select2/bootstrap-select.min.js"></script>      --}}
+       
      <script>
         var cont=0;
         
         var IGV=0;
         var total=0;
-        var detalleSol=[];
+        var detalleRend=[];
         var importes=[];
         var controlproducto=[];
         var totalSinIGV=0;
@@ -301,11 +338,11 @@
             if(mes.length > 0) mes = '0' + mes;
             
             year =  d.getFullYear().toString().substr(2,2)  ;
-            $('#codSolicitud').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
+            $('#codRendicion').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
             
     
         });
-        
+    
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
         function cadAleatoria(length) {
             var result           = '';
@@ -320,53 +357,19 @@
         /* Eliminar productos */
         function eliminardetalle(index){
             //total=total-importes[index]; 
-            //tam=detalleSol.length;
-            
+            //tam=detalleRend.length;
+    
          
     
             //removemos 1 elemento desde la posicion index
-            detalleSol.splice(index,1);
+            detalleRend.splice(index,1);
            
             console.log('BORRANDO LA FILA' + index);
             //cont--;
             actualizarTabla();
     
         }
-        function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
-            msj='';
-            
-             if($('#justificacion').val()=='' ){
-                msj='Debe ingresar la justificacion';
-            }
-
-            if($('#ComboBoxProyecto').val()==0 ){
-                msj='Debe seleccionar el proyecto';
-            }
-
-            if($('#ComboBoxSede').val()==0 ){
-                msj='Debe seleccionar la sede';
-            }
-
-            if($('#ComboBoxBanco').val()==0 ){
-                msj='Debe seleccionar el banco.';
-            }
-            if($('#girarAOrden').val()=='' ){
-                msj='Debe ingresar la persona dueña de la cuenta.';
-            }
-            if($('#nroCuenta').val()=='' ){
-                msj='Debe ingresar el nro de cuenta';
-            }
-
-
-            if(msj!='')
-            {
-            alert(msj)
-            return false;
-
-            }
-
-            return true;
-        }
+    
     
         function actualizarTabla(){
             //funcion para poner el contenido de detallesVenta en la tabla
@@ -380,8 +383,8 @@
             }
             
             //insertamos en la tabla los nuevos elementos
-            for (let item = 0; item < detalleSol.length; item++) {
-                element = detalleSol[item];
+            for (let item = 0; item < detalleRend.length; item++) {
+                element = detalleRend[item];
                 cont = item+1;
     
                 total=total +parseFloat(element.importe); 
@@ -390,9 +393,18 @@
                 //item = getUltimoIndex();
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+item+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly">'   +
+                            '    </td>               '+
+                            
+                            '    <td style="text-align:center;">               '+
+                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly="readonly">'   +
+                            '    </td>               '+
+                            
+                            '    <td style="text-align:center;">               '+
+                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
                             '    </td>               '+
                             '    <td> '+
+ 
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
@@ -421,54 +433,42 @@
         }
     
     
-        /* function mostrarTipo(){ //ESTE METODO SE EJECUTA CUANDO SE CAMBIA ENTRE BOLETA Y FACTURA
-            codigo=$("#seltipo").val();   
-                $.get('/EncontrarTipo/'+codigo, function(data){                                 
-                    $('input[name=nrodoc]').val(data[0].serie + (data[0].numeracion) );   
-                    if(codigo==1){ //factura
-                        $('#divTotalSinIGV').show();
-                        $('#divIGV').show();
-                    }else{ //boleta
-                        $('#divTotalSinIGV').hide();
-                        $('#divIGV').hide();
-                    }
-                    
-          
-                    });
-            
-        }
-     */
-        /* function mostrarCliente(){                            
-            datosCliente=document.getElementById('cliente_id').value.split('_');        
-            $('#ruc').val(datosCliente[1]);  
-            $('#direccion').val(datosCliente[2]);    
-        } */
-    
-        /* function mostrarProducto(){      //se ejecuta cuando cambiamos el comboBox del producto
-                                   
-              producto_id=$("#producto_id").val();  
-                   
-                  $.get('/EncontrarProducto/'+producto_id, function(data){                         
-                      $('input[name=producto_id]').val(data[0].producto_id);   
-                      $('input[name=unidad]').val(data[0].unidad);    
-                      $('input[name=precio]').val(data[0].precio);    
-                      $('input[name=stock]').val(data[0].stock);  
-                    });
-         }      */   
     
     
         function agregarDetalle()
         {
-            
-    
-            // VALIDAMOS 
+
+
+            // VALIDAMOS
+
+            fecha = $("#fechaComprobante").val();    
+            if (fecha=='') 
+            {
+                alert("Por favor ingrese la fecha del comprobante del gasto.");    
+                return false;
+            }   
+            tipo = $("#ComboBoxCDP").val();    
+            if (tipo==-1) 
+            {
+                alert("Por favor ingrese el tipo de comprobante del gasto.");    
+                return false;
+            }
+            ncbte= $("#ncbte").val();   
+             
+            if (ncbte=='') 
+            {
+                alert("Por favor ingrese el numero del comprobante del gasto.");    
+                return false;
+            }
+             
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
                 alert("Por favor ingrese el concepto");    
                 return false;
             }    
-    
+              
+            
     
             importe=$("#importe").val();    
             if (!(importe>0)) 
@@ -494,8 +494,10 @@
             // FIN DE VALIDACIONES
     
                 item = cont+1;   
-                detalleSol.push({
-                    item:item,
+                detalleRend.push({
+                    fecha:fecha,
+                    tipo:tipo,
+                    ncbte,ncbte,
                     concepto:concepto,
                     importe:importe,            
                     codigoPresupuestal:codigoPresupuestal
@@ -504,6 +506,10 @@
             actualizarTabla();
             //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
             //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
+            $('#fechaComprobante').val('');
+            $('#ComboBoxCDP').val(0);
+            $('#ncbte').val('');
+            
             $('#concepto').val('');
             $('#importe').val('');
             $('#codigoPresupuestal').val('');

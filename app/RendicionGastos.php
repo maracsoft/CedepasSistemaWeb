@@ -17,5 +17,5 @@ class RendicionGastos extends Model
     'totalImporteRendido','saldoAFavorDeEmpleado',
     'resumenDeActividad','estadoDeReposicion'];
 
-
+    
 }
