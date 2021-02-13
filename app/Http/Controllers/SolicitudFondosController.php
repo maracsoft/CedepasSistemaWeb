@@ -15,6 +15,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use SebastianBergmann\Environment\Console;
 use App\CDP;
+use App\EstadoOrden;
+use App\EstadoSolicitudFondos;
 
 class SolicitudFondosController extends Controller
 
@@ -57,7 +59,7 @@ class SolicitudFondosController extends Controller
 
     public function listarSolicitudesParaJefe(Request $request){
         
-        $codUsuario = Auth::id(); //este es el idSolicitante 
+        $codUsuario = Auth::id(); 
 
         
         $empleados = Empleado::where('codUsuario','=',$codUsuario)
@@ -312,5 +314,32 @@ class SolicitudFondosController extends Controller
         return redirect()->route('solicitudFondos.listarEmp')->with('datos','Se eliminó el registro'.$cod);
     }
 
+
+    public function reportes(){
+        $codUsuario = Auth::id(); //este es el idSolicitante 
+
+        
+        $empleados = Empleado::where('codUsuario','=',$codUsuario)
+        ->get();
+        $empleado = $empleados[0];
+
+        
+        $listaSolicitudesFondos = SolicitudFondos::
+        where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            ->orderBy('codEstadoSolicitud','ASC')
+            ->paginate();
+
+        $buscarpor = "";
+
+        $listaBancos = Banco::All();
+        $listaProyectos = Proyecto::All();
+        $listaSedes = Sede::All();
+        $listaEmpleados = Empleado::All();
+        $listaEstados = EstadoSolicitudFondos::All();
+
+        return view('modulos.JefeAdmin.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
+        ,'listaBancos','listaSedes','listaProyectos','listaEmpleados','listaEstados'));
+
+    }
 
 }

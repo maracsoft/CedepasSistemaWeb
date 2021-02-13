@@ -47,6 +47,8 @@ Route::get('/editarSolicitudFondos/{id}','SolicitudFondosController@edit')
 Route::get('/solicitudes/delete/{id}','SolicitudFondosController@delete')
 ->name('solicitudFondos.delete');
 
+Route::get('/solicitudes/reportes/','SolicitudFondosController@reportes')
+->name('solicitudFondos.reportes');
 
 
 Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
@@ -60,6 +62,8 @@ Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solic
 Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendicionFondos.store');
 
 Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
+
+Route::post('/reportes/aa', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
 
 
 

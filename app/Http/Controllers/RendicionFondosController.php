@@ -101,4 +101,49 @@ class RendicionFondosController extends Controller
 
     }
 
+    public function reportes(Request $request){
+
+        $fechaInicial = $request->fechaI;
+        $fechaFinal = $request->fechaF;
+        $tipoInforme = $request->tipoInforme;
+        
+        //CONVERTIMOS 13/02/2021 A 2021-02-11
+        $fechaI = substr($fechaInicial,6,4).'/'.substr($fechaInicial,3,2).'/'.substr($fechaInicial,0,2);
+        $fechaF = substr($fechaFinal,6,4).'/'.substr($fechaFinal,3,2).'/'.substr($fechaFinal,0,2);
+
+        switch ($tipoInforme) {
+            case '1': //POR SEDES
+                //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
+
+                                            /* 
+            
+                                            */
+
+                $listaX = DB::select('
+                    select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
+                    from rendicion_gastos RG
+                        inner join solicitud_fondos USING(codSolicitud)
+                        inner join Sede USING(codSede)
+                        GROUP BY sede.nombre;
+                ');
+                return view('modulos.JefeAdmin.reporteSedes',$listaX);
+                
+
+
+                break;
+            case '2': //POR EMPLEADOS
+            
+                break;
+           
+
+                        
+            default:
+                # code...
+                break;
+        }
+
+
+
+    }
+
 }

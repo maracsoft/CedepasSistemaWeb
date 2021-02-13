@@ -85,46 +85,56 @@
           
 
           
-            <li class="nav-item">
-            <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
-              <i class="fab fa-free-code-camp"></i>
-              <p>Solic Empleado</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('solicitudFondos.listarJefe')}}" class="nav-link">
-              <i class="fab fa-free-code-camp"></i>
-              <p>Solic Jefe</p>
-            </a>
-          </li>
-                    
-
+          
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Mantenimiento
+                Empleado
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('categoria.index')}}" class="nav-link">
+                <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Categorias</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('producto.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Productos</p>
+                  <p>Listar Solicitudes</p>
                 </a>
               </li>
               
-
-
             </ul>
           </li>
+
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Jefe Admin
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.listarJefe')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Listar Fondos</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reportes</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          
+
+
           
          </ul>
       </nav>
