@@ -146,12 +146,17 @@
 <script>
 
     function validarTextos(){
+        msj = '';
+        if(  $('#tipoInforme').val() == 0  )
+            msj = 'Seleccione un tipo de informe';
         if( $('#tipoInforme').val() == 4 && $('#ComboBoxSede').val() == 0)
-        {
-          alert('Seleccione una sede para reportar');
-          return false;
+          msj = 'Seleccione una sede para reportar';
+        
+        if( msj!='')
+        {  
+            alert(msj); 
+            return false;
         }
-
 
       return true;
     }
