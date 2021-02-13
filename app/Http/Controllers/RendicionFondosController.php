@@ -103,47 +103,105 @@ class RendicionFondosController extends Controller
 
     public function reportes(Request $request){
 
-        $fechaInicial = $request->fechaI;
-        $fechaFinal = $request->fechaF;
-        $tipoInforme = $request->tipoInforme;
-        
-        //CONVERTIMOS 13/02/2021 A 2021-02-11
-        $fechaI = substr($fechaInicial,6,4).'/'.substr($fechaInicial,3,2).'/'.substr($fechaInicial,0,2);
-        $fechaF = substr($fechaFinal,6,4).'/'.substr($fechaFinal,3,2).'/'.substr($fechaFinal,0,2);
-
-        switch ($tipoInforme) {
-            case '1': //POR SEDES
-                //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
-
-                                            /* 
+        try 
+        {
+                //code...
             
-                                            */
 
-                $listaX = DB::select('
-                    select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
-                    from rendicion_gastos RG
-                        inner join solicitud_fondos USING(codSolicitud)
-                        inner join Sede USING(codSede)
-                        GROUP BY sede.nombre;
-                ');
-                return view('modulos.JefeAdmin.reporteSedes',$listaX);
-                
-
-
-                break;
-            case '2': //POR EMPLEADOS
+            $fechaI = $request->fechaI;
+            $fechaF = $request->fechaF;
             
-                break;
+            $tipoInforme = $request->tipoInforme;
+
            
+            switch ($tipoInforme) {
+                case '1': //POR SEDES
+                    //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
 
-                        
-            default:
-                # code...
+                                                /* 
+                
+                                                */
+                    //return $fechaI;
+                    //return $fechaF;
+                    $listaX = DB::select('
+                        select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos USING(codSolicitud)
+                            inner join Sede USING(codSede)
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            GROUP BY sede.nombre;
+                    ');
+                // return  $listaX;
+                    return view('modulos.JefeAdmin.reporteSedes',compact('listaX','fechaI','fechaF'));
+                    
+
+
+                    break;
+                case '2': //POR EMPLEADOS
+                    //Reporte de las sumas acumuladas de los gastos de cada empleado, con fecha inicio y fecha final
+
+                    $listaX = DB::select('
+                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos SF USING(codSolicitud)
+                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            GROUP BY E.nombres;
+                            ');
+
+                    return view('modulos.JefeAdmin.reporteEmpleado',compact('listaX','fechaI','fechaF'));
+                    break;
+                case '3':
+
+                    $listaX = DB::select('
+                    select P.nombreProyecto as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
+                    from rendicion_gastos RG
+                        inner join solicitud_fondos SF USING(codSolicitud)
+                        inner join Proyecto P on P.codProyecto = SF.codProyecto 
+                        where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                        GROUP BY P.nombreProyecto;
+                        ');
+                    return view('modulos.JefeAdmin.reporteProyectos',compact('listaX','fechaI','fechaF'));
+                        break;
+
                 break;
-        }
+                
+                
+                
+                
+                
+                case '4':
+                    $sede = Sede::findOrFail($request->ComboBoxSede);
+            
+
+                    $listaX = DB::select('
+                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos SF USING(codSolicitud)
+                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            and SF.codSede = "'.$sede->codSede.'"
+                            GROUP BY E.nombres;
+                            ');
+
+                return view('modulos.JefeAdmin.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
+                    break;
+
+                            
+                default:
+                    # code...
+                    break;
+            }
+
+        } catch (\Throwable $th) {
+        
+            error_log('\\n ---------------------- 
+            Ocurrió el error:'.$th->getMessage().'
 
 
+            ' );
 
+    }
     }
 
 }

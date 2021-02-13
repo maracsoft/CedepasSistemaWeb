@@ -28,7 +28,7 @@
                 $i=0;
                 while($i< count($listaX)  ){
                     $row = $listaX[$i];
-                    echo "['".$row->Sede."', ".$row->Suma_Sede."],";
+                    echo "['".$row->NombreEmp."', ".$row->Suma_Empleado."],";
                     $i++;
                 }
             }
@@ -37,7 +37,7 @@
         ]);
         
         var options = {
-            title: 'Gastos según sedes Desde' + ' {{$fechaI}} hasta {{$fechaF}}',
+            title: 'Gastos según Empleados Desde' + ' {{$fechaI}} hasta {{$fechaF}} en la Sede {{$sede->nombre}}',
             width: 900,
             height: 500,
         };
