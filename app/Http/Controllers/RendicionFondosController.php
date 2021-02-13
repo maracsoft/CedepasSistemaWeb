@@ -18,6 +18,15 @@ use App\CDP;
 use App\DetalleRendicionGastos;
 use App\RendicionGastos;
 
+use Barryvdh\DomPDF\PDF;
+
+
+use PhpOffice\PhpWord;
+use PhpOffice\PhpWord\Element\Cell;
+use PhpOffice\PhpWord\Style\Font;
+
+
+
 class RendicionFondosController extends Controller
 {
     
@@ -197,7 +206,128 @@ class RendicionFondosController extends Controller
 
             ' );
 
+        }
     }
+
+
+
+    public function descargarReportes($string){
+        try 
+        {
+            error_log('----------------------------------------------------------'.$string);
+            $vector = explode('*',$string);
+
+            
+            
+            $fechaI      = $vector[0];
+            $fechaF      = $vector[1];
+            $tipoInforme = $vector[2];
+            if ($tipoInforme == 4)
+                $codSede = $vector[3];
+
+            $nombreVista = '';
+            $argumentosVista ='';
+            switch ($tipoInforme) {
+                case '1': //POR SEDES
+                    //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
+                    //return $fechaI;
+                    //return $fechaF;
+                    $listaX = DB::select('
+                        select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos USING(codSolicitud)
+                            inner join Sede USING(codSede)
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            GROUP BY sede.nombre;
+                    ');
+                // return  $listaX;
+                $nombreVista = 'modulos.JefeAdmin.reporteSedes';
+                $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
+
+
+                    break;
+                case '2': //POR EMPLEADOS
+                    //Reporte de las sumas acumuladas de los gastos de cada empleado, con fecha inicio y fecha final
+
+                    $listaX = DB::select('
+                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos SF USING(codSolicitud)
+                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            GROUP BY E.nombres;
+                            ');
+
+                    $nombreVista = 'modulos.JefeAdmin.reporteEmpleado';
+                    $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
+                    
+                    break;
+                case '3':
+
+                    $listaX = DB::select('
+                    select P.nombreProyecto as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
+                    from rendicion_gastos RG
+                        inner join solicitud_fondos SF USING(codSolicitud)
+                        inner join Proyecto P on P.codProyecto = SF.codProyecto 
+                        where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                        GROUP BY P.nombreProyecto;
+                        ');
+
+                    $nombreVista = 'modulos.JefeAdmin.reporteProyectos';
+                    $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
+                    
+                    
+                break;
+
+            
+                
+                case '4':
+                    $sede = Sede::findOrFail($codSede);
+                    
+
+                    $listaX = DB::select('
+                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos SF USING(codSolicitud)
+                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            and SF.codSede = "'.$sede->codSede.'"
+                            GROUP BY E.nombres;
+                            ');
+                    $nombreVista = 'modulos.JefeAdmin.reporteEmpleadoXSede';
+                    $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
+                            
+                    
+                    break;
+
+                            
+                default:
+                    # code...
+                    break;
+            }
+            error_log('\\n ---------------------- 
+:
+            LLEGAMOS
+            
+            ' );
+
+            $pdf = new PDF();
+            $pdf = PDF::loadView();
+
+
+            
+            $pdf = PDF::loadView($nombreVista,$argumentosVista)->setPaper('a4','landscape');
+            return $pdf->download('informeMiau.pdf');
+
+        } catch (\Throwable $th) {
+        
+            error_log('\\n ---------------------- 
+            Ocurrió el error:'.$th->getMessage().'
+
+
+            ' );
+
+        }
     }
 
 }

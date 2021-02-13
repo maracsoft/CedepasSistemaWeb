@@ -66,6 +66,10 @@ Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendici
 Route::post('/reportes/ver', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
 
 
+Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarReportes')
+    ->name('rendicionFondos.descargarReportes');
+
+
 
 
 

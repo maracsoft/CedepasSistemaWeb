@@ -70,7 +70,8 @@
                   </div>
                 </div>
                 <div class="col-sm">
-                  <button type="submit" class="btn btn-primary">Buscar</button>
+                  <button type="submit" class="btn btn-primary">Ver Informe</button>
+                  
                 </div>
               </div>
 

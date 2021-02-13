@@ -7,6 +7,13 @@
     <div id="piechart"></div>
 
 
+  
+    <a href="{{route('rendicionFondos.descargarReportes',($fechaI.'*'.$fechaF.'*1') ) }}" 
+    class="btn btn-primary btn-lg"> <i class="fas fa-download"></i> Pdf</a>
+                
+    
+
+
 @endsection
 
 @section('script')
