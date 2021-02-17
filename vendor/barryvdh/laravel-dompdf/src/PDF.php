@@ -1,8 +1,8 @@
 <?php
 namespace Barryvdh\DomPDF;
-use vendor\dompdf\dompdf\src\Options;
+
 use Dompdf\Dompdf;
-//use Dompdf\Options;
+use Dompdf\Options;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\View\Factory as ViewFactory;

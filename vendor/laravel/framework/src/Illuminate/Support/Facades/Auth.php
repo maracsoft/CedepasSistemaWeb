@@ -32,8 +32,6 @@ use RuntimeException;
  * @see \Illuminate\Contracts\Auth\Guard
  * @see \Illuminate\Contracts\Auth\StatefulGuard
  */
-
- 
 class Auth extends Facade
 {
     /**
