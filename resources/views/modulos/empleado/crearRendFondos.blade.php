@@ -6,8 +6,14 @@
 
 @section('contenido')
 
-<h1> Registrar rendicion de gastos</h1>
-<form method = "POST" action = "{{route('rendicionFondos.store')}}" onsubmit="return validarTextos()"  >
+<div >
+    <p class="h1" style="text-align: center">Registrar Rendición de Gastos</p>
+
+
+</div>
+
+
+<form method = "POST" action = "{{route('rendicionFondos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
@@ -15,26 +21,26 @@
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
     
     @csrf
-    <div class="container" style="background-color: green">
+    <div class="container" >
         <div class="row">           
-            <div class="col-md" style="background-color:blue"> {{-- COLUMNA IZQUIERDA 1 --}}
+            <div class="col-md"> {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Fecha</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left; background-color:red">                            
-                                <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                               
+                                <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
                                         value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
-                            </div>
+                           
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                               <label for="ComboBoxProyecto">Proyecto</label>
 
                       </div>
@@ -44,7 +50,7 @@
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Colaborador</label>
 
                       </div>
@@ -53,7 +59,7 @@
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Cod Colaborador</label>
 
                       </div>
@@ -62,23 +68,16 @@
                             <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleadoLogeado->codigoEmpleadoCedepas}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Importe Recibido</label>
 
                       </div>
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
+                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido"value="{{number_format($solicitud->totalSolicitado,2)}}">    
                       </div>
                       
                       
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-
-                      </div>
-                      <div class="col">
-                            <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                      </div>
+                      
 
 
 
@@ -106,12 +105,23 @@
                     <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                         <div class="row">
-                          <div  style="width: 30%">
+                          <div  class="col">
                                 <label for="fecha">Cod Rendicion</label>
                           </div>
                           <div class="col">
                             <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
                           </div>
+
+
+                          <div class="w-100"></div> {{-- SALTO LINEA --}}
+                          <div  class="col">
+                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
+                          </div>
+                          <div class="col">
+                                <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                          </div>
+
+
                         </div>
                     </div>
 
@@ -144,62 +154,65 @@
                         <th class="text-center">
                                                      
                                 <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    <input type="text"  class="form-control" name="fechaComprobante" id="fechaComprobante"
-                                          value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="font-size: 10pt;"> 
+                                    {{-- INPUT PARA EL CBTE DE LA FECHA --}}
+                                    <input type="text" style="text-align: center" class="form-control" name="fechaComprobante" id="fechaComprobante"
+                                          value="{{ Carbon\Carbon::now()->subHours(5)->format('d/m/Y') }}" style="font-size: 10pt;"> 
                                     
                                     <div class="input-group-btn">                                        
-                                        <button class="btn btn-primary date-set btn-sm" type="button">
+                                        <button class="btn btn-primary date-set btn-sm" type="button" style="display: none">
                                             <i class="fas fa-calendar fa-xs"></i>
                                         </button>
                                     </div>
                                 </div>
-                               
-                        
-                        
-                        
                         </th>                                        
                         <th> 
-                            <div style=" background-color:blue;"> {{-- INPUT PARA tipo--}}
+                            <div> {{-- INPUT PARA tipo--}}
                                 
                                 <select class="form-control"  id="ComboBoxCDP" name="ComboBoxCDP" >
-                                    <option value="-1">-Seleccionar- </option>
+                                    <option value="-1">Seleccionar</option>
                                     @foreach($listaCDP as $itemCDP)
                                         <option value="{{$itemCDP->nombreCDP}}" >
                                             {{$itemCDP->nombreCDP}}
                                         </option>                                 
                                     @endforeach 
                                 </select>        
-
-
-
                             </div>
                             
                         </th>                                 
                         <th>
-                            <div style="background-color:blue;" > {{-- INPUT PARA ncbte--}}
+                            <div  > {{-- INPUT PARA ncbte--}}
                                 <input type="text" class="form-control" name="ncbte" id="ncbte">     
                             </div>
                         </th>
                         <th  class="text-center">
-                            <div style="background-color:blue;"> {{-- INPUT PARA  concepto--}}
+                            <div > {{-- INPUT PARA  concepto--}}
                                 <input type="text" class="form-control" name="concepto" id="concepto">     
                             </div>
 
                         </th>
+                        <th>
+                            <div style="font-size: 10pt; ">
+                                Se deben subir los archivos al final.
+
+
+
+                            </div>
+                           
+                        </th>
                         <th class="text-center">
-                            <div style="background-color:blue;"> {{-- INPUT PARA importe--}}
+                            <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
                             </div>
 
                         </th>
                         <th  class="text-center">
-                            <div style="background-color:blue;"> {{-- INPUT PARA codigo presup--}}
+                            <div > {{-- INPUT PARA codigo presup--}}
                                 <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
                             </div>
 
                         </th>
                         <th  class="text-center">
-                            <div style="background-color: blue; ">
+                            <div >
                                 <button type="button" id="btnadddet" name="btnadddet" 
                                     class="btn btn-success" onclick="agregarDetalle()" >
                                     <i class="fas fa-plus"></i>
@@ -213,14 +226,17 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="13%" class="text-center">Fecha</th>                                        
+                        <th width="10%" class="text-center">Fecha Cbte</th>                                        
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Cbte</th>
-                        <th width="20%" class="text-center">Concepto </th>
+                        <th width="25%" class="text-center">Concepto </th>
+                        <th width="10%">
+                            Archivo
+                        </th>
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
                         
-                        <th width="20%" class="text-center">Opciones</th>                                            
+                        <th width="7%" class="text-center">Opciones</th>                                            
                         
                     </thead>
                     <tfoot>
@@ -228,42 +244,43 @@
                                                                                         
                     </tfoot>
                     <tbody>
-                        
-                        {{-- <tr class="selected" id="fila1">
-                            <td style="text-align:center;">
-                                Item
+                  {{--       <tr>
+                            <td>
+                                a
                             </td>
-                            <td>concepto
+                            <td>
+                                a
                             </td>
-                            <td  style="text-align:right;">
-                               importe
+                            <td>
+                                a
                             </td>
-                            <td style="text-align:center;">
-                                codigoPresupuestal
+                            <td>a
+
                             </td>
-                            
-                            <td style="text-align:center;">
-                                <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+cod_producto+','+cont+');">
-                                    <i class="fa fa-times" ></i>
-                                </button>
-                            </td>
-                        </tr>   --}}     
+                            <td>
+                              
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                <input type="file" class="btn btn-primary" name="imagen1" id="imagen1" 
+                                        style="display: none" accept="" onchange="cambioInputFile()">
+                                <label class="label" for="imagen1" style="font-size: 10pt;">
+                                    <div id='divFile1'>
+                                        Subir Archivo
+                                     <i class="fas fa-upload"></i> 
+                                    </div>
+                                </label>
+                               
+                            </td>
+                            <td>
+         
+                            </td>
+                            <td>
+                                a
+                            </td>
+                            <td>
+                                a
+                            </td>
+                        </tr> --}}
+                      
 
                     </tbody>
                 </table>
@@ -273,13 +290,41 @@
                     <div class="col-md-8">
                     </div>   
                     <div class="col-md-2">                        
-                        <label for="">Total : </label>    
+                        <label for="">Total a Rendir: </label>    
                     </div>   
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
                         <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
                     </div>   
+                    
+                    <div class="col-md-8">
+                    </div>   
+                    <div class="col">                        
+                        <label for="">Total Recibido: </label>    
+                    </div>   
+
+                    <div class="col">
+                                                    
+                        <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
+                    </div>   
+                    <div class="col-md-8">
+                    </div>   
+                    <div class="col">                        
+                        <label for="">Saldo a favor del Empl: </label>    
+                    </div>   
+                    <div class="col">
+                                                  
+                        <input type="text" class="form-control text-right" name="saldoAFavor" id="saldoAFavor" readonly="readonly" value="0.00">                              
+                    </div>   
+
+
+
+
+
+
+
+
                 </div>
                     
 
@@ -318,9 +363,59 @@
 
 
 
+<style>
+    .col{
+        /* background-color: orange; */
+        margin-top: 15px;
+        
+    }
+    .colLabel{
+        width: 30%;
+        /* background-color: aqua; */
+        margin-top: 20px;    
+        text-align: left;
+    }
+    
+    .colLabel2{
+        width: 20%;
+        /* background-color: #3c8dbc; */
+        margin-top: 20px;
+        text-align: left;
+    }
+    
+    </style>
+
+
 
 @section('script')
+
+
+
+       {{-- PARA EL FILE  --}}
+<script type="application/javascript">
+    //se ejecuta cada vez que escogewmos un file
+    function cambio(index){
+        var idname= 'imagen'+index; 
+        var filename = $('#imagen'+index).val().split('\\').pop();
+        console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+        jQuery('span.'+idname).next().find('span').html(filename);
+        document.getElementById("divFile"+index).innerHTML= filename;
+        $('#nombreImg'+index).val(filename);
+    }
+
+/* 
+    jQuery('input[type=file]').change(function(){
+        console.log('llega para aca');
+        var idname = jQuery(this).attr('id');  
+        var filename = jQuery(this).val().split('\\').pop();
+        var index = idname.substr(6,6);
        
+        console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+        jQuery('span.'+idname).next().find('span').html(filename);
+        document.getElementById("divFile"+index).innerHTML= filename;
+    }); */
+</script>
+
      <script>
         var cont=0;
         
@@ -342,6 +437,11 @@
             
     
         });
+
+        function alertaArchivo(){
+            alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
+
+        }
 
         function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
@@ -427,8 +527,21 @@
  
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
+                            
+                            '    <td>               '+
+                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"                '+
+                            '              style="display: none" onchange="cambio('+item+')">  '         +      
+                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'">                         '+
+                            '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
+                            '           <div id="divFile'+item+'">               '+
+                            '              Subir Archivo               '+
+                            '           <i class="fas fa-upload"></i>                '+
+                            '          </div>               '+
+                            '      </label>               '+
+                            '    </td>                  '+
+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
+                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+number_format(element.importe,2)+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
@@ -438,13 +551,20 @@
                             '            <i class="fa fa-times" ></i>               '+
                             '        </button>               '+
                             '    </td>               '+
+                            
+
+
                             '</tr>                 ';
     
     
                 $('#detalles').append(fila); 
             }
             $('#total').val(number_format(total,2));
+            $('#saldoAFavor').val( number_format(total,2)  - {{$solicitud->totalSolicitado}}  );
             
+            console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
+            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
+        
             
             $('#cantElementos').val(cont);
             
@@ -526,7 +646,7 @@
             actualizarTabla();
             //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
             //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
-            $('#fechaComprobante').val('');
+            /* $('#fechaComprobante').val(''); */
             $('#ComboBoxCDP').val(0);
             $('#ncbte').val('');
             

@@ -13,17 +13,17 @@
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
 
     @csrf
-    <div class="container" style="background-color: green">
+    <div class="container" >
         <div class="row">           
-            <div class="col-md" style="background-color:blue"> {{-- COLUMNA IZQUIERDA 1 --}}
+            <div class="col-md" > {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  style="width: 30%">
+                      <div class="colLabel">
                             <label for="fecha">Fecha emision</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left; background-color:red">                            
+                            <div class="form-group" style="text-align:left;">                            
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
                                         value="{{$solicitud->fechaEmision}}" >     
@@ -32,7 +32,7 @@
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="colLabel">
                             <label for="fecha">Girar a la orden de</label>
 
                       </div>
@@ -41,7 +41,7 @@
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div class="colLabel">
                             <label for="fecha">Nro Cuenta</label>
 
                       </div>
@@ -49,7 +49,7 @@
                             <input type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div class="colLabel">
                             <label for="fecha">Banco</label>
 
                       </div>
@@ -71,7 +71,7 @@
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div class="colLabel">
                             <label for="codSolicitud">Codigo Solicitud</label>
 
                       </div>
@@ -101,7 +101,7 @@
 
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
+                        <div  class="colLabel2">
                                 <label for="ComboBoxProyecto">Proyecto</label>
 
                         </div>
@@ -120,7 +120,7 @@
                                 </select>      
                         </div>
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
+                        <div  class="colLabel2">
                                 <label for="ComboBoxSede">Sede</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
@@ -161,32 +161,36 @@
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead >
-                        <th width="10%" class="text-center"></th>                                        
+                        <th width="6%" class="text-center">
+                            <div> {{-- INPUT PARA ITEM --}}
+                                <input type="text" style="text-align: center" class="form-control" readonly name="item" id="item" value="1">     
+                            </div>    
+                        </th>                                        
                         <th width="40%"> 
-                            <div style=" background-color:blue;"> {{-- INPUT PARA CONCEPTO--}}
+                            <div> {{-- INPUT PARA CONCEPTO--}}
                                 <input type="text" class="form-control" name="concepto" id="concepto">     
                             </div>
                             
                         </th>                                 
                         <th width="10%">
-                            <div style="background-color:blue;" > {{-- INPUT PARA importe--}}
+                            <div  > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
                             </div>
                         </th>
                         <th width="15%" class="text-center">
-                            <div style="background-color:blue;"> {{-- INPUT PARA codigo presup--}}
+                            <div > {{-- INPUT PARA codigo presup--}}
                                 <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
                             </div>
 
                         </th>
-                        <th width="20%" class="text-center">
-                            <div style="background-color: blue; ">
+                        <th width="10%" class="text-center">
+                            <div>
                                 <button type="button" id="btnadddet" name="btnadddet" 
                                     class="btn btn-success" onclick="agregarDetalle()" >
                                     <i class="fas fa-plus"></i>
-                                     Agregar Detalle
+                                     Agregar
                                 </button>
-                            </div>      
+                            </div>    
                         
                         </th>                                            
                      
@@ -194,11 +198,11 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Item</th>                                        
-                        <th width="40%">Concepto</th>                                 
-                        <th width="10%"> Importe</th>
-                        <th width="15%" class="text-center">Codigo Presupuestal</th>
-                        <th width="20%" class="text-center">Opciones</th>                                            
+                        <th class="text-center">Item</th>                                        
+                        <th >Concepto</th>                                 
+                        <th > Importe</th>
+                        <th  class="text-center">Codigo Presupuestal</th>
+                        <th  class="text-center">Opciones</th>                                            
                      
                     </thead>
                     <tfoot>
@@ -206,7 +210,7 @@
                                                                                         
                     </tfoot>
                     <tbody>
-                        @foreach($detallesSolicitud as $itemDetalle)
+                       {{--  @foreach($detallesSolicitud as $itemDetalle)
                             <tr class="selected" id="fila{{$itemDetalle->nroItem}}" name="fila{{$itemDetalle->nroItem}}">
                                 <td style="text-align:center;">               
                                    <input type="text" class="form-control" name="colItem{{$itemDetalle->nroItem}}" 
@@ -229,7 +233,7 @@
                             </tr>                
                         
                         @endforeach    
-
+ --}}
 
 
                     </tbody>
@@ -284,6 +288,27 @@
 {{-- ************************************************************************************************************* --}}
 
 
+<style>
+    .col{
+        /* background-color: orange; */
+        margin-top: 20px;
+        
+    }
+    .colLabel{
+        width: 30%;
+        /* background-color: aqua; */
+        margin-top: 20px;    
+        text-align: left;
+    }
+    
+    .colLabel2{
+        width: 20%;
+        /* background-color: #3c8dbc; */
+        margin-top: 20px;
+        text-align: left;
+    }
+    
+</style>
 
 
 @section('script')
@@ -302,26 +327,34 @@
 
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             cargarADetallesSol();
-            actualizarTabla();
-    
+            
+            
         });
-
+        
         function cargarADetallesSol(){
+            
+            //obtenemos los detalles de una ruta GET 
+            $.get('/listarDetallesDeSolicitud/'+{{$solicitud->codSolicitud}}, function(data)
+            {      
+                    listaDetalles = data;
+                    for (let index = 0; index < listaDetalles.length; index++) {
+                        console.log('SI'+index);
+                        
+                        detalleSol.push({
+                            item:               listaDetalles[index].nroItem,
+                            concepto:           listaDetalles[index].concepto,
+                            importe:            listaDetalles[index].importe,            
+                            codigoPresupuestal: listaDetalles[index].codigoPresupuestal
+                        });   
+                    }
+                    actualizarTabla();                
 
-            console.log('llega');
-            for (let index = 1; $("#fila"+index).length; index++) {
-                console.log('SI'+index);
+            });
 
 
-                detalleSol.push({
-                    item: $("#colItem"+index).val() ,
-                    concepto:$("#colConcepto"+index).val(),
-                    importe:$("#colImporte"+index).val(),            
-                    codigoPresupuestal:$("#colCodigoPresupuestal"+index).val()
-                });   
 
-
-            }
+      
+            
             
 
         }
@@ -375,19 +408,19 @@
     
                 //importes.push(importe);
                 //item = getUltimoIndex();
-                itemMASUNO = item+1;
+                itemMasUno = item+1;
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMASUNO+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMasUno+'" readonly="readonly">'   +
                             '    </td>               '+
                             '    <td> '+
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
+                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ number_format(element.importe,2)+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
+                            '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
@@ -403,6 +436,7 @@
             
             
             $('#cantElementos').val(cont);
+            $('#item').val(cont+1);
             
             console.log('Se actualizó la tabla.');
             //alert('se termino de actualizar la tabla con cont='+cont);

@@ -13,17 +13,17 @@
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
 
     @csrf
-    <div class="container" style="background-color: green">
+    <div class="container">
         <div class="row">           
-            <div class="col-md" style="background-color:blue"> {{-- COLUMNA IZQUIERDA 1 --}}
+            <div class="col-md" > {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Fecha emision</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left; background-color:red">                            
+                            <div class="form-group" style="text-align:left;">                            
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
                                         value="{{$solicitud->fechaEmision}}" >     
@@ -32,7 +32,7 @@
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Girar a la orden de</label>
 
                       </div>
@@ -41,7 +41,7 @@
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Nro Cuenta</label>
 
                       </div>
@@ -49,7 +49,7 @@
                             <input readonly  type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="fecha">Banco</label>
 
                       </div>
@@ -59,7 +59,7 @@
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
+                      <div  class="col">
                             <label for="codSolicitud">Codigo Solicitud</label>
 
                       </div>
@@ -89,7 +89,7 @@
 
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
+                        <div  class="colLabel">
                                 <label for="ComboBoxProyecto">Proyecto</label>
 
                         </div>
@@ -98,7 +98,7 @@
                                
                         </div>
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
+                        <div  class="colLabel">
                                 <label for="ComboBoxSede">Sede</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
@@ -238,6 +238,27 @@
 {{-- ************************************************************************************************************* --}}
 
 
+<style>
+    .col{
+        /* background-color: orange; */
+        margin-top: 20px;
+        
+    }
+    .colLabel{
+        width: 30%;
+        /* background-color: aqua; */
+        margin-top: 20px;    
+        text-align: left;
+    }
+    
+    .colLabel2{
+        width: 20%;
+        /* background-color: #3c8dbc; */
+        margin-top: 20px;
+        text-align: left;
+    }
+    
+    </style>
 
 
 @section('script')

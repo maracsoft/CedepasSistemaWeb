@@ -25,6 +25,12 @@ class SolicitudFondosController extends Controller
     const PAGINATION = '20';
     
     
+    public function listarDetalles($id){
+        $listaDetalles = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
+
+        return $listaDetalles;
+    }
+
     public function listarSolicitudesDeEmpleado(Request $request){
         
         $codUsuario = Auth::id(); //este es el idSolicitante 
@@ -177,10 +183,12 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = $LempleadoLogeado[0];
 
         $listaEmpleadosDeSede  = Empleado::All();
-        return view ('modulos.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
+        return view('modulos.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
 
     }
 
+
+    /* CREAR UNA SOLICITUD DE FONDOS */
     public function store( Request $request){
 
         try {
@@ -229,6 +237,11 @@ class SolicitudFondosController extends Controller
                 ->route('solicitudFondos.listarEmp')
                 ->with('datos','Se ha creado la solicitud'.$solicitud->codigoCedepas);
         }catch(Exception $e){
+            error_log('\\n ---------------------- SOLICITUD FONDOS  CONTROLLER STORE 
+            Ocurrió el error:'.$e->getMessage().'
+            
+            
+            ' );
 
             DB::rollback();
             return redirect()

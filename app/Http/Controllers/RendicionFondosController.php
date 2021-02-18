@@ -20,6 +20,10 @@ use App\RendicionGastos;
 
 use Barryvdh\DomPDF\PDF;
 
+use Illuminate\Support\Facades\Storage;
+
+
+
 
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Cell;
@@ -41,8 +45,17 @@ class RendicionFondosController extends Controller
         return view('modulos.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
     }
 
+
+
+
+    /* ALMACENAR LOS DATOS Y LOS ARCHIVOS DE DETALLES QUE ESTAN SUBIENDO
+    CADA ARCHIVO ES UNA FOTO DE UN CDP, O SEA DE UN DETALLE
+    */
     public function store( Request $request){
 
+      /*   return \File::get(  $request->get('imagen0') );
+ */
+           
         try {
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
@@ -57,6 +70,7 @@ class RendicionFondosController extends Controller
             $rendicion-> estadoDeReposicion = '1';
             $rendicion-> fechaRendicion = Carbon::now()->subHours(5);
             $rendicion-> save();
+            
             
 
             $vec[] = '';
@@ -76,8 +90,29 @@ class RendicionFondosController extends Controller
                 $detalle->nroComprobante=        $request->get('colComprobante'.$i);
                 $detalle->concepto=              $request->get('colConcepto'.$i);
                 $detalle->importe=               $request->get('colImporte'.$i);    
-                $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);    
+                $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
+                
+                
+                
+                
+                //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
+                $nombreImagen = $request->get('nombreImg'.$i);  //sacamos el nombre completo
+                $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
+                $terminacion = end( $vec); //ultimo elemento del vector
+                
+                $detalle->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
 
+
+                //               CDP-   000002                           -   5   .  jpg
+                $nombreImagen = 'CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                $archivo =  $request->file('imagen'.$i);
+                $fileget = \File::get( $archivo );
+                Storage::disk('comprobantes')
+                ->put(
+                    $nombreImagen
+                        ,
+                        $fileget );
+               
                 $vec[$i] = $detalle;
                 $detalle->save();
                                    
@@ -109,6 +144,40 @@ class RendicionFondosController extends Controller
         
 
     }
+
+    function rellernarCerosIzq($numero, $nDigitos){
+       return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
+
+    }
+
+
+    //se le pasa el codigo del detalle rendicion
+    function descargarCDPDetalle($id ){
+        $rend = DetalleRendicionGastos::findOrFail($id);
+        $nombreArchivo = 'CDP-'.
+            $this->rellernarCerosIzq( $rend->codRendicionGastos,6 )
+            .'-'.
+            $this->rellernarCerosIzq($rend->nroEnRendicion,2).'.'.$rend->terminacionArchivo;
+        return Storage::download("comprobantes/".$nombreArchivo);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function reportes(Request $request){
 

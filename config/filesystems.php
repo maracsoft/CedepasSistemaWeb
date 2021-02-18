@@ -47,6 +47,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        'comprobantes' => [
+            'driver' => 'local',
+            'root' => public_path('app/comprobantes'),
+        ],
 
         'public' => [
             'driver' => 'local',
@@ -79,6 +83,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('comprobantes') => public_path('app/comprobantes'),
+        
     ],
 
 ];

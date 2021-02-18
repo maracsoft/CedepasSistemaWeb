@@ -13,6 +13,9 @@ Route::get('/', function () {
 
 
 
+/* RUTAS SERVICIOS */
+Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
+
 
 
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
@@ -70,7 +73,7 @@ Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarRepo
     ->name('rendicionFondos.descargarReportes');
 
 
-
+Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
 
 
 // usar dd("aaaaaaaaaa"); para debugear GA

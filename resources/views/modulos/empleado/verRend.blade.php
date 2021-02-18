@@ -15,27 +15,27 @@
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
     
     @csrf
-    <div class="container" style="background-color: green">
+    <div class="container" >
         <div class="row">           
-            <div class="col-md" style="background-color:blue"> {{-- COLUMNA IZQUIERDA 1 --}}
+            <div class="col-md" > {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  style="width: 30%">
-                            <label for="fecha">Fecha</label>
+                      <div class="colLabel">
+                            <label for="fecha">Fecha:</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left; background-color:red">                            
-                                <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                                   
+                                <div class="input-group date form_date " style="width: 100px;" >
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
                                         value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
-                            </div>
+                          
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                              <label for="ComboBoxProyecto">Proyecto</label>
+                      <div class="colLabel">
+                              <label for="ComboBoxProyecto">Proyecto:</label>
 
                       </div>
                       <div class="col"> {{-- input de proyecto --}}
@@ -44,8 +44,8 @@
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Colaborador</label>
+                      <div class="colLabel">
+                            <label for="fecha">Colaborador:</label>
 
                       </div>
                       <div class="col">
@@ -53,8 +53,8 @@
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Cod Colaborador</label>
+                      <div class="colLabel">
+                            <label for="fecha">Cod Colaborador:</label>
 
                       </div>
 
@@ -62,8 +62,8 @@
                             <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleado->codigoEmpleadoCedepas}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Importe Recibido</label>
+                      <div class="colLabel">
+                            <label for="fecha">Importe Recibido:</label>
 
                       </div>
                       <div class="col">
@@ -71,14 +71,7 @@
                       </div>
                       
                       
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-
-                      </div>
-                      <div class="col">
-                            <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                      </div>
+                      
 
 
 
@@ -97,8 +90,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea"
+                            <label for="fecha">Resumen de la actividad:</label>
+                            <textarea class="form-control" name="resumen" id="resumen" readonly aria-label="With textarea"
                              style="resize:none; height:100px;">{{$rend->resumenDeActividad}}</textarea>
             
                         </div>
@@ -107,13 +100,26 @@
                     <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                         <div class="row">
-                          <div  style="width: 30%">
-                                <label for="fecha">Cod Rendicion</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rend->codigoCedepas}}">     
-                          </div>
+                            <div class="colLabel">
+                                <label for="fecha">Cod Rendicion:</label>
+                            </div>
+                            <div class="col">
+                                 <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rend->codigoCedepas}}">     
+                            </div>
+
+
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+                            <div class="colLabel">
+                                    <label for="codSolicitud">Cod Sol. Fondos:</label>
+
+                            </div>
+                            <div class="col">
+                                    <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                            </div>
                         </div>
+
+                        
+
                     </div>
 
                 </div>
@@ -146,7 +152,8 @@
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
                         <th width="13%" class="text-center">Fecha</th>                                        
-                        <th width="13%">Tipo</th>                                 
+                        <th width="13%">Tipo CDP</th>
+                        <th width="13%">Comprobante</th>                                 
                         <th width="10%"> N° Cbte</th>
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
@@ -169,6 +176,12 @@
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->getNombreTipoCDP()  }}
                                 </td>               
+                                <td style="text-align: center">
+                                    <a href="{{route('rendicion.descargarCDPDetalle',$itemDetalle->codDetalleRendicion)}}" 
+                                        class='btn btn-primary'>
+                                        <i class="fas fa-download"></i>
+                                    </a>   
+                                </td>
                             
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->nroComprobante  }}
@@ -178,7 +191,7 @@
                                 
                                 </td>               
                                 <td  style="text-align:right;">               
-                                    {{$itemDetalle->importe  }}
+                                    S/. {{  number_format($itemDetalle->importe,2)  }}
                                 </td>               
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->codigoPresupuestal  }}
@@ -207,27 +220,26 @@
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{$rend->totalImporteRendido}}">                              
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
                     </div>   
                     <div class="col-md-8">
                     </div>   
-                    <div class="col-md-2">                        
+                    <div class="col">                        
                         <label for="">Total Recibido: </label>    
                     </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{$rend->totalImporteRecibido}}">                              
+
+                    <div class="col">
+                       
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
                     </div>   
                     <div class="col-md-8">
                     </div>   
-                    <div class="col-md-2">                        
+                    <div class="col">                        
                         <label for="">Saldo a favor del Empl: </label>    
                     </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{$rend->saldoAFavorDeEmpleado}}">                              
+                    <div class="col">
+                     
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->saldoAFavorDeEmpleado,2)}}">                              
                     </div>   
                     
 
@@ -268,6 +280,28 @@
 {{-- ************************************************************************************************************* --}}
 
 
+
+<style>
+    .col{
+        /* background-color: orange; */
+        margin-top: 15px;
+        
+    }
+    .colLabel{
+        width: 30%;
+        /* background-color: aqua; */
+        margin-top: 20px;    
+        text-align: left;
+    }
+    
+    .colLabel2{
+        width: 20%;
+        /* background-color: #3c8dbc; */
+        margin-top: 20px;
+        text-align: left;
+    }
+    
+    </style>
 
 
 @section('script')

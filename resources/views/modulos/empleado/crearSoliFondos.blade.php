@@ -13,27 +13,27 @@
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
     
     @csrf
-    <div class="container" style="background-color: green">
+    <div class="container" style="">
         <div class="row">           
-            <div class="col-md" style="background-color:blue"> {{-- COLUMNA IZQUIERDA 1 --}}
+            <div class="col-md" style=""> {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  style="width: 30%">
-                            <label for="fecha">Fecha</label>
+                      <div  class="colLabel">
+                            <label for="fecha">Fecha Actual:</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left; background-color:red">                            
-                                <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    <input type="text"  class="form-control" name="fecha" id="fecha" disabled
-                                        value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
+                                                      
+                                <div  style="width: 100px; " >
+                                    <input type="text" style="margin:0px auth;" class="form-control" name="fecha" id="fecha" disabled 
+                                        value="{{ Carbon\Carbon::now()->subHours(5)->format('d/m/Y') }}" >     
                                 </div>
-                            </div>
+                            
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Girar a la orden de</label>
+                      <div  class="colLabel">
+                            <label for="fecha">Girar a la orden de:</label>
 
                       </div>
                       <div class="col">
@@ -41,16 +41,16 @@
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Nro Cuenta</label>
+                      <div  class="colLabel">
+                            <label for="fecha">Nro Cuenta:</label>
 
                       </div>
                       <div class="col">
                             <input type="text" class="form-control" name="nroCuenta" id="nroCuenta">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="fecha">Banco</label>
+                      <div  class="colLabel">
+                            <label for="fecha">Banco:</label>
 
                       </div>
                       <div class="col"> {{-- Combo box de banco --}}
@@ -65,8 +65,8 @@
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  style="width: 30%">
-                            <label for="codSolicitud">Codigo Solicitud</label>
+                      <div  class="colLabel">
+                            <label for="codSolicitud">Codigo Solicitud:</label>
 
                       </div>
                       <div class="col"> 
@@ -94,8 +94,8 @@
 
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
-                                <label for="ComboBoxProyecto">Proyecto</label>
+                        <div  class="colLabel2">
+                                <label for="ComboBoxProyecto">Proyecto:</label>
 
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
@@ -109,12 +109,12 @@
                                 </select>      
                         </div>
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  style="width: 12%">
-                                <label for="ComboBoxSede">Sede</label>
+                        <div class="colLabel2">
+                                <label for="ComboBoxSede">Sede:</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
                                 <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                                    <option value="0">-- Seleccionar -- </option>
+                                    <option value="0">-- Seleccionar --</option>
                                     @foreach($listaSedes as $itemSede)
                                         <option value="{{$itemSede['codSede']}}" >
                                             {{$itemSede->nombre}}
@@ -123,6 +123,8 @@
                                 </select>      
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -146,30 +148,34 @@
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead >
-                        <th width="10%" class="text-center"></th>                                        
+                        <th width="6%" class="text-center">
+                            <div> {{-- INPUT PARA ITEM --}}
+                                <input type="text" style="text-align: center" class="form-control" readonly name="item" id="item" value="1">     
+                            </div>    
+                        </th>                                           
                         <th width="40%"> 
-                            <div style=" background-color:blue;"> {{-- INPUT PARA CONCEPTO--}}
+                            <div> {{-- INPUT PARA CONCEPTO--}}
                                 <input type="text" class="form-control" name="concepto" id="concepto">     
                             </div>
                             
                         </th>                                 
                         <th width="10%">
-                            <div style="background-color:blue;" > {{-- INPUT PARA importe--}}
+                            <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
                             </div>
                         </th>
                         <th width="15%" class="text-center">
-                            <div style="background-color:blue;"> {{-- INPUT PARA codigo presup--}}
+                            <div> {{-- INPUT PARA codigo presup--}}
                                 <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
                             </div>
 
                         </th>
-                        <th width="20%" class="text-center">
-                            <div style="background-color: blue; ">
+                        <th width="10%" class="text-center">
+                            <div>
                                 <button type="button" id="btnadddet" name="btnadddet" 
                                     class="btn btn-success" onclick="agregarDetalle()" >
                                     <i class="fas fa-plus"></i>
-                                     Agregar Detalle
+                                     Agregar
                                 </button>
                             </div>      
                         
@@ -179,11 +185,11 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Item</th>                                        
-                        <th width="40%">Concepto</th>                                 
-                        <th width="10%"> Importe</th>
-                        <th width="15%" class="text-center">Codigo Presupuestal</th>
-                        <th width="20%" class="text-center">Opciones</th>                                            
+                        <th  class="text-center">Item</th>                                        
+                        <th >Concepto</th>                                 
+                        <th > Importe</th>
+                        <th  class="text-center">Codigo Presupuestal</th>
+                        <th  class="text-center">Opciones</th>                                            
                      
                     </thead>
                     <tfoot>
@@ -280,7 +286,27 @@
 {{-- ************************************************************************************************************* --}}
 
 
+<style>
+.col{
+    /* background-color: orange; */
+    margin-top: 20px;
+    
+}
+.colLabel{
+    width: 30%;
+    /* background-color: aqua; */
+    margin-top: 20px;    
+    text-align: left;
+}
 
+.colLabel2{
+    width: 20%;
+    /* background-color: #3c8dbc; */
+    margin-top: 20px;
+    text-align: left;
+}
+
+</style>
 
 @section('script')
      {{-- <script src="/public/select2/bootstrap-select.min.js"></script>      --}}
@@ -306,16 +332,24 @@
     
         });
         
-        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
+        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi. Siempre tiene que empezar por una letra
         function cadAleatoria(length) {
             var result           = '';
             var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var abecedario = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             var charactersLength = characters.length;
+            var abecedarioLength = abecedario.length;
             for ( var i = 0; i < length; i++ ) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                if(i==0)//primer caracter fijo letra
+                    result += abecedario.charAt(Math.floor(Math.random() * abecedarioLength));
+                else//los demas da igual que sean numeros
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+
             }
             return result;
         }
+
+        
     
         /* Eliminar productos */
         function eliminardetalle(index){
@@ -397,10 +431,10 @@
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
+                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ number_format(element.importe,2)+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
+                            '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
@@ -416,6 +450,7 @@
             
             
             $('#cantElementos').val(cont);
+            $('#item').val(cont+1);
             
           
             //alert('se termino de actualizar la tabla con cont='+cont);
