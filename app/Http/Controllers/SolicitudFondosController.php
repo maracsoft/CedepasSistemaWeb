@@ -44,6 +44,7 @@ class SolicitudFondosController extends Controller
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
         ->orderBy('codEstadoSolicitud','ASC')
+        ->orderBy('fechaHoraEmision','DESC')
         ->paginate();
 
         $buscarpor = "";
@@ -63,7 +64,7 @@ class SolicitudFondosController extends Controller
 
 
 
-    public function listarSolicitudesParaJefe(Request $request){
+    public function listarSolicitudesParaDirector(Request $request){
         
         $codUsuario = Auth::id(); 
 
@@ -76,13 +77,39 @@ class SolicitudFondosController extends Controller
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
         ->orderBy('codEstadoSolicitud','ASC')
+        ->orderBy('fechaHoraEmision','DESC')
+        
         ->paginate();
 
         $buscarpor = "";
 
         $listaBancos = Banco::All();
 
-        return view('modulos.jefeAdmin.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('modulos.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+    }
+
+
+
+
+    public function listarSolicitudesParaJefe(Request $request){
+        
+        $codUsuario = Auth::id(); 
+
+
+        /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
+        ->get();
+        $empleado = $empleados[0]; */
+        
+        $listaSolicitudesFondos = SolicitudFondos::
+        where('codEstadoSolicitud','=','2') //aprobadas
+        ->orderBy('fechaHoraEmision','DESC')
+        ->paginate();
+
+        $buscarpor = "";
+
+        $listaBancos = Banco::All();
+
+        return view('modulos.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
     //funcion del jefe, despliega la vista de revision
@@ -97,39 +124,103 @@ class SolicitudFondosController extends Controller
         $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
         $empleadoLogeado = $LempleadoLogeado[0];    
 
-        return view('modulos.JefeAdmin.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('modulos.director.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
     public function aprobar( $id){
-        $solicitud = SolicitudFondos::findOrFail($id);
-        $solicitud->codEstadoSolicitud = '2';
 
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
-        $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-        $solicitud->fechaRevisado = Carbon::now()->subHours(5);
+        try 
+        {
+            DB::beginTransaction();
+            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud->codEstadoSolicitud = '2';
 
-        $solicitud->save();
+            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+            $empleadoLogeado = $LempleadoLogeado[0];
+            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
 
+            $solicitud->save();
 
-        return redirect()->route('solicitudFondos.listarJefe')
-        ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada');
+            DB::commit();
+            return redirect()->route('solicitudFondos.listarJefeAdmin')
+                ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Abonada! ');
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : APROBAR
+            
+            ');
+
+            DB::rollBack();
+        }
+
     }
 
-    public function rechazar( $id){
+
+    public function vistaAbonar($id){ 
         $solicitud = SolicitudFondos::findOrFail($id);
-        $solicitud->codEstadoSolicitud = '3';
+       
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
+        return view('modulos.jefe.vistaAbonar',compact('solicitud','detallesSolicitud'));
 
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
-        $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-        $solicitud->fechaRevisado = Carbon::now()->subHours(5);
+    }
+
+    //CAMBIA EL ESTADO DE LA SOLICITUD A ABONADA, Y GUARDA LA FECHA HORA ABONADO
+    public function abonar($id){
+        try {
+           DB::beginTransaction();
+            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud->codEstadoSolicitud = '3';
+
+            $solicitud->fechaHoraAbonado = Carbon::now()->subHours(5);
+            $solicitud->save();
+
+            DB::commit();
+
+        return redirect()->route('solicitudFondos.listarJefeAdmin')
+            ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada');
 
 
-        $solicitud->save();
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : ABONAR
+            
+            ');
+            DB::rollBack();
+        }
 
-        return redirect()->route('solicitudFondos.listarJefe')
-        ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
+    }
+
+
+    public function rechazar( $id){
+        try{
+            DB::beginTransaction();
+            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud->codEstadoSolicitud = '5';
+
+            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+            $empleadoLogeado = $LempleadoLogeado[0];
+            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
+
+
+            $solicitud->save();
+
+            return redirect()->route('solicitudFondos.listarJefeAdmin')
+            ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
+
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : RECHAZAR
+            
+            ');
+
+            DB::rollBack();
+        }
+
     }
 
     //Despliega la vista de rendir esta solciitud. ES LO MISMO QUE UN CREATE EN EL RendicionFondosController
@@ -203,7 +294,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
 
-            $solicitud->fechaEmision =  Carbon::now()->subHours(5);
+            $solicitud->fechaHoraEmision =  Carbon::now()->subHours(5);
             $solicitud->totalSolicitado = $request->total;
             $solicitud->girarAOrdenDe = $request->girarAOrden;
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
@@ -271,7 +362,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
  */
-            //$solicitud->fechaEmision =  Carbon::now()->subHours(5);
+            
             $solicitud->totalSolicitado = $request->total;
             $solicitud->girarAOrdenDe = $request->girarAOrden;
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
@@ -350,7 +441,7 @@ class SolicitudFondosController extends Controller
         $listaEmpleados = Empleado::All();
         $listaEstados = EstadoSolicitudFondos::All();
 
-        return view('modulos.JefeAdmin.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
+        return view('modulos.director.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
         ,'listaBancos','listaSedes','listaProyectos','listaEmpleados','listaEstados'));
 
     }

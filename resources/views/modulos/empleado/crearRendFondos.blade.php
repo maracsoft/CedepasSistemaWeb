@@ -285,7 +285,11 @@
                     </tbody>
                 </table>
             </div> 
-                
+
+
+         
+              
+
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col-md-8">
                     </div>   
@@ -362,8 +366,9 @@
 {{-- ************************************************************************************************************* --}}
 
 
-
 <style>
+
+
     .col{
         /* background-color: orange; */
         margin-top: 15px;
@@ -463,13 +468,19 @@
         }
 
     
-        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
+        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi. Siempre tiene que empezar por una letra
         function cadAleatoria(length) {
             var result           = '';
             var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var abecedario = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             var charactersLength = characters.length;
+            var abecedarioLength = abecedario.length;
             for ( var i = 0; i < length; i++ ) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                if(i==0)//primer caracter fijo letra
+                    result += abecedario.charAt(Math.floor(Math.random() * abecedarioLength));
+                else//los demas da igual que sean numeros
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+
             }
             return result;
         }

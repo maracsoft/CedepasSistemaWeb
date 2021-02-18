@@ -5,8 +5,12 @@
 @endsection
 
 @section('contenido')
+<div >
+    <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
 
-<h1> Registrar Nueva Solicitud de Fondos</h1>
+
+</div>
+
 <form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" >
         
     {{-- CODIGO DEL EMPLEADO --}}
@@ -23,12 +27,10 @@
                             <label for="fecha">Fecha Actual:</label>
                       </div>
                       <div class="col">
-                                                      
                                 <div  style="width: 100px; " >
                                     <input type="text" style="margin:0px auth;" class="form-control" name="fecha" id="fecha" disabled 
                                         value="{{ Carbon\Carbon::now()->subHours(5)->format('d/m/Y') }}" >     
                                 </div>
-                            
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}

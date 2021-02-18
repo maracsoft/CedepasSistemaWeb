@@ -21,16 +21,27 @@ Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDe
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
 
-Route::get('/listarDeJefe','SolicitudFondosController@listarSolicitudesParaJefe')
-    ->name('solicitudFondos.listarJefe');
+Route::get('/listarDeDirector','SolicitudFondosController@listarSolicitudesParaDirector')
+    ->name('solicitudFondos.listarDirector');
+Route::get('/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesParaJefe')
+    ->name('solicitudFondos.listarJefeAdmin');
 
-Route::get('/revisar/{id}','SolicitudFondosController@revisar')
+
+Route::get('/SolicitudFondos/Ver/{id}','SolicitudFondosController@revisar')
     ->name('solicitudFondos.revisar');
 
-
     
+
+Route::get('/SolicitudFondos/vistaAbonar/{id}','SolicitudFondosController@vistaAbonar')
+    ->name('solicitudFondos.vistaAbonar');
+
+Route::get('/SolicitudFondos/Abonar/{id}','SolicitudFondosController@abonar')
+    ->name('solicitudFondos.abonar');
+
 Route::get('/SolicitudFondos/Aprobar/{id}','SolicitudFondosController@aprobar')
-->name('solicitudFondos.aprobar');
+    ->name('solicitudFondos.aprobar');
+    
+        
 
 Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
@@ -74,6 +85,8 @@ Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarRepo
 
 
 Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
+
+
 
 
 // usar dd("aaaaaaaaaa"); para debugear GA

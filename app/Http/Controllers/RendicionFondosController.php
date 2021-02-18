@@ -71,7 +71,7 @@ class RendicionFondosController extends Controller
             $rendicion-> fechaRendicion = Carbon::now()->subHours(5);
             $rendicion-> save();
             
-            
+
 
             $vec[] = '';
             
@@ -91,7 +91,7 @@ class RendicionFondosController extends Controller
                 $detalle->concepto=              $request->get('colConcepto'.$i);
                 $detalle->importe=               $request->get('colImporte'.$i);    
                 $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
-                
+                $detalle->nroEnRendicion = $i+1;
                 
                 
                 

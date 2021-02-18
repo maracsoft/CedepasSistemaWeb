@@ -5,78 +5,70 @@
 @endsection
 
 @section('contenido')
+<div >
+    <p class="h1" style="text-align: center">Revisar Solicitud de Fondos</p>
 
-<h1> Editar Solicitud de Fondos</h1>
-<form method = "POST" action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}"  >
+
+</div>
+
+<form method = "POST" action = ""  >
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
 
     @csrf
-    <div class="container" >
+    <div class="container">
         <div class="row">           
             <div class="col-md" > {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div class="colLabel">
-                            <label for="fecha">Fecha emision</label>
+                      <div  class="col">
+                            <label for="fecha">Fecha emisión</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left;">                            
+                                                  
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
                                         value="{{$solicitud->fechaHoraEmision}}" >     
                                 </div>
-                            </div>
+
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="colLabel">
+                      <div  class="col">
                             <label for="fecha">Girar a la orden de</label>
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="girarAOrden" id="girarAOrden" value="{{$solicitud->girarAOrdenDe}}">    
+                            <input readonly type="text" class="form-control" name="girarAOrden" id="girarAOrden" value="{{$solicitud->girarAOrdenDe}}">    
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div class="colLabel">
-                            <label for="fecha">Nro Cuenta</label>
+                      <div  class="col">
+                            <label for="fecha">N° Cuenta</label>
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
+                            <input readonly  type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div class="colLabel">
+                      <div  class="col">
                             <label for="fecha">Banco</label>
 
                       </div>
                       <div class="col"> {{-- Combo box de banco --}}
-                            <select class="form-control"  id="ComboBoxBanco" name="ComboBoxBanco" >
-                                {{-- <option value="0">-- Seleccionar -- </option> --}}
-                                @foreach($listaBancos as $itemBanco)
-
-                                    <option value="{{$itemBanco['codBanco']}}" 
-                                    @if($solicitud->codBanco== $itemBanco->codBanco)
-                                        selected
-                                    @endif
-                                    >
-                                        {{$itemBanco->nombreBanco}}
-                                    </option>                                 
-                                
-                                    @endforeach 
-                            </select>      
+                            <input type="text" class="form-control" name="banco" id="banco" readonly value="{{$solicitud->getNombreBanco()}}">     
+                                     
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div class="colLabel">
-                            <label for="codSolicitud">Codigo Solicitud</label>
+                      <div  class="col">
+                            <label for="codSolicitud">Código Solicitud</label>
 
                       </div>
                       <div class="col"> {{-- Combo box de empleado --}}
-                            <input type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly value="{{$solicitud->codigoCedepas}}">     
+                            <input readonly  type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly value="{{$solicitud->codigoCedepas}}">     
                       </div>
 
 
@@ -93,49 +85,29 @@
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
-                <textarea class="form-control" name="justificacion" id="justificacion"
+                <label for="fecha">Justificación</label>
+                <textarea readonly  class="form-control" name="justificacion" id="justificacion"
                  aria-label="With textarea" style="resize:none; height:100px;">{{$solicitud->justificacion}}</textarea>
 
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  class="colLabel2">
+                        <div  class="colLabel">
                                 <label for="ComboBoxProyecto">Proyecto</label>
 
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
-                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" >
-                                    {{-- <option value="0">-- Seleccionar -- </option> --}}
-                                    @foreach($listaProyectos as $itemProyecto)
-                                        <option value="{{$itemProyecto['codProyecto']}}" 
-                                        @if($solicitud->codProyecto== $itemProyecto->codProyecto)
-                                            selected
-                                        @endif
-                                        >
-                                            {{$itemProyecto->nombreProyecto}}
-                                        </option>                                 
-                                    @endforeach 
-                                </select>      
+                                <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly value="{{$solicitud->getNombreProyecto()}}">     
+                               
                         </div>
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  class="colLabel2">
+                        <div  class="colLabel">
                                 <label for="ComboBoxSede">Sede</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
-                                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                                    {{-- <option value="0">-- Seleccionar -- </option> --}}
-                                    @foreach($listaSedes as $itemSede)
-                                        <option value="{{$itemSede['codSede']}}" 
-                                        @if($solicitud->codSede== $itemSede->codSede)
-                                            selected
-                                        @endif
-                                        >
-                                            {{$itemSede->nombre}}
-                                        </option>                                 
-                                    @endforeach 
-                                </select>      
+                            <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
+                                    
                         </div>
                     </div>
                 </div>
@@ -160,57 +132,25 @@
         <div class="col-md-12 pt-3">     
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
-                    <thead >
-                        <th width="6%" class="text-center">
-                            <div> {{-- INPUT PARA ITEM --}}
-                                <input type="text" style="text-align: center" class="form-control" readonly name="item" id="item" value="1">     
-                            </div>    
-                        </th>                                        
-                        <th width="40%"> 
-                            <div> {{-- INPUT PARA CONCEPTO--}}
-                                <input type="text" class="form-control" name="concepto" id="concepto">     
-                            </div>
-                            
-                        </th>                                 
-                        <th width="10%">
-                            <div  > {{-- INPUT PARA importe--}}
-                                <input type="text" class="form-control" name="importe" id="importe">     
-                            </div>
-                        </th>
-                        <th width="15%" class="text-center">
-                            <div > {{-- INPUT PARA codigo presup--}}
-                                <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
-                            </div>
-
-                        </th>
-                        <th width="10%" class="text-center">
-                            <div>
-                                <button type="button" id="btnadddet" name="btnadddet" 
-                                    class="btn btn-success" onclick="agregarDetalle()" >
-                                    <i class="fas fa-plus"></i>
-                                     Agregar
-                                </button>
-                            </div>    
-                        
-                        </th>                                            
-                     
-                    </thead>
+                    
+                    {{--  --}}
+                    
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th class="text-center">Item</th>                                        
-                        <th >Concepto</th>                                 
-                        <th > Importe</th>
-                        <th  class="text-center">Codigo Presupuestal</th>
-                        <th  class="text-center">Opciones</th>                                            
-                     
+                        <th width="10%" class="text-center">Ítem</th>                                        
+                        <th width="40%">Concepto</th>                                 
+                        <th width="10%"> Importe</th>
+                        <th width="15%" class="text-center">Código Presupuestal</th>
+                        {{-- <th width="20%" class="text-center">Opciones</th>                                            
+                      --}}
                     </thead>
                     <tfoot>
 
                                                                                         
                     </tfoot>
                     <tbody>
-                       {{--  @foreach($detallesSolicitud as $itemDetalle)
+                        @foreach($detallesSolicitud as $itemDetalle)
                             <tr class="selected" id="fila{{$itemDetalle->nroItem}}" name="fila{{$itemDetalle->nroItem}}">
                                 <td style="text-align:center;">               
                                    <input type="text" class="form-control" name="colItem{{$itemDetalle->nroItem}}" 
@@ -225,15 +165,15 @@
                                 <td style="text-align:center;">               
                                 <input type="text" class="form-control" name="colCodigoPresupuestal{{$itemDetalle->nroItem}}" id="colCodigoPresupuestal{{$itemDetalle->nroItem}}" value="{{$itemDetalle->codigoPresupuestal}}" readonly="readonly">
                                 </td>               
-                                <td style="text-align:center;">               
+                                {{-- <td style="text-align:center;">               
                                     <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle({{$itemDetalle->nroItem - 1}});">
                                         <i class="fa fa-times" ></i>               
                                     </button>               
-                                </td>               
+                                </td>   --}}             
                             </tr>                
                         
                         @endforeach    
- --}}
+
 
 
                     </tbody>
@@ -260,13 +200,49 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit"
-                        id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
-                        <i class='fas fa-save'></i> 
-                        Actualizar
-                    </button>    
+                    
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.listarJefeAdmin',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-primary' style="float:left;">
+                                    <i class="fas fa-undo"></i>
+                                    Regresar al menú
+                                </a>
+
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            
+                            @if($solicitud->codEstadoSolicitud==1)
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-success'  style="float:right;">
+                                    <i class="fas fa-check"></i>
+                                    Aprobar
+                                </a>    
+                            </div>
+                                  
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.rechazar',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-danger'   style="float:right;">
+                                    <i class='fas fa-ban'></i>
+                                    Rechazar
+                                </a> 
+                            </div>    
+                            @endif
+                        </div>
+                    </div>
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                        
+                          
+                    
+                               
+                    
+                    
+                
                 </div>    
             </div>
         </div>
@@ -308,7 +284,7 @@
         text-align: left;
     }
     
-</style>
+    </style>
 
 
 @section('script')
@@ -327,34 +303,26 @@
 
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             cargarADetallesSol();
-            
-            
+            actualizarTabla();
+    
         });
-        
+
         function cargarADetallesSol(){
-            
-            //obtenemos los detalles de una ruta GET 
-            $.get('/listarDetallesDeSolicitud/'+{{$solicitud->codSolicitud}}, function(data)
-            {      
-                    listaDetalles = data;
-                    for (let index = 0; index < listaDetalles.length; index++) {
-                        console.log('SI'+index);
-                        
-                        detalleSol.push({
-                            item:               listaDetalles[index].nroItem,
-                            concepto:           listaDetalles[index].concepto,
-                            importe:            listaDetalles[index].importe,            
-                            codigoPresupuestal: listaDetalles[index].codigoPresupuestal
-                        });   
-                    }
-                    actualizarTabla();                
 
-            });
+            console.log('llega');
+            for (let index = 1; $("#fila"+index).length; index++) {
+                console.log('SI'+index);
 
 
+                detalleSol.push({
+                    item: $("#colItem"+index).val() ,
+                    concepto:$("#colConcepto"+index).val(),
+                    importe:$("#colImporte"+index).val(),            
+                    codigoPresupuestal:$("#colCodigoPresupuestal"+index).val()
+                });   
 
-      
-            
+
+            }
             
 
         }
@@ -408,25 +376,25 @@
     
                 //importes.push(importe);
                 //item = getUltimoIndex();
-                itemMasUno = item+1;
+                itemMASUNO = item+1;
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMasUno+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMASUNO+'" readonly="readonly">'   +
                             '    </td>               '+
                             '    <td> '+
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ number_format(element.importe,2)+'" readonly="readonly">' +
+                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
+                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
                             '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
+                        //    '    <td style="text-align:center;">               '+
+                        //    '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
+                        //    '            <i class="fa fa-times" ></i>               '+
+                        //    '        </button>               '+
+                        //    '    </td>               '+
                             '</tr>                 ';
     
     
@@ -436,7 +404,6 @@
             
             
             $('#cantElementos').val(cont);
-            $('#item').val(cont+1);
             
             console.log('Se actualizó la tabla.');
             //alert('se termino de actualizar la tabla con cont='+cont);

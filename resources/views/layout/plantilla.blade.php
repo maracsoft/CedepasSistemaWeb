@@ -110,13 +110,13 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Jefe Admin
+                Director
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarJefe')}}" class="nav-link">
+                <a href="{{route('solicitudFondos.listarDirector')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Listar Fondos</p>
                 </a>
@@ -131,6 +131,26 @@
             </ul>
           </li>
 
+          
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Jefe Admin
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Ver Solicitudes</p>
+                </a>
+              </li>
+
+            </ul>
+
+          </li>
 
           
 
@@ -152,26 +172,6 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-    {{-- 
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-
-            <h5 class="m-0 text-dark"> <strong> Gestion de Ventas</strong></h5>
-   
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div> --}}
-
     <!-- Main content -->
     <section class="content">
         @yield('contenido')
@@ -179,15 +179,7 @@
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
-  {{-- <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.5
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved.
-  </footer> --}}
+ 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

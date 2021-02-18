@@ -6,12 +6,13 @@
 
 @section('contenido')
 
-<h1> Revisar Solicitud de Fondos</h1>
+<div>
+    <p class="h1" style="text-align: center">Abonar a Solicitud de Fondos Aprobada</p>
+</div>
+
 <form method = "POST" action = ""  >
         
-    {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
-
+   
     @csrf
     <div class="container">
         <div class="row">           
@@ -20,15 +21,15 @@
 
                     <div class="row">
                       <div  class="col">
-                            <label for="fecha">Fecha emision</label>
+                            <label for="fecha">Fecha emisión</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left;">                            
+                                                  
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
-                                        value="{{$solicitud->fechaEmision}}" >     
+                                        value="{{$solicitud->fechaHoraEmision}}" >     
                                 </div>
-                            </div>
+
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
@@ -42,7 +43,7 @@
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="fecha">Nro Cuenta</label>
+                            <label for="fecha">N° Cuenta</label>
 
                       </div>
                       <div class="col">
@@ -60,7 +61,7 @@
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="codSolicitud">Codigo Solicitud</label>
+                            <label for="codSolicitud">Código Solicitud</label>
 
                       </div>
                       <div class="col"> {{-- Combo box de empleado --}}
@@ -81,7 +82,7 @@
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
+                <label for="fecha">Justificación</label>
                 <textarea readonly  class="form-control" name="justificacion" id="justificacion"
                  aria-label="With textarea" style="resize:none; height:100px;">{{$solicitud->justificacion}}</textarea>
 
@@ -134,10 +135,10 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Item</th>                                        
+                        <th width="10%" class="text-center">Ítem</th>                                        
                         <th width="40%">Concepto</th>                                 
                         <th width="10%"> Importe</th>
-                        <th width="15%" class="text-center">Codigo Presupuestal</th>
+                        <th width="15%" class="text-center">Código Presupuestal</th>
                         {{-- <th width="20%" class="text-center">Opciones</th>                                            
                       --}}
                     </thead>
@@ -196,23 +197,38 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('solicitudFondos.listarJefe',$solicitud->codSolicitud)}}" 
-                        class='btn btn-primary' style="float:left;">
-                        <i class="fas fa-undo"></i>
-                        Regresar al menú
-                    </a>
-                    @if($solicitud->codEstadoSolicitud==1)
-                        <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
-                            class='btn btn-success'  style="float:right;">
-                            <i class="fas fa-check"></i>
-                            Aprobar
-                        </a>              
-                        <a href="{{route('solicitudFondos.rechazar',$solicitud->codSolicitud)}}" 
-                            class='btn btn-danger'   style="float:right;">
-                            <i class='fas fa-ban'></i>
-                            Rechazar
-                        </a>   
-                    @endif
+                    
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.listarJefeAdmin',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-primary' style="float:left;">
+                                    <i class="fas fa-undo"></i>
+                                    Regresar al menú
+                                </a>
+
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            
+                            
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.abonar',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-success'  style="float:right;">
+                                    <i class="fas fa-check"></i>
+                                    Abonar
+                                </a>    
+                            </div>
+                                  
+                              
+                        </div>
+                    </div>
+                   
+                        
+                          
+                    
                                
                     
                     

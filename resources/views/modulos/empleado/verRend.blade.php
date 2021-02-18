@@ -5,8 +5,12 @@
 @endsection
 
 @section('contenido')
+<div >
+    <p class="h1" style="text-align: center">Ver Rendicion de Gastos</p>
 
-<h1> Ver Rendicion de Gastos</h1>
+
+</div>
+
 <form method = "POST" action = "{{route('rendicionFondos.store')}}"  >
     
     {{-- CODIGO DEL EMPLEADO --}}

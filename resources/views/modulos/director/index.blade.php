@@ -2,21 +2,13 @@
 
 @section('contenido')
 <div>
-  <h3> LISTA DE MIS SOLICITUDES DE FONDOS </h3>
-
-
-    <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary"> 
-        <i class="fas fa-plus"> </i> 
-          Nueva Solicitud
-    </a>
-
+  <h3> LISTA DE SOLIC DE FONDOS PARA APROBAR </h3>
     <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
             <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
         </form>
     </nav>
-
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
       @if (session('datos'))
@@ -28,16 +20,18 @@
           
         </div>
       @ENDIF
-      
+
     <table class="table" style="font-size: 10pt;">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Codigo Sol</th>
                 <th scope="col">Fecha emision</th>
                 <th scope="col">Sede</th>
+                <th scope="col">Empleado </th>
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado</th>
                 <th scope="col">Estado</th>
+                <th>Cod Rendicion</th>
                 <th scope="col">Fecha Revision</th>
                 
 
@@ -46,8 +40,6 @@
               </tr>
             </thead>
       <tbody>
-        
-
 
         {{--     varQuePasamos  nuevoNombre                        --}}
         @foreach($listaSolicitudesFondos as $itemSolicitud)
@@ -55,12 +47,14 @@
       
             <tr>
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
-                <td>{{$itemSolicitud->getfechaHoraEmision()  }}</td>
+                <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
+                <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td>{{$itemSolicitud->getNombreProyecto()  }}</td>
-                <td> S/. {{$itemSolicitud->totalSolicitado  }}</td>
+                <td>{{$itemSolicitud->totalSolicitado  }}</td>
                   
                 <td>{{$itemSolicitud->getNombreEstado()  }} 
+
                   @if($itemSolicitud->codEstadoSolicitud == 4)
                     <br>
                     S/.{{$itemSolicitud->getRendicion()->totalImporteRendido}}
@@ -69,72 +63,36 @@
                   
 
                 </td>
+                <td>  
+                  @if($itemSolicitud->codEstadoSolicitud == 4)
+                    <br>
+                    {{$itemSolicitud->getRendicion()->codigoCedepas}}
+
+                  @endif
+                </td>
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
-                    @switch($itemSolicitud->codEstadoSolicitud)
-                        @case(1){{-- Si solamente está creada --}}
-                                
-                                {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                            <a href="{{route('solicitudFondos.edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <!--
-                            <a href="" class = "btn btn-danger"> 
-                                <i class="fas fa-trash-alt"> </i> 
-                                  Eliminar
-                            </a>
-                            -->
-                            <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
-                                  title:'¿Está seguro de eliminar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
-                                  //type: 'warning',  
-                                  type: 'warning',
-                                  showCancelButton: true,//para que se muestre el boton de cancelar
-                                  confirmButtonColor: '#3085d6',
-                                  cancelButtonColor: '#d33',
-                                  confirmButtonText:  'SI',
-                                  cancelButtonText:  'NO',
-                                  closeOnConfirm:     true,//para mostrar el boton de confirmar
-                                  html : true
-                              },
-                              function(){//se ejecuta cuando damos a aceptar
-                                window.location.href='/solicitudes/delete/{{$itemSolicitud->codSolicitud}}';
-                              });"><i class="fas fa-trash-alt"> </i></a>
-                              
-                            @break
-                        @case(2) {{-- YA FUE APROBADA --}}
-                              
-                            @break
-                        @case(3) {{-- ABONADA --}}
-                            <a href="{{route('solicitudFondos.rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
-                              Rendir <i class="fas fa-list"></i>
-                            </a>
+                  
 
-
-                            @break
-                        @case(4) {{-- RENDIDA --}}
-                              {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                            {{-- <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
-                              <i class="fas fa-eye"> Sol</i>
-                            </a> --}}
-
-                            <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
-                            <h1>
-                              <span class="red">S</span>
-                            </h1>
-                            </a>
-                          
-                            <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
-                              <h1>
-                                <span class="red">R</span>
-                              </h1>
-                            </a>
-                          
-                            @break
+                       
+                       
+                        
                             
 
-                        @default
-                            
-                    @endswitch
-
-             
+                        <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
+                          <h1>
+                            <span class="red">S</span> 
+                          </h1>
+                        </a>
+                         
+                        @if($itemSolicitud->codEstadoSolicitud == 4)   
+                        <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                          <h1>
+                            <span class="red">R</span>
+                          </h1>
+                        </a>
+                        @endif
+                    
                 </td>
 
             </tr>
@@ -147,8 +105,6 @@
 
 </div>
 @endsection
-
-
 
 
 <?php 

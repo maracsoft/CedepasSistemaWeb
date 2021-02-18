@@ -15,9 +15,9 @@ class SolicitudFondos extends Model
 
     
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaEmision',
+    protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaHoraEmision',
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
-    'codEmpleadoEvaluador','fechaRevisado','codEstadoSolicitud','codSede'];
+    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','codSede'];
 
     public function getNombreSede(){
         $sede = Sede::findOrFail($this->codSede);
@@ -44,12 +44,12 @@ class SolicitudFondos extends Model
 
     
     public function getFechaRevision(){
-        if($this->fechaRevisado == null )
+        if($this->fechaHoraRevisado == null )
         {
             return "---";
         }
         else{
-            $stringFecha =$this->fechaRevisado; 
+            $stringFecha =$this->fechaHoraRevisado; 
             $stringFecha =   str_replace('-','/',$stringFecha);
             return $stringFecha;
         }
@@ -57,8 +57,8 @@ class SolicitudFondos extends Model
     }
 
     //MODIFICA EL VALOR PARA QUE SEA / en lugar de - 
-    public function getFechaEmision(){
-        $stringFecha =$this->fechaEmision; 
+    public function getFechaHoraEmision(){
+        $stringFecha =$this->fechaHoraEmision; 
             $stringFecha =   str_replace('-','/',$stringFecha);
             return $stringFecha;
 
@@ -70,9 +70,16 @@ class SolicitudFondos extends Model
     }
 
     public function getRendicion(){
+
+        
         $rend = (RendicionGastos::where('codSolicitud','=',$this->codSolicitud)->get()) [0];
         return $rend;
+    
+    
     }
+
+
+
 
 
 }
