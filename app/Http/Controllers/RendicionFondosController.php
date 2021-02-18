@@ -57,15 +57,29 @@ class RendicionFondosController extends Controller
  */
            
         try {
+            error_log('aaaaaaaaaaaaa-------------------------------------- 1');
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
             $rendicion = new RendicionGastos();
-
+            error_log('aaaaaaaaaaaaa-------------------------------------- 2');
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
             $rendicion-> codigoCedepas = $request->codRendicion; 
+            error_log('aaaaaaaaaaaaa-------------------------------------- 3');
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
-            $rendicion-> totalImporteRendido = $request->total;
+            error_log('aaaaaaaaaaaaa-------------------------------------- 4');
+            $rendicion-> totalImporteRendido = $request->totalRendido;
+            error_log('aaaaaaaaaaaaa-------------------------------------- 5
+            
+            
+            '.$rendicion-> totalImporteRecibido.'
+            
+
+            '.$rendicion-> totalImporteRendido.'
+
+            
+            ');
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
+            error_log('aaaaaaaaaaaaa-------------------------------------- 6');
             $rendicion-> resumenDeActividad = $request->resumen;
             $rendicion-> estadoDeReposicion = '1';
             $rendicion-> fechaRendicion = Carbon::now()->subHours(5);

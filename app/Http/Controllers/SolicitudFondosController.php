@@ -344,7 +344,7 @@ class SolicitudFondosController extends Controller
             DB::commit();  
             return redirect()
                 ->route('solicitudFondos.listarEmp')
-                ->with('datos','Se ha creado la solicitud'.$solicitud->codigoCedepas);
+                ->with('datos','Se ha creado la solicitud '.$solicitud->codigoCedepas);
         }catch(Exception $e){
             error_log('\\n ---------------------- SOLICITUD FONDOS  CONTROLLER STORE 
             Ocurrió el error:'.$e->getMessage().'

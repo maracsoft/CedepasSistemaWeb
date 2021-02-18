@@ -249,7 +249,9 @@
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
+                        <input type="hidden" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                        <input type="text" class="form-control text-right" name="totalMostrado" id="totalMostrado" readonly="readonly">   
+                                                   
                     </div>   
                 </div>
                     
@@ -433,7 +435,7 @@
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ number_format(element.importe,2)+'" readonly="readonly">' +
+                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ element.importe+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
@@ -448,7 +450,9 @@
     
                 $('#detalles').append(fila); 
             }
-            $('#total').val(number_format(total,2));
+            
+            $('#totalMostrado').val(number_format(total,2));
+            $('#total').val(total);
             
             
             $('#cantElementos').val(cont);

@@ -299,7 +299,9 @@
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
+                        <input type="hidden" name="totalRendido" id="totalRendido">                              
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+
                     </div>   
                     
                     <div class="col-md-8">
@@ -318,8 +320,10 @@
                         <label for="">Saldo a favor del Empl: </label>    
                     </div>   
                     <div class="col">
-                                                  
-                        <input type="text" class="form-control text-right" name="saldoAFavor" id="saldoAFavor" readonly="readonly" value="0.00">                              
+                                                 
+                                                   
+                        <input type="text" class="form-control text-right"  
+                            name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
                     </div>   
 
 
@@ -365,6 +369,7 @@
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
 <style>
 
@@ -461,12 +466,7 @@
                 msj='Debe ingresar Items';
 
 
-            if(msj!='')
-            {
-                alert(msj)
-                return false;
-            }
-
+           
 
             //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
             for (let index = 0; index < detalleRend.length; index++) {
@@ -476,6 +476,11 @@
 
             }
 
+            if(msj!='')
+            {
+                alert(msj)
+                return false;
+            }
 
             return true;
         }
@@ -565,7 +570,7 @@
                             '    </td>                  '+
 
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+number_format(element.importe,2)+'" readonly="readonly">' +
+                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
@@ -585,13 +590,16 @@
             }
 
             $('#total').val(number_format(total,2));
+            $('#totalRendido').val(total); //el que se va a leer
+            
 
             var tot1= parseFloat(total)    ;
             var tot2= parseFloat( {{$solicitud->totalSolicitado}}  ); 
-            console.log(' tot1= '+tot1 +'       tot2= ' +tot2);
-            var tot3 = (tot2)-(tot1);
-            
-            $('#saldoAFavor').val(number_format( tot3,2) );
+            console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
+
+            var tot3 = (tot1)-(tot2);
+
+            $('#saldoAFavor').val(  number_format(tot3,2) ); //puedo hacer esto sin que haya el error pq el input esta disabled
             
             console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
