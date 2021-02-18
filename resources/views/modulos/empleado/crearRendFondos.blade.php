@@ -399,6 +399,7 @@
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
+
     function cambio(index){
         var idname= 'imagen'+index; 
         var filename = $('#imagen'+index).val().split('\\').pop();
@@ -419,6 +420,8 @@
         jQuery('span.'+idname).next().find('span').html(filename);
         document.getElementById("divFile"+index).innerHTML= filename;
     }); */
+
+
 </script>
 
      <script>
@@ -463,6 +466,16 @@
                 alert(msj)
                 return false;
             }
+
+
+            //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
+            for (let index = 0; index < detalleRend.length; index++) {
+                nombre = $('#nombreImg'+index).val();
+                if(nombre=='')
+                    msj='Debe subir el comprobante del Item N°'+index;
+
+            }
+
 
             return true;
         }
@@ -570,8 +583,15 @@
     
                 $('#detalles').append(fila); 
             }
+
             $('#total').val(number_format(total,2));
-            $('#saldoAFavor').val( number_format(total,2)  - {{$solicitud->totalSolicitado}}  );
+
+            var tot1= parseFloat(total)    ;
+            var tot2= parseFloat( {{$solicitud->totalSolicitado}}  ); 
+            console.log(' tot1= '+tot1 +'       tot2= ' +tot2);
+            var tot3 = (tot2)-(tot1);
+            
+            $('#saldoAFavor').val(number_format( tot3,2) );
             
             console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );

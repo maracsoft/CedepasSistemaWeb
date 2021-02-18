@@ -6,7 +6,7 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Solicitud de Fondos</p>
+    <p class="h1" style="text-align: center">Ver mi Solicitud de Fondos</p>
 
 
 </div>
@@ -205,7 +205,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <a href="{{route('solicitudFondos.listarDirector')}}" 
+                                <a href="{{route('solicitudFondos.listarEmp')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú

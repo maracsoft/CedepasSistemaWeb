@@ -27,8 +27,14 @@ Route::get('/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesPara
     ->name('solicitudFondos.listarJefeAdmin');
 
 
-Route::get('/SolicitudFondos/Ver/{id}','SolicitudFondosController@revisar')
+Route::get('/SolicitudFondos/Revisar/{id}','SolicitudFondosController@revisar')
     ->name('solicitudFondos.revisar');
+
+
+//vista para ver namas (empleado)
+Route::get('/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
+    ->name('solicitudFondos.ver');
+
 
     
 

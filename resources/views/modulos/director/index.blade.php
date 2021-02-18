@@ -70,28 +70,41 @@
 
                   @endif
                 </td>
+
+                
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
                   
 
                        
                        
-                        
+                      {{-- Si la tenemos que evaluar --}}  
+                      @if($itemSolicitud->codEstadoSolicitud==1)
+                          <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" 
+                            class='btn btn-success'  style="float:right;">
                             
+                            Revisar
+                          </a>    
 
-                        <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
-                          <h1>
-                            <span class="red">S</span> 
-                          </h1>
-                        </a>
-                         
-                        @if($itemSolicitud->codEstadoSolicitud == 4)   
-                        <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
-                          <h1>
-                            <span class="red">R</span>
-                          </h1>
-                        </a>
-                        @endif
+
+                      @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
+                            <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
+                              <h1>
+                                <span class="red">S</span> 
+                              </h1>
+                            </a>
+                          
+                          @if($itemSolicitud->codEstadoSolicitud == 4)   
+                            <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                              <h1>
+                                <span class="red">R</span>
+                              </h1>
+                            </a>
+
+                          @endif
+
+                        
+                      @endif
                     
                 </td>
 

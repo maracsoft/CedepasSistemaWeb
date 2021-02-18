@@ -115,7 +115,7 @@
                               <i class="fas fa-eye"> Sol</i>
                             </a> --}}
 
-                            <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
                             </h1>

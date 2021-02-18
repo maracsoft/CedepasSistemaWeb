@@ -112,7 +112,25 @@ class SolicitudFondosController extends Controller
         return view('modulos.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
-    //funcion del jefe, despliega la vista de revision
+
+
+    //DESPLIEGA LA VISTA PARA VER LA SOLICITUD (VERLA NOMASSS). ES DEL EMPLEAOD ESTA
+    public function ver($id){
+        $listaBancos = Banco::All();
+        $listaProyectos = Proyecto::All();
+        $listaSedes = Sede::All();
+        
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
+       
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];    
+
+        return view('modulos.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+
+
+    }
+    //funcion del director, despliega la vista de revision. Si ya la revisó, esta tambien hace funcion de ver 
     public function revisar($id){
         $listaBancos = Banco::All();
         $listaProyectos = Proyecto::All();
@@ -143,8 +161,8 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
 
             DB::commit();
-            return redirect()->route('solicitudFondos.listarJefeAdmin')
-                ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Abonada! ');
+            return redirect()->route('solicitudFondos.listarDirector')
+                ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada! ');
         } catch (\Throwable $th) {
             error_log('
             
@@ -179,7 +197,7 @@ class SolicitudFondosController extends Controller
             DB::commit();
 
         return redirect()->route('solicitudFondos.listarJefeAdmin')
-            ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada');
+            ->with('datos','¡Solicitud '.$solicitud->codigoCedepas.' Abonada!');
 
 
         } catch (\Throwable $th) {
@@ -208,7 +226,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->save();
 
-            return redirect()->route('solicitudFondos.listarJefeAdmin')
+            return redirect()->route('solicitudFondos.listarDirector')
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
 
         } catch (\Throwable $th) {
