@@ -13,7 +13,7 @@ class Proyecto extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['nombreProyecto'];
+    protected $fillable = ['nombreProyecto','codEmpleadoDirector'];
     
 
 }

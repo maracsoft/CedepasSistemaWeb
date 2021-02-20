@@ -53,7 +53,7 @@ Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
 
 
-Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
+Route::post('/SolicitudFondos/Rechazar/','SolicitudFondosController@rechazar')
 ->name('solicitudFondos.rechazar');
 
 
@@ -94,65 +94,89 @@ Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@desc
 
 
 
-
-// usar dd("aaaaaaaaaa"); para debugear GA
-
-/**CATEGORIA */
-Route::resource('categoria', 'CategoriaController');  // es resource pq trabajamos con varias rutas 
-Route::get('/categoria/delete/{id}','CategoriaController@delete');
-
-/**PRODUCTO */
-Route::resource('producto', 'ProductoController');  // es resource pq trabajamos con varias rutas 
-Route::get('/producto/delete/{id}','ProductoController@delete');
-
-
-/**ORDEN */
-Route::resource('orden', 'OrdenController');  // es resource pq trabajamos con varias rutas 
-Route::resource('caja', 'CajaController');  
-Route::get('/caja','OrdenController@listarParaCaja');
-
-Route::get ('orden/{id}/next','OrdenController@siguiente')->name('orden.next');
-Route::get ('orden/{id}/ventanaPago','OrdenController@ventanaPago')->name('orden.ventanaPago');
-
-
-
-Route::get('/mesasOrden','MesaController@listarMesa');
-Route::get('/orden/mesa/{id}','OrdenController@ordenMesa');
-//Route::get ('categoria/{id}/confirmar','CategoriaController@confirmar')->name('categoria.confirmar');
-
-
-
-
-
-Route::get ('producto/{codproducto}/confirmar','ProductoController@confirmar')->name('producto.confirmar');
-
-
-
-
-Route::resource('Escuela', 'EscuelaController');  // es resource pq trabajamos con varias rutas 
-Route::resource('Factultad', 'FacultadController');  // es resource pq trabajamos con varias rutas 
-Route::resource('Estudiante', 'EstudianteController');  // es resource pq trabajamos con varias rutas 
-Route::resource('cliente', 'ClienteController');  // es resource pq trabajamos con varias rutas 
-Route::resource('unidad', 'UnidadController');  // es resource pq trabajamos con varias rutas 
-/* Route::resource('cabeceraventa', 'CabeceraVentaController');  // es resource pq trabajamos con varias rutas 
-
- */
-Route::get ('unidad/{id}/confirmar','UnidadController@confirmar')->name('unidad.confirmar');
-Route::get ('cliente/{id}/confirmar','ClienteController@confirmar')->name('cliente.confirmar');
-Route::get ('Estudiante/{id}/confirmar','EstudianteController@confirmar')->name('Estudiante.confirmar');
-
-
-/* datos productos */
-Route::get('EncontrarProducto/{producto_id}', 'CabeceraVentaController@ProductoCodigo');
-/* datos tipos */
-Route::get('EncontrarTipo/{codigo}', 'CabeceraVentaController@PorTipo');
-
-
-
-Route::get('cancelar', function () {
-    return redirect()->route('categoria.index')->with('datos','Accion cancelada');
-})->name('cancelar');
-
-
-
 Route::post('/', 'UserController@login')->name('user.login');
+
+
+/* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */
+
+
+/**GESTIONAR EMPLEADOS */
+Route::get('/listarEmpleados','EmpleadoController@listarEmpleados');
+Route::post('/listarPuestos/{id}','EmpleadoController@listarPuestos');
+
+Route::get('/crearEmpleado','EmpleadoController@crearEmpleado');
+Route::post('/crearEmpleado/save','EmpleadoController@guardarCrearEmpleado');
+
+Route::get('/editarEmpleado/{id}','EmpleadoController@editarEmpleado');
+Route::post('/editarEmpleado/save','EmpleadoController@guardarEditarEmpleado');
+
+Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');
+
+
+/**GESTIONAR CONTRATOS */
+Route::get('/listarEmpleados/listarContratos/{id}','PeriodoEmpleadoController@listarContratos');
+
+Route::get('/listarEmpleados/crearContrato/{id}','PeriodoEmpleadoController@crearContrato');
+Route::post('/listarEmpleados/crearContrato/save','PeriodoEmpleadoController@guardarCrearContrato');
+
+Route::get('/listarEmpleados/editarContrato/{id}','PeriodoEmpleadoController@editarContrato');
+Route::post('/listarEmpleados/editarContrato/save','PeriodoEmpleadoController@guardarEditarContrato');
+
+Route::get('/listarEmpleados/eliminarContrato/{id}','PeriodoEmpleadoController@eliminarContrato');
+
+Route::get('/exportarContratoPDF/{id}','PeriodoEmpleadoController@exportarContrato');
+//-----------GESTIONAR HORARIOS
+Route::get('/crearHorario/{id}','PeriodoEmpleadoController@crearHorario');
+Route::post('/crearHorario/save','PeriodoEmpleadoController@guardarCrearHorario');
+
+Route::get('/editarHorario/{id}','PeriodoEmpleadoController@editarHorario');
+Route::post('/editarHorario/save','PeriodoEmpleadoController@guardarEditarHorario');
+
+
+
+
+/**GESTIONAR ASISTENCIAS */
+/*********EMPLEADOS */
+Route::get('/marcarAsistencia/{id}','AsistenciaController@marcarAsistencia');
+Route::get('/marcarAsistencia/marcar/{id}','AsistenciaController@marcar');
+/*********JEFE DE RRHH */
+Route::get('/listarAsistencia','AsistenciaController@listarAsistencia');
+Route::post('/listarAsistencia/{id}','AsistenciaController@filtroAsistencia');
+
+
+/**GESTIONAR SOLICITUDES */
+/*********EMPLEADOS */
+Route::get('/listarSolicitudes/{id}','SolicitudFaltaController@listarSolicitudes');
+
+Route::get('/crearSolicitud/{id}','SolicitudFaltaController@crearSolicitud');
+Route::post('/crearSolicitud/save','SolicitudFaltaController@guardarCrearSolicitud');
+
+Route::get('/editarSolicitud/{id}','SolicitudFaltaController@editarSolicitud');
+Route::post('/editarSolicitud/save','SolicitudFaltaController@guardarEditarSolicitud');
+
+Route::get('/eliminarSolicitud/{id}','SolicitudFaltaController@eliminarSolicitud');
+
+Route::get('/mostrarSolicitud/{id}','SolicitudFaltaController@mostrarAdjunto');
+/*********JEFE DE RRHH */
+Route::get('/listarSolicitudesJefe','SolicitudFaltaController@listarSolicitudesJefe');
+Route::get('/evaluarSolicitud/{id}','SolicitudFaltaController@evaluarSolicitud');
+
+
+/**GESTIONAR JUSTIFICACIONES */
+/*********EMPLEADOS */
+Route::get('/listarJustificaciones/{id}','JustificacionFaltaController@listarJustificaciones');
+
+Route::get('/crearJustificacion/{id}','JustificacionFaltaController@crearJustificacion');
+Route::post('/crearJustificacion/save','JustificacionFaltaController@guardarCrearJustificacion');
+
+Route::get('/editarJustificacion/{id}','JustificacionFaltaController@editarJustificacion');
+Route::post('/editarJustificacion/save','JustificacionFaltaController@guardarEditarJustificacion');
+
+Route::get('/eliminarJustificacion/{id}','JustificacionFaltaController@eliminarJustificacion');
+
+Route::get('/mostrarJustificacion/{id}','JustificacionFaltaController@mostrarAdjunto');
+/*********JEFE DE RRHH */
+Route::get('/listarJustificacionesJefe','JustificacionFaltaController@listarJustificacionesJefe');
+Route::get('/evaluarJustificacion/{id}','JustificacionFaltaController@evaluarJustificacion');
+
+

@@ -33,25 +33,19 @@ class SolicitudFondosController extends Controller
 
     public function listarSolicitudesDeEmpleado(Request $request){
         
-        $codUsuario = Auth::id(); //este es el idSolicitante 
-
-        
-        $empleados = Empleado::where('codUsuario','=',$codUsuario)
-        ->get();
-        $empleado = $empleados[0];
-
+        $empleado = Empleado::getEmpleadoLogeado();
         
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
         ->orderBy('codEstadoSolicitud','ASC')
         ->orderBy('fechaHoraEmision','DESC')
-        ->paginate();
+        ->paginate($this::PAGINATION);
 
         $buscarpor = "";
 
         $listaBancos = Banco::All();
 
-        return view('modulos.empleado.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.empleado.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
 
@@ -63,19 +57,14 @@ class SolicitudFondosController extends Controller
 
 
 
-
+    /* FUNCION ACTIVADA POR UN DIRECTOR */
     public function listarSolicitudesParaDirector(Request $request){
         
-        $codUsuario = Auth::id(); 
-
-        
-        $empleados = Empleado::where('codUsuario','=',$codUsuario)
-        ->get();
-        $empleado = $empleados[0];
-
+        $empleado = Empleado::getEmpleadoLogeado();
+        $codProyecto = $empleado->codProyecto;
         
         $listaSolicitudesFondos = SolicitudFondos::
-        where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+        where('codProyecto','=',$empleado->codProyecto)
         ->orderBy('codEstadoSolicitud','ASC')
         ->orderBy('fechaHoraEmision','DESC')
         
@@ -85,7 +74,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('modulos.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
 
@@ -109,7 +98,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('modulos.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
     }
 
 
@@ -126,7 +115,7 @@ class SolicitudFondosController extends Controller
         $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
         $empleadoLogeado = $LempleadoLogeado[0];    
 
-        return view('modulos.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('vigo.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
 
 
     }
@@ -142,7 +131,7 @@ class SolicitudFondosController extends Controller
         $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
         $empleadoLogeado = $LempleadoLogeado[0];    
 
-        return view('modulos.director.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('vigo.director.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
     public function aprobar( $id){
@@ -180,7 +169,7 @@ class SolicitudFondosController extends Controller
         $solicitud = SolicitudFondos::findOrFail($id);
        
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
-        return view('modulos.jefe.vistaAbonar',compact('solicitud','detallesSolicitud'));
+        return view('vigo.jefe.vistaAbonar',compact('solicitud','detallesSolicitud'));
 
     }
 
@@ -212,12 +201,18 @@ class SolicitudFondosController extends Controller
     }
 
 
-    public function rechazar( $id){
+    public function rechazar(Request $request){
         try{
             DB::beginTransaction();
-            $solicitud = SolicitudFondos::findOrFail($id);
+            error_log('cod sol = '.$request->codSolicitud);
+            $solicitud = SolicitudFondos::findOrFail($request->codSolicitud);
             $solicitud->codEstadoSolicitud = '5';
-
+            $solicitud->razonRechazo = $request->razonRechazo;
+            error_log('
+            
+            
+            
+            razon request:'.$request->razonRechazo);
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
@@ -225,7 +220,7 @@ class SolicitudFondosController extends Controller
 
 
             $solicitud->save();
-
+            DB::commit();
             return redirect()->route('solicitudFondos.listarDirector')
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
 
@@ -234,9 +229,14 @@ class SolicitudFondosController extends Controller
             
                 OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : RECHAZAR
             
+                '.$th.'
+
+
             ');
 
             DB::rollBack();
+            return redirect()->route('solicitudFondos.listarDirector')
+            ->with('datos','Ha ocurrido un error');
         }
 
     }
@@ -252,7 +252,7 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = $LempleadoLogeado[0];
 
         $listaEmpleadosDeSede  = Empleado::All();
-        return view ('modulos.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
+        return view ('vigo.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
         ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP'));
 
 
@@ -276,7 +276,7 @@ class SolicitudFondosController extends Controller
         $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
         $empleadoLogeado = $LempleadoLogeado[0];
 
-        return view('modulos.empleado.editSoliFondos',
+        return view('vigo.empleado.editSoliFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
@@ -292,7 +292,7 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = $LempleadoLogeado[0];
 
         $listaEmpleadosDeSede  = Empleado::All();
-        return view('modulos.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
+        return view('vigo.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
 
     }
 
@@ -382,6 +382,8 @@ class SolicitudFondosController extends Controller
  */
             
             $solicitud->totalSolicitado = $request->total;
+
+            error_log('&&&&&&&&&&&&&&&&&&&&&& '.$request->total);
             $solicitud->girarAOrdenDe = $request->girarAOrden;
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
             $solicitud->codBanco = $request->ComboBoxBanco;
@@ -459,7 +461,7 @@ class SolicitudFondosController extends Controller
         $listaEmpleados = Empleado::All();
         $listaEstados = EstadoSolicitudFondos::All();
 
-        return view('modulos.director.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
+        return view('vigo.jefe.reportes.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
         ,'listaBancos','listaSedes','listaProyectos','listaEmpleados','listaEstados'));
 
     }

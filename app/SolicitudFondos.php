@@ -17,7 +17,7 @@ class SolicitudFondos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaHoraEmision',
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
-    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','codSede'];
+    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','codSede','razonRechazo'];
 
     public function getNombreSede(){
         $sede = Sede::findOrFail($this->codSede);

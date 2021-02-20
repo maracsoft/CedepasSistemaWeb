@@ -10,7 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
     public $table = "usuario";
-    
+    protected $primaryKey = 'codUsuario';
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -29,6 +30,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    public function empleado(){//singular pq un producto es de una cateoria
+        return $this->hasOne('App\Empleado','codUsuario','codUsuario');//el tercer parametro es de Producto
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

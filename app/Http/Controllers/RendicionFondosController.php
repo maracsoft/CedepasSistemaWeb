@@ -42,7 +42,7 @@ class RendicionFondosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
 
-        return view('modulos.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
+        return view('vigo.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
     }
 
 
@@ -53,33 +53,23 @@ class RendicionFondosController extends Controller
     */
     public function store( Request $request){
 
-      /*   return \File::get(  $request->get('imagen0') );
- */
+
            
         try {
-            error_log('aaaaaaaaaaaaa-------------------------------------- 1');
+           
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
             $rendicion = new RendicionGastos();
-            error_log('aaaaaaaaaaaaa-------------------------------------- 2');
+           
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
             $rendicion-> codigoCedepas = $request->codRendicion; 
-            error_log('aaaaaaaaaaaaa-------------------------------------- 3');
+            
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
-            error_log('aaaaaaaaaaaaa-------------------------------------- 4');
+            
             $rendicion-> totalImporteRendido = $request->totalRendido;
-            error_log('aaaaaaaaaaaaa-------------------------------------- 5
             
-            
-            '.$rendicion-> totalImporteRecibido.'
-            
-
-            '.$rendicion-> totalImporteRendido.'
-
-            
-            ');
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
-            error_log('aaaaaaaaaaaaa-------------------------------------- 6');
+           
             $rendicion-> resumenDeActividad = $request->resumen;
             $rendicion-> estadoDeReposicion = '1';
             $rendicion-> fechaRendicion = Carbon::now()->subHours(5);
@@ -224,7 +214,7 @@ class RendicionFondosController extends Controller
                             GROUP BY sede.nombre;
                     ');
                 // return  $listaX;
-                    return view('modulos.JefeAdmin.reporteSedes',compact('listaX','fechaI','fechaF'));
+                    return view('vigo.jefe.reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
                     
 
 
@@ -240,8 +230,8 @@ class RendicionFondosController extends Controller
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             GROUP BY E.nombres;
                             ');
-
-                    return view('modulos.JefeAdmin.reporteEmpleado',compact('listaX','fechaI','fechaF'));
+                    
+                    return view('vigo.jefe.reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
                     break;
                 case '3':
 
@@ -253,15 +243,13 @@ class RendicionFondosController extends Controller
                         where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                         GROUP BY P.nombreProyecto;
                         ');
-                    return view('modulos.JefeAdmin.reporteProyectos',compact('listaX','fechaI','fechaF'));
+                    return view('vigo.jefe.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
                         break;
 
                 break;
                 
                 case '4':
                     $sede = Sede::findOrFail($request->ComboBoxSede);
-            
-
                     $listaX = DB::select('
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
@@ -272,7 +260,7 @@ class RendicionFondosController extends Controller
                             GROUP BY E.nombres;
                             ');
 
-                return view('modulos.JefeAdmin.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
+                return view('vigo.jefe.reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
                     break;
 
                             
@@ -324,7 +312,7 @@ class RendicionFondosController extends Controller
                             GROUP BY sede.nombre;
                     ');
                 // return  $listaX;
-                $nombreVista = 'modulos.JefeAdmin.reporteSedes';
+                $nombreVista = 'vigo.jefe.reportes.reporteSedes';
                 $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
 
 
@@ -341,7 +329,7 @@ class RendicionFondosController extends Controller
                             GROUP BY E.nombres;
                             ');
 
-                    $nombreVista = 'modulos.JefeAdmin.reporteEmpleado';
+                    $nombreVista = 'vigo.jefe.reportes.reporteEmpleado';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     break;
@@ -356,7 +344,7 @@ class RendicionFondosController extends Controller
                         GROUP BY P.nombreProyecto;
                         ');
 
-                    $nombreVista = 'modulos.JefeAdmin.reporteProyectos';
+                    $nombreVista = 'vigo.jefe.reportes.reporteProyectos';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     
@@ -377,7 +365,7 @@ class RendicionFondosController extends Controller
                             and SF.codSede = "'.$sede->codSede.'"
                             GROUP BY E.nombres;
                             ');
-                    $nombreVista = 'modulos.JefeAdmin.reporteEmpleadoXSede';
+                    $nombreVista = 'vigo.jefe.reportes.reporteEmpleadoXSede';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
                             
                     
