@@ -1,8 +1,50 @@
 @extends ('layout.plantilla')
 
 @section('contenido')
+
+<style>
+
+  .col{
+    margin-top: 15px;
+  
+    }
+  
+  .colLabel{
+  width: 13%;
+  margin-top: 18px;
+  
+  
+  }
+  
+  
+  </style>
+  
 <div>
   <h3> LISTA DE SOLIC DE FONDOS APROBADAS PARA DEPOSITAR </h3>
+  <div class="container">
+    <div class="row">
+      <div class="colLabel">
+        <label for="">Nombre Jefe:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
+      </div>
+      
+
+      <div class="colLabel">
+        <label for="">Codigo Empleado:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
+      </div>
+      <div class="w-100"></div> {{-- SALTO LINEA --}} 
+
+      
+
+      
+    </div>
+  </div>
+  
     <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
@@ -24,15 +66,17 @@
     <table class="table" style="font-size: 10pt;">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo Sol</th>
-                <th scope="col">Fecha emision</th>
-                <th scope="col">Sede</th>
-                <th scope="col">Empleado </th>
-              
-                <th scope="col">Total Solicitado</th>
+                <th width="7%" scope="col">Codigo Sol</th>
+                <th width="6%"  scope="col">Fecha emision</th>
+                <th width="6%"  scope="col">Sede</th>
+                <th width="10%"  scope="col">Empleado </th>
+                <th width="30%"  scope="col">Proyecto</th>
+                <th width="8%"  scope="col">Evaluador</th>
                 
-                <th scope="col">Fecha Revision</th>
-                <th scope="col">Opciones</th>
+                <th width="6%"  scope="col">Total Solicitado</th>
+                
+                <th width="6%"  scope="col">Fecha Revision</th>
+                <th width="5%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -47,7 +91,8 @@
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
-            
+                <td> {{$itemSolicitud->getNombreProyecto()}} </td>
+                <td> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
                 <td>{{$itemSolicitud->totalSolicitado  }}</td>
                 
           

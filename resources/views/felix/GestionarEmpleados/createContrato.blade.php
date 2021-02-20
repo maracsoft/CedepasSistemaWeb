@@ -83,9 +83,9 @@
                     alert("Ingrese financiador del usuario");
                     $("#nombreFinanciador").focus();
                 }
-                else if (document.getElementById("nombreProyecto").value == ""){
+                else if (document.getElementById("nombre").value == ""){
                     alert("Ingrese proyecto");
-                    $("#nombreProyecto").focus();
+                    $("#nombre").focus();
                 }
                 else if (document.getElementById("codArea").value == "0"){
                     alert("Seleccione el area");
@@ -204,7 +204,7 @@
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nombreProyecto" name="nombreProyecto" placeholder="Proyecto..." >
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Proyecto..." >
                 </div>
             </div> 
             <div class="form-group row">

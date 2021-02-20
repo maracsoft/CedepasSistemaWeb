@@ -4,12 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
 
 
-
+Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
 
 

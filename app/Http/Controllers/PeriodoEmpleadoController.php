@@ -31,7 +31,7 @@ class PeriodoEmpleadoController extends Controller
         }
         //echo($cont);
         
-        return view('GestionarEmpleados.indexContrato',compact('empleado','contratos','cont'));
+        return view('felix.GestionarEmpleados.indexContrato',compact('empleado','contratos','cont'));
     }
 
     public function crearContrato($id){
@@ -41,7 +41,7 @@ class PeriodoEmpleadoController extends Controller
         $tipoContrato=$arr[1];
         $areas=Area::all();
         $AFPS=AFP::all();
-        return view('GestionarEmpleados.createContrato',compact('empleado','tipoContrato','areas','AFPS'));
+        return view('felix.GestionarEmpleados.createContrato',compact('empleado','tipoContrato','areas','AFPS'));
         
     }
 
@@ -86,14 +86,14 @@ class PeriodoEmpleadoController extends Controller
             
             $contrato->nombreFinanciador=$request->nombreFinanciador;
             $contrato->codPuesto=$request->codPuesto;
-            $contrato->nombreProyecto=$request->nombreProyecto;
+            $contrato->nombre=$request->nombre;
             $contrato->motivo=null;
             $contrato->codAFP=$request->codAFP;
         }
         if($request->codTipoContrato==2){
             $contrato->nombreFinanciador=null;
             $contrato->codPuesto=null;
-            $contrato->nombreProyecto=null;
+            $contrato->nombre=null;
             $contrato->motivo=$request->motivo;
             $contrato->codAFP=null;
         }
@@ -160,7 +160,7 @@ class PeriodoEmpleadoController extends Controller
         $puesto=$contrato->puesto;
         $area=$contrato->puesto->area;
         $puestos=Puesto::where('codArea','=',$area->codArea)->get();
-        return view('GestionarEmpleados.editContrato',compact('contrato','areas','AFPS','puestos'));
+        return view('felix.GestionarEmpleados.editContrato',compact('contrato','areas','AFPS','puestos'));
     }
 
     public function guardarEditarContrato(Request $request){
@@ -212,7 +212,7 @@ class PeriodoEmpleadoController extends Controller
     public function crearHorario($id){
         $contrato=PeriodoEmpleado::find($id);
         $tiposTurno=TipoTurno::all();
-        return view('GestionarEmpleados.createHorario',compact('tiposTurno','contrato'));
+        return view('felix.GestionarEmpleados.createHorario',compact('tiposTurno','contrato'));
     }
 
     public function guardarCrearHorario(Request $request){
@@ -247,7 +247,7 @@ class PeriodoEmpleadoController extends Controller
         $contrato=PeriodoEmpleado::find($id);
         $turno=$contrato->turno;
         $tiposTurno=TipoTurno::all();
-        return view('GestionarEmpleados.editHorario',compact('turno','tiposTurno'));
+        return view('felix.GestionarEmpleados.editHorario',compact('turno','tiposTurno'));
     }
 
     public function guardarEditarHorario(Request $request){
@@ -284,9 +284,9 @@ class PeriodoEmpleadoController extends Controller
         $contrato=PeriodoEmpleado::find($id);
 
         if($contrato->codTipoContrato==1){
-            $pdf = \PDF::loadView('GestionarEmpleados.contratoPlazoPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
+            $pdf = \PDF::loadview('felix.GestionarEmpleados.contratoPlazoPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
         }else{
-            $pdf = \PDF::loadView('GestionarEmpleados.contratoLocacionPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
+            $pdf = \PDF::loadview('felix.GestionarEmpleados.contratoLocacionPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
         }
 
         

@@ -10,29 +10,37 @@ class UserController extends Controller
 {
     public function login(Request $request)
     {
+       /*  return $request; */
+        error_log('aaaaaaaa ');
         $data=$request->validate([
-            'name'=>'required',
-            'password'=>'required',
+            'usuario'=>'required',
+            'password'=>'required'
         ],
         [
-            'name.required'=>'Ingrese Usuario',
+            'usuario.required'=>'Ingrese Usuario',
             'password.required'=>'Ingrese Contraseña',
         ]);
-            $name=$request->get('name');
-            $query=User::where('name','=',$name)->get();
+            $usuario=$request->get('usuario');
+            $query=User::where('usuario','=',$usuario)->get();
+            error_log('-------------------------------------
+            
+            ------------------------------ ');
             if($query->count()!=0){
                 $hashp=$query[0]->password; // guardamos la contraseña cifrada de la BD en hashp
                 $password=$request->get('password');    //guardamos la contraseña ingresada en password
+                error_log('-------------------------------------
+                        '.$password.'
+                     ------------------------------ ');
                 if(password_verify($password,$hashp))       //comparamos con el metodo password_verifi ??¡ xdd
                 {
                         // Preguntamos si es admin o no
-                    if($name=='admin')
+                    if($usuario=='admin')
                     {
-                        if(Auth::attempt($request->only('name','password'))) //este attempt es para que el Auth se inicie
+                        if(Auth::attempt($request->only('usuario','password'))) //este attempt es para que el Auth se inicie
                             return view('bienvenido');
                     }//si es user normal
                     else{
-                        if(Auth::attempt($request->only('name','password')))
+                        if(Auth::attempt($request->only('usuario','password')))
                         return redirect()->route('empresa.index','0');
     
                     }
@@ -46,7 +54,21 @@ class UserController extends Controller
             }
             else
             {
-                return back()->withErrors(['name'=>'Usuario no válido'])->withInput([request('name')]);
+                return back()->withErrors(['usuario'=>'Usuario no válido'])->withInput([request('usuario')]);
             }
         }
+
+        public function cerrarSesion(){
+            Auth::logout();
+           /*  session(['token' => '-2']); */
+            return redirect()->route('user.verLogin');  
+        }
+
+        public function verLogin(){
+            return view('login');
+        }
+
+
+
+
 }

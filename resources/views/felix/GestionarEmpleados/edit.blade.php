@@ -131,7 +131,7 @@
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Usuario:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario..." value="{{$empleado->usuario->usuario}}">
+                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario..." value="{{$empleado->usuario()->usuario}}">
                 </div>
             </div>
 

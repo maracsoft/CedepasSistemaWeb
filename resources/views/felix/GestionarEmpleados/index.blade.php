@@ -38,7 +38,7 @@
         @foreach($empleados as $itemempleado)
             <tr>
                 <td>{{$itemempleado->dni}}</td>
-                <td>{{$itemempleado->usuario->usuario}}</td>
+                <td>{{$itemempleado->usuario()->usuario}}</td>
                 <td>{{$itemempleado->nombres}}, {{$itemempleado->apellidos}}</td>
                 <td>
                     <a href="/editarEmpleado/{{$itemempleado->codEmpleado}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>

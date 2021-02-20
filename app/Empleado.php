@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
+
 class Empleado extends Model
 {
     protected $table = "empleado";
@@ -48,6 +50,26 @@ class Empleado extends Model
         return $empleados[0]; 
     }
     public function usuario(){
+
+        try{
+        $usuario = User::findOrFail($this->codUsuario);
+        
+        }catch(Throwable $th){
+            error_log('
+            
+                HA OCURRIDO UN ERROR EN EL MODELO EMPLEADO: 
+
+                usuario no encontrato
+
+                '.$th.'
+            
+            ');
+            return "usuario no encontrado.";
+
+
+        }
+        
+        return $usuario;
         return $this->hasOne('App\User','codUsuario','codUsuario');
     }
 
@@ -58,7 +80,15 @@ class Empleado extends Model
 
     }
 
+    public function getNombreCompleto(){
+        return $this->nombres.' '.$this->apellidos;
 
+    }
+
+    public function getProyecto(){
+        $proy = Proyecto::findOrFail($this->codProyecto);
+        return $proy;
+    }
 
 
 }

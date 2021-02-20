@@ -1,8 +1,62 @@
 @extends ('layout.plantilla')
 
 @section('contenido')
+
+<style>
+
+  .col{
+    margin-top: 15px;
+  
+    }
+  
+  .colLabel{
+  width: 13%;
+  margin-top: 18px;
+  
+  
+  }
+  
+  
+  </style>
+  
 <div>
   <h3> LISTA DE SOLIC DE FONDOS PARA APROBAR </h3>
+  <div class="container">
+    <div class="row">
+      <div class="colLabel">
+        <label for="">Nombre Director:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
+      </div>
+      
+
+      <div class="colLabel">
+        <label for="">Codigo Empleado:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
+      </div>
+      <div class="w-100"></div> {{-- SALTO LINEA --}} 
+
+      <div class="colLabel">
+        <label for="">Proyecto:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->getProyecto()->nombre}}" readonly>
+      </div>
+      
+
+      
+    </div>
+  </div>
+
+
+
+
+
+
+
     <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
@@ -50,7 +104,7 @@
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
-                <td>{{$itemSolicitud->getNombreProyecto()  }}</td>
+                <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td>{{$itemSolicitud->totalSolicitado  }}</td>
                   
                 <td>{{$itemSolicitud->getNombreEstado()  }} 

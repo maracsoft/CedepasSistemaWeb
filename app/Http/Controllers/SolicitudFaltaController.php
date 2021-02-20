@@ -18,13 +18,13 @@ class SolicitudFaltaController extends Controller
         $empleado=Empleado::find($id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$id)->where('activo','=',1)->get();
         $solicitudes=RegistroSolicitud::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('estado','!=',0)->get();
-        return view('GestionarSolicitudes.index',compact('solicitudes','empleado'));
+        return view('felix.GestionarSolicitudes.index',compact('solicitudes','empleado'));
     }
 
     public function crearSolicitud($id){
         $empleado=Empleado::find($id);
         $tipos=TipoLicencia::all();
-        return view('GestionarSolicitudes.create',compact('empleado','tipos'));
+        return view('felix.GestionarSolicitudes.create',compact('empleado','tipos'));
     }
 
     public function guardarCrearSolicitud(Request $request){
@@ -86,7 +86,7 @@ class SolicitudFaltaController extends Controller
         $nFecha = $arr[0].'/'.$arr[1].'/'.$arr[2];
         $solicitud->fechaFin=$nFecha;
 
-        return view('GestionarSolicitudes.edit',compact('solicitud','tipos'));
+        return view('felix.GestionarSolicitudes.edit',compact('solicitud','tipos'));
     }
 
 
@@ -161,7 +161,7 @@ class SolicitudFaltaController extends Controller
         
         $solicitudes=RegistroSolicitud::where('estado','!=',0)->get();
 
-        return view('GestionarSolicitudes.indexJefe',compact('empleados','solicitudes'));
+        return view('felix.GestionarSolicitudes.indexJefe',compact('empleados','solicitudes'));
     }
 
     public function evaluarSolicitud($id){

@@ -47,7 +47,7 @@ class AsistenciaController extends Controller
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$empleado->codEmpleado)->get();//agregar parametro que solo tome el contrato activo
         $asistencias=$contratos[0]->registroAsistencia;
         //$asistencias=RegistroAsistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','=',date('y-m-d'))->get();
-        return view('GestionarAsistencias.indexEmpleado',compact('asistencias'));
+        return view('felix.GestionarAsistencias.indexEmpleado',compact('asistencias'));
     }
 
     public function marcar($id){
@@ -92,7 +92,7 @@ class AsistenciaController extends Controller
                     'empleado.apellidos as apellidos')
         ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
         
-        return view('GestionarAsistencias.indexJefe',compact('empleados'));
+        return view('felix.GestionarAsistencias.indexJefe',compact('empleados'));
     }
 
     public function filtroAsistencia(Request $request,$id){

@@ -14,7 +14,7 @@
 <form method = "POST" action = ""  >
         
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
     <div class="container">
@@ -109,6 +109,24 @@
                             <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
                                     
                         </div>
+
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="ComboBoxSede">Estado de la Solicitud:</label>
+                        </div>
+                        <div class="col"> {{-- Combo box de sede --}}
+                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            style="background-color: {{$solicitud->getColorEstado()}} ;
+                                color:{{$solicitud->getColorLetrasEstado()}};
+                                text-align:center ;
+                                
+                            "
+                            readonly value="{{$solicitud->getNombreEstado()}}">     
+                                    
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>

@@ -1,10 +1,59 @@
 @extends ('layout.plantilla')
 
 @section('contenido')
+<style>
+
+.col{
+  margin-top: 15px;
+
+  }
+
+.colLabel{
+width: 13%;
+margin-top: 18px;
+
+
+}
+
+
+</style>
+
+
+
 <div>
   <h3> LISTA DE MIS SOLICITUDES DE FONDOS </h3>
+  <div class="container">
+    <div class="row">
+      <div class="colLabel">
+        <label for="">Empleado:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
+      </div>
+      
+
+      <div class="colLabel">
+        <label for="">Codigo Empleado:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
+      </div>
+      <div class="w-100"></div> {{-- SALTO LINEA --}} 
+
+      <div class="colLabel">
+        <label for="">Proyecto:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="{{$empleado->getProyecto()->nombre}}" readonly>
+      </div>
+      
+
+      
+    </div>
+  </div>
 
 
+  <br>
     <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary"> 
         <i class="fas fa-plus"> </i> 
           Nueva Solicitud
@@ -57,7 +106,7 @@
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->getfechaHoraEmision()  }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
-                <td>{{$itemSolicitud->getNombreProyecto()  }}</td>
+                <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td> S/. {{$itemSolicitud->totalSolicitado  }}</td>
                   
                 <td>{{$itemSolicitud->getNombreEstado()  }} 
@@ -128,7 +177,14 @@
                             </a>
                           
                             @break
+                        @case(5)
+                            <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
+                              <h1>
+                                <span class="red">S</span>
+                              </h1>
+                            </a>
                             
+                          @break
 
                         @default
                             

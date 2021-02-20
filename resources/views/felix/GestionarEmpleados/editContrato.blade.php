@@ -131,7 +131,7 @@
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nombreProyecto" name="nombreProyecto" placeholder="Proyecto..." value="{{$contrato->nombreProyecto}}">
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Proyecto..." value="{{$contrato->nombre}}">
                 </div>
             </div> 
             <div class="form-group row">

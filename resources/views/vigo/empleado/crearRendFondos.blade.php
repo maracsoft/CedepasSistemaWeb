@@ -16,7 +16,7 @@
 <form method = "POST" action = "{{route('rendicionFondos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
     
@@ -65,7 +65,7 @@
                       </div>
 
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleadoLogeado->codigoEmpleadoCedepas}}">    
+                            <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleadoLogeado->codigoCedepas}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
@@ -441,7 +441,7 @@
     
         $(document).ready(function(){
             var d = new Date();
-            codEmp = $('#codigoEmpleadoCedepas').val();
+            codEmp = $('#codigoCedepas').val();
             mes = (d.getMonth()+1.0).toString();
             if(mes.length > 0) mes = '0' + mes;
             

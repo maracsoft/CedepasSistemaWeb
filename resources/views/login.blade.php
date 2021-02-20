@@ -2,9 +2,9 @@
 <html>
 <head>
 	 <meta charset="utf-8"/>
-     <title>.::SISTEMA DE VENTAS - ABC::.</title>
+     <title>.::SISTEMA DE VENTASx - ABC::.</title>
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>      
+     <meta content="width=device-width, initial-scale=1.0" usuario="viewport"/>      
      <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
      <link rel="stylesheet" href="/adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
      <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
@@ -26,8 +26,9 @@
                      <label class="control-label">USUARIO:</label>
                     <div class="input-icon">
                         <i class="fas fa-user"></i>
-                        <input class="form-control @error('name') is-invalid @enderror"  type="text"  placeholder="Ingrese usuario" id="name" name="name" value="{{old('name')}}"/>                        
-                        @error('name')
+                        <input class="form-control @error('usuario') is-invalid @enderror"  type="text"  
+                                placeholder="Ingrese usuario" id="usuario" name="usuario" value="{{old('usuario')}}"/>                        
+                        @error('usuario')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -38,7 +39,8 @@
                     <label class="control-label">CONTRASEÑA:</label>
                     <div class="input-icon">
                            <i class="fas fa-lock"></i>
-                        <input class="form-control @error('password') is-invalid @enderror" type="password" placeholder="Ingrese contraseña"  id="password" name="password"  value="{{old('password')}}"/>
+                        <input class="form-control @error('password') is-invalid @enderror" type="password" 
+                                placeholder="Ingrese contraseña"  id="password" name="password"  value="{{old('password')}}"/>
                         @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{$message}}</strong>

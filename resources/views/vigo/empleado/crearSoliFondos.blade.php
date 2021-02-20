@@ -14,7 +14,7 @@
 <form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" >
         
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
     
     @csrf
     <div class="container" style="">
@@ -57,7 +57,7 @@
                       </div>
                       <div class="col"> {{-- Combo box de banco --}}
                             <select class="form-control"  id="ComboBoxBanco" name="ComboBoxBanco" >
-                                <option value="0">-- Seleccionar -- </option>
+                                <option value="-1">-- Seleccionar -- </option>
                                 @foreach($listaBancos as $itemBanco)
                                     <option value="{{$itemBanco['codBanco']}}" >
                                         {{$itemBanco->nombreBanco}}
@@ -102,10 +102,10 @@
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
                                 <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" >
-                                    <option value="0">-- Seleccionar -- </option>
+                                    <option value="-1">-- Seleccionar -- </option>
                                     @foreach($listaProyectos as $itemProyecto)
                                         <option value="{{$itemProyecto['codProyecto']}}" >
-                                            {{$itemProyecto->nombreProyecto}}
+                                            {{$itemProyecto->nombre}}
                                         </option>                                 
                                     @endforeach 
                                 </select>      
@@ -116,7 +116,7 @@
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
                                 <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                                    <option value="0">-- Seleccionar --</option>
+                                    <option value="-1">-- Seleccionar --</option>
                                     @foreach($listaSedes as $itemSede)
                                         <option value="{{$itemSede['codSede']}}" >
                                             {{$itemSede->nombre}}
@@ -326,7 +326,7 @@
     
         $(document).ready(function(){
             var d = new Date();
-            codEmp = $('#codigoEmpleadoCedepas').val();
+            codEmp = $('#codigoCedepas').val();
             mes = (d.getMonth()+1.0).toString();
             if(mes.length > 0) mes = '0' + mes;
             
@@ -377,15 +377,15 @@
                 msj='Debe ingresar la justificacion';
             
 
-            if($('#ComboBoxProyecto').val()==0 )
+            if($('#ComboBoxProyecto').val()=='-1' )
                 msj='Debe seleccionar el proyecto';
             
-
-            if($('#ComboBoxSede').val()==0 )
+           
+            if($('#ComboBoxSede').val()=='-1' )
                 msj='Debe seleccionar la sede';
             
 
-            if($('#ComboBoxBanco').val()==0 )
+            if($('#ComboBoxBanco').val()=='-1' )
                 msj='Debe seleccionar el banco.';
             
             if($('#girarAOrden').val()=='' )

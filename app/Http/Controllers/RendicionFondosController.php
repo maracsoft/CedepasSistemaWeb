@@ -236,12 +236,12 @@ class RendicionFondosController extends Controller
                 case '3':
 
                     $listaX = DB::select('
-                    select P.nombreProyecto as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
+                    select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
                     from rendicion_gastos RG
                         inner join solicitud_fondos SF USING(codSolicitud)
                         inner join Proyecto P on P.codProyecto = SF.codProyecto 
                         where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                        GROUP BY P.nombreProyecto;
+                        GROUP BY P.nombre;
                         ');
                     return view('vigo.jefe.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
                         break;
@@ -336,12 +336,12 @@ class RendicionFondosController extends Controller
                 case '3':
 
                     $listaX = DB::select('
-                    select P.nombreProyecto as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
+                    select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
                     from rendicion_gastos RG
                         inner join solicitud_fondos SF USING(codSolicitud)
                         inner join Proyecto P on P.codProyecto = SF.codProyecto 
                         where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                        GROUP BY P.nombreProyecto;
+                        GROUP BY P.nombre;
                         ');
 
                     $nombreVista = 'vigo.jefe.reportes.reporteProyectos';

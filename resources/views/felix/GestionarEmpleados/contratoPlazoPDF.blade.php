@@ -87,7 +87,7 @@
         <p><u><b>SEGUNDO</b></u></p>
         <p style="text-align: justify;">
             Para el cumplimiento de su objeto social, <b>EL EMPLEADOR</b> ha obtenido financiamiento de <b>{{$contrato->nombreFinanciador}}</b> para
-            implementar el proyecto denominado: <b>“{{$contrato->nombreProyecto}}”</b>. En virtud del mismo, <b>EL EMPLEADOR</b> contrata a <b>EL
+            implementar el proyecto denominado: <b>“{{$contrato->nombre}}”</b>. En virtud del mismo, <b>EL EMPLEADOR</b> contrata a <b>EL
             TRABAJADOR</b>, para desempeñar el cargo de <b>{{$contrato->puesto->nombre}}</b> dentro del proyecto. <b>EL TRABAJADOR</b> se
             obliga a cumplir con las actividades descritas en los Términos de Referencia que dieron origen a su
             contratación, el cual forma parte del presente contrato. La descripción de las tareas y funciones es simplemente

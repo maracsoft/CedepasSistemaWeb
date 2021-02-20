@@ -45,7 +45,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.empleado.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.empleado.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 
@@ -74,7 +74,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 
@@ -84,7 +84,7 @@ class SolicitudFondosController extends Controller
         
         $codUsuario = Auth::id(); 
 
-
+        $empleado = Empleado::getEmpleadoLogeado();
         /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
         ->get();
         $empleado = $empleados[0]; */
@@ -98,7 +98,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos'));
+        return view('vigo.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 

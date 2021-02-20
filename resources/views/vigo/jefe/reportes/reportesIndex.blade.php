@@ -23,7 +23,7 @@
         <form method="POST" action="{{route('rendicionFondos.reportes')}}" onsubmit="return validarTextos()">
           @csrf
             <div class="container">
-              <div class="row" style="background-color: red">
+              <div class="row" >
                 <div class="col"></div>
                 <div class="col"></div>
                 
@@ -54,7 +54,7 @@
                 <div class="w-100"></div>
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col"></div>
+         
                 
 
 
@@ -66,7 +66,7 @@
                  
                   <div class="input-group date form_date " data-date-format="yyyy-mm-dd" data-provide="datepicker">
                     <input type="text"  class="form-control" name="fechaI" id="fechaI"
-                          value="{{ Carbon\Carbon::now()->subDay(10)->format('Y-m-d') }}" style="font-size: 10pt;"> 
+                          value="{{ Carbon\Carbon::now()->subDay(10)->format('Y-m-d') }}"> 
                     <div class="input-group-btn">                                        
                         <button class="btn btn-primary date-set" type="button">
                             <i class="fas fa-calendar"></i>
@@ -75,14 +75,14 @@
                   </div>
 
                 </div>
-                <div class="col"></div>
+                
                 
                 <div class="col"></div>
                 <div class="col"></div>
                 <div class="w-100"></div>
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col"></div>
+               
                 
                 <div class="col">
                   <label for="fechaComprobante">Fecha Fin</label>
@@ -93,7 +93,7 @@
                   
                   <div class="input-group date form_date " data-date-format="yyyy-mm-dd" data-provide="datepicker">
                     <input type="text"  class="form-control" name="fechaF" id="fechaF"
-                          value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" style="font-size: 10pt;"> 
+                          value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" > 
                     <div class="input-group-btn">                                        
                         <button class="btn btn-primary date-set" type="button">
                             <i class="fas fa-calendar"></i>
@@ -101,7 +101,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col"></div>
+            
                
 
                

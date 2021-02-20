@@ -10,7 +10,7 @@
 <form method = "POST" action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}"  >
         
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoEmpleadoCedepas" id="codigoEmpleadoCedepas" value="{{ $empleadoLogeado->codigoEmpleadoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
     <div class="container" >
@@ -114,7 +114,7 @@
                                             selected
                                         @endif
                                         >
-                                            {{$itemProyecto->nombreProyecto}}
+                                            {{$itemProyecto->nombre}}
                                         </option>                                 
                                     @endforeach 
                                 </select>      
