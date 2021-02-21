@@ -7,6 +7,9 @@
 @endsection
 
 @section('contenido')
+  <!-- PARA SOLUCIONAR EL PROBLEMA DE 'funcion(){' EN js--->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 
 <script type="text/javascript"> 
     $(document).ready(function(){
@@ -14,7 +17,7 @@
 
             var codigo=$('#codArea').val();
             
-            if(codigo!=0){
+            if(codigo!=0){  
 
                 $.ajax({
                     url: '/listarPuestos/' + codigo,
@@ -61,6 +64,7 @@
         {
             var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+.$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
             var tipoContrato=$("#codTipoContrato").val(); 
+            //alert(total);
 
             if(tipoContrato==1){//PLAZO FIJO
 
@@ -125,6 +129,9 @@
                 }
                 else if (cont<=0){
                     alert("Agregar entregables");
+                }
+                else if (total!=100){
+                    alert("El proyecto tiene que ser de 100%");
                 }
                 else{
                     document.frmempresa.submit(); // enviamos el formulario	
@@ -204,7 +211,7 @@
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Proyecto..." >
+                    <input type="text" class="form-control" id="nombreProyecto" name="nombreProyecto" placeholder="Proyecto..." >
                 </div>
             </div> 
             <div class="form-group row">
@@ -236,10 +243,7 @@
                     @endforeach
                     </select>
                 </div>
-            </div>    
-            @endif
-            
-            
+            </div>
             <div class="form-group row" id="comboPuestos">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Asistencia:</label>
                 <div class="col-sm-4">
@@ -248,7 +252,11 @@
                     <option value="0">NO</option>
                     </select>
                 </div>
-            </div>
+            </div>  
+            @endif
+            
+            
+            
             @if($tipoContrato==2)<!-- POR LOCACION-->
             <div class="form-group row" style="margin-left:350px;">
                 <label class="col-sm-1 col-form-label">Motivo:</label>
@@ -275,7 +283,7 @@
                         </div>                             
                     </div>           
                     <div class="col-md-3">
-                        <input type="number" class="form-control" name="porcentaje" id="porcentaje">                              
+                        <input type="number" min="1" class="form-control" name="porcentaje" id="porcentaje">                              
                     </div>                       
                 </div>       
                 <div class="table-responsive">                           
@@ -307,30 +315,43 @@
 <script>
 var cont=0;
 var detalleventa=[];
-var controlproducto=[];      
+var controlproducto=[];
+var total=0;
 
 function agregarDetalle()
 {
         descripcion=$("#descripcion").val();
         porcentaje=$("#porcentaje").val();
-        fecha=$("#fecha").val();      
-        controlproducto[cont]=cont;
-                
-        var fila='<tr class="selected" id="fila'+cont+'">'+
-                    '<td style="text-align:center;"><button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+cont+');"><i class="fa fa-times" ></i></button></td>'+
-                    '<td style="text-align:left;"><input type="text" name="descripcion[]" value="'+ descripcion +'" readonly ></td>'+
-                    '<td style="text-align:left;"><input type="text" name="fecha[]" value="'+ fecha +'" readonly ></td>'+
-                    '<td style="text-align:left;">%<input type="text" name="porcentaje[]" value="'+ porcentaje +'" readonly ></td>'+
-                '</tr>';        
-        $('#detalles').append(fila);      
-        detalleventa.push({
-            fecha:fecha,
-            descripcion:descripcion,
-            porcentaje:porcentaje
-        });        
-        cont++;
+        fecha=$("#fecha").val();
+
+        if(descripcion=='' || porcentaje=='' || fecha==''){
+            alert('Faltan datos de entregable');
+        }
+        else{
+            controlproducto[cont]=cont;
+                    
+            var fila='<tr class="selected" id="fila'+cont+'">'+
+                        '<td style="text-align:center;"><button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+cont+');"><i class="fa fa-times" ></i></button></td>'+
+                        '<td style="text-align:left;"><input type="text" name="descripcion[]" value="'+ descripcion +'" readonly ></td>'+
+                        '<td style="text-align:left;"><input type="text" name="fecha[]" value="'+ fecha +'" readonly ></td>'+
+                        '<td style="text-align:left;">%<input type="text" name="porcentaje[]" value="'+ porcentaje +'" readonly ></td>'+
+                    '</tr>';        
+            $('#detalles').append(fila);      
+            detalleventa.push({
+                fecha:fecha,
+                descripcion:descripcion,
+                porcentaje:porcentaje
+            });
+            total+=parseInt(detalleventa[cont].porcentaje, 10);     
+            cont++;
+
+            $("#descripcion").val('');
+            $("#porcentaje").val('');
+            $("#fecha").val('');
+        }  
 }
 function eliminardetalle(index){
+    total-=parseInt(detalleventa[index].porcentaje, 10);   
     detalleventa.splice(index,1);    
     $('#fila'+index).remove();
     controlproducto[index]="";

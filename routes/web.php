@@ -160,7 +160,7 @@ Route::get('/listarSolicitudesJefe','SolicitudFaltaController@listarSolicitudesJ
 Route::get('/evaluarSolicitud/{id}','SolicitudFaltaController@evaluarSolicitud');
 
 
-/**GESTIONAR JUSTIFICACIONES */
+/**----------------------------       GESTIONAR JUSTIFICACIONES    -------------------- */
 /*********EMPLEADOS */
 Route::get('/listarJustificaciones/{id}','JustificacionFaltaController@listarJustificaciones');
 
@@ -176,5 +176,20 @@ Route::get('/mostrarJustificacion/{id}','JustificacionFaltaController@mostrarAdj
 /*********JEFE DE RRHH */
 Route::get('/listarJustificacionesJefe','JustificacionFaltaController@listarJustificacionesJefe');
 Route::get('/evaluarJustificacion/{id}','JustificacionFaltaController@evaluarJustificacion');
+
+
+/* --------------------------------------- MODULO MARSKY -------------------------------------------------- */
+
+
+Route::get('/CC/admin/revisar/{id}','PeriodoCajaController@verRevisarPeriodo')->name('admin.periodoCaja.revisar'); 
+Route::get('/CC/admin/listarPeriodos/','PeriodoCajaController@listarPeriodosActuales')->name('admin.listaPeriodos');
+
+Route::get('/CC/resp/periodo','PeriodoCajaController@verPeriodoCajaParaResp')->name('resp.verPeriodo');
+Route::get('/CC/resp/registrarGasto','PeriodoCajaController@verRegistrarGasto')->name('resp.registrarGasto');
+Route::get('/CC/resp/liquidarCaja','PeriodoCajaController@verLiquidar')->name('resp.liquidarPeriodo');
+
+
+
+
 
 

@@ -79,7 +79,10 @@ class SolicitudFondosController extends Controller
 
 
 
-
+/* DEBE LISTARLE 
+    LAS QUE ESTÁN APROBADAS (Para que las abone)
+    Las que están rendidas (para que las registre)
+*/
     public function listarSolicitudesParaJefe(Request $request){
         
         $codUsuario = Auth::id(); 
@@ -91,6 +94,7 @@ class SolicitudFondosController extends Controller
         
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEstadoSolicitud','=','2') //aprobadas
+        ->orwhere('codEstadoSolicitud','=','4') //rendidas
         ->orderBy('fechaHoraEmision','DESC')
         ->paginate();
 

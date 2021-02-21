@@ -32,12 +32,12 @@ class PeriodoEmpleado extends Model
         return $this->hasOne('App\TipoContrato','codTipoContrato','codTipoContrato');//el tercer parametro es de Producto
     }
 
-    public function registroAsistencia(){//
-        return $this->hasMany('App\RegistroAsistencia','codPeriodoEmpleado','codPeriodoEmpleado');//el tercer parametro es de Producto
+    public function Asistencia(){//
+        return $this->hasMany('App\Asistencia','codPeriodoEmpleado','codPeriodoEmpleado');//el tercer parametro es de Producto
     }
 
-    public function registroSolicitud(){//
-        return $this->hasMany('App\RegistroSolicitud','codPeriodoEmpleado','codPeriodoEmpleado');//el tercer parametro es de Producto
+    public function SolicitudFalta(){//
+        return $this->hasMany('App\SolicitudFalta','codPeriodoEmpleado','codPeriodoEmpleado');//el tercer parametro es de Producto
     }
 
     public function avances(){//

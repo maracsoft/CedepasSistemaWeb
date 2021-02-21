@@ -83,7 +83,7 @@
                 <th scope="col">Sede</th>
                 <th scope="col">Empleado </th>
                 <th scope="col">Proyecto</th>
-                <th scope="col">Total Solicitado</th>
+                <th scope="col">Total Solicitado // Rendido</th>
                 <th scope="col">Estado</th>
                 <th>Cod Rendicion</th>
                 <th scope="col">Fecha Revision</th>
@@ -105,18 +105,30 @@
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
-                <td>{{$itemSolicitud->totalSolicitado  }}</td>
-                  
-                <td>{{$itemSolicitud->getNombreEstado()  }} 
-
+                <td> 
+                  <h3 style="font-size: 14pt;">
+                  S/. {{$itemSolicitud->totalSolicitado  }}
                   @if($itemSolicitud->codEstadoSolicitud == 4)
-                    <br>
-                    S/.{{$itemSolicitud->getRendicion()->totalImporteRendido}}
-
-                  @endif
-                  
-
+                    
+                  // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
+                  </h3>
+                @endif
                 </td>
+                <td style="text-align: center">
+                  
+                  <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
+                  style="background-color: {{$itemSolicitud->getColorEstado()}};
+                          width:95%;
+                          text-align:center;
+                          color: {{$itemSolicitud->getColorLetrasEstado()}} ;
+                  ">
+               
+                 
+                
+
+                
+
+              </td>
                 <td>  
                   @if($itemSolicitud->codEstadoSolicitud == 4)
                     <br>

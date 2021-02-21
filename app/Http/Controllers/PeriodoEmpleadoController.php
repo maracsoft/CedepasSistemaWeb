@@ -86,19 +86,21 @@ class PeriodoEmpleadoController extends Controller
             
             $contrato->nombreFinanciador=$request->nombreFinanciador;
             $contrato->codPuesto=$request->codPuesto;
-            $contrato->nombre=$request->nombre;
+            $contrato->nombreProyecto=$request->nombreProyecto;
             $contrato->motivo=null;
             $contrato->codAFP=$request->codAFP;
+            $contrato->asistencia=$request->asistencia;
         }
-        if($request->codTipoContrato==2){
+        if($request->codTipoContrato==2){//por locacion
             $contrato->nombreFinanciador=null;
             $contrato->codPuesto=null;
-            $contrato->nombre=null;
+            $contrato->nombreProyecto=null;
             $contrato->motivo=$request->motivo;
             $contrato->codAFP=null;
+            $contrato->asistencia=0;
         }
         
-        $contrato->asistencia=$request->asistencia;
+        
         $contrato->save();
         
         //CALCULO DE SUELDOS MENSUALES(tabla sueldo_mes)
@@ -152,6 +154,15 @@ class PeriodoEmpleadoController extends Controller
         return redirect('/listarEmpleados/listarContratos/'.$request->codEmpleado);
     }
 
+
+
+
+
+
+
+
+
+
     public function editarContrato($id){
         $contrato=PeriodoEmpleado::find($id);
         //$turnos=Turno::all();
@@ -162,6 +173,14 @@ class PeriodoEmpleadoController extends Controller
         $puestos=Puesto::where('codArea','=',$area->codArea)->get();
         return view('felix.GestionarEmpleados.editContrato',compact('contrato','areas','AFPS','puestos'));
     }
+
+
+
+
+
+
+
+
 
     public function guardarEditarContrato(Request $request){
         $contrato=PeriodoEmpleado::find($request->codPeriodoEmpleado);;
@@ -200,12 +219,29 @@ class PeriodoEmpleadoController extends Controller
         return redirect('/listarEmpleados/listarContratos/'.$contrato->empleado->codEmpleado);
     }//NOSE SI SE UTILIZARA :V
 
+
+
+
+
+
+
+
+
+
     public function eliminarContrato($id){
         $contrato=PeriodoEmpleado::find($id);
         $contrato->activo=0;
         $contrato->save();
         return redirect('/listarEmpleados/listarContratos/'.$contrato->empleado->codEmpleado);
+    
     }
+
+
+
+
+
+
+
 
 
     /**HORARIO */
@@ -214,6 +250,15 @@ class PeriodoEmpleadoController extends Controller
         $tiposTurno=TipoTurno::all();
         return view('felix.GestionarEmpleados.createHorario',compact('tiposTurno','contrato'));
     }
+
+
+
+
+
+
+
+
+
 
     public function guardarCrearHorario(Request $request){
         $turno=new Turno();

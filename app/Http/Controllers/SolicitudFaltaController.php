@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empleado;
 use App\PeriodoEmpleado;
-use App\RegistroSolicitud;
+use App\SolicitudFalta;
 use App\TipoLicencia;
 use DateTime;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class SolicitudFaltaController extends Controller
     public function listarSolicitudes($id){
         $empleado=Empleado::find($id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$id)->where('activo','=',1)->get();
-        $solicitudes=RegistroSolicitud::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('estado','!=',0)->get();
+        $solicitudes=SolicitudFalta::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('estado','!=',0)->get();
         return view('felix.GestionarSolicitudes.index',compact('solicitudes','empleado'));
     }
 
@@ -31,7 +31,7 @@ class SolicitudFaltaController extends Controller
         date_default_timezone_set('America/Lima');
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$request->codEmpleado)->where('activo','=',1)->get();
 
-        $solicitud=new RegistroSolicitud();
+        $solicitud=new SolicitudFalta();
 
         $solicitud->codPeriodoEmpleado=$contratos[0]->codPeriodoEmpleado;
         $solicitud->descripcion=$request->descripcion;
@@ -75,7 +75,7 @@ class SolicitudFaltaController extends Controller
 
     public function editarSolicitud($id){
         //$empleado=Empleado::find($id);
-        $solicitud=RegistroSolicitud::find($id);
+        $solicitud=SolicitudFalta::find($id);
         $tipos=TipoLicencia::all();
 
         $arr = explode('-', $solicitud->fechaInicio);
@@ -92,7 +92,7 @@ class SolicitudFaltaController extends Controller
 
     public function guardarEditarSolicitud(Request $request){
         date_default_timezone_set('America/Lima');
-        $solicitud=RegistroSolicitud::find($request->codRegistroSolicitud);
+        $solicitud=SolicitudFalta::find($request->codRegistroSolicitud);
 
         
         $solicitud->descripcion=$request->descripcion;
@@ -137,7 +137,7 @@ class SolicitudFaltaController extends Controller
     }
 
     public function eliminarSolicitud($id){
-        $solicitud=RegistroSolicitud::find($id);
+        $solicitud=SolicitudFalta::find($id);
         $solicitud->estado=0;
         $solicitud->save();
         return redirect('/listarSolicitudes/'.$solicitud->periodoEmpleado->codEmpleado);
@@ -146,7 +146,7 @@ class SolicitudFaltaController extends Controller
     public function mostrarAdjunto($id){
         date_default_timezone_set('America/Lima');
         /**para descargar */
-        $solicitud=RegistroSolicitud::find($id);
+        $solicitud=SolicitudFalta::find($id);
         $pathtoFile = storage_path('app\solicitudes')."\\".$solicitud->documentoPrueba;
         return response()->download($pathtoFile);
     }
@@ -159,14 +159,14 @@ class SolicitudFaltaController extends Controller
                     'empleado.apellidos as apellidos')
         ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
         
-        $solicitudes=RegistroSolicitud::where('estado','!=',0)->get();
+        $solicitudes=SolicitudFalta::where('estado','!=',0)->get();
 
         return view('felix.GestionarSolicitudes.indexJefe',compact('empleados','solicitudes'));
     }
 
     public function evaluarSolicitud($id){
         $arr = explode('*', $id);
-        $solicitud=RegistroSolicitud::find($arr[0]);
+        $solicitud=SolicitudFalta::find($arr[0]);
         
         switch ($arr[1]) {
             case 1:

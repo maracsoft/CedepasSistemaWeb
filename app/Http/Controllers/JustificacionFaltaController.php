@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empleado;
 use App\PeriodoEmpleado;
-use App\RegistroJustificacion;
+use App\Justificacion;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ class JustificacionFaltaController extends Controller
     public function listarJustificaciones($id){
         $empleado=Empleado::find($id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$id)->where('activo','=',1)->get();
-        $justificaciones=RegistroJustificacion::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('estado','!=',0)->get();
+        $justificaciones=Justificacion::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('estado','!=',0)->get();
         return view('felix.GestionarJustificaciones.index',compact('justificaciones','empleado'));
     }
 
@@ -29,7 +29,7 @@ class JustificacionFaltaController extends Controller
         date_default_timezone_set('America/Lima');
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$request->codEmpleado)->where('activo','=',1)->get();
 
-        $justificacion=new RegistroJustificacion();
+        $justificacion=new Justificacion();
 
         $justificacion->codPeriodoEmpleado=$contratos[0]->codPeriodoEmpleado;
         $justificacion->descripcion=$request->descripcion;
@@ -58,7 +58,7 @@ class JustificacionFaltaController extends Controller
 
     public function editarJustificacion($id){
         //$empleado=Empleado::find($id);
-        $justificacion=RegistroJustificacion::find($id);
+        $justificacion=Justificacion::find($id);
 
         $arr = explode('-', $justificacion->fechaInicio);
         $nFecha = $arr[0].'/'.$arr[1].'/'.$arr[2];
@@ -73,7 +73,7 @@ class JustificacionFaltaController extends Controller
 
     public function guardarEditarJustificacion(Request $request){
         date_default_timezone_set('America/Lima');
-        $justificacion=RegistroJustificacion::find($request->codRegistroJustificacion);
+        $justificacion=Justificacion::find($request->codRegistroJustificacion);
 
         
         $justificacion->descripcion=$request->descripcion;
@@ -100,7 +100,7 @@ class JustificacionFaltaController extends Controller
     }
 
     public function eliminarJustificacion($id){
-        $justificacion=RegistroJustificacion::find($id);
+        $justificacion=Justificacion::find($id);
         $justificacion->estado=0;
         $justificacion->save();
         return redirect('/listarJustificaciones/'.$justificacion->periodoEmpleado->codEmpleado);
@@ -108,7 +108,7 @@ class JustificacionFaltaController extends Controller
 
     public function mostrarAdjunto($id){
         /**para descargar */
-        $justificacion=RegistroJustificacion::find($id);
+        $justificacion=Justificacion::find($id);
         $pathtoFile = storage_path('app\justificaciones')."\\".$justificacion->documentoPrueba;
         return response()->download($pathtoFile);
     }
@@ -121,14 +121,14 @@ class JustificacionFaltaController extends Controller
                     'empleado.apellidos as apellidos')
         ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
         
-        $justificaciones=RegistroJustificacion::where('estado','!=',0)->get();
+        $justificaciones=Justificacion::where('estado','!=',0)->get();
 
         return view('felix.GestionarJustificaciones.indexJefe',compact('empleados','justificaciones'));
     }
 
     public function evaluarJustificacion($id){
         $arr = explode('*', $id);
-        $justificacion=RegistroJustificacion::find($arr[0]);
+        $justificacion=Justificacion::find($arr[0]);
         
         switch ($arr[1]) {
             case 1:

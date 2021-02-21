@@ -106,6 +106,19 @@
                             <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
                                     
                         </div>
+
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="ComboBoxSede">Aprobado por:</label>
+                        </div>
+                        <div class="col"> {{-- Combo box de sede --}}
+                            <input readonly  type="text" class="form-control" name="evaluador" id="evaluador" readonly value="{{$solicitud->getNombreEvaluador()}}">     
+                                    
+                        </div>
+
+
+
+
                     </div>
                 </div>
             </div>

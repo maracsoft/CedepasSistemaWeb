@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RegistroSolicitud extends Model
+class SolicitudFalta extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'registro_solicitud';
+    protected $table = 'solicitud_falta';
 
     protected $primaryKey = 'codRegistroSolicitud';
 

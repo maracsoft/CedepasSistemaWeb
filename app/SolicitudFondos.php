@@ -129,6 +129,9 @@ class SolicitudFondos extends Model
         }
         return $color;
     }
-
+    public function getNombreEvaluador(){
+        $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
+        return $ev->getNombreCompleto();
+    }
 
 }

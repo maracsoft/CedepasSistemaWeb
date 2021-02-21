@@ -68,14 +68,16 @@
               <tr>
                 <th width="7%" scope="col">Codigo Sol</th>
                 <th width="6%"  scope="col">Fecha emision</th>
-                <th width="6%"  scope="col">Sede</th>
-                <th width="10%"  scope="col">Empleado </th>
-                <th width="30%"  scope="col">Proyecto</th>
-                <th width="8%"  scope="col">Evaluador</th>
+                <th width="4%"  scope="col">Sede</th>
+                <th width="6%"  scope="col">Empleado </th>
+                <th width="25%"  scope="col">Proyecto</th>
+                <th width="10%"  scope="col">Evaluador</th>
                 
-                <th width="6%"  scope="col">Total Solicitado</th>
+                <th width="4%"  scope="col">Total Solicitado</th>
                 
                 <th width="6%"  scope="col">Fecha Revision</th>
+                <th width="10%"  scope="col">Estado</th>
+                
                 <th width="5%"  scope="col">Opciones</th>
                 
               </tr>
@@ -97,15 +99,45 @@
                 
           
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+
+                <td style="text-align: center">
+                  
+                  <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
+                  style="background-color: {{$itemSolicitud->getColorEstado()}};
+                          width:95%;
+                          text-align:center;
+                          color: {{$itemSolicitud->getColorLetrasEstado()}} ;
+                  ">
+               
+                 
+                
+
+                
+
+                </td>
                 <td>        
-                        
+                  
                          
-                        @if($itemSolicitud->codEstadoSolicitud == 2)   
-                        <a  class='btn btn-success' 
-                        href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
-                          Abonar <i class="fas fa-hand-holding-usd"></i>
-                        </a>
+                        @if($itemSolicitud->codEstadoSolicitud == 2) {{-- Si está aprobada (pa abonar) --}}   
+                          <a  class='btn btn-success' 
+                          href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                            Abonar <i class="fas fa-hand-holding-usd"></i>
+                          </a>
+                        @else{{-- si está rendida (pa verla nomas ) --}}
+                          <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
+                            <h1>
+                              <span class="red">S</span>
+                            </h1>
+                          </a>
+                        
+                          <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                            <h1>
+                              <span class="red">R</span>
+                            </h1>
+                          </a>
+                        
                         @endif
+
                     
                 </td>
 

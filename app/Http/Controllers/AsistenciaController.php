@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Empleado;
 use App\PeriodoEmpleado;
-use App\RegistroAsistencia;
+use App\Asistencia;
 use App\Turno;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+
 
 class AsistenciaController extends Controller
 {
@@ -20,8 +21,8 @@ class AsistenciaController extends Controller
 
         $empleado=Empleado::find($id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$empleado->codEmpleado)->where('activo','=',1)->get();//agregar parametro que solo tome el contrato activo
-        //$asistencias=$contratos[0]->registroAsistencia;
-        $asistencias=RegistroAsistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','!=',date('y-m-d'))->get();
+        //$asistencias=$contratos[0]->Asistencia;
+        $asistencias= Asistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','!=',date('y-m-d'))->get();
         foreach ($asistencias as $itemasistencia) {
             $itemasistencia->estado=2;
             $itemasistencia->save();
@@ -30,12 +31,12 @@ class AsistenciaController extends Controller
 
         //CREAR UN NUEVO REGISTRO DE ASISTENCIA (para hoy)
         //$fecha=new Date();
-        $evaluarAsistencias=RegistroAsistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','=',date('y-m-d'))->get();
+        $evaluarAsistencias=Asistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','=',date('y-m-d'))->get();
         $cont=0;
         foreach ($evaluarAsistencias as $item) {$cont+=1;}
         if ($cont==0) {
             //echo('entraaaaa');
-            $asistencia=new RegistroAsistencia();
+            $asistencia=new Asistencia();
             $asistencia->codPeriodoEmpleado=$contratos[0]->codPeriodoEmpleado;
             $asistencia->estado=1;
             $asistencia->fecha=date('y-m-d');
@@ -45,40 +46,40 @@ class AsistenciaController extends Controller
 
         $empleado=Empleado::find($id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$empleado->codEmpleado)->get();//agregar parametro que solo tome el contrato activo
-        $asistencias=$contratos[0]->registroAsistencia;
-        //$asistencias=RegistroAsistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','=',date('y-m-d'))->get();
+        $asistencias=$contratos[0]->Asistencia;
+        //$asistencias=Asistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->where('fecha','=',date('y-m-d'))->get();
         return view('felix.GestionarAsistencias.indexEmpleado',compact('asistencias'));
     }
 
     public function marcar($id){
         date_default_timezone_set('America/Lima');
         $arr = explode('*', $id);
-        $registroAsistencia=RegistroAsistencia::find($arr[0]);
+        $Asistencia=Asistencia::find($arr[0]);
         
         switch ($arr[1]) {
             case 1:
-                $registroAsistencia->fechaHoraEntrada=new DateTime();
-                //$registroAsistencia->fechaHoraEntrada->modify('-5 hours');
+                $Asistencia->fechaHoraEntrada=new DateTime();
+                //$Asistencia->fechaHoraEntrada->modify('-5 hours');
                 break;
             case 2:
-                $registroAsistencia->fechaHoraSalida=new DateTime();
-                //$registroAsistencia->fechaHoraSalida->modify('-5 hours');
+                $Asistencia->fechaHoraSalida=new DateTime();
+                //$Asistencia->fechaHoraSalida->modify('-5 hours');
                 # code...
                 break;
             case 3:
-                $registroAsistencia->fechaHoraEntrada2=new DateTime();
-                //$registroAsistencia->fechaHoraEntrada2->modify('-5 hours');
+                $Asistencia->fechaHoraEntrada2=new DateTime();
+                //$Asistencia->fechaHoraEntrada2->modify('-5 hours');
                 # code...
                 break;
             case 4:
-                $registroAsistencia->fechaHoraSalida2=new DateTime();
-                //$registroAsistencia->fechaHoraSalida2->modify('-5 hours');
+                $Asistencia->fechaHoraSalida2=new DateTime();
+                //$Asistencia->fechaHoraSalida2->modify('-5 hours');
                 # code...
                 break;
         }
-        $registroAsistencia->save();
+        $Asistencia->save();
         
-        return redirect('/marcarAsistencia/'.$registroAsistencia->periodoEmpleado->empleado->codEmpleado);
+        return redirect('/marcarAsistencia/'.$Asistencia->periodoEmpleado->empleado->codEmpleado);
     }
 
 
@@ -98,7 +99,7 @@ class AsistenciaController extends Controller
     public function filtroAsistencia(Request $request,$id){
         $arr = explode('*', $id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$arr[0])->where('activo','=',1)->get();
-        $asistencias=RegistroAsistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->get();
+        $asistencias=Asistencia::where('codPeriodoEmpleado','=',$contratos[0]->codPeriodoEmpleado)->get();
 
         foreach ($asistencias as $item) {
             if(!is_null($item->fechaHoraEntrada)) $item->fechaHoraEntrada=date('H:i:s', strtotime($item->fechaHoraEntrada));

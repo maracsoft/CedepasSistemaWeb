@@ -25,15 +25,11 @@
                 alert("Ingrese la descripcion");
                 $("#descripcion").focus();
             }
-            else if (document.getElementById("certificado").value == ""){
-                alert("Adjunte el documento");
-                $("#certificado").focus();
-            }
             else if (document.getElementById("fechaInicio").value == ""){
                 alert("Ingrese fecha de inicio");
                 $("#fechaInicio").focus();
             }
-            else if (document.getElementById("fechaFin").value == "")){
+            else if (document.getElementById("fechaFin").value == ""){
                 alert("Ingrese fecha de Fin");
                 $("#fechaFin").focus();
             }

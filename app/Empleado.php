@@ -49,6 +49,9 @@ class Empleado extends Model
         }
         return $empleados[0]; 
     }
+
+
+    
     public function usuario(){
 
         try{

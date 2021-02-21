@@ -503,16 +503,14 @@ class ComposerStaticInit3450147d2cb14498ddb590a6a9c14cd4
     public static $classMap = array (
         'App\\Banco' => __DIR__ . '/../..' . '/app/Banco.php',
         'App\\CDP' => __DIR__ . '/../..' . '/app/CDP.php',
-        'App\\CabeceraVenta' => __DIR__ . '/../..' . '/app/ModelosGUIA/CabeceraVenta.php',
-        'App\\Caja' => __DIR__ . '/../..' . '/app/ModelosGUIA/Caja.php',
-        'App\\Categoria' => __DIR__ . '/../..' . '/app/ModelosGUIA/Categoria.php',
-        'App\\Cliente' => __DIR__ . '/../..' . '/app/ModelosGUIA/Cliente.php',
+      
+       
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
-        'App\\DetalleOrden' => __DIR__ . '/../..' . '/app/ModelosGUIA/DetalleOrden.php',
+      
         'App\\DetalleRendicionGastos' => __DIR__ . '/../..' . '/app/DetalleRendicionGastos.php',
         'App\\DetalleSolicitudFondos' => __DIR__ . '/../..' . '/app/DetalleSolicitudFondos.php',
         'App\\Empleado' => __DIR__ . '/../..' . '/app/Empleado.php',
-        'App\\EstadoOrden' => __DIR__ . '/../..' . '/app/ModelosGUIA/EstadoOrden.php',
+       
         'App\\EstadoSolicitudFondos' => __DIR__ . '/../..' . '/app/EstadoSolicitudFondos.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\CabeceraVentaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/CabeceraVentaController.php',
@@ -535,11 +533,7 @@ class ComposerStaticInit3450147d2cb14498ddb590a6a9c14cd4
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
-        'App\\MacroCategoria' => __DIR__ . '/../..' . '/app/ModelosGUIA/MacroCategoria.php',
-        'App\\Mesa' => __DIR__ . '/../..' . '/app/ModelosGUIA/Mesa.php',
-        'App\\Orden' => __DIR__ . '/../..' . '/app/ModelosGUIA/Orden.php',
-        'App\\Parametro' => __DIR__ . '/../..' . '/app/ModelosGUIA/Parametro.php',
-        'App\\Producto' => __DIR__ . '/../..' . '/app/ModelosGUIA/Producto.php',
+       
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -547,11 +541,10 @@ class ComposerStaticInit3450147d2cb14498ddb590a6a9c14cd4
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Proyecto' => __DIR__ . '/../..' . '/app/Proyecto.php',
         'App\\RendicionGastos' => __DIR__ . '/../..' . '/app/RendicionGastos.php',
-        'App\\Sala' => __DIR__ . '/../..' . '/app/ModelosGUIA/Sala.php',
+       
         'App\\Sede' => __DIR__ . '/../..' . '/app/Sede.php',
         'App\\SolicitudFondos' => __DIR__ . '/../..' . '/app/SolicitudFondos.php',
-        'App\\Tipo' => __DIR__ . '/../..' . '/app/ModelosGUIA/Tipo.php',
-        'App\\Unidad' => __DIR__ . '/../..' . '/app/ModelosGUIA/Unidad.php',
+
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',

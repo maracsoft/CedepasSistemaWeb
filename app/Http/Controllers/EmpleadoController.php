@@ -81,7 +81,7 @@ class EmpleadoController extends Controller
         //Usuario
         //$usuario=new User();
         $empleado=Empleado::find($request->codEmpleado);
-        $usuario=$empleado->usuario;
+        $usuario=$empleado->usuario();
         $usuario->usuario=$request->usuario;
         $usuario->password=hash::make($request->contraseña);
         //$usuario->isAdmin=0;

@@ -8,16 +8,13 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Banco' => $baseDir . '/app/Banco.php',
     'App\\CDP' => $baseDir . '/app/CDP.php',
-    'App\\CabeceraVenta' => $baseDir . '/app/ModelosGUIA/CabeceraVenta.php',
-    'App\\Caja' => $baseDir . '/app/ModelosGUIA/Caja.php',
-    'App\\Categoria' => $baseDir . '/app/ModelosGUIA/Categoria.php',
-    'App\\Cliente' => $baseDir . '/app/ModelosGUIA/Cliente.php',
+   
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
-    'App\\DetalleOrden' => $baseDir . '/app/ModelosGUIA/DetalleOrden.php',
+
     'App\\DetalleRendicionGastos' => $baseDir . '/app/DetalleRendicionGastos.php',
     'App\\DetalleSolicitudFondos' => $baseDir . '/app/DetalleSolicitudFondos.php',
     'App\\Empleado' => $baseDir . '/app/Empleado.php',
-    'App\\EstadoOrden' => $baseDir . '/app/ModelosGUIA/EstadoOrden.php',
+   
     'App\\EstadoSolicitudFondos' => $baseDir . '/app/EstadoSolicitudFondos.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\CabeceraVentaController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/CabeceraVentaController.php',
@@ -40,11 +37,7 @@ return array(
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
-    'App\\MacroCategoria' => $baseDir . '/app/ModelosGUIA/MacroCategoria.php',
-    'App\\Mesa' => $baseDir . '/app/ModelosGUIA/Mesa.php',
-    'App\\Orden' => $baseDir . '/app/ModelosGUIA/Orden.php',
-    'App\\Parametro' => $baseDir . '/app/ModelosGUIA/Parametro.php',
-    'App\\Producto' => $baseDir . '/app/ModelosGUIA/Producto.php',
+    
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
@@ -52,11 +45,10 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Proyecto' => $baseDir . '/app/Proyecto.php',
     'App\\RendicionGastos' => $baseDir . '/app/RendicionGastos.php',
-    'App\\Sala' => $baseDir . '/app/ModelosGUIA/Sala.php',
+    
     'App\\Sede' => $baseDir . '/app/Sede.php',
     'App\\SolicitudFondos' => $baseDir . '/app/SolicitudFondos.php',
-    'App\\Tipo' => $baseDir . '/app/ModelosGUIA/Tipo.php',
-    'App\\Unidad' => $baseDir . '/app/ModelosGUIA/Unidad.php',
+  
     'App\\User' => $baseDir . '/app/User.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
     'Asm89\\Stack\\CorsService' => $vendorDir . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',

@@ -204,28 +204,28 @@
             <ul class="nav nav-treeview">
               <?php 
               $cont=0;
-              /* $contratos=Auth::user()->empleado->periodoEmpleado;
+              $contratos=App\Empleado::getEmpleadoLogeado()->periodoEmpleado;
               foreach ($contratos as $itemcontrato) {
                 if($itemcontrato->activo==1 && $itemcontrato->asistencia==1){
                   $cont+=1;
                 }
-              } */
+              }
               ?>
               @if($cont>0)
                 <li class="nav-item">
-                  <a href="/marcarAsistencia/{{Auth::user()->empleado->codEmpleado}}" class="nav-link">
+                  <a href="/marcarAsistencia/{{App\Empleado::getEmpleadoLogeado()->codEmpleado}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Asistencia</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/listarSolicitudes/{{Auth::user()->empleado->codEmpleado}}" class="nav-link">
+                  <a href="/listarSolicitudes/{{App\Empleado::getEmpleadoLogeado()->codEmpleado}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Solicitudes</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/listarJustificaciones/{{Auth::user()->empleado->codEmpleado}}o" class="nav-link">
+                  <a href="/listarJustificaciones/{{App\Empleado::getEmpleadoLogeado()->codEmpleado}}o" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Justificaciones</p>
                   </a>
@@ -247,6 +247,48 @@
               
             </ul>
           </li>
+
+
+          
+
+
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-building nav-icon"></i>
+              <p>
+                Asistencia Contable
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              
+              
+              <li class="nav-item">
+                <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Admin periodos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('resp.verPeriodo')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mi periodo</p>
+                </a>
+              </li>
+              
+            
+
+              
+
+
+            </ul>
+
+
+
+          </li>
+
           <li class="nav-item">
             <a href="{{route('user.cerrarSesion')}}" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>
@@ -255,6 +297,7 @@
               </p>
             </a>
           </li>
+
         </ul>
       </nav>
 

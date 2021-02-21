@@ -8,7 +8,7 @@
 
 @section('contenido')
 
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $('#codTipoTurno').change(function(){
@@ -17,7 +17,7 @@
             //alert(codigo);
             var horaInicio1 = '<label class="col-sm-2 col-form-label" style="margin-left:350px;">Hora Inicio (MAÑANA):</label><div class="col-sm-3"><input type="time" class="form-control" id="horaInicioInput" name="horaInicioInput" ></div>';
             var horaFin1 = '<label class="col-sm-2 col-form-label" style="margin-left:350px;">Hora Fin (MAÑANA):</label><div class="col-sm-3"><input type="time" class="form-control" id="horaFinInput" name="horaFinInput" ></div>';
-            var horaInicio2 = '<label class="col-sm-2 col-form-label" style="margin-left:350px;">Hora Inicio (TARDE):</label><div class="col-sm-3"><input type="time" class="form-control" id="horaInicio2Input" name="horaInhoraInicio2Inputicio2" ></div>';
+            var horaInicio2 = '<label class="col-sm-2 col-form-label" style="margin-left:350px;">Hora Inicio (TARDE):</label><div class="col-sm-3"><input type="time" class="form-control" id="horaInicio2Input" name="horaInicio2Input" ></div>';
             var horaFin2 = '<label class="col-sm-2 col-form-label" style="margin-left:350px;">Hora Fin (TARDE):</label><div class="col-sm-3"><input type="time" class="form-control" id="horaFin2Input" name="horaFin2Input" ></div>';
 
             switch (codigo) {

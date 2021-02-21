@@ -36,12 +36,14 @@ class UserController extends Controller
                         // Preguntamos si es admin o no
                     if($usuario=='admin')
                     {
+
+                        //SI INGRESÓ EL ADMIN 
                         if(Auth::attempt($request->only('usuario','password'))) //este attempt es para que el Auth se inicie
-                            return view('bienvenido');
+                            return view('bienvenido'); 
                     }//si es user normal
                     else{
                         if(Auth::attempt($request->only('usuario','password')))
-                        return redirect()->route('empresa.index','0');
+                            return view('bienvenido');
     
                     }
                     

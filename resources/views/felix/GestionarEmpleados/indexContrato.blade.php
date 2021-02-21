@@ -33,7 +33,7 @@
                 <td>{{$itemcontrato->tipoContrato->nombre}}</td>
                 
                 @if($itemcontrato->codTipoContrato==1)
-                <td>{{$itemcontrato->nombre}}</td>
+                <td>{{$itemcontrato->nombreProyecto}}</td>
                 @else
                 <td>{{$itemcontrato->motivo}}</td>
                 @endif
