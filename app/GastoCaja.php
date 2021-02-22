@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class GastoCaja extends Model
 {
     protected $table = "gasto_caja";
-    protected $primaryKey ="codGasto";
+    protected $primaryKey ="codGastoPeriodo";
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codPeriodoCaja','concepto','monto','codEmpleadoDestino'
-        ,'codTipoCDP','terminacionArchivo','nroEnPeriodo','codigoPresupuestal'];
+    protected $fillable = ['codPeriodoCaja','fechaComprobante','concepto','monto','codEmpleadoDestino'
+        ,'codTipoCDP','terminacionArchivo','nroEnPeriodo','codigoPresupuestal','nroCDP'];
     
 
     public function getNombreCajero(){

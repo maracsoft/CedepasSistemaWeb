@@ -17,9 +17,15 @@ class PeriodoCaja extends Model
 
     // le indicamos los campos de la tabla 
     protected $fillable = ['fechaInicio','fechaFinal','codCaja'
-        ,'montoApertura','montoFinal','codEmpleadoCajero','justificacion','codEstado'];
+        ,'montoApertura','montoFinal','codEmpleadoCajero','justificacion',
+            'codEstado'];
     
 
+    public function cantidadGastos(){
+        $i = 0;
+        $lista = GastoCaja::where('codPeriodoCaja','=',$this->codPeriodoCaja)->get();
+        return count($lista);
+    }
     public function getSede(){
         
         $caja = Caja::findOrFail(2);

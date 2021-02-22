@@ -108,7 +108,7 @@ class RendicionFondosController extends Controller
 
 
                 //               CDP-   000002                           -   5   .  jpg
-                $nombreImagen = 'CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                $nombreImagen = 'RF-CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
                 $archivo =  $request->file('imagen'.$i);
                 $fileget = \File::get( $archivo );
                 Storage::disk('comprobantes')
@@ -158,7 +158,7 @@ class RendicionFondosController extends Controller
     //se le pasa el codigo del detalle rendicion
     function descargarCDPDetalle($id ){
         $rend = DetalleRendicionGastos::findOrFail($id);
-        $nombreArchivo = 'CDP-'.
+        $nombreArchivo = 'RF-CDP-'.
             $this->rellernarCerosIzq( $rend->codRendicionGastos,6 )
             .'-'.
             $this->rellernarCerosIzq($rend->nroEnRendicion,2).'.'.$rend->terminacionArchivo;

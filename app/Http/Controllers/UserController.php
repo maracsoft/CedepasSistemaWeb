@@ -11,7 +11,7 @@ class UserController extends Controller
     public function login(Request $request)
     {
        /*  return $request; */
-        error_log('aaaaaaaa ');
+        //error_log('aaaaaaaa ');
         $data=$request->validate([
             'usuario'=>'required',
             'password'=>'required'

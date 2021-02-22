@@ -8,7 +8,15 @@
 <div class="container">
 <h1>MANEJO DE CAJA CHICA</h1>
     <div class="row mt-2">
-       
+        @if (session('datos'))
+        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+            {{session('datos')}}
+          <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+              <span aria-hidden="true"> &times;</span>
+          </button>
+          
+        </div>
+      @ENDIF   
     <div class="col-6">
         <div class="form-group row">
             <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Inicio del Periodo</label>
@@ -74,8 +82,8 @@
             <div class="col-sm-4" >
             </div>
             <div class="col-sm-8" >
-            <a href=" " class="btn btn-danger"><i class="fas fa-receipt"></i> Liquidar</button></a>
-            <a href="" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Gasto</button></a>
+            <a href="{{route('resp.verLiquidarPeriodo',$periodo->codPeriodoCaja)}}" class="btn btn-danger"><i class="fas fa-receipt"></i> Liquidar</button></a>
+            <a href="{{route('resp.registrarGasto')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Gasto</button></a>
 
             </div>
         </div>
@@ -87,6 +95,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th scope="col">Item</th>
                 <th scope="col">Fecha CDP</th>
                 <th scope="col">Tipo CDP</th>
                 <th scope="col">N° CDP</th>
@@ -94,6 +103,7 @@
                 <th scope="col">Monto</th>
                 <th scope="col">codigo Presupuestal</th>
                 <th scope="col">nombre Empleado destino</th>
+                <th scope="col">CDP</th>
                 
             </tr>
         </thead>
@@ -101,7 +111,8 @@
 
             @foreach($listaGastos as $itemGasto)
             <tr>
-                <td>{{$itemGasto->fechaCDP}}</td>
+                <th>{{$itemGasto->nroEnPeriodo}}</th>
+                <td>{{$itemGasto->fechaComprobante}}</td>
                 <td>{{$itemGasto->getNombreTipoCDP()}}</td>
                 <td>{{$itemGasto->nroCDP}}</td>
                
@@ -110,7 +121,12 @@
                 <td>{{$itemGasto->monto}} </td>
                 <td>{{$itemGasto->codigoPresupuestal}}</td>
                 <td>{{$itemGasto->getNombreEmpleadoDestino()}}</td>
-                
+                <td style="text-align: center">
+                    <a target="_blank"  href="{{route('gasto.descargarCDP',$itemGasto->codGastoPeriodo)}}" 
+                        class='btn btn-primary'>
+                        <i class="fas fa-download"></i>
+                    </a>   
+                </td>
             </tr>
             @endforeach
 

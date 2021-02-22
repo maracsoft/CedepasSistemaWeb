@@ -85,7 +85,7 @@
           
 
           
-          
+          <li class="nav-header">VIGO</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -153,6 +153,82 @@
           </li>
 
           
+
+
+          
+
+
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-building nav-icon"></i>
+              <p>
+                Asistencia Contable
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              
+              
+              <li class="nav-item">
+                <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Admin periodos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('resp.verPeriodo')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mi periodo</p>
+                </a>
+              </li>
+              
+            
+
+              
+
+
+            </ul>
+
+
+
+          </li>
+
+          <li class="nav-header">RENZO</li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-building nav-icon"></i>
+              <p>
+                Gestión de Inventario
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{URL::to('/gestionInventario')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestión de Revisiones</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{URL::to('/activos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gestión de Activos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+
+
+
+
+          <li class="nav-header">MARSKY</li>
+
+          <li class="nav-header">FELIX</li>
           @if(Auth::user()->isAdmin == 0)
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
@@ -246,47 +322,6 @@
 
               
             </ul>
-          </li>
-
-
-          
-
-
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="far fa-building nav-icon"></i>
-              <p>
-                Asistencia Contable
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-            <ul class="nav nav-treeview">
-              
-              
-              <li class="nav-item">
-                <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Admin periodos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('resp.verPeriodo')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mi periodo</p>
-                </a>
-              </li>
-              
-            
-
-              
-
-
-            </ul>
-
-
-
           </li>
 
           <li class="nav-item">

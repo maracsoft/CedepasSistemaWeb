@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
+Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
 
 
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
@@ -185,11 +185,34 @@ Route::get('/CC/admin/revisar/{id}','PeriodoCajaController@verRevisarPeriodo')->
 Route::get('/CC/admin/listarPeriodos/','PeriodoCajaController@listarPeriodosActuales')->name('admin.listaPeriodos');
 
 Route::get('/CC/resp/periodo','PeriodoCajaController@verPeriodoCajaParaResp')->name('resp.verPeriodo');
-Route::get('/CC/resp/registrarGasto','PeriodoCajaController@verRegistrarGasto')->name('resp.registrarGasto');
-Route::get('/CC/resp/liquidarCaja','PeriodoCajaController@verLiquidar')->name('resp.liquidarPeriodo');
+Route::get('/CC/resp/registrarGasto','PeriodoCajaController@verRegistrarGasto')
+    ->name('resp.registrarGasto');
+
+Route::get('/CC/resp/verLiquidarCaja/{id}','PeriodoCajaController@verLiquidar')
+    ->name('resp.verLiquidarPeriodo');
+
+Route::get('/CC/resp/descargarCDP/{id}','GastoCajaController@descargarCDP')
+    ->name('gasto.descargarCDP');
+
+
+Route::post('/CC/resp/liquidarPeriodo/','PeriodoCajaController@liquidar')
+    ->name('resp.liquidarPeriodo');
+
+
+Route::post('/CC/resp/gastoNuevo','GastoCajaController@store')->name('gasto.store');
+
+Route::get('/CC/resp/verAperturarPeriodo/','PeriodoCajaController@verAperturarPeriodo')
+    ->name('resp.verAperturarPeriodo');
 
 
 
+/* --------------------------------------- MODULO RENZO -------------------------------------------------- */
+
+//Route::get('/gestionInventario/agregar','gestionInventarioController@agregar')->name('gestionInventario.agregar');
+//Route::get('/gestionInventario/editar','gestionInventarioController@editar')->name('gestionInventario.editar');
+
+//Route::get('/activos/editar','ActivoController@editar')->name('activos.editar');
 
 
-
+Route::resource('gestionInventario', GestionInventarioController::class);
+Route::resource('activos', ActivoController::class);
