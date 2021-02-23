@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Activo;
 use App\CategoriaActivo;
 use App\DetalleRendicionGastos;
+use App\Empleado;
 use App\EstadoActivo;
 use App\Proyecto;
+use App\Revision;
 use App\RevisionDetalle;
 use App\Sede;
 use Illuminate\Http\Request;
@@ -35,7 +37,8 @@ class ActivoController extends Controller
         $sedes=Sede::all();
         $estados=EstadoActivo::all();
         $proyectos=Proyecto::where('codProyecto','!=',0)->get();
-        return view('renzo.activos.agregar',compact('categoria','sedes','estados','proyectos'));
+        $empleados=Empleado::where('activo','!=',0)->get();
+        return view('renzo.activos.agregar',compact('categoria','sedes','estados','proyectos','empleados'));
     }
 
     /**
@@ -48,13 +51,26 @@ class ActivoController extends Controller
     {
         $activo=new Activo();
         $activo->codProyectoDestino=$request->codProyectoDestino;
+        $activo->codEmpleadoResponsable=$request->codEmpleadoResponsable;
         $activo->nombreDelBien=$request->nombre;
         $activo->caracteristicas=$request->caracteristicas;
         $activo->codCategoriaActivo=$request->codCategoriaActivo;
         $activo->codSede=$request->codSede;
         $activo->placa=$request->placa;
         $activo->codEstado=1;
+        $activo->activo=1;
         $activo->save();
+
+        $revisiones=Revision::all();
+        foreach ($revisiones as $itemrevision) {
+            if(is_null($itemrevision->fechaHoraCierre)){
+                $detalle=new RevisionDetalle();
+                $detalle->codRevision=$itemrevision->codRevision;
+                $detalle->codActivo=$activo->codActivo;
+                $detalle->codEstado=1;
+                $detalle->save();
+            }
+        }
 
         return redirect()->route('activos.index')->with('datos','Registro nuevo guardado');
     }
@@ -83,7 +99,8 @@ class ActivoController extends Controller
         $sedes=Sede::all();
         $estados=EstadoActivo::all();
         $proyectos=Proyecto::where('codProyecto','!=',0)->get();
-        return view('renzo.activos.editar',compact('categoria','sedes','estados','proyectos','activo'));
+        $empleados=Empleado::where('activo','!=',0)->get();
+        return view('renzo.activos.editar',compact('categoria','sedes','estados','proyectos','activo','empleados'));
     }
 
     /**
@@ -97,6 +114,7 @@ class ActivoController extends Controller
     {
         $activo=Activo::find($id);
         $activo->codProyectoDestino=$request->codProyectoDestino;
+        $activo->codEmpleadoResponsable=$request->codEmpleadoResponsable;
         $activo->nombreDelBien=$request->nombre;
         $activo->caracteristicas=$request->caracteristicas;
         $activo->codCategoriaActivo=$request->codCategoriaActivo;
@@ -115,6 +133,15 @@ class ActivoController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+
+
+    public function mostrarActivos()
+    {
+        $estados=array(2,3,4);
+        $activos=Activo::whereIn('codEstado',$estados)->get();
+        return view('renzo.activos.mostrarActivos',compact('activos'));
     }
 }
 

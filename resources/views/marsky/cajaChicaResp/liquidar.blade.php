@@ -59,12 +59,12 @@
                 ></textarea>
             </div>
         </div>
-    
+        
         <div class="form-group row">
             <div class="col-sm-4" >
             </div>
             <div class="col-sm-8" >
-            <a href="{{route('resp.verPeriodo')}}" class="btn btn-danger"><i class="fas fa-undo"></i> Regresar</button></a>
+            <a href="{{route('resp.verPeriodo',$periodo->codPeriodoCaja)}}" class="btn btn-danger"><i class="fas fa-undo"></i> Regresar</button></a>
             <button type="submit"  class="btn btn-primary"><i class="fas fa-save"></i>  Cerrar Periodo y Solicitar Reposición</button></button>
             </div>
             </div>

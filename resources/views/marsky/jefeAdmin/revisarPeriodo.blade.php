@@ -14,12 +14,10 @@
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Inicio del Periodo</label>
                 <div class="col-sm-4">
                     <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fecha" id="fecha"
-                                value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
+                        <div class="input-group date form_date ">
+                            <input type="text"  class="form-control" name="fecha" id="fecha" readonly
+                                value="{{$periodo->fechaInicio}}" style="text-align:center;">
+                            
                         </div>
                     </div>
                 </div>
@@ -28,12 +26,10 @@
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Final del Periodo</label>
                 <div class="col-sm-4">
                     <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fecha" id="fecha"
-                                value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
+                        <div class="input-group date form_date " >
+                            <input type="text"  class="form-control" name="fecha" id="fecha" readonly
+                                value="{{$periodo->fechaFinal}}" style="text-align:center;">
+                            
                         </div>
                     </div>
                 </div>
@@ -43,9 +39,10 @@
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Porcentaje de Gasto</label>
                 <div class="col-sm-6">
                     <input
-                        type="porcentajeGasto"
+                        name="porcentajeGasto" readonly
                         class="form-control"
                         id="porcentajeGasto"
+                        value="{{$periodo->getPorcentaje()}} %"
                         placeholder="Porcentaje de Gasto"
                     />
                 </div>
@@ -53,10 +50,7 @@
             <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Encargado</label>
                 <div class="col-sm-6">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Maricielo Rodriguez</option>
-                        <option>Renzo Franco</option>
-                    </select>
+                    <input type="text" readonly class="form-control" value="{{$periodo->getCajero()->getNombreCompleto()}}">
                 </div>
             </div>
         </div>
@@ -66,9 +60,10 @@
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Monto de Apertura</label>
                 <div class="col-sm-6">
                     <input
-                        type="montoApertura"
-                        class="form-control"
+                        name="montoApertura" 
+                        class="form-control" readonly
                         id="montoApertura"
+                        value="{{$periodo->montoApertura}}"
                         placeholder="Monto de apertura"
                     />
                 </div>
@@ -78,32 +73,47 @@
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Monto Actual</label>
                 <div class="col-sm-6">
                     <input
-                        type="montoActual"
-                        class="form-control"
-                        id="montoActual"
+                    name="montoActual"
+                        class="form-control" 
+                        id="montoActual" readonly
+                        value="{{$periodo->montoFinal}}"
                         placeholder="Monto Actual"
                     />
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="" class="col-sm-4 col-form-label">Estado</label>
+                <div class="col-sm-6">
+                    <input
+                    name="montoActual"
+                        class="form-control" readonly
+                        id="montoActual"
+                        value="{{$periodo->getNombreEstado()}}"
+                        placeholder="Monto Actual"
+                    />
+                </div>
+            </div>
+            @if($periodo->codEstado!='1')
             <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-4 col-form-label">Justificacion</label>
                 <div class="col-sm-6">
                     <div class="input-group">
                         <textarea
                             class="form-control"
-                            aria-label="With textarea"
-                        ></textarea>
+                            aria-label="With textarea" readonly
+                        >{{$periodo->justificacion}}</textarea>
                     </div>
                 </div>
             </div>
-
+            
         
     
             <div class="form-group row">
                 <div class="col-sm-6" >
-                    <a href="" class="btn btn-primary"><i class="fas fa-check"></i>Aprobar solicitud</button></a>
+                    <a href="{{route('admin.periodoCaja.reponer',$periodo->codPeriodoCaja)}}" class="btn btn-primary"><i class="fas fa-check"></i>Aprobar solicitud</button></a>
                 </div>
             </div>
+            @endif
         </div>
 
     </div>
@@ -112,25 +122,41 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">N° Comprobante</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Fecha CDP</th>
+                    <th scope="col">Tipo CDP</th>
+                    <th scope="col">N° CDP</th>
                     <th scope="col">Concepto</th>
-                    <th scope="col">Importe</th>
-                    <th scope="col">cod. Pres.</th>
-                    <th scope="col">nombre Empleado</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">codigo Presupuestal</th>
+                    <th scope="col">nombre Empleado destino</th>
+                    <th scope="col">CDP</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach($listaGastos as $itemGasto)
                 <tr>
-                    <th scope="row">01/01/2021</th>
-                    <td>Fact</td>
-                    <td>F001-2578</td>
-                <td>Combustible camion </td>
-                <td>90.00 </td>
-                <td>5410403</td>
-                <td>Renzo Junior</td>
+                    <th>{{$itemGasto->nroEnPeriodo}}</th>
+                    <td>{{$itemGasto->fechaComprobante}}</td>
+                    <td>{{$itemGasto->getNombreTipoCDP()}}</td>
+                    <td>{{$itemGasto->nroCDP}}</td>
+                   
+                    <td>{{$itemGasto->concepto}}</td>
+                    
+                    <td>{{$itemGasto->monto}} </td>
+                    <td>{{$itemGasto->codigoPresupuestal}}</td>
+                    <td>{{$itemGasto->getNombreEmpleadoDestino()}}</td>
+                    <td style="text-align: center">
+                        <a target="_blank"  href="{{route('gasto.descargarCDP',$itemGasto->codGastoPeriodo)}}" 
+                            class='btn btn-primary'>
+                            <i class="fas fa-download"></i>
+                        </a>   
+                    </td>
                 </tr>
+                @endforeach
+
+
+
             </tbody>
         </table>
     <div>

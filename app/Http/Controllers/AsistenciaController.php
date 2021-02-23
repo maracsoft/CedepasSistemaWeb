@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Empleado;
 use App\PeriodoEmpleado;
 use App\Asistencia;
+use App\Sede;
 use App\Turno;
 use DateTime;
 use Illuminate\Http\Request;
@@ -96,6 +97,7 @@ class AsistenciaController extends Controller
         return view('felix.GestionarAsistencias.indexJefe',compact('empleados'));
     }
 
+    
     public function filtroAsistencia(Request $request,$id){
         $arr = explode('*', $id);
         $contratos=PeriodoEmpleado::where('codEmpleado','=',$arr[0])->where('activo','=',1)->get();

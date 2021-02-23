@@ -39,11 +39,21 @@
         </div>
 
         <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label">Proyecto</label>
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Proyecto:</label>
             <div class="col-sm-6">
                 <select class="form-control" id="codProyectoDestino" name="codProyectoDestino">
                     @foreach($proyectos as $itemproyecto)
                         <option value="{{$itemproyecto->codProyecto}}">{{$itemproyecto->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Responsable:</label>
+            <div class="col-sm-6">
+                <select class="form-control" id="codEmpleadoResponsable" name="codEmpleadoResponsable">
+                    @foreach($empleados as $itemempleado)
+                        <option value="{{$itemempleado->codEmpleado}}">{{$itemempleado->apellidos}}, {{$itemempleado->nombres}}</option>
                     @endforeach
                 </select>
             </div>

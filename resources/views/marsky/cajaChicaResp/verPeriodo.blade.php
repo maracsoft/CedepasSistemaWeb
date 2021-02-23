@@ -78,6 +78,9 @@
             </div>
         </div>
 
+        @if($periodo->codEstado=='1')
+            
+        
         <div class="form-group row">
             <div class="col-sm-4" >
             </div>
@@ -87,6 +90,9 @@
 
             </div>
         </div>
+        @endif
+
+
     </div>
     </div>
     <br>

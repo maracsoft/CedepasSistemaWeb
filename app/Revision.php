@@ -24,4 +24,42 @@ class Revision extends Model
         $empleado=Empleado::find($this->codEmpleadoResponsable);
         return $empleado;
     }
+    
+    function parametros(){
+        $cantNoRevisado=0;
+        $contDisponible=0;
+        $contNoHabido=0;
+        $contDeteriorado=0;
+        $contDonado=0;
+
+        $detalles=RevisionDetalle::where('codRevision','=',$this->codRevision)->get();
+        foreach ($detalles as $itemdetalle) {
+            switch ($itemdetalle->codEstado) {
+                case '0':
+                    $cantNoRevisado++;
+                    break;
+                case '1':
+                    $contDisponible++;
+                    break;
+                case '2':
+                    $contNoHabido++;
+                    break;
+                case '3':
+                    $contDeteriorado++;
+                    break;
+                case '4':
+                    $contDonado++;
+                    break;
+            }
+        }
+        $total=$cantNoRevisado+$contDisponible+$contNoHabido+$contDeteriorado+$contDonado;
+
+        $cantNoRevisado=(float)$cantNoRevisado/$total*100;
+        $contDisponible=(float)$contDisponible/$total*100;
+        $contNoHabido=(float)$contNoHabido/$total*100;
+        $contDeteriorado=(float)$contDeteriorado/$total*100;
+        $contDonado=(float)$contDonado/$total*100;
+
+        return array($cantNoRevisado,$contDisponible,$contNoHabido,$contDeteriorado,$contDonado);
+    }
 }

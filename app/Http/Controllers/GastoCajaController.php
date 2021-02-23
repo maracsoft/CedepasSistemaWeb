@@ -7,7 +7,7 @@ use App\PeriodoCaja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use App\Caja;
 class GastoCajaController extends Controller
 {
     
@@ -18,7 +18,7 @@ class GastoCajaController extends Controller
             DB::beginTransaction();
 
             $gasto = new GastoCaja();
-
+            
             
             $gasto->fechaComprobante = $request->fechaComprobante;
             $gasto->codPeriodoCaja = $request->codPeriodo;
@@ -31,7 +31,12 @@ class GastoCajaController extends Controller
 
            
             $periodo = PeriodoCaja::findOrFail($request->codPeriodo);
+            
+            $caja = Caja::findOrFail($periodo->codCaja);
 
+            $periodo->montoFinal = $periodo->montoFinal - $gasto->monto;
+            $caja->montoActual = $periodo->montoFinal;
+            
 
             $gasto->nroEnPeriodo = $periodo->cantidadGastos()+1;
             
@@ -51,6 +56,9 @@ class GastoCajaController extends Controller
             $fileget = \File::get( $archivo );
             
             $gasto->save();
+            $caja->save();
+            $periodo->save();
+
             Storage::disk('comprobantes')
             ->put(
                 $nombreImagen
@@ -59,7 +67,7 @@ class GastoCajaController extends Controller
 
             DB::commit();
 
-            return redirect()->route('resp.verPeriodo');
+            return redirect()->route('resp.verPeriodo',$periodo->codPeriodoCaja);
         }catch(\Throwable $th){
             error_log('
             

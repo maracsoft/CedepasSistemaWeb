@@ -2,12 +2,18 @@
 namespace App\Http\Controllers;
 
 use App\Activo;
+use App\CategoriaActivo;
 use App\Empleado;
+use App\EstadoActivo;
+use App\EstadoPeriodoCaja;
 use App\gestionInventario;
+use App\Proyecto;
 use App\Revision;
 use App\RevisionDetalle;
+use App\Sede;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GestionInventarioController extends Controller
 {
@@ -19,7 +25,11 @@ class GestionInventarioController extends Controller
     public function index()
     {
         $revisiones=Revision::all();
-        return view('renzo.gestionInventario.index',compact('revisiones'));
+        $band=1;
+        foreach ($revisiones as $itemrevision) {
+            if(is_null($itemrevision->fechaHoraCierre)){$band=0;}
+        }
+        return view('renzo.gestionInventario.index',compact('revisiones','band'));
     }
 
     /**
@@ -56,7 +66,7 @@ class GestionInventarioController extends Controller
             $detalle=new RevisionDetalle();
             $detalle->codRevision=$revision->codRevision;
             $detalle->codActivo=$itemactivo->codActivo;
-            $detalle->codEstado=1;
+            $detalle->codEstado=$itemactivo->codEstado;
             $detalle->save();
         }
 
@@ -71,7 +81,12 @@ class GestionInventarioController extends Controller
      */
     public function show($id)
     {
-        return view('renzo.gestionInventario.ver');
+        $sedes=Sede::all();
+        $detalles=Revision::find($id)->getDetalles();
+        $revision=Revision::find($id);
+        $proyectos=Proyecto::all();
+        $categorias=CategoriaActivo::all();
+        return view('renzo.gestionInventario.ver',compact('sedes','detalles','proyectos','categorias','revision'));
     }
 
     /**
@@ -109,9 +124,95 @@ class GestionInventarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        date_default_timezone_set('America/Lima');
+        $revision=Revision::find($id);
+        $revision->fechaHoraCierre=new DateTime();
+        $revision->save();
+
+        foreach ($revision->getDetalles() as $itemdetalle) {
+            $activo=Activo::find($itemdetalle->codActivo);
+            $activo->codEstado=$itemdetalle->codEstado;
+            $activo->save();
+        }
+
+
+        return redirect()->route('gestionInventario.index');
+    }
+
+
+
+    public function cambiarEstadoDetalle($id)
+    {
+        $arr = explode('*', $id);
+        $detalle=RevisionDetalle::find($arr[0]);
+        $detalle->codEstado=$arr[1];
+        $detalle->save();
+        /*
+        $activo=$detalle->getActivo();
+        $activo->codEstado=$arr[1];
+        $activo->save();
+        */
+        return redirect()->route('gestionInventario.show',$detalle->codRevision);
+    }
+
+
+
+    public function filtroDetalles($id){
+        $arr = explode('*', $id);
+        //agrega filtros a los activos, si estos filtros no son igual a cero
+        $cont=0;
+
+        //$filtro1=RevisionDetalle::where('codRevision','=',$arr[3]);
+
+        $filtro1=DB::TABLE('revision_detalle')->JOIN('activo', 'revision_detalle.codActivo', '=', 'activo.codActivo')
+        ->SELECT('revision_detalle.codRevisionDetalle as codRevisionDetalle', 'revision_detalle.codRevision as codRevision',  
+                    'revision_detalle.codActivo as codActivo','revision_detalle.codEstado as codEstado',  
+                    
+                    'activo.codProyectoDestino as codProyectoDestino','activo.nombreDelBien as nombreDelBien',
+                    'activo.caracteristicas as caracteristicas','activo.codCategoriaActivo as codCategoriaActivo',
+                    'activo.codSede as codSede','activo.placa as placa');
+
+
+        $filtro1=DB::TABLE('revision_detalle')
+        ->JOIN('revision','revision.codRevision','=','revision_detalle.codRevision')
+        ->JOIN('activo', 'revision_detalle.codActivo', '=', 'activo.codActivo')
+        ->SELECT('revision_detalle.codRevisionDetalle as codRevisionDetalle', 'revision_detalle.codRevision as codRevision',  
+                    'revision_detalle.codActivo as codActivo','revision_detalle.codEstado as codEstado',  
+                    
+                    'activo.codProyectoDestino as codProyectoDestino','activo.nombreDelBien as nombreDelBien',
+                    'activo.caracteristicas as caracteristicas','activo.codCategoriaActivo as codCategoriaActivo',
+                    'activo.codSede as codSede','activo.placa as placa','revision.fechaHoraCierre as isCerrado');
+
+        if($arr[0]!=0){
+            $filtro1=$filtro1->where('activo.codSede','=',$arr[0]);
+        }
+        if($arr[1]!=-1){
+            $filtro1=$filtro1->where('activo.codProyectoDestino','=',$arr[1]);
+        }
+        if($arr[2]!=0){
+            $filtro1=$filtro1->where('activo.codCategoriaActivo','=',$arr[2]);
+        }
+        $filtro1=$filtro1->where('revision.codRevision','=',$arr[3]);
+        $activos=$filtro1->get();
+
+        //$detalles=RevisionDetalle::where('codRevision','=',$arr[3])->get();
+
+
+
+        //$activos=$filtro1->get();
+        foreach ($activos as $itemactivo) {
+            $itemactivo->codSede=Sede::find($itemactivo->codSede)->nombre;
+            $itemactivo->codProyectoDestino=Proyecto::find($itemactivo->codProyectoDestino)->nombre;
+            $itemactivo->codCategoriaActivo=CategoriaActivo::find($itemactivo->codCategoriaActivo)->nombre;
+            $itemactivo->codEstado=EstadoActivo::find($itemactivo->codEstado)->nombre;
+            if(is_null($itemactivo->placa)){$itemactivo->placa='';}
+            if(is_null($itemactivo->isCerrado)){$itemactivo->isCerrado='';}
+        }
+        //$TEMP=Activo::where('codSede','=',$arr[0])->where('codProyectoDestino','=',$arr[1]);
+        //$activos=$TEMP->where('codCategoriaActivo','=',$arr[2])->get();
+        return response()->json(['activos'=>$activos]);
     }
 
 }

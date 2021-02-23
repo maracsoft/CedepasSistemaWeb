@@ -94,4 +94,36 @@ class Empleado extends Model
     }
 
 
+    //si es encargado de una caja, retorna el objeto de esa caja. Si no, retorna -1
+    public function getCaja(){
+        $cajas = Caja::where('codEmpleadoCajeroActual','=',$this->codEmpleado)->get();
+        if(count($cajas)==0)
+            return '-1';
+
+        $caja = $cajas[0];
+        return $caja;
+
+    }
+
+
+    /* Retorna el ultimo periodo de ese emp cajero, no importa su estado */
+    public function getPeriodoCaja(){
+        
+        
+        $listaPeriodos = PeriodoCaja::where('codEmpleadoCajero','=',$this->codEmpleado)
+        //->where('codEstado','=','1')
+        ->get();
+        
+        
+        if(count($listaPeriodos)==0){
+            return '-1';
+           
+        }
+        $periodo = $listaPeriodos[0];
+        return $periodo;
+
+
+    }
+
+
 }

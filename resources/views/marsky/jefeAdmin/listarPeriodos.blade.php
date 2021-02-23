@@ -2,7 +2,7 @@
 @section('contenido')
 <div class="container">
 
-<h1>MANEJO DE CAJA CHICA</h1>
+<h1>Listado de Periodos de todas las sedes.</h1>
     <div class="row mt-2">
        
     <div class="col-6">
@@ -11,15 +11,19 @@
         <div class="form-group row">
             <label for="inputEmail3" class="col-sm-4 col-form-label">Sede</label>
             <div class="col-sm-8">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Trujillo</option>
-                            <option>Cajamarca</option>
-                          </select>
+                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
+                    <option value="-1">-- Seleccionar --</option>
+                    @foreach($listaSedes as $itemSede)
+                        <option value="{{$itemSede['codSede']}}" >
+                            {{$itemSede->nombre}}
+                        </option>                                 
+                    @endforeach 
+                </select>   
 
             </div>
         </div>
         <div class="col-sm-4">
-            <a href=" " class="btn btn-primary"><i class="fas fa-plus"></i>Buscar</button></a>
+            <a href="" class="btn btn-primary"><i class="fas fa-plus"></i>Buscar</button></a>
         </div>
 
     </div>
@@ -44,7 +48,11 @@
         </thead>
         <tbody>
             @foreach($listaPeriodos as $itemPeriodo)
-            <tr>
+            <tr
+            @if($itemPeriodo->codEstado=='1')
+                style="background-color: aqua;"
+            @endif
+            >
 
                 <th scope="row">
                     {{$itemPeriodo->getSede()->nombre}}
@@ -76,7 +84,7 @@
                     
 
                 <td>
-                <a href="" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button></a>
+                <a href="{{route('admin.periodoCaja.revisar',$itemPeriodo->codPeriodoCaja)}}" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button></a>
                 </td>
             </tr>
             @endforeach

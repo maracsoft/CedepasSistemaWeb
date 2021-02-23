@@ -19,7 +19,7 @@
             <p>Sistema de Ventas & ABC</p>
         </div>
         <div class="content">                         
-            <form method="POST" action="{{route('user.login')}}">
+            <form method="POST" action="{{route('user.logearse')}}">
               @csrf  
                 <h4 class="form-title">Inicio de Sesión</h4>
                 <div class="form-group">

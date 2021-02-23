@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function login(Request $request)
+    public function logearse(Request $request)
     {
        /*  return $request; */
         //error_log('aaaaaaaa ');
@@ -39,11 +39,11 @@ class UserController extends Controller
 
                         //SI INGRESÓ EL ADMIN 
                         if(Auth::attempt($request->only('usuario','password'))) //este attempt es para que el Auth se inicie
-                            return view('bienvenido'); 
+                            return redirect()->route('user.home');
                     }//si es user normal
                     else{
                         if(Auth::attempt($request->only('usuario','password')))
-                            return view('bienvenido');
+                            return redirect()->route('user.home');
     
                     }
                     
@@ -71,6 +71,12 @@ class UserController extends Controller
         }
 
 
+        public function home(){
+            if(is_null(Auth::id()))
+                return redirect()->route('user.verLogin');
 
+            
+            return view('bienvenido');
+        }
 
 }

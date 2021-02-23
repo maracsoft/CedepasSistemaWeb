@@ -53,7 +53,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url('/bienvenido') }}" class="brand-link">
+    <a href="{{ route('user.home') }}" class="brand-link">
       <img src="/adminlte/dist/img/AdminLTELogo.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
@@ -159,41 +159,7 @@
 
 
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="far fa-building nav-icon"></i>
-              <p>
-                Asistencia Contable
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-
-            <ul class="nav nav-treeview">
-              
-              
-              <li class="nav-item">
-                <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Admin periodos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('resp.verPeriodo')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mi periodo</p>
-                </a>
-              </li>
-              
-            
-
-              
-
-
-            </ul>
-
-
-
-          </li>
+          
 
           <li class="nav-header">RENZO</li>
 
@@ -206,6 +172,12 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('activos.mostrarActivos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Actualizar Activos</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="{{URL::to('/gestionInventario')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -227,6 +199,50 @@
 
 
           <li class="nav-header">MARSKY</li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-building nav-icon"></i>
+              <p>
+                Asistencia Contable
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+
+            <ul class="nav nav-treeview">
+              
+              
+              <li class="nav-item">
+                <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Admin periodos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                
+                <a href="{{route('resp.verPeriodo',App\Empleado::getEmpleadoLogeado()->getPeriodoCaja())}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mi periodo actual</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                
+                <a href="{{route('resp.listarMisPeriodos')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mis periodos</p>
+                </a>
+              </li>
+              
+            
+
+              
+
+
+            </ul>
+
+
+
+          </li>
 
           <li class="nav-header">FELIX</li>
           @if(Auth::user()->isAdmin == 0)

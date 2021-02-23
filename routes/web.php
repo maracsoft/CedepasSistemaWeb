@@ -6,10 +6,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', 'UserController@verLogin')->name('user.verLogin'); //para desplegar la vista del Login
 
+Route::post('/ingresar', 'UserController@logearse')->name('user.logearse');
 
 Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesion');
 
 
+
+Route::get('/', 'UserController@home')->name('user.home');
+
+
+
+
+
+
+
+
+
+
+
+/* --------------------------------------------      MODULO VIGO       -------------------------------------------------- */
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
@@ -90,9 +105,6 @@ Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarRepo
 
 Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
 
-
-
-Route::post('/', 'UserController@login')->name('user.login');
 
 
 /* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */
@@ -182,9 +194,12 @@ Route::get('/evaluarJustificacion/{id}','JustificacionFaltaController@evaluarJus
 
 
 Route::get('/CC/admin/revisar/{id}','PeriodoCajaController@verRevisarPeriodo')->name('admin.periodoCaja.revisar'); 
+
+Route::get('/CC/admin/reponer/{id}','PeriodoCajaController@reponer')->name('admin.periodoCaja.reponer'); 
+
 Route::get('/CC/admin/listarPeriodos/','PeriodoCajaController@listarPeriodosActuales')->name('admin.listaPeriodos');
 
-Route::get('/CC/resp/periodo','PeriodoCajaController@verPeriodoCajaParaResp')->name('resp.verPeriodo');
+Route::get('/CC/resp/periodo/{id}','PeriodoCajaController@verPeriodoCajaParaResp')->name('resp.verPeriodo');
 Route::get('/CC/resp/registrarGasto','PeriodoCajaController@verRegistrarGasto')
     ->name('resp.registrarGasto');
 
@@ -201,18 +216,20 @@ Route::post('/CC/resp/liquidarPeriodo/','PeriodoCajaController@liquidar')
 
 Route::post('/CC/resp/gastoNuevo','GastoCajaController@store')->name('gasto.store');
 
-Route::get('/CC/resp/verAperturarPeriodo/','PeriodoCajaController@verAperturarPeriodo')
-    ->name('resp.verAperturarPeriodo');
+Route::get('/CC/resp/listarMisPeriodos/','PeriodoCajaController@listarMisPeriodos')
+    ->name('resp.listarMisPeriodos');
+
+
+Route::get('/CC/resp/aperturarPeriodo/','PeriodoCajaController@aperturarPeriodo')
+    ->name('resp.aperturarPeriodo');
 
 
 
 /* --------------------------------------- MODULO RENZO -------------------------------------------------- */
-
-//Route::get('/gestionInventario/agregar','gestionInventarioController@agregar')->name('gestionInventario.agregar');
-//Route::get('/gestionInventario/editar','gestionInventarioController@editar')->name('gestionInventario.editar');
-
-//Route::get('/activos/editar','ActivoController@editar')->name('activos.editar');
-
-
+Route::get('/gestionInventario/cambiarEstado/{id}','gestionInventarioController@cambiarEstadoDetalle');
+Route::get('/gestionInventario/filtro/{id}','gestionInventarioController@filtroDetalles');
+Route::get('/gestionInventario/{id}/eliminar','gestionInventarioController@delete')->name('gestionInventario.delete');
 Route::resource('gestionInventario', GestionInventarioController::class);
+
 Route::resource('activos', ActivoController::class);
+Route::get('/actualizarActivos','ActivoController@mostrarActivos')->name('activos.mostrarActivos');

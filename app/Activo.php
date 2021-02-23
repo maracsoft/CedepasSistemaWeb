@@ -13,7 +13,7 @@ class Activo extends Model
     protected $primaryKey = 'codActivo';
 
     protected $fillable = [
-        'codProyectoDestino','nombreDelBien','caracteristicas','codCategoriaActivo','codSede','placa','codEstado'
+        'codProyectoDestino','nombreDelBien','caracteristicas','codCategoriaActivo','codSede','placa','codEstado','codEmpleadoResponsable','activo'
     ];
 
     function getCategoria(){
@@ -28,5 +28,13 @@ class Activo extends Model
     function getSede(){
         $sede=Sede::find($this->codSede);
         return $sede;
+    }
+
+    function getEstado(){
+        return EstadoActivo::find($this->codEstado);
+    }
+
+    function getResponsable(){
+        return Empleado::find($this->codEmpleadoResponsable);
     }
 }

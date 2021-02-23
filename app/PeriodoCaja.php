@@ -28,7 +28,7 @@ class PeriodoCaja extends Model
     }
     public function getSede(){
         
-        $caja = Caja::findOrFail(2);
+        $caja = Caja::findOrFail($this->codCaja);
         $sede = Sede::findOrFail($caja->codSede);
         return $sede;
     }
@@ -39,7 +39,7 @@ class PeriodoCaja extends Model
         return $em;
     }
     public function getMontoSolicitado(){
-        if($this->estado==3)
+        if($this->codEstado>1)
             return ($this->montoApertura)-($this->montoFinal);
         else
             return 'No solicitado.';
