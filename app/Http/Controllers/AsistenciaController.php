@@ -123,13 +123,15 @@ class AsistenciaController extends Controller
         ->JOIN('periodo_empleado', 'empleado.codEmpleado', '=', 'periodo_empleado.codEmpleado')
         ->SELECT('empleado.codEmpleado as codEmpleado', 'empleado.nombres as nombres',  
                     'empleado.apellidos as apellidos', 'periodo_empleado.codPuesto as codPuesto', 'periodo_empleado.codPuesto as codArea',
-                    'periodo_empleado.codPuesto as cantAsistencias')
+                    'periodo_empleado.codPuesto as cantAsistencias','periodo_empleado.codPuesto as contFaltas','periodo_empleado.codPuesto as contTardanzas')
         ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
 
         foreach ($empleados as $itemempleado) {
             $itemempleado->codPuesto=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->puesto->nombre;
             $itemempleado->codArea=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->puesto->area->nombre;
-            $itemempleado->cantAsistencias=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->parametros();
+            $itemempleado->cantAsistencias=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->parametros()[0];
+            $itemempleado->contFaltas=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->parametros()[1];
+            $itemempleado->contTardanzas=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->parametros()[2];
         }
 
         //Empleado::getContratoHabil($itemempleado->codEmpleado)->codTurno;

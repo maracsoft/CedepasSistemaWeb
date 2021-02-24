@@ -38,7 +38,6 @@
                 <th>AREA</th>
                 <th>%ASISTENCIAS</th>
                 <th>%FALTAS</th>
-                <th>%TARDANZAS</th>
             </tr>
             </thead>
             <tbody>
@@ -47,9 +46,8 @@
                     <td>{{$itemempleado->nombres}}</td>
                     <td>{{$itemempleado->codPuesto}}</td>
                     <td>{{$itemempleado->codArea}}</td>
-                    <td>{{$itemempleado->cantAsistencias}}%</td>
-                    <td>0%</td>
-                    <td>0%</td>
+                    <td>{{$itemempleado->cantAsistencias}}% ({{$itemempleado->contTardanzas}}% tardanzas)</td>
+                    <td>{{$itemempleado->contFaltas}}%</td>
                 </tr>
                 @endforeach
               </tbody>

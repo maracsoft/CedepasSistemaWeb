@@ -52,18 +52,20 @@ class PeriodoEmpleado extends Model
 
         foreach ($asistencias as $itemasistencia) {
             if(!is_null($itemasistencia->fechaHoraEntrada)){
-                    $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada));
-                    if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio)){
+                    $horaEntrada=date('H', strtotime($itemasistencia->periodoEmpleado->turno->horaInicio));
+                    $horaQueLlego=date('H', strtotime($itemasistencia->fechaHoraEntrada));
+                    if($horaEntrada<$horaQueLlego){
                         $contTardanzas++;
                     }
 
                 $contAsistencias++;
             }
             if(!is_null($itemasistencia->fechaHoraEntrada2)){
-                    $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada2));
-                    if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio2)){
-                        $contTardanzas++;
-                    }
+                $horaEntrada=date('H', strtotime($itemasistencia->periodoEmpleado->turno->horaInicio2));
+                $horaQueLlego=date('H', strtotime($itemasistencia->fechaHoraEntrada2));
+                if($horaEntrada<$horaQueLlego){
+                    $contTardanzas++;
+                }
 
                 $contAsistencias++;
             }
@@ -76,10 +78,11 @@ class PeriodoEmpleado extends Model
             
         }
 
+        $contTardanzas=(float)$contTardanzas/$contAsistencias*100;
         $contAsistencias=(float)$contAsistencias/$contTotal*100;
-        $contFaltas=0;
-        $contTardanzas=0;
+        $contFaltas=100-$contAsistencias;
+        
 
-        return $contTotal;
+        return array($contAsistencias,$contFaltas,$contTardanzas);
     }
 }
