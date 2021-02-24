@@ -16,15 +16,27 @@
 </style>
 
 <h1>MANEJO DE CAJA CHICA</h1>
-        @if (session('datos'))
+
+        @if ($caja->getEstado()=='Lista para iniciar periodo')
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
-            {{session('datos')}}
+            ¡Su ultima solicitud de reposición fue aprobada! Está habilitado para iniciar un nuevo periodo en la caja.
         <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
             <span aria-hidden="true"> &times;</span>
         </button>
-        
+
         </div>
-        @ENDIF   
+        @endif
+
+
+        @if (session('datos'))
+        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+                {{session('datos')}}
+            <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+                <span aria-hidden="true"> &times;</span>
+            </button>
+            
+        </div>
+        @endif   
       
         <div class="container">
             <div class="row">           
@@ -37,11 +49,11 @@
                 </div>
                 
                 <div class="colLabel" > {{-- --}}
-                    <label for="">Sede:</label>
+                    <label for="">Proyecto:</label>
                 </div>
                 <div class="col">
-                    <input type="text" readonly class="form-control" name="" id="" value="{{$caja->getSede()->nombre}}">
-
+                    {{-- <input type="text" readonly class="form-control" name="" id="" value=""> --}}
+                    <textarea class="form-control" readonly name="" id=""  cols="30" rows="3">{{$caja->getProyecto()->nombre}}</textarea>
                 </div>
 
                 <div class="colLabel" > {{-- --}}
@@ -128,7 +140,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Sede</th>
+         
                 <th scope="col">Fecha Inicio</th>
                 <th scope="col">Fecha Final</th>
                 <th scope="col">Monto Max.</th>
@@ -144,18 +156,16 @@
             @foreach($listaPeriodos as $itemPeriodo)
             <tr 
             @if($itemPeriodo->codEstado=='1')
-                style="background-color: aqua;"
+                style="background-color: black;"
             @endif
             >
 
-                <th scope="row">
-                    {{$itemPeriodo->getSede()->nombre}}
-                </th>
+               
                 <td>
-                    {{$itemPeriodo->fechaInicio}}
+                    {{$itemPeriodo->getFechaInicio()}}
                 </td>
                 <td>
-                    {{$itemPeriodo->fechaFinal}}
+                    {{$itemPeriodo->getFechaFinal()}}
                 </td>
                 <td>
                     {{$itemPeriodo->montoApertura}}    

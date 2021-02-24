@@ -20,17 +20,29 @@ class PeriodoCaja extends Model
         ,'montoApertura','montoFinal','codEmpleadoCajero','justificacion',
             'codEstado'];
     
+    public function getFechaInicio(){
+        $f = $this->fechaInicio;
+        return str_replace('-','/',$f);
+
+    }
+
+    public function getFechaFinal(){
+        $f = $this->fechaFinal;
+        return str_replace('-','/',$f);
+
+
+    }
 
     public function cantidadGastos(){
         $i = 0;
         $lista = GastoCaja::where('codPeriodoCaja','=',$this->codPeriodoCaja)->get();
         return count($lista);
     }
-    public function getSede(){
+    public function getProyecto(){
         
         $caja = Caja::findOrFail($this->codCaja);
-        $sede = Sede::findOrFail($caja->codSede);
-        return $sede;
+        $proy = Proyecto::findOrFail($caja->codProyecto);
+        return $proy;
     }
 
     //retorna al empleado responsable 

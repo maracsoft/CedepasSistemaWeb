@@ -52,7 +52,12 @@
                     <td>{{$itemactivo->getCategoria()->nombre}}</td>
                     <td>{{!is_null($itemactivo->placa)? $itemactivo->placa : 'NO TIENE'}}</td> 
                     <td>
-                        <a href="{{route('activos.edit',$itemactivo->codActivo)}}" class="btn btn-success btn-sm">Editar</button></a>
+                        @if($itemactivo->activo==1)
+                        <a href="{{route('activos.edit',$itemactivo->codActivo)}}" class="btn btn-success btn-sm">Editar</button></a>    
+                        @else
+                        <em style="color: red">DE BAJA</em>
+                        @endif
+                        
                     </td>    
                 @endforeach
             </tbody>

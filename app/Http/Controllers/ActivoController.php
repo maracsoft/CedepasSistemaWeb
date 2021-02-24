@@ -68,6 +68,8 @@ class ActivoController extends Controller
                 $detalle->codRevision=$itemrevision->codRevision;
                 $detalle->codActivo=$activo->codActivo;
                 $detalle->codEstado=1;
+                $detalle->activo=1;
+                $detalle->seReviso=0;
                 $detalle->save();
             }
         }
@@ -137,12 +139,16 @@ class ActivoController extends Controller
 
 
 
-    public function mostrarActivos()
+
+
+    public function mostrarActivos($id)
     {
         $estados=array(2,3,4);
-        $activos=Activo::whereIn('codEstado',$estados)->get();
-        return view('renzo.activos.mostrarActivos',compact('activos'));
+        $detalles=RevisionDetalle::where('codRevision','=',$id)->whereIn('codEstado',$estados)->get();
+        $revision=Revision::find($id);
+        return view('renzo.verificarActivos.mostrarActivos',compact('detalles','revision'));
     }
+
 }
 
 

@@ -62,4 +62,14 @@ class Revision extends Model
 
         return array($cantNoRevisado,$contDisponible,$contNoHabido,$contDeteriorado,$contDonado);
     }
+
+    function seRevisoTodo(){
+        
+        foreach ($this->getDetalles() as $itemdetalle) {
+            if($itemdetalle->seReviso==0){
+                return 0;
+            }
+        }
+        return 1;
+    }
 }

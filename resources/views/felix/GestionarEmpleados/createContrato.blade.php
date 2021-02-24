@@ -87,9 +87,9 @@
                     alert("Ingrese financiador del usuario");
                     $("#nombreFinanciador").focus();
                 }
-                else if (document.getElementById("nombre").value == ""){
+                else if (document.getElementById("nombreProyecto").value == ""){
                     alert("Ingrese proyecto");
-                    $("#nombre").focus();
+                    $("#nombreProyecto").focus();
                 }
                 else if (document.getElementById("codArea").value == "0"){
                     alert("Seleccione el area");

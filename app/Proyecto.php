@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Caja;
 class Proyecto extends Model
 {
     protected $table = "proyecto";
@@ -15,5 +15,14 @@ class Proyecto extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['nombre','codEmpleadoDirector'];
     
+
+    //retorna 1 si el proyecto tiene una caja chica, 0 si no
+    public function tieneCaja(){
+        $caja = Caja::where('codProyecto','=',$this->codProyecto)->get();
+        if(count($caja)>0)
+            return 1;
+        
+        return 0;
+    }
 
 }

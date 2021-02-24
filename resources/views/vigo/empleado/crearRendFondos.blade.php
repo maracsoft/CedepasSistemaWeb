@@ -593,13 +593,15 @@
             $('#totalRendido').val(total); //el que se va a leer
             
 
-            var tot1= parseFloat(total)    ;
-            var tot2= parseFloat( {{$solicitud->totalSolicitado}}  ); 
+            var totalGastado= parseFloat(total)    ;
+            var totalRecibido= parseFloat( {{$solicitud->totalSolicitado}}  ); 
             console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
 
-            var tot3 = (tot1)-(tot2);
+            var saldoFavEmpl = (totalGastado)-(totalRecibido);
+            
 
-            $('#saldoAFavor').val(  number_format(tot3,2) ); //puedo hacer esto sin que haya el error pq el input esta disabled
+            
+            $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
             
             console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );

@@ -6,7 +6,7 @@
 @section('contenido')
 <br>
 <div class="container">
-<h1>MANEJO DE CAJA CHICA</h1>
+<h1>Periodo actual de Caja Chica</h1>
     <div class="row mt-2">
         @if (session('datos'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
@@ -19,17 +19,24 @@
       @ENDIF   
     <div class="col-6">
         <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Inicio del Periodo</label>
-            <div class="col-sm-4">
-                <div class="form-group">                            
-                    <div class="input-group date form_date ">
-                        <input type="text"  class="form-control" name="fecha" id="fecha" readonly
-                            value="{{$periodo->fechaInicio}}" style="text-align:center;">
-                      
-                    </div>
-                </div>
+            <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Inicio</label>
+            <div class="col-sm-6">
+                <input class="form-control" value="{{$periodo->fechaInicio}}"
+                    placeholder="Porcentaje del Gasto" readonly
+                />
             </div>
         </div>
+
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Final</label>
+            <div class="col-sm-6">
+                <input class="form-control" value="{{$periodo->fechaFinal}}"
+                    placeholder="Aun no finaliza el periodo" readonly
+                />
+            </div>
+        </div>
+
+        
 
         <div class="form-group row">
             <label for="inputEmail3" class="col-sm-4 col-form-label">Porcentaje del Gasto</label>
@@ -79,14 +86,24 @@
         </div>
 
         @if($periodo->codEstado=='1')
-            
-        
         <div class="form-group row">
             <div class="col-sm-4" >
             </div>
             <div class="col-sm-8" >
-            <a href="{{route('resp.verLiquidarPeriodo',$periodo->codPeriodoCaja)}}" class="btn btn-danger"><i class="fas fa-receipt"></i> Liquidar</button></a>
-            <a href="{{route('resp.registrarGasto')}}" class="btn btn-primary"><i class="fas fa-plus"></i> Nuevo Gasto</button></a>
+
+
+
+                
+            <a href="{{route('resp.verLiquidarPeriodo',$periodo->codPeriodoCaja)}}" class="btn btn-danger">
+                <i class="fas fa-receipt"></i> 
+                Liquidar
+            </a>
+
+
+            <a href="{{route('resp.registrarGasto')}}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> 
+                Nuevo Gasto
+            </a>
 
             </div>
         </div>

@@ -185,26 +185,7 @@
                     </div>
                 </div> 
             </div>
-<!--
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Area:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codArea" id="codArea">
-                    <option value="0">--Seleccionar--</option>
 
-
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row" id="comboPuestos">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codPuesto" id="codPuesto">
-                    <option value="0">--Seleccionar--</option>
-                    </select>
-                </div>
-            </div>
-        -->
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
                 <div class="col-sm-4">
@@ -213,29 +194,46 @@
             </div>
 
 
-                <div class="form-group row">
-                    <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="codSexo" id="codSexo">
-                        <option value="0">--Seleccionar--</option>
-                        <option value="1">Hombre</option>
-                        <option value="2">Mujer</option>
-                        </select>
-                    </div>
-                  </div>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="codSexo" id="codSexo">
+                    <option value="0">--Seleccionar--</option>
+                    <option value="1">Hombre</option>
+                    <option value="2">Mujer</option>
+                    </select>
+                </div>
+            </div>
 
-                  <div class="form-group row">
-                    <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="tieneHijos" id="tieneHijos">
-                        <option value="1">SI</option>
-                        <option value="0">NO</option>
-                        </select>
-                    </div>
-                  </div>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="tieneHijos" id="tieneHijos">
+                    <option value="1">SI</option>
+                    <option value="0">NO</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
+                <div class="col-sm-4">
+                    <select class="form-control select2 select2-hidden-accessible selectpicker"
+                        data-select2-id="1" tabindex="-1" aria-hidden="true" 
+                        id="codProyectoDestino" name="codProyectoDestino" data-live-search="true" onchange="">
+                        <option value="-1" selected>- Seleccione -</option>    
+                        @foreach($proyectos as $itemproyecto)
+                            <option value="{{$itemproyecto->codProyecto}}">
+                                {{$itemproyecto->nombre}}
+                            </option>
+                        @endforeach      
+                    </select> 
+                </div>
+            </div>
+            
 
 
-            <br />
+                
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
     </form>

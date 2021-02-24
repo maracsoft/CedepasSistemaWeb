@@ -224,6 +224,15 @@ Route::get('/CC/resp/aperturarPeriodo/','PeriodoCajaController@aperturarPeriodo'
     ->name('resp.aperturarPeriodo');
 
 
+//mantener cajas 
+Route::get('/CC/admin/verCajas/','CajaController@listar')->name('caja.index');
+Route::get('/CC/admin/crearCaja/','CajaController@verCrear')->name('caja.verCrear');
+
+Route::post('/CC/admin/storeCaja/','CajaController@store')->name('caja.store');
+Route::get('CC/admin/editCaja/{codCaja}','CajaController@edit')->name('caja.edit');
+Route::post('CC/admin/updateCaja/{codCaja}','CajaController@update')->name('caja.update');
+
+
 
 /* --------------------------------------- MODULO RENZO -------------------------------------------------- */
 Route::get('/gestionInventario/cambiarEstado/{id}','gestionInventarioController@cambiarEstadoDetalle');
@@ -232,4 +241,6 @@ Route::get('/gestionInventario/{id}/eliminar','gestionInventarioController@delet
 Route::resource('gestionInventario', GestionInventarioController::class);
 
 Route::resource('activos', ActivoController::class);
-Route::get('/actualizarActivos','ActivoController@mostrarActivos')->name('activos.mostrarActivos');
+Route::get('/actualizarActivos/mostrarRevisiones','gestionInventarioController@mostrarRevisiones')->name('gestionInventario.mostrarRevisiones');
+Route::get('/actualizarActivos/mostrarActivos/{id}','ActivoController@mostrarActivos')->name('activos.mostrarActivos');
+Route::get('/actualizarActivos/cambiarEstado/{id}','gestionInventarioController@cambiarEstado');

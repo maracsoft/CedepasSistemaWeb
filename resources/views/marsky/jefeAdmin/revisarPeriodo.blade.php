@@ -107,12 +107,21 @@
             </div>
             
         
-    
+            @if($periodo->codEstado=='2')
+                
+            
             <div class="form-group row">
                 <div class="col-sm-6" >
-                    <a href="{{route('admin.periodoCaja.reponer',$periodo->codPeriodoCaja)}}" class="btn btn-primary"><i class="fas fa-check"></i>Aprobar solicitud</button></a>
+                    <a href="{{route('admin.periodoCaja.reponer',$periodo->codPeriodoCaja)}}" 
+                            class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Aprobar solicitud
+                    
+                </a>
                 </div>
             </div>
+            @endif
+
             @endif
         </div>
 

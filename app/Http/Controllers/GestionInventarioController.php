@@ -24,6 +24,7 @@ class GestionInventarioController extends Controller
      */
     public function index()
     {
+        //$revisiones=Revision::where('codRevision','>',0)->orderBy('fechaHoraInicio','desc')->get();
         $revisiones=Revision::all();
         $band=1;
         foreach ($revisiones as $itemrevision) {
@@ -59,14 +60,16 @@ class GestionInventarioController extends Controller
         $revision->descripcion=$request->descripcion;
         $revision->save();
 
-
+        
         //creacion de todos los detalles
-        $activos=Activo::all();
+        $activos=Activo::where('activo','=',1)->get();
         foreach ($activos as $itemactivo) {
             $detalle=new RevisionDetalle();
             $detalle->codRevision=$revision->codRevision;
             $detalle->codActivo=$itemactivo->codActivo;
             $detalle->codEstado=$itemactivo->codEstado;
+            $detalle->activo=1;
+            $detalle->seReviso=0;
             $detalle->save();
         }
 
@@ -132,6 +135,11 @@ class GestionInventarioController extends Controller
         $revision->save();
 
         foreach ($revision->getDetalles() as $itemdetalle) {
+            if($itemdetalle->codEstado==1){
+                $itemdetalle->activo=1;
+                $itemdetalle->seReviso=1;
+                $itemdetalle->save();
+            }
             $activo=Activo::find($itemdetalle->codActivo);
             $activo->codEstado=$itemdetalle->codEstado;
             $activo->save();
@@ -215,4 +223,27 @@ class GestionInventarioController extends Controller
         return response()->json(['activos'=>$activos]);
     }
 
+
+
+    /**PARA VERIFICAR ESTADOS DE ACTIVOS */
+    public function mostrarRevisiones()
+    {
+        $revisiones=Revision::where('fechaHoraCierre','!=',NULL)->orderBy('fechaHoraInicio','desc')->get();
+        return view('renzo.verificarActivos.mostrarRevisiones',compact('revisiones'));
+    }
+
+    
+    public function cambiarEstado($id)
+    {
+        $arr = explode('*', $id);
+        $detalle=RevisionDetalle::find($arr[0]);
+        $detalle->activo=$arr[1];
+        $detalle->seReviso=1;
+        $detalle->save();
+
+        $activo=Activo::find($detalle->codActivo);
+        $activo->activo=$arr[1];
+        $activo->save();
+        return redirect()->route('activos.mostrarActivos',$detalle->codRevision);
+    }
 }

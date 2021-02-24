@@ -173,7 +173,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('activos.mostrarActivos')}}" class="nav-link">
+                <a href="{{route('gestionInventario.mostrarRevisiones')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Actualizar Activos</p>
                 </a>
@@ -226,10 +226,16 @@
                 </a>
               </li>
               <li class="nav-item">
-                
                 <a href="{{route('resp.listarMisPeriodos')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mis periodos</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('caja.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mant Cajas</p>
                 </a>
               </li>
               
@@ -245,7 +251,7 @@
           </li>
 
           <li class="nav-header">FELIX</li>
-          @if(Auth::user()->isAdmin == 0)
+          @if(Auth::user()->isAdmin == 1)
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
 

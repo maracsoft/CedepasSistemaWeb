@@ -22,21 +22,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($activos as $itemactivo)
+                @foreach($detalles as $itemdetalle)
+                <?php $itemactivo=$itemdetalle->getActivo(); ?>
                 <tr>
-                    <td>{{$itemactivo->codActivo}}</td>
+                    <th>{{$itemactivo->codActivo}}</th>
                     <td>{{$itemactivo->getSede()->nombre}}</td>
                     <td>{{$itemactivo->getProyecto()->nombre}}</td>
                     <td>{{$itemactivo->getResponsable()->apellidos}}, {{$itemactivo->getResponsable()->nombres}}</td>
                     <td>{{$itemactivo->nombreDelBien}}</td>
                     <td>{{$itemactivo->caracteristicas}}</td>
                     <td>{{$itemactivo->getCategoria()->nombre}}</td>
-                    <td>{{$itemactivo->getEstado()->nombre}}</td>
-                    <td>{{!is_null($itemactivo->placa)? $itemactivo->placa : 'NO TIENE'}}</td> 
+                    <td>{{$itemactivo->placa}}</td>
+                    <td>{{$itemdetalle->getEstado()->nombre}}</td>
                     <td>
-                        <a href="" class="btn btn-success btn-sm">Mantener</a>
-                        <a href="" class="btn btn-danger btn-sm">Dar Baja</a>
-                    </td> <!--se tiene que cambiar el atributo activo de la tabla activo(segunla opcion seleccionada)-->
+                        @if($itemdetalle->seReviso==0)
+                        <a href="/actualizarActivos/cambiarEstado/{{$itemdetalle->codRevisionDetalle}}*1" class="btn btn-success btn-sm">Mantener</a>
+                        <a href="/actualizarActivos/cambiarEstado/{{$itemdetalle->codRevisionDetalle}}*0" class="btn btn-danger btn-sm">Dar Baja</a>    
+                        @else
+                        <em style="color: red" >{{($itemactivo->activo==1)? 'SE MANTIENE' : 'SE DIO DE BAJA'}}</em>
+                        @endif
+                    </td>
+                </tr>      
                 @endforeach
             </tbody>
         </table>

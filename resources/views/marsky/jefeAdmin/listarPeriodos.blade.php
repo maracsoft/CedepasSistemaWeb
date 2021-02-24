@@ -2,7 +2,19 @@
 @section('contenido')
 <div class="container">
 
-<h1>Listado de Periodos de todas las sedes.</h1>
+<h1>Listado de Periodos de Caja Chica de todos los proyectos.</h1>
+
+    @if (session('datos'))
+    <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+            {{session('datos')}}
+        <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true"> &times;</span>
+        </button>
+        
+    </div>
+    @endif 
+
+
     <div class="row mt-2">
        
     <div class="col-6">
@@ -34,7 +46,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Sede</th>
+                <th scope="col">Proyecto</th>
                 <th scope="col">Fecha Inicio</th>
                 <th scope="col">Fecha Final</th>
                 <th scope="col">Monto Max.</th>
@@ -50,18 +62,18 @@
             @foreach($listaPeriodos as $itemPeriodo)
             <tr
             @if($itemPeriodo->codEstado=='1')
-                style="background-color: aqua;"
+                style="background-color: #00a599;"
             @endif
             >
 
-                <th scope="row">
-                    {{$itemPeriodo->getSede()->nombre}}
-                </th>
-                <td>
-                    {{$itemPeriodo->fechaInicio}}
+                <td style="font-size: 10pt;">
+                    {{$itemPeriodo->getProyecto()->nombre}}
                 </td>
                 <td>
-                    {{$itemPeriodo->fechaFinal}}
+                    {{$itemPeriodo->getFechaInicio()}}
+                </td>
+                <td>
+                    {{$itemPeriodo->getFechaFinal()}}
                 </td>
                 <td>
                     {{$itemPeriodo->montoApertura}}    

@@ -17,17 +17,13 @@ return array(
    
     'App\\EstadoSolicitudFondos' => $baseDir . '/app/EstadoSolicitudFondos.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
-    'App\\Http\\Controllers\\CabeceraVentaController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/CabeceraVentaController.php',
-    'App\\Http\\Controllers\\CajaController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/CajaController.php',
-    'App\\Http\\Controllers\\CategoriaController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/CategoriaController.php',
-    'App\\Http\\Controllers\\ClienteController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/ClienteController.php',
+   
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
-    'App\\Http\\Controllers\\MesaController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/MesaController.php',
-    'App\\Http\\Controllers\\OrdenController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/OrdenController.php',
+    
     'App\\Http\\Controllers\\ProductoController' => $baseDir . '/app/Http/Controllers/ProductoController.php',
     'App\\Http\\Controllers\\RendicionFondosController' => $baseDir . '/app/Http/Controllers/RendicionFondosController.php',
     'App\\Http\\Controllers\\SolicitudFondosController' => $baseDir . '/app/Http/Controllers/SolicitudFondosController.php',
-    'App\\Http\\Controllers\\UnidadController' => $baseDir . '/app/Http/Controllers/ControllersGUIA/UnidadController.php',
+
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',

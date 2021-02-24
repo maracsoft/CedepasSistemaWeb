@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
-
+use App\Proyecto;
 
 
 class EmpleadoController extends Controller
@@ -30,7 +30,8 @@ class EmpleadoController extends Controller
     }
     public function crearEmpleado(){
         //$areas=Area::all();
-        return view('felix.GestionarEmpleados.create');
+        $proyectos = Proyecto::All();
+        return view('felix.GestionarEmpleados.create',compact('proyectos'));
     }
 
     public function listarPuestos(Request $request,$id){
@@ -53,6 +54,7 @@ class EmpleadoController extends Controller
         $empleado->apellidos=$request->apellidos;
         $empleado->direccion=$request->direccion;
         $empleado->tieneHijos=$request->tieneHijos;
+        $empleado->codProyecto = $request->codProyectoDestino;
         //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
         //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
 
@@ -63,7 +65,7 @@ class EmpleadoController extends Controller
         //$empleado->codPuesto=$request->codPuesto;
         $empleado->sexo=$request->codSexo;
         $empleado->activo=1;
-        $empleado->codigoEmpleadoCedepas='E'.'00'.$usuario->codUsuario;
+        $empleado->codigoCedepas='E'.'00'.$usuario->codUsuario;
         $empleado->dni=$request->DNI;
         $empleado->save();
 

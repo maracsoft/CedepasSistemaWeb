@@ -513,17 +513,13 @@ class ComposerStaticInit3450147d2cb14498ddb590a6a9c14cd4
        
         'App\\EstadoSolicitudFondos' => __DIR__ . '/../..' . '/app/EstadoSolicitudFondos.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-        'App\\Http\\Controllers\\CabeceraVentaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/CabeceraVentaController.php',
-        'App\\Http\\Controllers\\CajaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/CajaController.php',
-        'App\\Http\\Controllers\\CategoriaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/CategoriaController.php',
-        'App\\Http\\Controllers\\ClienteController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/ClienteController.php',
+        
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
-        'App\\Http\\Controllers\\MesaController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/MesaController.php',
-        'App\\Http\\Controllers\\OrdenController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/OrdenController.php',
+       
         'App\\Http\\Controllers\\ProductoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductoController.php',
         'App\\Http\\Controllers\\RendicionFondosController' => __DIR__ . '/../..' . '/app/Http/Controllers/RendicionFondosController.php',
         'App\\Http\\Controllers\\SolicitudFondosController' => __DIR__ . '/../..' . '/app/Http/Controllers/SolicitudFondosController.php',
-        'App\\Http\\Controllers\\UnidadController' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllersGUIA/UnidadController.php',
+      
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

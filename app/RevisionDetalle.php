@@ -13,7 +13,7 @@ class RevisionDetalle extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codRevision','codActivo','codEstado'];
+    protected $fillable = ['codRevision','codActivo','codEstado','activo','seReviso'];
 
     function getActivo(){
         return Activo::find($this->codActivo);

@@ -7,7 +7,7 @@
 
 <br>
 <div class="container">
-    <h1 style="text-align: center">REVISIÓN DE INVENTARIO "{{$revision->descripcion}}"</h1>
+    <h1 style="text-align: center">Revisión de Inventario "{{$revision->descripcion}}"</h1>
     <div class="row">
         <input id="codRevision" type="hidden" name="codRevision"  value="{{$revision->codRevision}}" >
         <div class="col-4">
@@ -116,7 +116,23 @@
         </table>
 
         <div>
-            <a href="{{route('gestionInventario.index')}}" class="btn btn-danger"><i class="fas fa-ban"></i>Regresar</button></a>
+            <a href="{{route('gestionInventario.index')}}" class="btn btn-info"><i class="fas fa-ban"></i>Regresar</button></a>
+            <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                title:'¿Está seguro de cerrar la revision?',
+                text: '',     //mas texto
+                //type: 'warning',  
+                type: '',
+                showCancelButton: true,//para que se muestre el boton de cancelar
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){//se ejecuta cuando damos a aceptar
+                window.location.href='{{route('gestionInventario.delete',$revision->codRevision)}}';
+            });">CERRAR</a>
         </div>
     </div>
 

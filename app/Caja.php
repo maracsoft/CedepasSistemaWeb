@@ -13,11 +13,11 @@ class Caja extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codSede','montoMaximo','montoActual','codEmpleadoCajeroActual'];
+    protected $fillable = ['codProyecto','nombre','montoMaximo','montoActual','codEmpleadoCajeroActual'];
  
-    public function getSede(){
-        $sede = Sede::findOrFail($this->codSede);
-        return $sede;
+    public function getProyecto(){
+        $proy = Proyecto::findOrFail($this->codProyecto);
+        return $proy;
     }
 
     public function getEmpleadoActual(){

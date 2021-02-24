@@ -158,7 +158,10 @@
             </div>
             <div class="col-sm-8" >
 
-            <a href=" " class="btn btn-danger"><i class="fas fa-undo"></i> Regresar</a>
+            <a href="{{route('resp.verPeriodo',$periodo->codPeriodoCaja)}}" class="btn btn-danger">
+                <i class="fas fa-undo"></i> 
+                Regresar
+            </a>
 
             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>  Registrar</button>
 

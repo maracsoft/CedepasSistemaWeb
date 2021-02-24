@@ -79,10 +79,16 @@ class PeriodoCajaController extends Controller
     public function verPeriodoCajaParaResp($idPeriodo)
     {
 
-        if($idPeriodo=='-1')
+        if($idPeriodo=='-1')//si no tiene ningun 
             return redirect()->route('resp.listarMisPeriodos');
 
         $periodo = PeriodoCaja::findOrFail($idPeriodo);
+
+        if($periodo->codEstado==3){
+            return redirect()->route('resp.listarMisPeriodos')->with('datos','No tiene ningun periodo activo.');
+        }
+
+
         $listaGastos = GastoCaja::where('codPeriodoCaja','=',$periodo->codPeriodoCaja)->get();
            
 
@@ -121,14 +127,16 @@ class PeriodoCajaController extends Controller
             $periodo = PeriodoCaja::findOrFail($request->codPeriodoCaja);
             $periodo->justificacion = $request->justificacion;
             $periodo->codEstado = '2';
-           /*  $periodo-> */
+
+            $periodo->fechaFinal = Carbon::now()->format('Y-m-d');
+            
 
             $periodo->save();
             db::commit();
 
-            return redirect()->route('admin.listaPeriodos');
+            return redirect()->route('resp.listarMisPeriodos')->with('datos','¡Caja Chica liquidada, queda a espera de reposición!');
         } catch (\Throwable $th) {
-            error_log('HA OCURRIDO UN ERRO EN PERIODOCAJA CONTROLLER 
+            error_log('HA OCURRIDO UN ERRO EN PERIODOCAJA CONTROLLER liquidar 
             
             
             '.$th.'

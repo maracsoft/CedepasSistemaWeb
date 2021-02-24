@@ -111,6 +111,7 @@ class Empleado extends Model
         
         
         $listaPeriodos = PeriodoCaja::where('codEmpleadoCajero','=',$this->codEmpleado)
+        ->orderBy('codPeriodoCaja','DESC')
         //->where('codEstado','=','1')
         ->get();
         
