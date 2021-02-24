@@ -7,7 +7,7 @@
     
 
   <div class="well"><H3 style="text-align: center;">CONTRATOS DE {{$empleado->nombres}}, {{$empleado->apellidos}}</H3></div>
-
+    <input type="hidden" id="codEmpleado" name="codEmpleado" value="{{ $empleado->codEmpleado}}">
     <br/>
     <?php $time = time();
 
@@ -100,14 +100,36 @@
     </table>
 
     
-    <div class="card-body" style="margin-left:390px;">
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-sm-7"></div>
+        <label class="col-sm-1 col-form-label" style="text-align: right">Tipo:</label>
+        <div class="col-sm-3">
+            <select class="form-control" name="tipo" id="tipo">
+            <option value="1">CONTRATO DE PLAZO FIJO</option>
+            <option value="2">CONTRATO POR LOCACION</option>
+            </select>
+        </div>
+        <input type="button" class="col-sm-1 btn btn-primary" value="AGREGAR" onclick="crear()" />
+      </div>
+      
+      <!--
       <a href="/listarEmpleados/crearContrato/{{$empleado->codEmpleado}}*1" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>AGREGAR CONTRATO DE PLAZO FIJO</a>  
       <a href="/listarEmpleados/crearContrato/{{$empleado->codEmpleado}}*2"  class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>AGREGAR CONTRATO POR LOCACION</a>  
+      -->
     </div>
     
     
 
   </div>
+
+<script>
+function crear(){
+  codEmpleado=$("#codEmpleado").val();
+  tipo=$("#tipo").val();
+  window.location.href='/listarEmpleados/crearContrato/'+codEmpleado+'*'+tipo;
+}
+</script>
 
 
 @endsection

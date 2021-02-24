@@ -18,7 +18,7 @@ class Proyecto extends Model
 
     //retorna 1 si el proyecto tiene una caja chica, 0 si no
     public function tieneCaja(){
-        $caja = Caja::where('codProyecto','=',$this->codProyecto)->get();
+        $caja = Caja::where('codProyecto','=',$this->codProyecto)->where('activa','=','1')->get();
         if(count($caja)>0)
             return 1;
         

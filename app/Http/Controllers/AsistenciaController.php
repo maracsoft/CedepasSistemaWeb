@@ -115,4 +115,20 @@ class AsistenciaController extends Controller
         
         return response()->json(['asistencias'=>$asistencias,'numero'=>$arr[1],'turno'=>$turno,'tipoTurno'=>$tipoTurno]);
     }
+
+
+
+    public function exportarReporte($id){
+        $empleados=DB::TABLE('empleado')
+        ->JOIN('periodo_empleado', 'empleado.codEmpleado', '=', 'periodo_empleado.codEmpleado')
+        ->SELECT('empleado.codEmpleado as codEmpleado', 'empleado.nombres as nombres',  
+                    'empleado.apellidos as apellidos')
+        ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
+
+        //Empleado::getContratoHabil($itemempleado->codEmpleado)->codTurno;
+
+        $pdf = \PDF::loadview('felix.GestionarAsistencias.reportePDF',array('empleados'=>$empleados))
+                    ->setPaper('a4', 'portrait');
+        return $pdf->download('asistenia.pdf');
+    }
 }

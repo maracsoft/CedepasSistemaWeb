@@ -93,11 +93,18 @@ class Empleado extends Model
         return $proy;
     }
 
+    public function tieneCaja(){
+        if($this->getCaja()=='-1') //si no tiene caja
+            return '0'; //retornamos false
+        
+        return '1'; //retornamos true
 
+    }
+    
     //si es encargado de una caja, retorna el objeto de esa caja. Si no, retorna -1
     public function getCaja(){
         $cajas = Caja::where('codEmpleadoCajeroActual','=',$this->codEmpleado)->get();
-        if(count($cajas)==0)
+        if(count($cajas)==0) //no tiene caja
             return '-1';
 
         $caja = $cajas[0];
@@ -124,6 +131,11 @@ class Empleado extends Model
         return $periodo;
 
 
+    }
+
+    public function getContratoHabil($codigo){
+        $contratos=PeriodoEmpleado::where('codEmpleado','=',$codigo)->where('activo','=',1)->get();
+        return $contratos[0];
     }
 
 

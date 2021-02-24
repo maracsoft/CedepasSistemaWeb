@@ -84,7 +84,18 @@
 
                 </div>
 
-                <div class="colLabel"></div>
+
+                <div class="colLabel" > {{-- --}}
+                    <label for="">Nombre de caja:</label>
+                </div>
+                <div class="col">
+                    <input type="text" readonly class="form-control" name="" id="" value="{{$caja->nombre}}">
+
+                </div>
+
+                <div class="w-100"></div>
+
+  
                 <div class="col">
                     @if($caja->getEstado()=='Lista para iniciar periodo')
                     <div class="col">
@@ -143,8 +154,8 @@
          
                 <th scope="col">Fecha Inicio</th>
                 <th scope="col">Fecha Final</th>
-                <th scope="col">Monto Max.</th>
-                <th scope="col">Monto Gast.</th>
+                <th scope="col">Monto Inicial</th>
+                <th scope="col">Monto Actual/Final</th>
                 <th scope="col">Responsable</th>
 
                 <th scope="col">Monto Sol.</th>

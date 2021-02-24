@@ -13,7 +13,8 @@ class Caja extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codProyecto','nombre','montoMaximo','montoActual','codEmpleadoCajeroActual'];
+    protected $fillable = ['codProyecto','nombre','montoMaximo',
+        'montoActual','codEmpleadoCajeroActual','activa'];
  
     public function getProyecto(){
         $proy = Proyecto::findOrFail($this->codProyecto);
@@ -27,6 +28,36 @@ class Caja extends Model
     }
 
 
+    public function getEstadoActivo(){
+        if($this->activa=='1')
+            return "Activa"; //el proyecto sigue vigente
+        else
+            return "De baja"; //ya no es necesaria la CC porque el proyecto ya acabo
+
+    }
+
+    public function tienePeriodoEnProceso(){
+        $periodo = PeriodoCaja::where('codCaja','=',$this->codCaja)
+        ->orderBy('codPeriodoCaja','DESC')
+        ->first();
+
+        if(is_null($periodo)) //si no tiene ningun periodo aun
+            return '0';
+
+        if($periodo->codEstado==3){ //lista para iniciar otro periodo (el anterior fue finalizado)
+            return '0';
+        }
+
+        return '1';
+
+    }
+
+
+    public static function getCajasActivas(){
+        $lista = Caja::where('activa','=','1')->get();
+        return $lista;
+    }
+
     /*
 
      Si hay un periodo vigente, -> Gastadno
@@ -39,8 +70,14 @@ class Caja extends Model
         $periodo = PeriodoCaja::where('codCaja','=',$this->codCaja)
         ->orderBy('codPeriodoCaja','DESC')
         ->first();
-        
+
         $nombreEstado = '';
+        
+        if(is_null($periodo)){//si no tiene ningun periodo
+            return "Lista para iniciar periodo";
+        }
+
+        
         switch ($periodo->codEstado) {
             case 1:
                 $nombreEstado = "En proceso";

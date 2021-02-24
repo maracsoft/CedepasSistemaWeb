@@ -47,6 +47,8 @@
         <thead>
             <tr>
                 <th scope="col">Proyecto</th>
+                <th scope="col">Nombre C.Chica</th>
+                
                 <th scope="col">Fecha Inicio</th>
                 <th scope="col">Fecha Final</th>
                 <th scope="col">Monto Max.</th>
@@ -69,6 +71,12 @@
                 <td style="font-size: 10pt;">
                     {{$itemPeriodo->getProyecto()->nombre}}
                 </td>
+
+                <td style="font-size: 10pt;">
+                    {{$itemPeriodo->getCaja()->nombre}}
+                </td>
+
+                
                 <td>
                     {{$itemPeriodo->getFechaInicio()}}
                 </td>

@@ -217,8 +217,8 @@
                     <div class="col-sm-4">
                         <select class="form-control" name="codSexo" id="codSexo">
                         <option value="0" >--Seleccionar--</option>
-                        <option value="1" {{ 1==$empleado->sexo ? 'selected':'' }}>Hombre</option>
-                        <option value="2" {{ 2==$empleado->sexo ? 'selected':'' }}>Mujer</option>
+                        <option value="1" {{ 'M'==$empleado->sexo ? 'selected':'' }}>Hombre</option>
+                        <option value="2" {{ 'F'==$empleado->sexo ? 'selected':'' }}>Mujer</option>
                         </select>
                     </div>
                   </div>

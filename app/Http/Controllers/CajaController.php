@@ -11,7 +11,7 @@ USE Illuminate\Support\Facades\DB;
 class CajaController extends Controller
 {
     public function listar(){
-        $listaCajas = Caja::All();
+        $listaCajas = Caja::where('codCaja','>','0')->orderBy('activa','DESC')->get();
 
       
         return view('marsky.jefeAdmin.listarCajas',compact('listaCajas'));
@@ -49,6 +49,7 @@ class CajaController extends Controller
             $caja->montoActual = $request->montoMaximo;
             $caja->codEmpleadoCajeroActual = $request->codEmpleadoResponsable; 
             $caja->codProyecto = $request->codProyectoDestino;
+            $caja->activa = '1';
 
             $caja->save();
 
@@ -83,19 +84,29 @@ class CajaController extends Controller
     }
 
     public function update(Request $request,$codCaja){
-
-       
-        
-
         try {
 
 
             DB::beginTransaction();
             $caja = Caja::findOrFail($codCaja);
-       
+            $empleado = Empleado::findOrFail($request->codEmpleadoResponsable);
+
+            if($caja->codEmpleadoCajeroActual != $request->codEmpleadoResponsable) 
+            //si se está cambiando el responsable 
+            {
+
+                if($caja->tienePeriodoEnProceso()=='1') //y la caja tiene un periodo activo (gastandose)
+                    return redirect()->route('caja.index')->with('datos',
+                    'No se puede cambiar el responsable de la caja si el actual '.
+                        'no liquida su caja y finaliza su periodo.');
+                if($empleado->tieneCaja()=='1')
+                return redirect()->route('caja.index')->with('datos',
+                    'No se puede cambiar por un empleado que ya es responsable de una caja ');
+            }
+
             $caja->nombre = $request->nombre;
             $caja->montoMaximo = $request->montoMaximo;
-            $caja->montoActual = $request->montoMaximo;
+            //el monto actual no se debe alterar
             $caja->codEmpleadoCajeroActual = $request->codEmpleadoResponsable; 
             
 
@@ -120,6 +131,35 @@ class CajaController extends Controller
 
 
     } 
+/* LE DA DE BAJA A UNA CAJA. ESTO SOLO PUEDE HACERSE SI LA CAJA NO TIENE NINGUN PERIODO EN PROCESO */
+    public function destroy($codCaja){
 
+        $caja = Caja::findOrFail($codCaja);
+        if($caja->tienePeriodoEnProceso()=='1')
+            return redirect()->route('caja.index')->with('datos',
+            'No se puede dar de baja la caja si el actual responsable '.
+                'no liquida sus gastos y finaliza su periodo.');
+
+        try {
+            DB::beginTransaction();
+            
+            $caja->activa = '0';
+            $caja->codEmpleadoCajeroActual = '0';
+            
+            $caja->save();
+            
+            db::commit();
+            
+            return redirect()->route('caja.index')->with('datos','¡Caja dada de baja exitosamente!');
+        } catch (\Throwable $th) {
+            error_log('
+             HA OCURRIDO UN ERROR EN CAJA CONTROLLER  DESTROY
+            
+            '.$th.'
+
+            ');
+
+        }
+    }
 
 }

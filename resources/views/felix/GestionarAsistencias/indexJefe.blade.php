@@ -121,6 +121,47 @@
     </table>
     
   </div>
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-sm-4"></div>
+        <div class="row col-sm-8">
+            <div class="col-sm-5"></div>
+            <label class="col-sm-1 col-form-label" style="text-align: right">Año/Mes:</label>
+            <div class="col-sm-2">
+                <select class="form-control" name="ano" id="ano">
+                <option value="1">2021</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" name="mes" id="mes">
+                <option value="1">Enero</option>
+                <option value="2" selected>Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiempre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+                </select>
+            </div>
+            <!--
+            <a href="/exportarReportePDF/{{}}" class="btn btn-info btn-icon icon-left"><i class="entypo-pencil"></i>Reporte</a>
+            -->
+            <input type="button" class="btn btn-info btn-icon icon-left" value="Reporte" onclick="reporte()" />
+        </div>
+    </div>
+</div>
 
+<script>
+    function reporte(){
+      ano=$("#ano").val();
+      mes=$("#mes").val();
+      window.location.href='/exportarReportePDF/'+ano+'*'+mes;
+    }
+</script>
 
 @endsection

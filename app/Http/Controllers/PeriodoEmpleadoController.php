@@ -54,10 +54,14 @@ class PeriodoEmpleadoController extends Controller
         $fechainicialF = new DateTime($arr[0].'-'.$arr[1].'-'.$arr[2]);     
         $contrato->fechaInicio=$nFecha; 
 
-        $arr = explode('/', $request->fechaFin);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
-        $fechafinalF = new DateTime($arr[0].'-'.$arr[1].'-'.$arr[2]);
-        $contrato->fechaFin=$nFecha; 
+        if($request->fechaFin!=null && $request->fechaFin!=""){
+            $arr = explode('/', $request->fechaFin);
+            $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
+            $fechafinalF = new DateTime($arr[0].'-'.$arr[1].'-'.$arr[2]);
+            $contrato->fechaFin=$nFecha; 
+        }else{
+            $contrato->fechaFin=null;
+        }
 
         $contrato->fechaContrato=date('y-m-d');
         $contrato->codTurno=$request->codTurno;
@@ -109,8 +113,13 @@ class PeriodoEmpleadoController extends Controller
 
         //$fechainicialF = new DateTime('2012-01-01');
         //$fechafinalF = new DateTime('2013-01-01');
-        $diferencia = $fechainicialF->diff($fechafinalF);//tienen que ser del tipo DateTime
-        $meses = ( $diferencia->y * 12 ) + $diferencia->m;
+        if($contrato->fechaFin!=null){
+            $diferencia = $fechainicialF->diff($fechafinalF);//tienen que ser del tipo DateTime
+            $meses = ( $diferencia->y * 12 ) + $diferencia->m;
+        }else{
+            $meses=12;
+        }
+        
         if($request->codTipoContrato==1){
             for ($i=0; $i < $meses; $i++) {
                 //date_add($fechainicial, date_interval_create_from_date_string("1 month"));
@@ -123,7 +132,15 @@ class PeriodoEmpleadoController extends Controller
                 $sueldo->anio=$arr[0];
                 $sueldo->mes=$arr[1];
                 $sueldo->diaInicio=$arr[2];
-                $sueldo->sueldoMensual=($contrato->sueldoFijo)/$meses;
+
+                //cuando el contrato no tiene fin los pagos ingresados son mensuales
+                if($contrato->fechaFin!=null){
+                    $sueldo->sueldoMensual=($contrato->sueldoFijo)/$meses;
+                }else{
+                    $sueldo->sueldoMensual=$contrato->sueldoFijo;
+                }
+
+                //$sueldo->sueldoMensual=($contrato->sueldoFijo)/$meses;
                 $sueldo->save();
                 $fechainicial=date("Y-m-d",strtotime($fechainicial."+ 1 month"));
             }

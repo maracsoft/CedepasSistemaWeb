@@ -68,4 +68,9 @@ class PeriodoCaja extends Model
         return round( 100- ($this->montoFinal/$this->montoApertura)*100,2);
 
     }
+
+    public function getCaja(){
+        $caja = Caja::findOrFail($this->codCaja);
+        return $caja;
+    }
 }

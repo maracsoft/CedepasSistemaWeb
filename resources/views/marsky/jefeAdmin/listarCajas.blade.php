@@ -1,16 +1,13 @@
 @extends('layout.plantilla')
 
+
+
+
 @section('contenido')
 
-<script>
-  $(function () {
-    $("#table-3").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-  });
+<!-- jQuery -->
+<script src="/adminlte/plugins/jquery/jquery.min.js"></script>
 
-</script>
 
 <div class="card-body">
     
@@ -24,7 +21,23 @@
     </div>
     @ENDIF   
 
+
   <div class="well"><H3 style="text-align: center;"><strong>Cajas Chicas</strong></H3></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <a href="{{route('caja.verCrear')}}" class="btn btn-primary btn-icon icon-left" 
+          style="margin-left:610px;">
+          <i class="fas fa-plus"></i>
+          Crear nueva Caja Chica
+        </a>  
+      </div>
+    
+    </div>
+
+  </div>
+  
 
     <br/> 
 
@@ -32,10 +45,11 @@
       <thead>                  
         <tr>
           <th>Cod Caja</th>
-          
-          <th>Proyecto</th>
           <th>Nombre Caja</th>
+          <th>Proyecto</th>
           <th>Responsable</th>
+          <th>Estado del periodo</th>
+          <th>Estado</th>
           <th>OPCIONES</th>
         </tr>
       </thead>
@@ -44,23 +58,29 @@
         @foreach($listaCajas as $itemCaja)
             <tr>
                 <td>{{$itemCaja->codCaja}}</td>
-                
-                <td>{{$itemCaja->getProyecto()->nombre}}</td>
                 <td>{{$itemCaja->nombre}}</td>
+                <td>{{$itemCaja->getProyecto()->nombre}}</td>
+                <td>
+                  @if($itemCaja->codEmpleadoCajeroActual!='0') {{-- Si no está de baja --}}
+                    {{$itemCaja->getEmpleadoActual()->getNombreCompleto()}}
+                  @endif
                   
-                <td>{{$itemCaja->getEmpleadoActual()->getNombreCompleto()}}</td>
+                </td>
+                <td>{{$itemCaja->getEstado()}}</td>
+                <td>{{$itemCaja->getEstadoActivo()}}</td>
                 
               
                 <td>
+                  @if($itemCaja->codEmpleadoCajeroActual!='0') {{-- Si no está de baja --}}
                     <a href="{{route('caja.edit',$itemCaja->codCaja)}}" class="btn btn-success btn-sm btn-icon icon-left">
-                      <i class="entypo-pencil"></i>
-                      Editar
+                      
+                      <i class="fas fa-pencil-alt"></i> Editar
                     </a>
-
+                  
                     <!--Boton eliminar -->
-                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert
-                            title:'<h3>¿Está seguro de cesar el usuario?',
-                            text: '',     //mas texto
+                    <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Dar de baja Caja Chica" onclick="swal({//sweetalert
+                            title:'¿Está seguro de dar de baja a la caja chica {{$itemCaja->nombre}}? ',
+                            text: 'Esto implica que ya no se podrán crear periodos ni gastos en esta. ',     //mas texto
                             //type: 'warning',  
                             type: '',
                             showCancelButton: true,//para que se muestre el boton de cancelar
@@ -72,9 +92,14 @@
                             html : true
                         },
                         function(){//se ejecuta cuando damos a aceptar
-                           
-                        });"><i class="entypo-cancel"></i>Dar de Baja</a>
-
+                            window.location.href='{{route('caja.destroy',$itemCaja->codCaja)}}';
+                        });">
+                        
+                        <i class="fas fa-window-close"></i>
+                        Dar de Baja
+                      
+                    </a>
+                  @endif
                 </td>
             </tr>
         @endforeach
@@ -82,11 +107,7 @@
       </tbody>
     </table>
     
-    <a href="{{route('caja.verCrear')}}" class="btn btn-primary btn-sm btn-icon icon-left" 
-      style="margin-left:610px;">
-      <i class="entypo-pencil"></i>
-      CREAR
-    </a>  
+    
     
     
 

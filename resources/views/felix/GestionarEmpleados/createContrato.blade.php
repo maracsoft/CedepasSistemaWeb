@@ -64,6 +64,8 @@
         {
             var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+.$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
             var tipoContrato=$("#codTipoContrato").val(); 
+
+            var tipo=$("#tipo").val();
             //alert(total);
 
             if(tipoContrato==1){//PLAZO FIJO
@@ -72,11 +74,11 @@
                     alert("Ingrese fecha de Inicio");
                     $("#fechaInicio").focus();
                 }
-                else if (document.getElementById("fechaFin").value == ""){
+                else if (document.getElementById("fechaFin").value == "" && tipo=="1"){
                     alert("Ingrese fecha de Fin");
                     $("#fechaFin").focus();
                 }
-                else if (document.getElementById("fechaFin").value <= document.getElementById("fechaInicio").value){
+                else if (document.getElementById("fechaFin").value <= document.getElementById("fechaInicio").value && tipo=="1"){
                     alert("La fecha final tiene que ser mayor que la inicial");
                 }
                 else if (document.getElementById("sueldo").value == ""){
@@ -152,6 +154,16 @@
         @csrf 
             <input type="text" class="form-control" id="codEmpleado" name="codEmpleado" value="{{ $empleado->codEmpleado}}" hidden>
             <input type="text" class="form-control" id="codTipoContrato" name="codTipoContrato" value="{{ $tipoContrato}}" hidden>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Tipo:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="tipo" id="tipo" onchange="ocultarFecha()">
+                    <option value="1">Periodo definido</option>
+                    <option value="2">Periodo indefinido</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group row">                   
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
                 <div class="col-md-4">                        
@@ -167,13 +179,13 @@
                 </div> 
             </div>
 
-            <div class="form-group row">                   
+            <div class="form-group row" id="divFechaFin">                   
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Fin:</label>
                 <div class="col-md-4">                        
                     <div class="form-group">                            
                         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
                             <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
-                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
+                                    style="text-align:center;">
                             <div class="input-group-btn">                                        
                                 <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
                             </div>
@@ -196,7 +208,7 @@
             @endif
             
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sueldo:</label>
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;" id="lbSueldo">Sueldo Fijo:</label>
                 <div class="col-sm-4">
                     <input type="number" step="any" class="form-control" id="sueldo" name="sueldo" placeholder="sueldo..." >
                 </div>
@@ -317,6 +329,18 @@ var cont=0;
 var detalleventa=[];
 var controlproducto=[];
 var total=0;
+
+function ocultarFecha(){
+    codigo=$("#tipo").val();
+    //alert(codigo);
+    if(codigo==1){
+        $('#divFechaFin').show();
+        $('#lbSueldo').html("Sueldo Fijo:");
+    }else{
+        $('#divFechaFin').hide();
+        $('#lbSueldo').html("Sueldo Mensual:");
+    }
+}
 
 function agregarDetalle()
 {

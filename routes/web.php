@@ -152,6 +152,7 @@ Route::get('/marcarAsistencia/marcar/{id}','AsistenciaController@marcar');
 /*********JEFE DE RRHH */
 Route::get('/listarAsistencia','AsistenciaController@listarAsistencia');
 Route::post('/listarAsistencia/{id}','AsistenciaController@filtroAsistencia');
+Route::get('/exportarReportePDF/{id}','AsistenciaController@exportarReporte');
 
 
 /**GESTIONAR SOLICITUDES */
@@ -231,6 +232,8 @@ Route::get('/CC/admin/crearCaja/','CajaController@verCrear')->name('caja.verCrea
 Route::post('/CC/admin/storeCaja/','CajaController@store')->name('caja.store');
 Route::get('CC/admin/editCaja/{codCaja}','CajaController@edit')->name('caja.edit');
 Route::post('CC/admin/updateCaja/{codCaja}','CajaController@update')->name('caja.update');
+
+Route::get('CC/admin/destroyCaja/{codCaja}','CajaController@destroy')->name('caja.destroy');
 
 
 
