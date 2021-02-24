@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.plantilla')
 
 @section('title')
     Ingreso
@@ -8,7 +8,7 @@
 Registro de Ingresos
 @endsection
 
-@section('content')
+@section('contenido')
 
 <!-- Main content -->
 <section class="content">

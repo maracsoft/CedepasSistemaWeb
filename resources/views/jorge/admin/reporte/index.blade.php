@@ -1,5 +1,5 @@
 <!-- <a href="{{ route('print') }}">Exportar</a> -->
-@extends('layouts.app')
+@extends('layout.plantilla')
 
 @section('title')
     Reporte
@@ -9,7 +9,7 @@
 Registro de Reportes
 @endsection
 
-@section('content')
+@section('contenido')
 
 <!-- Main content -->
 <section class="content">

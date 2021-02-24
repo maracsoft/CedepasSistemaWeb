@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout.plantilla')
 
 @section('title')
     Existencia Perdida
@@ -8,7 +8,7 @@
 Edición de Existencias Perdidas
 @endsection
 
-@section('content')
+@section('contenido')
 
 <!-- Main content -->
 <section class="content">

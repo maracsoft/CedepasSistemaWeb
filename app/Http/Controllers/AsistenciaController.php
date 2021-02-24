@@ -122,12 +122,14 @@ class AsistenciaController extends Controller
         $empleados=DB::TABLE('empleado')
         ->JOIN('periodo_empleado', 'empleado.codEmpleado', '=', 'periodo_empleado.codEmpleado')
         ->SELECT('empleado.codEmpleado as codEmpleado', 'empleado.nombres as nombres',  
-                    'empleado.apellidos as apellidos', 'periodo_empleado.codPuesto as codPuesto', 'periodo_empleado.codPuesto as codArea')
+                    'empleado.apellidos as apellidos', 'periodo_empleado.codPuesto as codPuesto', 'periodo_empleado.codPuesto as codArea',
+                    'periodo_empleado.codPuesto as cantAsistencias')
         ->where('periodo_empleado.activo','=',1)->orderBy('empleado.codEmpleado')->get();
 
         foreach ($empleados as $itemempleado) {
             $itemempleado->codPuesto=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->puesto->nombre;
             $itemempleado->codArea=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->puesto->area->nombre;
+            $itemempleado->cantAsistencias=app(Empleado::class)->getContratoHabil($itemempleado->codEmpleado)->parametros();
         }
 
         //Empleado::getContratoHabil($itemempleado->codEmpleado)->codTurno;

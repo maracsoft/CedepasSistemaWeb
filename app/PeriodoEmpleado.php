@@ -52,24 +52,34 @@ class PeriodoEmpleado extends Model
 
         foreach ($asistencias as $itemasistencia) {
             if(!is_null($itemasistencia->fechaHoraEntrada)){
-                if($itemasistencia->fechaHoraEntrada){
                     $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada));
                     if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio)){
                         $contTardanzas++;
                     }
-                }
+
                 $contAsistencias++;
             }
             if(!is_null($itemasistencia->fechaHoraEntrada2)){
-                if($itemasistencia->fechaHoraEntrada2){
                     $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada2));
                     if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio2)){
                         $contTardanzas++;
                     }
-                }
+
                 $contAsistencias++;
             }
-            $contTotal+=2;
+
+            if($itemasistencia->periodoEmpleado->turno->codTipoTurno==3){
+                $contTotal+=2;
+            }else{
+                $contTotal+=1;
+            }
+            
         }
+
+        $contAsistencias=(float)$contAsistencias/$contTotal*100;
+        $contFaltas=0;
+        $contTardanzas=0;
+
+        return $contTotal;
     }
 }

@@ -47,7 +47,7 @@
                     <td>{{$itemempleado->nombres}}</td>
                     <td>{{$itemempleado->codPuesto}}</td>
                     <td>{{$itemempleado->codArea}}</td>
-                    <td>100%</td>
+                    <td>{{$itemempleado->cantAsistencias}}%</td>
                     <td>0%</td>
                     <td>0%</td>
                 </tr>
