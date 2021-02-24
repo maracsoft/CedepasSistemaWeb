@@ -82,75 +82,93 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
-
-          
-          <li class="nav-header">VIGO</li>
+               <li class="nav-header">VIGO</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="far fa-building nav-icon"></i>
               <p>
-                Empleado
+                Provision de Fondos
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
-                  <i class="far fa-address-card nav-icon"></i>
-                  <p>Listar Solicitudes</p>
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Empleado
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
                 </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
+                      <i class="far fa-address-card nav-icon"></i>
+                      <p>Listar Solicitudes</p>
+                    </a>
+                  </li>
+                  
+                </ul>
               </li>
+    
+    
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Director
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('solicitudFondos.listarDirector')}}" class="nav-link">
+                      <i class="far fa-address-card nav-icon"></i>
+                      <p>Listar Fondos</p>
+                    </a>
+                  </li>
+    
+                  <li class="nav-item">
+                    <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Reportes</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+    
               
+              <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>
+                    Jefe Admin
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                      <i class="far fa-address-card nav-icon"></i>
+                      <p>Ver Solicitudes</p>
+                    </a>
+                  </li>
+    
+                </ul>
+    
+              </li>
             </ul>
+
+
+
           </li>
 
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Director
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarDirector')}}" class="nav-link">
-                  <i class="far fa-address-card nav-icon"></i>
-                  <p>Listar Fondos</p>
-                </a>
-              </li>
 
-              <li class="nav-item">
-                <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reportes</p>
-                </a>
-              </li>
-            </ul>
-          </li>
 
           
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Jefe Admin
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
-                  <i class="far fa-address-card nav-icon"></i>
-                  <p>Ver Solicitudes</p>
-                </a>
-              </li>
-
-            </ul>
-
-          </li>
+         
+          
 
           
 
@@ -345,6 +363,92 @@
               
             </ul>
           </li>
+{{--   --------------------------------------------     JORGE        ----------------------------------------------------------------- --}}
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-building nav-icon"></i>
+              <p>
+                Inventarios Jorge
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+             
+                   
+              <li class="nav-item">
+                <a href="{{ route('categoria.index') }}" class="nav-link">
+                    <i class="nav-icon far fa-circle"></i>
+                    <p>
+                        Categoria
+                    </p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="{{ route('existencia.index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-database"></i>
+                      <p>
+                          Existencia
+                      </p>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="{{ route('ingreso.index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-arrow-circle-right"></i>
+                      <p>
+                          Ingreso
+                      </p>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="{{ route('salida.index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-arrow-circle-left"></i>
+                      <p>
+                          Salida
+                      </p>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="{{ route('existenciaPerdida.index') }}" class="nav-link">
+                      <i class="nav-icon fas fa-exclamation-circle"></i>
+                      <p>
+                          Existentes Perdidos
+                      </p>
+                  </a>
+              </li>
+              
+              <li class="nav-item">
+                  <a href="{{ route('exportar') }}" class="nav-link">
+                      <i class="nav-icon fas fa-file-alt"></i>
+                      <p>
+                          Reporte
+                      </p>
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                  <a href="{{ route('reporte') }}" class="nav-link">
+                      <i class="nav-icon fas fa-file-alt"></i>
+                      <p>
+                          Movimiento de existentes
+                      </p>
+                  </a>
+              </li>
+
+
+            </ul>
+
+
+
+          </li>
+
+
+        {{-- fin jorge --}}
+
 
           <li class="nav-item">
             <a href="{{route('user.cerrarSesion')}}" class="nav-link">

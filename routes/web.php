@@ -247,3 +247,70 @@ Route::resource('activos', ActivoController::class);
 Route::get('/actualizarActivos/mostrarRevisiones','gestionInventarioController@mostrarRevisiones')->name('gestionInventario.mostrarRevisiones');
 Route::get('/actualizarActivos/mostrarActivos/{id}','ActivoController@mostrarActivos')->name('activos.mostrarActivos');
 Route::get('/actualizarActivos/cambiarEstado/{id}','gestionInventarioController@cambiarEstado');
+
+
+
+
+
+
+/* ------------------------------ ---------------- MODULO JORGE -------------- ------------------------------ */
+
+
+Route::name('exportar')->get('/exportar', 'ExportarController@exportar');
+Route::name('print')->get('/imprimir', 'ExportarController@imprimir');
+Route::name('print2')->get('/imprimir2', 'ExportarController@imprimir2');
+
+Route::name('reporte')->get('/reporte', 'ExportarController@reporte');
+
+Route::name('searchReporte')->post('/searchReporte', 'ExportarController@searchReporte');
+
+Route::group(['prefix' => 'categoria'], function () {
+    Route::get('/', ['as' => 'categoria.index', 'uses' => 'CategoriaController@index']);
+    Route::get('/create', ['as' => 'categoria.create', 'uses' => 'CategoriaController@create']);
+    Route::post('/create', ['as' => 'categoria.create', 'uses' => 'CategoriaController@store']);
+    Route::get('/edit/{id}', ['as' => 'categoria.edit', 'uses' => 'CategoriaController@edit']);
+    Route::post('/edit/{id}', ['as' => 'categoria.edit', 'uses' => 'CategoriaController@update']);
+    Route::post('/delete', ['as' => 'categoria.delete', 'uses' => 'CategoriaController@destroy']);
+});
+
+Route::group(['prefix' => 'existencia'], function () {
+    Route::get('/', ['as' => 'existencia.index', 'uses' => 'ExistenciaController@index']);
+    Route::get('/create', ['as' => 'existencia.create', 'uses' => 'ExistenciaController@create']);
+    Route::post('/create', ['as' => 'existencia.create', 'uses' => 'ExistenciaController@store']);
+    Route::get('/edit/{id}', ['as' => 'existencia.edit', 'uses' => 'ExistenciaController@edit']);
+    Route::post('/edit/{id}', ['as' => 'existencia.edit', 'uses' => 'ExistenciaController@update']);
+    Route::post('/delete', ['as' => 'existencia.delete', 'uses' => 'ExistenciaController@destroy']);
+    
+    Route::post('/search', ['as' => 'existencia.search', 'uses' => 'ExistenciaController@search']);
+    Route::post('/searchByCategory', ['as' => 'existencia.searchByCategory', 'uses' => 'ExistenciaController@searchByCategory']);
+});
+
+Route::group(['prefix' => 'ingreso'], function () {
+    Route::get('/', ['as' => 'ingreso.index', 'uses' => 'IngresoController@index']);
+    Route::get('/create', ['as' => 'ingreso.create', 'uses' => 'IngresoController@create']);
+    Route::post('/create', ['as' => 'ingreso.create', 'uses' => 'IngresoController@store']);
+    Route::get('/edit/{id}', ['as' => 'ingreso.edit', 'uses' => 'IngresoController@edit']);
+    Route::post('/edit/{id}', ['as' => 'ingreso.edit', 'uses' => 'IngresoController@update']);
+    Route::post('/delete', ['as' => 'ingreso.delete', 'uses' => 'IngresoController@destroy']);
+
+    Route::post('/validar', ['as' => 'ingreso.validar', 'uses' => 'IngresoController@validarCodigo']);
+});
+
+Route::group(['prefix' => 'salida'], function () {
+    Route::get('/', ['as' => 'salida.index', 'uses' => 'SalidaController@index']);
+    Route::get('/create', ['as' => 'salida.create', 'uses' => 'SalidaController@create']);
+    Route::post('/create', ['as' => 'salida.create', 'uses' => 'SalidaController@store']);
+    Route::get('/edit/{id}', ['as' => 'salida.edit', 'uses' => 'SalidaController@edit']);
+    Route::post('/edit/{id}', ['as' => 'salida.edit', 'uses' => 'SalidaController@update']);
+    Route::post('/delete', ['as' => 'salida.delete', 'uses' => 'SalidaController@destroy']);
+});
+
+Route::group(['prefix' => 'existenciaPerdida'], function () {
+    Route::get('/', ['as' => 'existenciaPerdida.index', 'uses' => 'ExistenciaPerdidaController@index']);
+    Route::get('/create', ['as' => 'existenciaPerdida.create', 'uses' => 'ExistenciaPerdidaController@create']);
+    Route::post('/create', ['as' => 'existenciaPerdida.create', 'uses' => 'ExistenciaPerdidaController@store']);
+    Route::get('/edit/{id}', ['as' => 'existenciaPerdida.edit', 'uses' => 'ExistenciaPerdidaController@edit']);
+    Route::post('/edit/{id}', ['as' => 'existenciaPerdida.edit', 'uses' => 'ExistenciaPerdidaController@update']);
+    Route::post('/delete', ['as' => 'existenciaPerdida.delete', 'uses' => 'ExistenciaPerdidaController@destroy']);
+
+});

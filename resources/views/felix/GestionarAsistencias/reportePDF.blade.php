@@ -45,8 +45,8 @@
                 @foreach($empleados as $itemempleado)
                 <tr>
                     <td>{{$itemempleado->nombres}}</td>
-                    <td>{{}}</td>
-                    <td>Gerencia</td>
+                    <td>{{$itemempleado->codPuesto}}</td>
+                    <td>{{$itemempleado->codArea}}</td>
                     <td>100%</td>
                     <td>0%</td>
                     <td>0%</td>

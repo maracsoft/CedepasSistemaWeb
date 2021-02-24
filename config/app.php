@@ -190,6 +190,7 @@ return [
     */
 
     'aliases' => [
+        'Flash'=>Laracasts\Flash\Flash::class, //agregado por mi manualmente xd
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,

@@ -43,4 +43,33 @@ class PeriodoEmpleado extends Model
     public function avances(){//
         return $this->hasMany('App\AvanceEntregable','codPeriodoEmpleado','codPeriodoEmpleado');//el tercer parametro es de Producto
     }
+
+    public function parametros(){
+        $asistencias=Asistencia::where('codPeriodoEmpleado','=',$this->codPeriodoEmpleado)->get();
+        $contTotal=0;
+        $contAsistencias=0;
+        $contTardanzas=0;
+
+        foreach ($asistencias as $itemasistencia) {
+            if(!is_null($itemasistencia->fechaHoraEntrada)){
+                if($itemasistencia->fechaHoraEntrada){
+                    $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada));
+                    if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio)){
+                        $contTardanzas++;
+                    }
+                }
+                $contAsistencias++;
+            }
+            if(!is_null($itemasistencia->fechaHoraEntrada2)){
+                if($itemasistencia->fechaHoraEntrada2){
+                    $item=date('H:i:s', strtotime($itemasistencia->fechaHoraEntrada2));
+                    if($item>strtotime($itemasistencia->periodoEmpleado->turno->horaInicio2)){
+                        $contTardanzas++;
+                    }
+                }
+                $contAsistencias++;
+            }
+            $contTotal+=2;
+        }
+    }
 }
