@@ -70,9 +70,15 @@ class Empleado extends Model
     public static function getEmpleadoLogeado(){
         $codUsuario = Auth::id();         
         $empleados = Empleado::where('codUsuario','=',$codUsuario)->get();
-        
+
+        if(is_null(Auth::id())){
+            return false;
+        }
+
+
         if(count($empleados)<0) //si no encontró el empleado de este user 
-        {error_log('
+        {
+            error_log('
             
             ERROR : 
             EMPLEADO->getEmpleadoLogeado()

@@ -13,6 +13,7 @@ class Declaracion extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['gastos','gastoPlanilla','impuestos','fechaDeclaracion','codEmpleadoAutor','mesDeclarado'];
+    protected $fillable = ['gastos','gastoPlanilla','impuestos','fechaDeclaracion',
+        'codEmpleadoAutor','mesDeclarado'];
     
 }

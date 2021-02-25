@@ -66,7 +66,9 @@
                   @endif
                   
                 </td>
-                <td>{{$itemCaja->getEstado()}}</td>
+                <td>
+                  {{$itemCaja->getEstado()}}
+                </td>
                 <td>{{$itemCaja->getEstadoActivo()}}</td>
                 
               

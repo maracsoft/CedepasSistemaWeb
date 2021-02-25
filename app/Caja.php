@@ -71,6 +71,8 @@ class Caja extends Model
         ->orderBy('codPeriodoCaja','DESC')
         ->first();
 
+        if($this->activa==0) return "";
+
         $nombreEstado = '';
         
         if(is_null($periodo)){//si no tiene ningun periodo

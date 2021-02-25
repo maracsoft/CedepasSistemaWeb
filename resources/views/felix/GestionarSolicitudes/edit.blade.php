@@ -113,6 +113,7 @@
             <br />
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
+            <a href="/listarSolicitudes/{{$solicitud->periodoEmpleado->codEmpleado}}" class="btn btn-info">Regresar</a>
     </form>
 @endsection
 

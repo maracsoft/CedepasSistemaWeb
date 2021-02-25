@@ -7,8 +7,7 @@
 <br>
 <div class="container">
 <h1>Periodo actual de Caja Chica</h1>
-    <div class="row mt-2">
-        @if (session('datos'))
+    @if (session('datos'))
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
             {{session('datos')}}
           <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
@@ -16,7 +15,9 @@
           </button>
           
         </div>
-      @ENDIF   
+        @endif 
+    <div class="row mt-2">
+          
     <div class="col-6">
         <div class="form-group row">
             <label for="inputEmail3" class="col-sm-4 col-form-label">Fecha Inicio</label>

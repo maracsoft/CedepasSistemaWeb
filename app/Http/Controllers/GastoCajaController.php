@@ -13,7 +13,15 @@ class GastoCajaController extends Controller
     
     //actualiza un gasto
     public function store(Request $request){
-       //return $request;
+        $periodo = PeriodoCaja::findOrFail($request->codPeriodo);
+        $caja = Caja::findOrFail($periodo->codCaja);
+
+        if($request->monto > $periodo->montoFinal){//si se trata de gastar mas de lo que se tiene
+            return redirect()->route('resp.verPeriodo',$periodo->codPeriodoCaja)
+                ->with('datos','Error, no puede gastar más de lo que hay en caja.');
+
+        }
+
         try{
             DB::beginTransaction();
 
@@ -30,9 +38,9 @@ class GastoCajaController extends Controller
             $gasto->codigoPresupuestal = $request->codigoPresupuestal;
 
            
-            $periodo = PeriodoCaja::findOrFail($request->codPeriodo);
             
-            $caja = Caja::findOrFail($periodo->codCaja);
+           
+
 
             $periodo->montoFinal = $periodo->montoFinal - $gasto->monto;
             $caja->montoActual = $periodo->montoFinal;
@@ -67,7 +75,7 @@ class GastoCajaController extends Controller
 
             DB::commit();
 
-            return redirect()->route('resp.verPeriodo',$periodo->codPeriodoCaja);
+            return redirect()->route('resp.verPeriodo',$periodo->codPeriodoCaja)->with('datos','Gasto registrado exitosamente.');
         }catch(\Throwable $th){
             error_log('
             

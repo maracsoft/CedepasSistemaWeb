@@ -236,6 +236,7 @@
                 
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
+            <a href="/listarEmpleados" class="btn btn-info">Regresar</a>
     </form>
 @endsection
 

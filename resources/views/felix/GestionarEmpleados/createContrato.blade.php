@@ -335,6 +335,7 @@
             <br />
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
+            <a href="/listarEmpleados/listarContratos/{{$empleado->codEmpleado}}" class="btn btn-info">Regresar</a>
 
 <script>
     var fechaParaFin=$("#fechaFin").val();

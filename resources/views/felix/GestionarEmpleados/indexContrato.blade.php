@@ -112,7 +112,7 @@
         </div>
         <input type="button" class="col-sm-1 btn btn-primary" value="AGREGAR" onclick="crear()" />
       </div>
-      
+      <a href="/listarEmpleados" class="btn btn-info">Regresar</a>
       <!--
       <a href="/listarEmpleados/crearContrato/{{$empleado->codEmpleado}}*1" class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>AGREGAR CONTRATO DE PLAZO FIJO</a>  
       <a href="/listarEmpleados/crearContrato/{{$empleado->codEmpleado}}*2"  class="btn btn-info btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>AGREGAR CONTRATO POR LOCACION</a>  

@@ -283,7 +283,14 @@
                 </a>
               </li>
               
-            
+              <li class="nav-item">
+                <a href="{{route('declaracion.listar')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pagos</p>
+                </a>
+              </li>
+              
+              
 
               
 

@@ -8,7 +8,7 @@
   
     <div class="form-group row">
             <div class="col-sm-6" >
-                <a href="" class="btn btn-primary"><i class="fas fa-plus"></i>Nueva declaracion</button></a>
+                <a href="{{route('declaracion.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nueva declaracion</button></a>
             </div>
         </div>
     </div>
@@ -28,17 +28,21 @@
             </tr>
         </thead>
         <tbody>
+            @foreach($listaDeclaraciones as $declaracion)
             <tr>
-                <th>01/01/2021</th>
-                <td>Renzo Junior</td>
-                <td>0.18</td>
-               <td>20000 </td>
-               <td>900 </td>
-               <td>1000</td>
+                <th>{{$declaracion->fechaDeclaracion}}</th>
+                <td>{{$declaracion->getEmpleado()}}</td>
+                <td>{{$declaracion->ingresos}}</td>
+               <td>{{$declaracion->gastos}}</td>
+               <td>{{$declaracion->gastosPlanilla}}</td>
+               <td>{{$declaracion->getMes()}}</td>
                <td>
                 <a href="" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button></a>
                </td>
             </tr>
+            @endforeach
+
+
         </tbody>
     </table>
     <div>

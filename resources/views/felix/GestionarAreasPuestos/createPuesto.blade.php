@@ -43,5 +43,6 @@
             <!--
              <input type="button" class="btn btn-primary"  value="Guardar" onclick="validarregistro()" /> -->
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="GUARDAR"  onclick="validarregistro()"/>
+            <a href="/listarPuestos/{{$area->codArea}}" class="btn btn-info">Regresar</a>
     </form>
 @endsection

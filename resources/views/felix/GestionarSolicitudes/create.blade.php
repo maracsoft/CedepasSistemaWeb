@@ -40,7 +40,7 @@
                 alert("Ingrese fecha de fin");
                 $("#fechaFin").focus();
             }
-            else if (document.getElementById("fechaFin").value <= document.getElementById("fechaInicio").value){
+            else if (document.getElementById("fechaFin").value < document.getElementById("fechaInicio").value){
                 alert("La fecha final tiene que ser mayor que la inicial");
             }
             else{
@@ -117,6 +117,7 @@
             <br />
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
+            <a href="/listarSolicitudes/{{$empleado->codEmpleado}}" class="btn btn-info">Regresar</a>
     </form>
 @endsection
 

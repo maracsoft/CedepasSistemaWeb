@@ -44,7 +44,7 @@ class AreaController extends Controller
         $area=Area::find($id);
         $area->estado=0;
         $area->save();
-        
+
         return Redirect('listarAreas');
         //return response()->json();
     }

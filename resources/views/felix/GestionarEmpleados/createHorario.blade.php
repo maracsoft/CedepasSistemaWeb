@@ -152,6 +152,7 @@
             <br />
             
             <input id="guardar" type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
+            <a href="/listarEmpleados/listarContratos/{{$contrato->codEmpleado}}" style="margin-left:600px;" class="btn btn-info">Regresar</a>
             <script>$('#guardar').hide();</script>
     </form>
 @endsection

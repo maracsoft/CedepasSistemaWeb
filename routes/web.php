@@ -278,6 +278,11 @@ Route::post('CC/admin/updateCaja/{codCaja}','CajaController@update')->name('caja
 
 Route::get('CC/admin/destroyCaja/{codCaja}','CajaController@destroy')->name('caja.destroy');
 
+// DECLARAR IMPUESTOS
+
+Route::get('/listarDeclaraciones','DeclaracionController@listar')->name('declaracion.listar');
+Route::get('/verDeclaracion/{id}','DeclaracionController@ver')->name('declaracion.ver');
+Route::get('/crearDeclaracion','DeclaracionController@create')->name('declaracion.create');
 
 
 /* --------------------------------------- MODULO RENZO -------------------------------------------------- */

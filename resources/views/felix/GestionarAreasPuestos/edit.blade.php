@@ -51,5 +51,6 @@
             <!--
              <input type="button" class="btn btn-primary"  value="Guardar" onclick="validarregistro()" /> -->
             <input type="button" class="btn btn-primary"  style="margin-left:600px;" value="Guardar"  onclick="validarregistro()"/>
+            <a href="/listarAreas" class="btn btn-info">Regresar</a>
     </form>
 @endsection
