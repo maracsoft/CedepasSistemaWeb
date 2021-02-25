@@ -4,11 +4,22 @@
 
 <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
 
-<script type="text/javascript">     
-    function validar() {
-        document.frmgestion.submit(); // enviamos el formulario	
-    }
-</script>
+<script type="text/javascript">
+    function validar() 
+            {
+                var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
+                if (document.getElementById("codEmpleadoResponsable").value == "0"){
+                    alert("Seleccione Responsable");
+                }
+                else if (document.getElementById("descripcion").value == ""){
+                    alert("Ingrese descripcion");
+                    $("#descripcion").focus();
+                }
+                else{
+                    document.frmgestion.submit(); // enviamos el formulario	
+                }
+            }     
+    </script>
 
 <div class="container">
     <form method="POST" action="{{ route('gestionInventario.update',$revision->codRevision)}}" id="frmgestion" name="frmgestion">

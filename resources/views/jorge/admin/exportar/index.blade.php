@@ -30,7 +30,7 @@ Registro de Reportes
         </div>
         <div class="card-body">
             
-            @include('admin.exportar.fields')
+            @include('jorge.admin.exportar.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">
@@ -65,7 +65,7 @@ Registro de Reportes
 
 </section>
 <!-- /.content -->
-@include('admin.modals.product')
+@include('jorge.admin.modals.product')
 @endsection
 
 @section('script')

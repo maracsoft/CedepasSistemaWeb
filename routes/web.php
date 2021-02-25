@@ -28,9 +28,6 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
-
-
-
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
 
@@ -54,8 +51,14 @@ Route::get('/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
 Route::get('/SolicitudFondos/vistaAbonar/{id}','SolicitudFondosController@vistaAbonar')
     ->name('solicitudFondos.vistaAbonar');
 
-Route::get('/SolicitudFondos/Abonar/{id}','SolicitudFondosController@abonar')
+Route::post('/SolicitudFondos/Abonar/','SolicitudFondosController@abonar')
     ->name('solicitudFondos.abonar');
+
+
+Route::get('/SolicitudFondos/descargarComprobanteAbono/{id}','SolicitudFondosController@descargarComprobanteAbono')
+    ->name('solicitudFondos.descargarComprobanteAbono');
+    
+
 
 Route::get('/SolicitudFondos/Aprobar/{id}','SolicitudFondosController@aprobar')
     ->name('solicitudFondos.aprobar');
@@ -85,7 +88,9 @@ Route::get('/solicitudes/reportes/','SolicitudFondosController@reportes')
 
 
 Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
-->name('solicitudFondos.update');
+    ->name('solicitudFondos.update');
+
+
 
 
 Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solicitudFondos.store');
@@ -96,6 +101,11 @@ Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendi
 
 Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
 
+Route::get('/verReponer/{id}', 'RendicionFondosController@verReponer')->name('rendicionFondos.verReponer');
+Route::post('/rendicion/reponer/','RendicionFondosController@reponer')
+    ->name('rendicionFondos.reponer');
+
+
 Route::post('/reportes/ver', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
 
 
@@ -104,6 +114,19 @@ Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarRepo
 
 
 Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
+
+
+//esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
+Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionFondosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
+
+
+// PARA REPONER LAS REPOSICIONES DE LOS EMPLEADOS QUE GASTARON MAS DE LO QUE RECIBIERON
+
+
+Route::get('/rendicion/listarJefeAdmin/','RendicionFondosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
+
+Route::get('/rendicion/listarEmpleado/','RendicionFondosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
+
 
 
 
@@ -246,6 +269,7 @@ Route::resource('gestionInventario', GestionInventarioController::class);
 Route::resource('activos', ActivoController::class);
 Route::get('/actualizarActivos/mostrarRevisiones','gestionInventarioController@mostrarRevisiones')->name('gestionInventario.mostrarRevisiones');
 Route::get('/actualizarActivos/mostrarActivos/{id}','ActivoController@mostrarActivos')->name('activos.mostrarActivos');
+Route::get('/actualizarActivos/habilidarActivo/{id}','ActivoController@habilitarActivo')->name('activos.habilitarActivo');
 Route::get('/actualizarActivos/cambiarEstado/{id}','gestionInventarioController@cambiarEstado');
 
 

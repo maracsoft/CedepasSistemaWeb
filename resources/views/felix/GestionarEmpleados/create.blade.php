@@ -199,8 +199,8 @@
                 <div class="col-sm-4">
                     <select class="form-control" name="codSexo" id="codSexo">
                     <option value="0">--Seleccionar--</option>
-                    <option value="1">Hombre</option>
-                    <option value="2">Mujer</option>
+                    <option value="M">Hombre</option>
+                    <option value="F">Mujer</option>
                     </select>
                 </div>
             </div>

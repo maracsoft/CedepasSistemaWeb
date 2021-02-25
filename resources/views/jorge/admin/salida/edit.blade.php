@@ -37,7 +37,7 @@ Edición de Salidas
                     'files'=> true,
                     'enctype' => "multipart/form-data"]) !!}
 
-            @include('admin.salida.fields')
+            @include('jorge.admin.salida.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">

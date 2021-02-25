@@ -37,7 +37,7 @@ Edición de Categorias
                     'files'=> true,
                     'enctype' => "multipart/form-data"]) !!}
 
-            @include('admin.categoria.fields')
+            @include('jorge.admin.categoria.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">

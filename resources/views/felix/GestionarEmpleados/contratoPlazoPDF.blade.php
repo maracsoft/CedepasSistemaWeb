@@ -87,7 +87,7 @@
         <p><u><b>SEGUNDO</b></u></p>
         <p style="text-align: justify;">
             Para el cumplimiento de su objeto social, <b>EL EMPLEADOR</b> ha obtenido financiamiento de <b>{{$contrato->nombreFinanciador}}</b> para
-            implementar el proyecto denominado: <b>“{{$contrato->nombre}}”</b>. En virtud del mismo, <b>EL EMPLEADOR</b> contrata a <b>EL
+            implementar el proyecto denominado: <b>“{{$contrato->proyecto()->nombre}}”</b>. En virtud del mismo, <b>EL EMPLEADOR</b> contrata a <b>EL
             TRABAJADOR</b>, para desempeñar el cargo de <b>{{$contrato->puesto->nombre}}</b> dentro del proyecto. <b>EL TRABAJADOR</b> se
             obliga a cumplir con las actividades descritas en los Términos de Referencia que dieron origen a su
             contratación, el cual forma parte del presente contrato. La descripción de las tareas y funciones es simplemente
@@ -96,8 +96,13 @@
         </p>
         <p><u><b>TERCERO</b></u></p>
         <p style="text-align: justify;">
-            El presente Contrato se celebra a plazo determinado, el mismo que se inicia el <b>{{$fechaInicio}}</b> y concluye
-            el <b>{{$fechaFin}}</b>. En todo caso, el Contrato se entenderá concluido en la fecha de su vencimiento, sin
+            El presente Contrato se celebra a plazo determinado, el mismo que se inicia el <b>{{$fechaInicio}}</b>
+            @if($contrato->fechaFin!=null)
+            y concluye el <b>{{$fechaFin}}</b>.
+            @else
+            y sin conclusion definida.
+            @endif
+             En todo caso, el Contrato se entenderá concluido en la fecha de su vencimiento, sin
             necesidad de comunicación alguna a <b>EL TRABAJADOR</b> por parte de <b>EL EMPLEADOR</b>. El Contrato se celebra al
             amparo de artículo 63º del Decreto Supremo 003-97–TR- Ley de Productividad y Competitividad Laboral, bajo la
             modalidad de “Contrato para Obra y Servicio” y la submodalidad de “Contrato para Servicio Específico”,

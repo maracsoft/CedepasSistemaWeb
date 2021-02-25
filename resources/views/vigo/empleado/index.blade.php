@@ -85,7 +85,7 @@ margin-top: 18px;
                 <th scope="col">Fecha emision</th>
                 <th scope="col">Sede</th>
                 <th scope="col">Proyecto</th>
-                <th scope="col">Total Rendido Solicitado & Rendido </th>
+                <th scope="col">Total Solicitado & Rendido </th>
                 <th scope="col">Estado</th>
                 <th scope="col">Fecha Revision</th>
                 
@@ -118,17 +118,23 @@ margin-top: 18px;
                 </td>
                   
                 <td style="text-align: center">
-                  
-                    <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
+                  <div class="form-control"  
                     style="background-color: {{$itemSolicitud->getColorEstado()}};
-                            width:95%;
-                            text-align:center;
-                            color: {{$itemSolicitud->getColorLetrasEstado()}} ;
+                    width:95%; 
+                    text-align:center;
+                    color: {{$itemSolicitud->getColorLetrasEstado()}} ;
                     ">
-                 
-                   
-                  
+                      {{$itemSolicitud->getNombreEstado()}}
+                    
+                    @if($itemSolicitud->codEstadoSolicitud==3)
+                    <a href="{{route('solicitudFondos.descargarComprobanteAbono',$itemSolicitud->codSolicitud)}}">
+                      <i class="fas fa-download">Ver Abono</i>
+                    </a>
+                    @endif
+                    
 
+                  </div>
+                
                   
 
                 </td>

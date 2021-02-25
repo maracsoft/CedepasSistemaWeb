@@ -12,7 +12,9 @@
 
 
 <script type="text/javascript"> 
+    
     $(document).ready(function(){
+
         $('#codArea').change(function(){
 
             var codigo=$('#codArea').val();
@@ -89,9 +91,8 @@
                     alert("Ingrese financiador del usuario");
                     $("#nombreFinanciador").focus();
                 }
-                else if (document.getElementById("nombreProyecto").value == ""){
+                else if (document.getElementById("codProyecto").value == "0"){
                     alert("Ingrese proyecto");
-                    $("#nombreProyecto").focus();
                 }
                 else if (document.getElementById("codArea").value == "0"){
                     alert("Seleccione el area");
@@ -147,14 +148,14 @@
     
 </script>
 
-    
+    <br>
     <div class="well"><H3 style="text-align: center;">CREAR CONTRATO DE {{$empleado->nombres}}, {{$empleado->apellidos}}</H3></div>
     <br>
     <form id="frmempresa" name="frmempresa" role="form" action="/listarEmpleados/crearContrato/save" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
             <input type="text" class="form-control" id="codEmpleado" name="codEmpleado" value="{{ $empleado->codEmpleado}}" hidden>
             <input type="text" class="form-control" id="codTipoContrato" name="codTipoContrato" value="{{ $tipoContrato}}" hidden>
-
+            @if($tipoContrato==1)
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Tipo:</label>
                 <div class="col-sm-4">
@@ -164,6 +165,7 @@
                     </select>
                 </div>
             </div>
+            @endif
             <div class="form-group row">                   
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
                 <div class="col-md-4">                        
@@ -184,7 +186,7 @@
                 <div class="col-md-4">                        
                     <div class="form-group">                            
                         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
+                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}"
                                     style="text-align:center;">
                             <div class="input-group-btn">                                        
                                 <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
@@ -220,12 +222,22 @@
                     <input type="text" class="form-control" id="nombreFinanciador" name="nombreFinanciador" placeholder="Financiador..." >
                 </div>
             </div>
+
+
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nombreProyecto" name="nombreProyecto" placeholder="Proyecto..." >
+                    <select class="form-control" name="codProyecto" id="codProyecto">
+                    <option value="0">--Seleccionar--</option>
+                    @foreach($proyectos as $itemProyecto)
+                    <option value="{{$itemProyecto->codProyecto}}">{{$itemProyecto->nombre}}</option>
+                    @endforeach
+                    </select>
                 </div>
-            </div> 
+            </div>
+
+
+
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Area:</label>
                 <div class="col-sm-4">
@@ -237,6 +249,8 @@
                     </select>
                 </div>
             </div>
+
+
             <div class="form-group row" id="comboPuestos">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
                 <div class="col-sm-4">
@@ -322,9 +336,14 @@
             
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
 
+<script>
+    var fechaParaFin=$("#fechaFin").val();
+    //alert(fechaParaFin);
+</script>
 @endsection
 
 <script>
+    
 var cont=0;
 var detalleventa=[];
 var controlproducto=[];
@@ -334,9 +353,11 @@ function ocultarFecha(){
     codigo=$("#tipo").val();
     //alert(codigo);
     if(codigo==1){
+        $('#fechaFin').val(fechaParaFin);
         $('#divFechaFin').show();
         $('#lbSueldo').html("Sueldo Fijo:");
     }else{
+        $('#fechaFin').val('');
         $('#divFechaFin').hide();
         $('#lbSueldo').html("Sueldo Mensual:");
     }

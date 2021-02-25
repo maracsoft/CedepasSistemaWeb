@@ -37,7 +37,7 @@ Edición de Ingresos
                     'files'=> true,
                     'enctype' => "multipart/form-data"]) !!}
 
-            @include('admin.ingreso.fields')
+            @include('jorge.admin.ingreso.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">

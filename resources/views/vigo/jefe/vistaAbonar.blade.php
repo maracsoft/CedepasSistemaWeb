@@ -10,8 +10,9 @@
     <p class="h1" style="text-align: center">Abonar a Solicitud de Fondos Aprobada</p>
 </div>
 
-<form method = "POST" action = ""  >
-        
+<form method = "POST" action = "{{route('solicitudFondos.abonar',)}}" onsubmit="return validar()"  enctype="multipart/form-data">
+    {{-- Para saber en el post cual solicitud es  --}}    
+    <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
    
     @csrf
     <div class="container">
@@ -65,7 +66,7 @@
 
                       </div>
                       <div class="col"> {{-- Combo box de empleado --}}
-                            <input readonly  type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly value="{{$solicitud->codigoCedepas}}">     
+                            <input readonly  type="text" class="form-control" name="" id="" readonly value="{{$solicitud->codigoCedepas}}">     
                       </div>
 
 
@@ -228,13 +229,29 @@
                             
                             
                             <div class="col">
-                                <a href="{{route('solicitudFondos.abonar',$solicitud->codSolicitud)}}" 
-                                    class='btn btn-success'  style="float:right;">
+
+                                <button type="submit" class='btn btn-success'  style="float:right;">
                                     <i class="fas fa-check"></i>
-                                    Abonar
+                                    Marcar como Abonado
+                                </button>
+
+                                <a href="" >
+                                    
+                                    
                                 </a>    
                             </div>
                                   
+                            <div class="col">            
+                                <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
+                                        style="display: none" onchange="cambio('imagenEnvio')">  
+                                                <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                                <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
+                                     <div id="divFileImagenEnvio" class="hovered">       
+                                        Subir comprobante deposito.      
+                                     <i class="fas fa-upload"></i>        
+                                    </div>       
+                                </label>       
+                              </div> 
                               
                         </div>
                     </div>
@@ -286,11 +303,17 @@
         margin-top: 20px;
         text-align: left;
     }
-    
+    .hovered:hover{
+    background-color:rgb(97, 170, 170);
+}
+
     </style>
 
 
 @section('script')
+
+    
+
      <script src="/public/select2/bootstrap-select.min.js"></script>     
      <script>
         var cont=0;
@@ -310,6 +333,15 @@
     
         });
 
+        function validar(){
+            if($('#nombreImgImagenEnvio').val() == '')
+                {
+                    alert('Debe subir el comprobante del deposito.')
+                    return false;
+                }
+
+        }
+
         function cargarADetallesSol(){
 
             console.log('llega');
@@ -327,6 +359,20 @@
 
             }
             
+
+        }
+
+
+        function cambio(index){
+            var idname= 'imagenEnvio'; 
+            var filename = $('#imagenEnvio').val().split('\\').pop();
+            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+            jQuery('span.'+idname).next().find('span').html(filename);
+            document.getElementById("divFileImagenEnvio").innerHTML= filename;
+            $('#nombreImgImagenEnvio').val(filename);
+
+        
+        
 
         }
 

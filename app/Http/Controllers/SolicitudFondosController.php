@@ -17,7 +17,8 @@ use SebastianBergmann\Environment\Console;
 use App\CDP;
 use App\EstadoOrden;
 use App\EstadoSolicitudFondos;
-
+use App\SolicitudFalta;
+use Illuminate\Support\Facades\Storage;
 class SolicitudFondosController extends Controller
 
 {
@@ -102,7 +103,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.jefe.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('vigo.jefe.listarSolicitudes',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 
@@ -178,7 +179,8 @@ class SolicitudFondosController extends Controller
     }
 
     //CAMBIA EL ESTADO DE LA SOLICITUD A ABONADA, Y GUARDA LA FECHA HORA ABONADO
-    public function abonar($id){
+    public function abonar(Request $request){
+        $id = $request->codSolicitud;
         try {
            DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
@@ -186,9 +188,27 @@ class SolicitudFondosController extends Controller
 
             $solicitud->fechaHoraAbonado = Carbon::now()->subHours(5);
             $solicitud->save();
+            
+
+            $codSolRecienInsertada = (SolicitudFondos::latest('codSolicitud')->first())->codSolicitud;
+            //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
+            $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
+            $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
+            $terminacion = end( $vec); //ultimo elemento del vector
+
+            error_log('la terminacion para el archivo guardado es: '.$terminacion);
+
+            $solicitud->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
+            //               RF-Devol-                           -   5   .  jpg
+            $nombreImagen = 'SF-Abono-'.$this->rellernarCerosIzq($codSolRecienInsertada,6).'.'.$terminacion;
+            $archivo =  $request->file('imagenEnvio');
+            $fileget = \File::get( $archivo );
+            Storage::disk('comprobantesAbono')
+            ->put($nombreImagen, $fileget );
+            
+            $solicitud->save();
 
             DB::commit();
-
         return redirect()->route('solicitudFondos.listarJefeAdmin')
             ->with('datos','¡Solicitud '.$solicitud->codigoCedepas.' Abonada!');
 
@@ -198,13 +218,35 @@ class SolicitudFondosController extends Controller
             
                 OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : ABONAR
             
+                '.$th.'
+
+
             ');
             DB::rollBack();
         }
 
     }
 
+    function descargarComprobanteAbono($id){
 
+        $solicitud = SolicitudFondos::findOrFail($id);
+
+        $nombreArchivo = 'SF-Abono-'.
+            $this->rellernarCerosIzq($id,6).
+            '.'.$solicitud->terminacionArchivo;
+        return Storage::download("comprobantesAbono/".$nombreArchivo);
+
+
+
+
+    }
+
+
+    function rellernarCerosIzq($numero, $nDigitos){
+        return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
+ 
+     }
+ 
     public function rechazar(Request $request){
         try{
             DB::beginTransaction();

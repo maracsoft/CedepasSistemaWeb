@@ -37,7 +37,7 @@ Edición de Existencias
                     'files'=> true,
                     'enctype' => "multipart/form-data"]) !!}
 
-            @include('admin.existencia.fields')
+            @include('jorge.admin.existencia.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">

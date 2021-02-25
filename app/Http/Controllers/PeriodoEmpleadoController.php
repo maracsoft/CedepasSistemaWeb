@@ -16,6 +16,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Barryvdh\DomPDF\Facade as PDF;
+use App\Proyecto;
 
 class PeriodoEmpleadoController extends Controller
 {
@@ -41,7 +42,9 @@ class PeriodoEmpleadoController extends Controller
         $tipoContrato=$arr[1];
         $areas=Area::all();
         $AFPS=AFP::all();
-        return view('felix.GestionarEmpleados.createContrato',compact('empleado','tipoContrato','areas','AFPS'));
+        $proyectos = Proyecto::getProyectosActivos();
+        return view('felix.GestionarEmpleados.createContrato',
+        compact('empleado','tipoContrato','areas','AFPS','proyectos'));
         
     }
 
@@ -90,7 +93,7 @@ class PeriodoEmpleadoController extends Controller
             
             $contrato->nombreFinanciador=$request->nombreFinanciador;
             $contrato->codPuesto=$request->codPuesto;
-            $contrato->nombreProyecto=$request->nombreProyecto;
+            $contrato->codProyecto=$request->codProyecto;
             $contrato->motivo=null;
             $contrato->codAFP=$request->codAFP;
             $contrato->asistencia=$request->asistencia;
@@ -98,7 +101,7 @@ class PeriodoEmpleadoController extends Controller
         if($request->codTipoContrato==2){//por locacion
             $contrato->nombreFinanciador=null;
             $contrato->codPuesto=null;
-            $contrato->nombreProyecto=null;
+            $contrato->codProyecto=null;
             $contrato->motivo=$request->motivo;
             $contrato->codAFP=null;
             $contrato->asistencia=0;

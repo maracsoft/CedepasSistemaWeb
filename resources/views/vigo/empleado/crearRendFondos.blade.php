@@ -294,7 +294,7 @@
                     <div class="col-md-8">
                     </div>   
                     <div class="col-md-2">                        
-                        <label for="">Total a Rendir: </label>    
+                        <label for="">Total Gastado: </label>    
                     </div>   
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
@@ -317,16 +317,31 @@
                     <div class="col-md-8">
                     </div>   
                     <div class="col">                        
-                        <label for="">Saldo a favor del Empl: </label>    
+                        <label id="labelAFavorDe" for="">Saldo a favor del Empl: </label>    
                     </div>   
-                    <div class="col">
-                                                 
-                                                   
+                    <div class="col">                     
                         <input type="text" class="form-control text-right"  
                             name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
                     </div>   
 
+                    <div class="w-100">
 
+                    </div>
+                    <div class="col-md-8"></div>
+
+
+
+                    <div class="col" id="divEnteroArchivo">            
+                      <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
+                              style="display: none" onchange="cambio('imagenEnvio')">  
+                                      <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                      <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
+                           <div id="divFileImagenEnvio" class="hovered">       
+                              Subir comprobante deposito.      
+                           <i class="fas fa-upload"></i>        
+                          </div>       
+                      </label>       
+                    </div>      
 
 
 
@@ -348,7 +363,7 @@
                         Registrar
                     </button>    
                    
-                    <a href="" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
                 </div>    
             </div>
         </div>
@@ -392,10 +407,12 @@
         margin-top: 20px;
         text-align: left;
     }
-    
+    .hovered:hover{
+    background-color:rgb(97, 170, 170);
+}
+
+
     </style>
-
-
 
 @section('script')
 
@@ -406,25 +423,28 @@
     //se ejecuta cada vez que escogewmos un file
 
     function cambio(index){
-        var idname= 'imagen'+index; 
-        var filename = $('#imagen'+index).val().split('\\').pop();
-        console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-        jQuery('span.'+idname).next().find('span').html(filename);
-        document.getElementById("divFile"+index).innerHTML= filename;
-        $('#nombreImg'+index).val(filename);
-    }
 
-/* 
-    jQuery('input[type=file]').change(function(){
-        console.log('llega para aca');
-        var idname = jQuery(this).attr('id');  
-        var filename = jQuery(this).val().split('\\').pop();
-        var index = idname.substr(6,6);
-       
-        console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-        jQuery('span.'+idname).next().find('span').html(filename);
-        document.getElementById("divFile"+index).innerHTML= filename;
-    }); */
+        if(index=='imagenEnvio'){//si es pal comprobante de envio
+            var idname= 'imagenEnvio'; 
+            var filename = $('#imagenEnvio').val().split('\\').pop();
+            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+            jQuery('span.'+idname).next().find('span').html(filename);
+            document.getElementById("divFileImagenEnvio").innerHTML= filename;
+            $('#nombreImgImagenEnvio').val(filename);
+            
+        }
+        else{ //para los CDP de la tabla
+            var idname= 'imagen'+index; 
+            var filename = $('#imagen'+index).val().split('\\').pop();
+            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+            jQuery('span.'+idname).next().find('span').html(filename);
+            document.getElementById("divFile"+index).innerHTML= filename;
+            $('#nombreImg'+index).val(filename);
+        
+        
+        }
+    
+    }
 
 
 </script>
@@ -438,6 +458,7 @@
         var importes=[];
         var controlproducto=[];
         var totalSinIGV=0;
+        var saldoFavEmpl=0;
     
         $(document).ready(function(){
             var d = new Date();
@@ -474,6 +495,13 @@
                 if(nombre=='')
                     msj='Debe subir el comprobante del Item N°'+index;
 
+            }
+
+            //si el saldo es a favor de cedepas, el empl debe adjuntar 
+                //el comprobante de deposito devolucion de los fondos sobrantes
+            
+            if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
+                msj='Tiene saldo a favor de Cedepas, debe adjuntar el comprobante de depósito con el monto sobrante.';
             }
 
             if(msj!='')
@@ -562,7 +590,7 @@
                             '              style="display: none" onchange="cambio('+item+')">  '         +      
                             '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'">                         '+
                             '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
-                            '           <div id="divFile'+item+'">               '+
+                            '           <div id="divFile'+item+'" class="hovered">               '+
                             '              Subir Archivo               '+
                             '           <i class="fas fa-upload"></i>                '+
                             '          </div>               '+
@@ -597,11 +625,10 @@
             var totalRecibido= parseFloat( {{$solicitud->totalSolicitado}}  ); 
             console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
 
-            var saldoFavEmpl = (totalGastado)-(totalRecibido);
+            saldoFavEmpl = (totalGastado)-(totalRecibido);
             
 
             
-            $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
             
             console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
@@ -609,7 +636,22 @@
             
             $('#cantElementos').val(cont);
             
+
+
+            if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
+                $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
+           
+                document.getElementById("divEnteroArchivo").style.display="none";
+           
+
+                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
+            }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
+                $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
+                document.getElementById("divEnteroArchivo").style.display="block";
           
+                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
+            }
+
             //alert('se termino de actualizar la tabla con cont='+cont);
         }
     

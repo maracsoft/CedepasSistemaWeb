@@ -135,10 +135,10 @@ class AsistenciaController extends Controller
         }
 
         //Empleado::getContratoHabil($itemempleado->codEmpleado)->codTurno;
+        $resultados=app(PeriodoEmpleado::class)->resultados();
 
 
-
-        $pdf = \PDF::loadview('felix.GestionarAsistencias.reportePDF',array('empleados'=>$empleados))
+        $pdf = \PDF::loadview('felix.GestionarAsistencias.reportePDF',array('empleados'=>$empleados,'resultados'=>$resultados))
                     ->setPaper('a4', 'portrait');
         return $pdf->download('asistenia.pdf');
     }

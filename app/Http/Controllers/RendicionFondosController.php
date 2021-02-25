@@ -34,6 +34,53 @@ use PhpOffice\PhpWord\Style\Font;
 class RendicionFondosController extends Controller
 {
     
+
+    //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
+    public function listarJefeAdmin(){
+        $listaRendiciones = RendicionGastos::where('estadoDeReposicion','>','0')
+            ->orderby('estadoDeReposicion','ASC')
+            ->get();
+
+        $buscarpor = '';
+        $empleado = Empleado::getEmpleadoLogeado();
+        return view('vigo.jefe.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        
+    }
+
+
+    //retorna las rendiciones del emp logeado, tienen prioridad de ordenamiento las que están esperando reposicion
+    public function listarEmpleado(){
+        
+        $empleado = Empleado::getEmpleadoLogeado();
+
+        //primero agarramos las solicitudes del empleado logeado
+        $listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            ->get();
+
+        //ahora agarramos de cada solicitud, su rendicion (si la tiene)
+        $listaRendiciones=[];
+        for ($i=0; $i < count($listaSolicitudes); $i++) { 
+            $itemSol = $listaSolicitudes[$i];
+            if(!is_null($itemSol->codSolicitud)){
+                $itemRend = RendicionGastos::
+                    where('codSolicitud','=',$itemSol->codSolicitud)
+                    ->first();
+            array_push($listaRendiciones,$itemRend);
+            }
+            
+        }
+
+
+        $buscarpor = '';
+        
+        return view('vigo.empleado.listarRendiciones',
+            compact('listaRendiciones','empleado','buscarpor'));
+        
+    }
+
+
+
+
     public function ver($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
         $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
         $rend = $listaRend[0];
@@ -46,8 +93,89 @@ class RendicionFondosController extends Controller
     }
 
 
+    public function verReponer($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
+        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
+        $rend = $listaRend[0];
+
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        
+        return view('vigo.jefe.verReponer',compact('rend','solicitud','empleado','detallesRend'));
+    }
+
+    //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
+    // se le devuelve al empleado los gastos que hizo en exceso
+    public function reponer(Request $request){ //id de la rendicion
+
+        $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
+        
+        
+        try{
+            db::beginTransaction();
+        
+            //cambiamos el estado de la rendicion
+            $rendicion->estadoDeReposicion = '11';
+            
+            //guardamos el archivo comprobante del abono
 
 
+            //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
+            $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
+            $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
+            $terminacion = end( $vec); //ultimo elemento del vector
+            
+
+            $rendicion->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
+            //               RF-Repos-                           -   5   .  jpg
+            $nombreImagen =
+                 'RF-Repos-'.
+                 $this->rellernarCerosIzq($rendicion->codRendicionGastos,6)
+                 .'.'.
+                 $terminacion;
+
+            error_log('
+            AA
+            '.$nombreImagen.'
+            
+            ');
+            
+            $archivo =  $request->file('imagenEnvio');
+            $fileget = \File::get( $archivo );
+            Storage::disk('comprobantesAbono')
+            ->put($nombreImagen, $fileget );
+
+
+            $rendicion->save();
+            db::commit();
+
+            return redirect()->route('rendicionGastos.listarJefeAdmin')->with('datos','Gastos repuestos efectivamente');
+        }catch(Exception $e){
+
+            error_log('\\n ---------------------- RENDICION FONDOS CONTROLLER REPONER 
+            Ocurrió el error:'.$e->getMessage().'
+            
+            
+            ' );
+
+            DB::rollback();
+            /* return redirect()
+                ->route('solicitudFondos.listarEmp')
+                ->with('datos','Ha ocurrido un error.'); */
+        }
+
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /* ALMACENAR LOS DATOS Y LOS ARCHIVOS DE DETALLES QUE ESTAN SUBIENDO
     CADA ARCHIVO ES UNA FOTO DE UN CDP, O SEA DE UN DETALLE
     */
@@ -65,15 +193,37 @@ class RendicionFondosController extends Controller
             $rendicion-> codigoCedepas = $request->codRendicion; 
             
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
-            
             $rendicion-> totalImporteRendido = $request->totalRendido;
-            
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
            
             $rendicion-> resumenDeActividad = $request->resumen;
-            $rendicion-> estadoDeReposicion = '1';
+            
             $rendicion-> fechaRendicion = Carbon::now()->subHours(5);
-            $rendicion-> save();
+            $rendicion-> estadoDeReposicion = '0';
+            $rendicion-> save();    
+            
+            $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
+            if($rendicion->saldoAFavorDeEmpleado > 0 ){ //cedepas debe depositarle al empleado, estado 1
+                $rendicion-> estadoDeReposicion = '1';
+
+            }else{ //el empleado debe depositar a cedepas, estado 2. Se adjunta comprobante de transferencia
+                
+                //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
+                $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
+                $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
+                $terminacion = end( $vec); //ultimo elemento del vector
+                $rendicion->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
+                //               RF-Devol-                           -   5   .  jpg
+                $nombreImagen = 'RF-Devol-'.$this->rellernarCerosIzq($codRendRecienInsertada,6).'.'.$terminacion  ;
+                $archivo =  $request->file('imagenEnvio');
+                $fileget = \File::get( $archivo );
+                Storage::disk('comprobantesAbono')
+                ->put($nombreImagen, $fileget );
+
+                $rendicion-> estadoDeReposicion = '2';
+            }
+
+            $rendicion-> save(); //para guardar la terminacion y el estado
             
 
 
@@ -83,7 +233,7 @@ class RendicionFondosController extends Controller
             $cantidadFilas = $request->cantElementos;
             while ($i< $cantidadFilas ) {
                 $detalle=new DetalleRendicionGastos();
-                $detalle->codRendicionGastos=          (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos; //ultimo insertad
+                $detalle->codRendicionGastos=          $codRendRecienInsertada ;//ultimo insertad
                 // formato requerido por sql 2021-02-11   
                 //formato dado por mi calnedar 12/02/2020
                 $fechaDet = $request->get('colFecha'.$i);
@@ -168,8 +318,22 @@ class RendicionFondosController extends Controller
 
 
 
+    //descarga el archivo que subió el empleado pq le sobró dinero  
+    // o tambien el archivo de reposicion de cedepas hacia el empleado
+    function descargarArchivoRendicion($id){
+        
+        $rend = RendicionGastos::findOrFail($id);
+        if($rend->estadoDeReposicion=='11')
+            $prefijo = 'Repos';
+        if($rend->estadoDeReposicion=='2')
+            $prefijo = 'Devol';
 
+        $nombreArchivo = 'RF-'.$prefijo.'-'.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
+        
+        
+        return Storage::download("comprobantesAbono/".$nombreArchivo);
 
+    }
 
 
 

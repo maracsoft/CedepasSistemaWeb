@@ -65,16 +65,22 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
+      
+      
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-
         <div class="image">
           <img src="/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
 
+      
+            <div class="info">
+              <a href="#" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
+            </div>
+    
+        
+       
+        
 
-        <div class="info">
-          <a href="#" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
-        </div>
       </div>
 
       <!-- Sidebar Menu -->
@@ -104,9 +110,18 @@
                   <li class="nav-item">
                     <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
                       <i class="far fa-address-card nav-icon"></i>
-                      <p>Listar Solicitudes</p>
+                      <p>Mis Solicitudes</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="{{route('rendicionGastos.listarEmpleado')}}" class="nav-link">
+                      <i class="far fa-address-card nav-icon"></i>
+                      <p>Mis Rendiciones</p>
+                    </a>
+                  </li>
+
+
+
                   
                 </ul>
               </li>
@@ -150,9 +165,18 @@
                   <li class="nav-item">
                     <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
                       <i class="far fa-address-card nav-icon"></i>
-                      <p>Ver Solicitudes</p>
+                      <p>Solicitudes para abonar</p>
                     </a>
                   </li>
+
+                  <li class="nav-item">
+                    <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
+                      <i class="far fa-address-card nav-icon"></i>
+                      <p>Rendiciones para Reponer</p>
+                    </a>
+                  </li>
+
+                  
     
                 </ul>
     
@@ -364,7 +388,7 @@
             </ul>
           </li>
 {{--   --------------------------------------------     JORGE        ----------------------------------------------------------------- --}}
-
+          <li class="nav-header">JORGE</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="far fa-building nav-icon"></i>
@@ -512,7 +536,20 @@
 
 <script src="/calendario/js/bootstrap-datepicker.min.js"></script>
 <script src="/calendario/locales/bootstrap-datepicker.es.min.js"></script>
+<script>
 
+window.onload=verificadoDeSesion();
+  function verificadoDeSesion(){
+    console.log('El auth id es {{Auth::id()}}');
+   // location.href ="{{route('user.verLogin')}}";
+  
+  
+  }
+
+
+
+
+</script>
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">
 </body>
 </html>

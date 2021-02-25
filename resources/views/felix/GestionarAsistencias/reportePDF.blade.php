@@ -52,6 +52,11 @@
                 @endforeach
               </tbody>
         </table>
+        <br>
+        <p style="text-align: right">
+            <b>Trabajadores con >15% de tardanzas:</b> {{$resultados[1]}}% <br>
+            <b>Trabajadores con >15% de faltas:</b> {{$resultados[0]}}%
+        </p>
     </div>
 </body>
 

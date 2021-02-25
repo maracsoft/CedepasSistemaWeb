@@ -106,7 +106,7 @@ Registro de Reportes
 
 </section>
 <!-- /.content -->
-@include('admin.modals.product')
+@include('jorge.admin.modals.product')
 @endsection
 
 @section('script')

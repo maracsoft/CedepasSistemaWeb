@@ -212,7 +212,17 @@
 <!-- AdminLTE App -->
 <script src="/adminlte/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/adminlte/dist/js/demo.js"></script>
+<script src="/adminlte/dist/js/demo.js"></script>}
+
+<script>// para validar que esté logeado
+
+
+
+
+
+</script>
+
+
 @yield('script')
 </body>
 </html>

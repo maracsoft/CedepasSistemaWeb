@@ -149,6 +149,15 @@ class ActivoController extends Controller
         return view('renzo.verificarActivos.mostrarActivos',compact('detalles','revision'));
     }
 
+
+    public function habilitarActivo($id)
+    {
+        $activo=Activo::find($id);
+        $activo->activo=1;
+        $activo->save();
+        return redirect()->route('activos.index')->with('datos','Activo Habilitado');
+    }
+
 }
 
 

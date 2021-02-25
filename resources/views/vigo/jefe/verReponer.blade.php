@@ -6,18 +6,18 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Ver Rendicion de Gastos</p>
-
-
+    <p class="h1" style="text-align: center">Reponer Gastos de un Empleado</p>
 </div>
 
-<form method = "POST" action = "{{route('rendicionFondos.store')}}"  >
+<form method = "POST" action = "{{route('rendicionFondos.reponer')}}"  enctype="multipart/form-data" >
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
+    <input type="hidden" name="codRendicionGastos" id="codRendicionGastos" value="{{ $rend->codRendicionGastos }}">
     
+
     @csrf
     <div class="container" >
         <div class="row">           
@@ -63,7 +63,8 @@
                       </div>
 
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleado->codigoCedepas}}">    
+                            <input readonly  type="text" class="form-control" name="codColaborador" 
+                            id="codColaborador" value="{{$empleado->codigoCedepas}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div class="colLabel">
@@ -71,7 +72,8 @@
 
                       </div>
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
+                            <input readonly  type="text" class="form-control" name="importeRecibido" 
+                            id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
                       </div>
                       
                       
@@ -259,20 +261,28 @@
                     <div class="col-md-8">
 
                     </div>
+
+                    <div class="col" id="divEnteroArchivo">            
+                        <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
+                                style="display: none" onchange="cambio('imagenEnvio')">  
+                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                        <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
+                             <div id="divFileImagenEnvio" class="hovered">       
+                                Subir comprobante deposito.      
+                             <i class="fas fa-upload"></i>        
+                            </div>       
+                        </label>       
+                    </div>    
+
+                    <div class="col-md-8"></div>
                     <div class="col">
-                        <a href="{{route('rendicion.descargarArchivoRendicion',$rend->codRendicionGastos)}}" 
-                            class='btn btn-primary'>
-                            <i class="fas fa-download"></i>
-
-                            @if($rend->codEstadoDeReposicion)
-                                Descargar Comprobante de devolución
-                            @else
-                                Descargar Comprobante de reposición
-                            @endif
-                            
-                        </a>  
-
+                        <button class="btn btn-primary" type="submit" id="btnRegistrar"
+                         data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
+                            <i class="fas fa-save"></i> 
+                            Reponer Gasto
+                        </button>
                     </div>
+
 
                 </div>
                     
@@ -283,7 +293,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('solicitudFondos.listarEmp')}}" 
+                    <a href="{{route('rendicionGastos.listarJefeAdmin')}}" 
                         class='btn btn-primary' style="float:left;">
                         <i class="fas fa-undo"></i>
                         Regresar al menú
@@ -330,8 +340,12 @@
         margin-top: 20px;
         text-align: left;
     }
-    
-    </style>
+    .hovered:hover{
+        background-color:rgb(97, 170, 170);
+    }
+
+
+</style>
 
 
 @section('script')
@@ -358,6 +372,18 @@
     
         });
     
+
+        function cambio(index){
+                var idname= 'imagenEnvio'; 
+                var filename = $('#imagenEnvio').val().split('\\').pop();
+                console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+                jQuery('span.'+idname).next().find('span').html(filename);
+                document.getElementById("divFileImagenEnvio").innerHTML= filename;
+                $('#nombreImgImagenEnvio').val(filename);
+
+            }
+
+
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
         function cadAleatoria(length) {
             var result           = '';

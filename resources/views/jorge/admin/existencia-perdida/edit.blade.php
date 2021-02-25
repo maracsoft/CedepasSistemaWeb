@@ -37,7 +37,7 @@ Edición de Existencias Perdidas
                     'files'=> true,
                     'enctype' => "multipart/form-data"]) !!}
 
-            @include('admin.existencia-perdida.fields')
+            @include('jorge.admin.existencia-perdida.fields')
 
             <div class="col-md-12 -col-md-12">
                 <div class="form-group text-center">
@@ -70,7 +70,7 @@ Edición de Existencias Perdidas
 
 </section>
 <!-- /.content -->
-@include('admin.modals.product')
+@include('jorge.admin.modals.product')
 @endsection
 
 @section('script')

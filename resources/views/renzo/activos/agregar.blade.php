@@ -1,10 +1,34 @@
 @extends('layout.plantilla') 
 @section('contenido')
 
-<script type="text/javascript">     
-    function validar() {
-        document.frmactivo.submit(); // enviamos el formulario	
-    }
+<script type="text/javascript">
+function validar() 
+        {
+            var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
+            if (document.getElementById("codSede").value == "0"){
+                alert("Seleccione sede");
+            }
+            else if (document.getElementById("nombre").value == ""){
+                alert("Ingrese nombre del activo");
+                $("#nombre").focus();
+            }
+            else if (document.getElementById("codProyectoDestino").value == "0"){
+                alert("Seleccione un proyecto");
+            }
+            else if (document.getElementById("codEmpleadoResponsable").value == "0"){
+                alert("Seleccione responsable");
+            }
+            else if (document.getElementById("codCategoriaActivo").value == "0"){
+                alert("Seleccione categoria");
+            }
+            else if (document.getElementById("caracteristicas").value == ""){
+                alert("Ingrese caracteristicas");
+                $("#caracteristicas").focus();
+            }
+            else{
+                document.frmactivo.submit(); // enviamos el formulario	
+            }
+        }     
 </script>
 
 
