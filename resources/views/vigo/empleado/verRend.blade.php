@@ -256,15 +256,28 @@
                     </div>   
                     
 
-                    <div class="col-md-8">
-
+                    <div class="col-md-8 text-center">  
+                        <div id="guardar">
+                            <div class="form-group">
+                                <a href="{{route('solicitudFondos.listarEmp')}}" 
+                                    class='btn btn-primary' style="float:left;">
+                                    <i class="fas fa-undo"></i>
+                                    Regresar al menú
+                                </a>    
+                                           
+                            </div>    
+                        </div>
                     </div>
+
+                    @if($rend->codEstadoDeReposicion > 1) {{-- Si es 11 o es 2 --}}
+                        
+                    
                     <div class="col">
                         <a href="{{route('rendicion.descargarArchivoRendicion',$rend->codRendicionGastos)}}" 
                             class='btn btn-primary'>
                             <i class="fas fa-download"></i>
 
-                            @if($rend->codEstadoDeReposicion)
+                            @if($rend->codEstadoDeReposicion=='2')
                                 Descargar Comprobante de devolución
                             @else
                                 Descargar Comprobante de reposición
@@ -273,25 +286,14 @@
                         </a>  
 
                     </div>
-
+                    @endif
                 </div>
                     
 
                 
         </div> 
         
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group">
-                    <a href="{{route('solicitudFondos.listarEmp')}}" 
-                        class='btn btn-primary' style="float:left;">
-                        <i class="fas fa-undo"></i>
-                        Regresar al menú
-                    </a>    
-                               
-                </div>    
-            </div>
-        </div>
+        
     </div>
 
 </form>

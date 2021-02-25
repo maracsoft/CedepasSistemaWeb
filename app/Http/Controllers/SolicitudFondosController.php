@@ -32,6 +32,29 @@ class SolicitudFondosController extends Controller
         return $listaDetalles;
     }
 
+
+    //funcion cuello de botella para volver al index desde el VER SOLICITUD (pq estoy usando la misma vista)
+    public function listarSolicitudes(){
+        $empleado = Empleado::getEmpleadoLogeado();
+        if($empleado->esDirector()){
+            //lo enrutamos hacia su index
+            return redirect()->route('solicitudFondos.listarDirector');
+        }
+
+        if($empleado->esJefeAdmin())//si es jefe de administracion
+        {
+            return redirect()->route('solicitudFondos.listarJefeAdmin');
+
+        }
+
+        return redirect()->route('solicitudFondos.listarEmp');
+
+    }
+
+
+
+
+
     public function listarSolicitudesDeEmpleado(Request $request){
         
         $empleado = Empleado::getEmpleadoLogeado();
@@ -46,7 +69,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.empleado.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('vigo.empleado.listarSolic',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 
@@ -121,9 +144,14 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = $LempleadoLogeado[0];    
 
         return view('vigo.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
-
-
     }
+
+
+
+
+
+
+
     //funcion del director, despliega la vista de revision. Si ya la revisó, esta tambien hace funcion de ver 
     public function revisar($id){
         $listaBancos = Banco::All();
@@ -172,7 +200,6 @@ class SolicitudFondosController extends Controller
 
     public function vistaAbonar($id){ 
         $solicitud = SolicitudFondos::findOrFail($id);
-       
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
         return view('vigo.jefe.vistaAbonar',compact('solicitud','detallesSolicitud'));
 

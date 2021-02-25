@@ -9,9 +9,9 @@
                 <thead>
                     <tr>
                         <th scope="col">Inicio</th>
-                        <th scope="col">Termino</th>
+                        <th scope="col">Término</th>
                         <th scope="col">Responsable</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Descripción</th>
                         <th scope="col">% No revisado</th>
                         <th scope="col">% Disponible</th>
                         <th scope="col">% No Habido </th>

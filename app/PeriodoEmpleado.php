@@ -26,6 +26,12 @@ class PeriodoEmpleado extends Model
         return $this->hasOne('App\Empleado','codEmpleado','codEmpleado');//el tercer parametro es de Producto
     }
 
+    public function getPuesto(){
+        $p = Puesto::findOrFail($this->codPuesto);
+        return $p;
+
+    }
+
     public function puesto(){//
         return $this->hasOne('App\Puesto','codPuesto','codPuesto');//el tercer parametro es de Producto
     }

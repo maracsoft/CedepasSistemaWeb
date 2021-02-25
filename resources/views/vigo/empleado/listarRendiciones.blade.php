@@ -104,23 +104,21 @@
                 ">
               </td>
                 <td>        
-                  
+                  <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                    <h1>
+                      <span class="red">S</span>
+                    </h1>
+                  </a>
+                  <a href="{{route('rendicionFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                    <h1>
+                      <span class="red">R</span>
+                    </h1>
+                  </a>
                          
-                        @if($itemRendicion->estadoDeReposicion == 1) {{-- Si está a espera de reponer --}}   
-                          <a  class='btn btn-success' href="{{route('rendicionFondos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                            Reponer <i class="fas fa-hand-holding-usd"></i>
-                          </a>
-                        @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                            <h1>
-                              <span class="red">S</span>
-                            </h1>
-                          </a>
-                          <a href="{{route('rendicionFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                            <h1>
-                              <span class="red">R</span>
-                            </h1>
-                          </a>
+                        @if($itemRendicion->estadoDeReposicion == 1)    
+                          
+                        @else
+                          
                         
                         @endif
 

@@ -129,13 +129,13 @@
                             Abonar <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
+                          <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
                             </h1>
                           </a>
                         
-                          <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                          <a href="{{route('rendicionFondos.verAdmin',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

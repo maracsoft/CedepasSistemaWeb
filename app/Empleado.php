@@ -27,10 +27,43 @@ class Empleado extends Model
     } 
 
     public function esDirector(){
+        $listaProyectos = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
+        if(count($listaProyectos)>0)//si es director
+            return true;
+
+        return false;
+
+        /* 
+        DEPRECADO PORQUE AHORA EL codProyecto no se guarda en el empleado 
         $proyecto = Proyecto::findOrFail($this->codProyecto); //agarramos el proyecto al que pertenece
         if ($proyecto->codEmpleadoDirector == $this->codEmpleado) //si su cod es igual al del director 
             return true;
+        return false; */
+
+    }
+
+    //para modulo vigo. 
+    public function esJefeAdmin(){
+
+        $periodo = $this->getPeriodoEmpleadoActual();
+        if($periodo=='-1') return false;
+
+        $puesto = $periodo->getPuesto();
+        if($puesto->nombre=='Jefe de Administración')
+            return true;
         return false;
+        
+    }
+
+    //retorna -1 si no tiene un periodo actual
+    public function getPeriodoEmpleadoActual(){
+        $periodos=PeriodoEmpleado::where('codEmpleado','=',$this->codEmpleado)
+        ->where('activo','=',1)->get();
+        if(count($periodos)==0)
+            return '-1';
+
+        return $periodos[0];   
+
 
     }
 

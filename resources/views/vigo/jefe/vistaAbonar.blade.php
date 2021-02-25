@@ -227,18 +227,14 @@
                             <div class="col"></div>
                             <div class="col"></div>
                             
+                            @if($solicitud->codEstadoSolicitud=='2')
+                                
                             
                             <div class="col">
-
                                 <button type="submit" class='btn btn-success'  style="float:right;">
                                     <i class="fas fa-check"></i>
                                     Marcar como Abonado
                                 </button>
-
-                                <a href="" >
-                                    
-                                    
-                                </a>    
                             </div>
                                   
                             <div class="col">            
@@ -251,8 +247,15 @@
                                      <i class="fas fa-upload"></i>        
                                     </div>       
                                 </label>       
-                              </div> 
-                              
+                            </div> 
+                            @endif
+
+
+
+
+
+
+                            
                         </div>
                     </div>
                    

@@ -54,17 +54,18 @@ margin-top: 18px;
 
 
   <br>
-    <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary"> 
+    <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
         <i class="fas fa-plus"> </i> 
           Nueva Solicitud
     </a>
+    
 
-    <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
+  {{--   <nav class = "navbar float-right"> 
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
             <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
         </form>
-    </nav>
+    </nav> --}}
 
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
@@ -169,9 +170,20 @@ margin-top: 18px;
                               
                             @break
                         @case(2) {{-- YA FUE APROBADA --}}
-                              
+                          <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
+                            <h1>
+                              <span class="red">S</span>
+                            </h1>
+                          </a>   
+
                             @break
                         @case(3) {{-- ABONADA --}}
+                            <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
+                              <h1>
+                                <span class="red">S</span>
+                              </h1>
+                            </a>   
+
                             <a href="{{route('solicitudFondos.rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
                               Rendir <i class="fas fa-list"></i>
                             </a>

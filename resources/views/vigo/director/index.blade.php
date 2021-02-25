@@ -20,7 +20,7 @@
   </style>
   
 <div>
-  <h3> LISTA DE SOLIC DE FONDOS PARA APROBAR </h3>
+  <h3> Solicitudes de Fondos para Aprobar </h3>
   <div class="container">
     <div class="row">
       <div class="colLabel">
@@ -161,7 +161,7 @@
                             </a>
                           
                           @if($itemSolicitud->codEstadoSolicitud == 4)   
-                            <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('rendicionFondos.verDirector',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>

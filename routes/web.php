@@ -42,10 +42,8 @@ Route::get('/SolicitudFondos/Revisar/{id}','SolicitudFondosController@revisar')
 
 
 //vista para ver namas (empleado)
-Route::get('/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
+Route::get('/Emp/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
     ->name('solicitudFondos.ver');
-
-
     
 
 Route::get('/SolicitudFondos/vistaAbonar/{id}','SolicitudFondosController@vistaAbonar')
@@ -99,7 +97,12 @@ Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solic
 
 Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendicionFondos.store');
 
-Route::get('/verRendicion/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
+Route::get('/verRendicion/emp/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
+
+Route::get('/verRendicion/admin/{id}', 'RendicionFondosController@verAdmin')->name('rendicionFondos.verAdmin');
+
+Route::get('/verRendicion/director/{id}', 'RendicionFondosController@verDirector')->name('rendicionFondos.verDirector');
+
 
 Route::get('/verReponer/{id}', 'RendicionFondosController@verReponer')->name('rendicionFondos.verReponer');
 Route::post('/rendicion/reponer/','RendicionFondosController@reponer')
@@ -124,10 +127,7 @@ Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionFondosControlle
 
 
 Route::get('/rendicion/listarJefeAdmin/','RendicionFondosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
-
 Route::get('/rendicion/listarEmpleado/','RendicionFondosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
-
-
 
 
 /* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */
@@ -166,7 +166,27 @@ Route::get('/editarHorario/{id}','PeriodoEmpleadoController@editarHorario');
 Route::post('/editarHorario/save','PeriodoEmpleadoController@guardarEditarHorario');
 
 
+/**GESTIONAR AREAS */
+Route::get('/listarAreas','AreaController@listarAreas');
 
+Route::get('/crearArea','AreaController@crearArea');
+Route::post('/crearArea/save','AreaController@guardarCrearArea');
+
+Route::get('/editarArea/{id}','AreaController@editarArea');
+Route::post('/editarArea/save','AreaController@guardarEditarArea');
+
+Route::get('/eliminarArea/{id}','AreaController@eliminarArea');
+
+/**GESTIONAR PUESTOS */
+Route::get('/listarPuestos/{id}','PuestoController@listarPuestos');
+
+Route::get('/crearPuesto/{id}','PuestoController@crearPuesto');
+Route::post('/crearPuesto/save','PuestoController@guardarCrearPuesto');
+
+Route::get('/editarPuesto/{id}','PuestoController@editarPuesto');
+Route::post('/editarPuesto/save','PuestoController@guardarEditarPuesto');
+
+Route::get('/eliminarPuesto/{id}','PuestoController@eliminarPuesto');
 
 /**GESTIONAR ASISTENCIAS */
 /*********EMPLEADOS */

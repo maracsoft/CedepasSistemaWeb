@@ -19,7 +19,7 @@ use App\DetalleRendicionGastos;
 use App\RendicionGastos;
 
 use Barryvdh\DomPDF\PDF;
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -34,6 +34,9 @@ use PhpOffice\PhpWord\Style\Font;
 class RendicionFondosController extends Controller
 {
     
+
+
+
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarJefeAdmin(){
@@ -50,37 +53,42 @@ class RendicionFondosController extends Controller
 
     //retorna las rendiciones del emp logeado, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarEmpleado(){
-        
         $empleado = Empleado::getEmpleadoLogeado();
-
         //primero agarramos las solicitudes del empleado logeado
         $listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+         
             ->get();
 
         //ahora agarramos de cada solicitud, su rendicion (si la tiene)
-        $listaRendiciones=[];
-        for ($i=0; $i < count($listaSolicitudes); $i++) { 
+        $listaRendiciones= new Collection();
+        for ($i=0; $i < count($listaSolicitudes); $i++) { //recorremos cada solicitud
             $itemSol = $listaSolicitudes[$i];
-            if(!is_null($itemSol->codSolicitud)){
+            if(!is_null($itemSol->codSolicitud)){ 
                 $itemRend = RendicionGastos::
                     where('codSolicitud','=',$itemSol->codSolicitud)
                     ->first();
-            array_push($listaRendiciones,$itemRend);
+                if(!is_null($itemRend))
+                    $listaRendiciones->push($itemRend);
             }
             
         }
 
+        //ordena la coleccion ascendentemente
+        $listaRendiciones=$listaRendiciones->sortBy('estadoDeReposicion');
 
         $buscarpor = '';
-        
+        //return $listaRendiciones;
         return view('vigo.empleado.listarRendiciones',
             compact('listaRendiciones','empleado','buscarpor'));
         
     }
 
 
+    
 
 
+
+    //del empleado
     public function ver($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
         $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
         $rend = $listaRend[0];
@@ -90,6 +98,31 @@ class RendicionFondosController extends Controller
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
 
         return view('vigo.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
+    }
+
+    //despliuega vista de  rendicion, del admiin
+    public function verAdmin($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
+        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
+        $rend = $listaRend[0];
+
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+
+        return view('vigo.jefe.verRend',compact('rend','solicitud','empleado','detallesRend'));
+    }
+
+
+    //despliuega vista de  rendicion, del admiin
+    public function verDirector($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
+        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
+        $rend = $listaRend[0];
+
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+
+        return view('vigo.director.verRend',compact('rend','solicitud','empleado','detallesRend'));
     }
 
 

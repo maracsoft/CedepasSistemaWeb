@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Blank Page</title>
+  <title>Cedepas Norte | Inicio </title>
+  <link rel="shortcut icon" href="http://www.cedepas.org.pe/sites/default/files/logo-cedepas_0.png" type="image/png">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -143,12 +144,7 @@
                     </a>
                   </li>
     
-                  <li class="nav-item">
-                    <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Reportes</p>
-                    </a>
-                  </li>
+                  
                 </ul>
               </li>
     
@@ -175,7 +171,13 @@
                       <p>Rendiciones para Reponer</p>
                     </a>
                   </li>
-
+                  
+                  <li class="nav-item">
+                    <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Reportes</p>
+                    </a>
+                  </li>
                   
     
                 </ul>
@@ -307,6 +309,12 @@
                   <a href="/listarEmpleados" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Empleados</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/listarAreas" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Areas/Puestos</p>
                   </a>
                 </li>
                 <li class="nav-item">

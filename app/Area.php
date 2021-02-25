@@ -13,6 +13,6 @@ class Area extends Model
     protected $primaryKey = 'codArea';
 
     protected $fillable = [
-        'nombre'
+        'nombre','estado'
     ];
 }

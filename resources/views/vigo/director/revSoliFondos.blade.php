@@ -13,7 +13,8 @@
 
         
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" 
+        value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
     <div class="container">

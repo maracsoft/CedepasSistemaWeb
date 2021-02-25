@@ -13,7 +13,7 @@ class Puesto extends Model
     protected $primaryKey = 'codPuesto';
 
     protected $fillable = [
-        'codArea','nombre'
+        'codArea','nombre','estado'
     ];
 
     public function area(){//singular pq un producto es de una cateoria

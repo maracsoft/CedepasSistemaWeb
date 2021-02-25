@@ -46,6 +46,7 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{route('gestionInventario.mostrarRevisiones')}}" class="btn btn-info"><i class="fas fa-ban"></i>Regresar</a>
     <div>
 </div>
 

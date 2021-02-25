@@ -56,7 +56,7 @@
                         <a href="{{route('activos.edit',$itemactivo->codActivo)}}" class="btn btn-success btn-sm">Editar</button></a>    
                         @else
                         <em style="color: red">DE BAJA</em>
-                        <a href="{{route('activos.habilitarActivo',$itemactivo->codActivo)}}" class="btn btn-warning btn-sm">Habilidar</button></a>
+                        <a href="{{route('activos.habilitarActivo',$itemactivo->codActivo)}}" class="btn btn-warning btn-sm">Habilitar</button></a>
                         @endif
                         
                     </td>    
