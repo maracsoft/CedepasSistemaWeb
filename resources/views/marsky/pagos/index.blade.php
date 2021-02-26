@@ -4,10 +4,21 @@
 <script>
     function ruta(){
         var valor=$("#mes").val();
-        window.location.href='/crearPagoPlanilla/'+valor;
+        window.location.href='/crearPagoPlanilla/';
     }
 </script>
 <h1>PAGOS DE PLANILLAS</h1>
+
+        @if (session('datos'))
+        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+            {{session('datos')}}
+        <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true"> &times;</span>
+        </button>
+        
+        </div>
+        @endif
+
     <div class="row mt-2">
        
     
@@ -17,24 +28,6 @@
 
 
             <div class="col-sm-6" >
-
-                <select class="form-control" name="mes" id="mes">
-                    <option value="1">ENERO</option>
-                        <option value="2">FEBRERO</option>
-                        <option value="3">MARZO</option>
-                        <option value="4">ABRIL</option>
-                        <option value="5">MAYO</option>
-                        <option value="6">JUNIO</option>
-
-                        <option value="7">JULIO</option>
-                        <option value="8">AGOSTO</option>
-                        <option value="9">SEPTIEMBRE</option>
-                        <option value="10">OCTUBRE</option>
-                        <option value="11">NOVIEMBRE</option>
-                        <option value="12">DICIEMBRE</option>
-                    
-                </select>
-
                 <a href="#" class="btn btn-primary" onclick="ruta()">
                     <i class="fas fa-plus"></i>Nueva declaracion
                 

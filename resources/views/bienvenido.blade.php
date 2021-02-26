@@ -5,6 +5,6 @@
 <h1> BIENVENIDO  </h1>
 
 
-{{route('caja.index')}}
+
 
 @endsection

@@ -30,7 +30,7 @@ class ExistenciaPerdidaController extends Controller
 
         $empleado = Empleado::all();
 
-        $idEncargado = 1;
+        $idEncargado = 9;
         $fecha = Carbon::now()->format('Y-m-d');
 
         return view('jorge.admin.'.$this->directory.'.create', compact(

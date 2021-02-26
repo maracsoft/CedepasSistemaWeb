@@ -18,6 +18,20 @@
         <div class="card-header">
         <h3 class="card-title">Lista de Ingresos</h3>
 
+
+        @if (session('datos'))
+        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+            {{session('datos')}}
+          <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+              <span aria-hidden="true"> &times;</span>
+          </button>
+          
+        </div>
+        @endif
+
+
+        
+
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
             <i class="fas fa-minus"></i>
@@ -41,7 +55,6 @@
                         <thead>
                             <tr>
                                 <th>Reponsable</th>
-                                <th>Enc. Almacen</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th>Opciones</th>
@@ -53,8 +66,8 @@
                             @foreach($models as $data)
                                 <tr >
                                
-                                    <td>{{ $data->empleadoResponsable->full_name }} </td>
-                                    <td>{{ $data->empleadoAlmacen->full_name }} </td>
+                                    <td>{{ $data->empleadoResponsable->apellidos }} </td>
+                                  
                                     <td>{{ $data->fecha }}</td>
                                     <td>{{ $data->descripcion }}</td>
                                     <td class="center">
@@ -81,7 +94,6 @@
                         <tfoot>
                             <tr>
                                 <th>Reponsable</th>
-                                <th>Enc. Almacen</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th>Opciones</th>

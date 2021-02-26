@@ -57,12 +57,7 @@
 
 
 
-    <nav class = "navbar float-right"> {{-- PARA MANDARLO A LA DERECHA --}}
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
-    </nav>
+    
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
       @if (session('datos'))
@@ -75,7 +70,7 @@
         </div>
       @ENDIF
 
-    <table class="table" style="font-size: 10pt;">
+    <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Codigo Sol</th>

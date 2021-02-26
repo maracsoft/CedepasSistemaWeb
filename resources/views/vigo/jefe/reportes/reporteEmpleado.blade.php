@@ -12,8 +12,8 @@
         <div class="card-header ui-sortable-handle" style="cursor: move;">
           <h3 class="card-title">
             <i class="fas fa-chart-pie mr-1"></i>
-            <b>Categorías más vendidas</b>
-          </h3>
+            <b>Empleados</b>
+            </h3>
         </div><!-- /.card-header -->
         <div class="card-body">
           <div class="tab-content p-0">
@@ -24,21 +24,7 @@
         </div><!-- /.card-body -->
       </div>
 
-      <div class="card">
-        <div class="card-header ui-sortable-handle" style="cursor: move;">
-          <h3 class="card-title">
-            <i class="fas fa-chart-pie mr-1"></i>
-            <b>  Subcategorías más vendidas</b>
-          </h3>
-        </div><!-- /.card-header -->
-        <div class="card-body">
-          <div class="tab-content p-0">
-            <!-- Morris chart - Sales -->
-            <div id="piechart2"></div>
-            
-          </div>
-        </div><!-- /.card-body -->
-      </div>
+     
       <!-- /.card -->
     </section>
     <!-- /.Left col -->

@@ -54,8 +54,8 @@
         </table>
         <br>
         <p style="text-align: right">
-            <b>Trabajadores con >15% de tardanzas:</b> {{$resultados[1]}}% <br>
-            <b>Trabajadores con >15% de faltas:</b> {{$resultados[0]}}%
+            <b>Trabajadores con >15% de tardanzas:</b> {{number_format($resultados[1],2)}}% <br>
+            <b>Trabajadores con >15% de faltas:</b> {{number_format($resultados[0],2)}}%
         </p>
     </div>
 </body>

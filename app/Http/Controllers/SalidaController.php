@@ -36,7 +36,7 @@ class SalidaController extends Controller
         //dd($codigo);
 
         $fecha = Carbon::now()->format('Y-m-d');
-        $idEncargado = 1;
+        $idEncargado = 9;
         return view('jorge.admin.'.$this->directory.'.create', compact(
             'empleado','fecha','idEncargado'
         ));

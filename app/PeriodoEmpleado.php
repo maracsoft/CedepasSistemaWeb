@@ -106,10 +106,21 @@ class PeriodoEmpleado extends Model
             }
             
         }
-
-        $contTardanzas=(float)$contTardanzas/$contAsistencias*100;
-        $contAsistencias=(float)$contAsistencias/$contTotal*100;
-        $contFaltas=100-$contAsistencias;
+        if($contAsistencias==0){
+            $contTardanzas=0;
+        }else{
+            $contTardanzas=(float)$contTardanzas/$contAsistencias*100;
+        }
+        
+        if($contTotal==0){
+            $contAsistencias=0;
+            $contFaltas=0;
+        }else{
+            $contAsistencias=(float)$contAsistencias/$contTotal*100;
+            $contFaltas=100-$contAsistencias;
+        }
+        
+        
         
 
         return array($contAsistencias,$contFaltas,$contTardanzas);

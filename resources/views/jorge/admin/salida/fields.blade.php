@@ -8,12 +8,12 @@
             </label>
 
             @if($errors->has('codEmpleadoResponsable'))
-            {!! Form::select('codEmpleadoResponsable',$empleado->pluck('full_name','codEmpleado'),null,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un responsable']) !!}
+            {!! Form::select('codEmpleadoResponsable',$empleado->pluck('apellidos','codEmpleado'),null,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un responsable']) !!}
                 <span class="help-block">
                     <strong>{{ $errors->first('codEmpleadoResponsable') }}</strong>
                 </span>
             @else
-            {!! Form::select('codEmpleadoResponsable',$empleado->pluck('full_name','codEmpleado'),null,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un responsable']) !!}
+            {!! Form::select('codEmpleadoResponsable',$empleado->pluck('apellidos','codEmpleado'),null,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un responsable']) !!}
             @endif
         </div>
 
@@ -27,12 +27,12 @@
             </label>
 
             @if($errors->has('codEmpleadoEncargadoAlmacen'))
-            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('full_name','codEmpleado'),@$idEncargado,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un encargado', 'disabled' => true]) !!}
+            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('apellidos','codEmpleado'),@$idEncargado,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un encargado', 'disabled' => true]) !!}
                 <span class="help-block">
                     <strong>{{ $errors->first('codEmpleadoEncargadoAlmacen') }}</strong>
                 </span>
             @else
-            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('full_name','codEmpleado'),@$idEncargado,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un encargado', 'disabled' => true]) !!}
+            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('apellidos','codEmpleado'),@$idEncargado,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un encargado', 'disabled' => true]) !!}
             @endif
         </div>
 

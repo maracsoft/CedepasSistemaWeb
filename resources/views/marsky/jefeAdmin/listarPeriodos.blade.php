@@ -16,33 +16,17 @@
 
 
     <div class="row mt-2">
-       
-    <div class="col-6">
-        </div>
+        
+        <div class="col-6">
+        
+        
+        
 
-        <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-4 col-form-label">Sede</label>
-            <div class="col-sm-8">
-                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                    <option value="-1">-- Seleccionar --</option>
-                    @foreach($listaSedes as $itemSede)
-                        <option value="{{$itemSede['codSede']}}" >
-                            {{$itemSede->nombre}}
-                        </option>                                 
-                    @endforeach 
-                </select>   
-
-            </div>
         </div>
-        <div class="col-sm-4">
-            <a href="" class="btn btn-primary"><i class="fas fa-search"></i>Buscar</button></a>
-        </div>
-
-    </div>
-   
+    
  
     <div>
-        <h2>LISTADO DE PERIODOS</h2>
+       
     <table class="table table-striped">
         <thead>
             <tr>

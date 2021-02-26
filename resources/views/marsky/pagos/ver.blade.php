@@ -1,7 +1,7 @@
 @extends('layout.plantilla') 
 @section('contenido')
 <div class="">
-<h1>Ver pagos de planilla del mes de </h1>
+<h1>Ver pagos de planilla del mes de {{$nombreMes}} </h1>
 
 
     <div>

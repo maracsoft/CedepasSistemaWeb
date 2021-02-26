@@ -69,7 +69,13 @@
         })
     });
 </script>
-
+<script>
+    function repote2(){
+      ano=$("#ano").val();
+      mes=$("#mes").val();
+      window.location.href='/exportarReportePDF/'+ano+'*'+mes;
+    }
+</script>
 
 <div class="card-body">
     
@@ -150,18 +156,14 @@
             </div>
             <!--
             <a href="/exportarReportePDF/{{}}" class="btn btn-info btn-icon icon-left"><i class="entypo-pencil"></i>Reporte</a>
+            <input type="button" class="btn btn-info btn-icon icon-left" value="Reporte" onclick="reporte()">
             -->
-            <input type="button" class="btn btn-info btn-icon icon-left" value="Reporte" onclick="reporte()" />
+            
+            <a href="#" class="btn btn-info btn-icon icon-left" onclick="repote2()">Reporte</a>
         </div>
     </div>
 </div>
 
-<script>
-    function reporte(){
-      ano=$("#ano").val();
-      mes=$("#mes").val();
-      window.location.href='/exportarReportePDF/'+ano+'*'+mes;
-    }
-</script>
+
 
 @endsection

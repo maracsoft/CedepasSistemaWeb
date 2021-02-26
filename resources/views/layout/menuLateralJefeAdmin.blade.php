@@ -66,7 +66,7 @@
           <li class="nav-item">
             <a href="{{route('pagoPlanilla.listar')}}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Pagos</p>
+              <p>Planilla</p>
             </a>
           </li>
 

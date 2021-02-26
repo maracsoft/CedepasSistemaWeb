@@ -8,12 +8,12 @@
             </label>
 
             @if($errors->has('codEmpleadoEncargadoAlmacen'))
-            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('full_name','codEmpleado'),@$idEncargado,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un Encargado de almacen', 'disabled' => true]) !!}
+            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('apellidos','codEmpleado'),@$idEncargado,['class' => 'form-control is-invalid','placeholder' => 'Porfavor Seleccione un Encargado de almacen', 'disabled' => true]) !!}
                 <span class="help-block">
                     <strong>{{ $errors->first('codEmpleadoEncargadoAlmacen') }}</strong>
                 </span>
             @else
-            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('full_name','codEmpleado'),@$idEncargado,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un Encargado de almacen', 'disabled' => true]) !!}
+            {!! Form::select('codEmpleadoEncargadoAlmacen',$empleado->pluck('apellidos','codEmpleado'),@$idEncargado,['class' => 'form-control','placeholder' => 'Porfavor Seleccione un Encargado de almacen', 'disabled' => true]) !!}
             @endif
         </div>
 

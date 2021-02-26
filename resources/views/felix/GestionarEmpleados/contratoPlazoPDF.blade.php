@@ -53,7 +53,7 @@
 <body>
     <div id="principal" style="width: 600px; height: 70px;">
         <div style="width: 20%; height: 70px; float: left;">
-            <img src="/GencoImg/LogoCedepas.jpg">
+            
         </div>
         <div style="width: 20%; height: 70px; float: right;">
             <p style="color:#817e7e; text-align: right;">T-00{{$contrato->codPeriodoEmpleado}}-2021</p>

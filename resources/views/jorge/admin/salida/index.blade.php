@@ -41,7 +41,6 @@
                         <thead>
                             <tr>
                                 <th>Reponsable</th>
-                                <th>Enc. Almacen</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th>Opciones</th>
@@ -53,8 +52,7 @@
                             @foreach($models as $data)
                                 <tr >
                                
-                                    <td>{{ $data->empleadoResponsable->full_name }} </td>
-                                    <td>{{ $data->empleadoAlmacen->full_name }} </td>
+                                    <td>{{ $data->empleadoResponsable->apellidos }} </td>
                                     <td>{{ $data->fecha }}</td>
                                     <td>{{ $data->descripcion }}</td>
                                     <td class="center">
@@ -81,7 +79,6 @@
                         <tfoot>
                             <tr>
                                 <th>Reponsable</th>
-                                <th>Enc. Almacen</th>
                                 <th>Fecha</th>
                                 <th>Descripción</th>
                                 <th>Opciones</th>

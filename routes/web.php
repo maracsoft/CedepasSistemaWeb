@@ -282,8 +282,8 @@ Route::get('CC/admin/destroyCaja/{codCaja}','CajaController@destroy')->name('caj
 
 Route::get('/listarPagosPlanilla','GastoPlanillaController@listar')->name('pagoPlanilla.listar');
 
-Route::get('/crearPagoPlanilla/{mes}','GastoPlanillaController@create')->name('pagoPlanilla.create');
-Route::get('/storePagoPlanilla/{mes}','GastoPlanillaController@store')->name('pagoPlanilla.store');
+Route::get('/crearPagoPlanilla/','GastoPlanillaController@create')->name('pagoPlanilla.create');
+Route::get('/storePagoPlanilla/','GastoPlanillaController@store')->name('pagoPlanilla.store');
 
 Route::get('/verPagoPlanilla/{mes}','GastoPlanillaController@ver')->name('pagoPlanilla.ver');
 

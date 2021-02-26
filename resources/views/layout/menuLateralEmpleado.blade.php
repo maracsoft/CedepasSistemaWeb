@@ -46,20 +46,26 @@
         <ul class="nav nav-treeview">
           <?php 
           $cont=0;
+          $cont2=0;
           $contratos=App\Empleado::getEmpleadoLogeado()->periodoEmpleado;
           foreach ($contratos as $itemcontrato) {
             if($itemcontrato->activo==1 && $itemcontrato->asistencia==1){
               $cont+=1;
+              if(!is_null($itemcontrato->codTurno)){
+                $cont2+=1;
+              }
             }
           }
           ?>
           @if($cont>0)
+            @if($cont2>0)
             <li class="nav-item">
               <a href="/marcarAsistencia/{{App\Empleado::getEmpleadoLogeado()->codEmpleado}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Asistencia</p>
                 </a>
             </li>
+            @endif
             <li class="nav-item">
               <a href="/listarSolicitudes/{{App\Empleado::getEmpleadoLogeado()->codEmpleado}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

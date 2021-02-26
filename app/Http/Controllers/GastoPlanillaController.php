@@ -23,7 +23,10 @@ class GastoPlanillaController extends Controller
 
 
 
-    public function create($mes){
+    public function create(){
+        
+        $mes = Empleado::getMesActual();
+
         $listaEmpleados = [];
         $listaEmpleados = Empleado::getEmpleadosModalidadPlazoFijo();
         $vector =[];
@@ -112,6 +115,18 @@ class GastoPlanillaController extends Controller
 
     public function ver($mes){
         
+        switch ($mes) {
+            case 1:
+                $nombreMes="Enero";
+                break;
+            case 2:
+                $nombreMes="Febrero";
+                break;
+            default:
+                # code...
+                break;
+        }
+
   
         $listaEmpleados = [];
         $listaEmpleados = Empleado::getEmpleadosModalidadPlazoFijo();
@@ -195,7 +210,8 @@ class GastoPlanillaController extends Controller
 
         }
 
-        return view('marsky.pagos.ver',compact('listaEmpleados','vector','mes','montoTotal'));
+        return view('marsky.pagos.ver',compact('listaEmpleados','vector','mes','montoTotal','nombreMes'));
+
     
 
     }
@@ -206,7 +222,14 @@ class GastoPlanillaController extends Controller
 
 
     
-    public function store($mes){
+    public function store(){
+        $mes = Empleado::getMesActual();
+        //validamos que no exista este
+        $list = GastoPlanilla::where('mes','=',$mes)->get();
+        if(count($list) >0 ){ //ya existe uno
+            return redirect()->route('pagoPlanilla.listar')->with('datos','Error, este mes ya fue declarado.');
+        }
+
 
     try {
         db::beginTransaction();

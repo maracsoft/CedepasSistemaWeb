@@ -122,6 +122,11 @@
                 @case('Jefe de Inventario'){{--  --}}
                     @include('layout.menuLateralJefeInv')
                     @break
+                @case('Encargado inventario'){{--  --}}
+                    @include('layout.menuLateralEncInv')
+                    @break
+                
+                
                 @case('Encargado almacén')
                     @include('layout.menuLateralEncAlm')
                     @break
