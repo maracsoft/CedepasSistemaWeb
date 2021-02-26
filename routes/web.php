@@ -280,10 +280,12 @@ Route::get('CC/admin/destroyCaja/{codCaja}','CajaController@destroy')->name('caj
 
 // DECLARAR IMPUESTOS
 
-Route::get('/listarDeclaraciones','DeclaracionController@listar')->name('declaracion.listar');
-Route::get('/verDeclaracion/{id}','DeclaracionController@ver')->name('declaracion.ver');
-Route::get('/crearDeclaracion','DeclaracionController@create')->name('declaracion.create');
+Route::get('/listarPagosPlanilla','GastoPlanillaController@listar')->name('pagoPlanilla.listar');
 
+Route::get('/crearPagoPlanilla/{mes}','GastoPlanillaController@create')->name('pagoPlanilla.create');
+Route::get('/storePagoPlanilla/{mes}','GastoPlanillaController@store')->name('pagoPlanilla.store');
+
+Route::get('/verPagoPlanilla/{mes}','GastoPlanillaController@ver')->name('pagoPlanilla.ver');
 
 /* --------------------------------------- MODULO RENZO -------------------------------------------------- */
 Route::get('/gestionInventario/cambiarEstado/{id}','gestionInventarioController@cambiarEstadoDetalle');

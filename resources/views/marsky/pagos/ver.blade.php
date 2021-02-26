@@ -128,7 +128,7 @@
 
     <div>
         <a href="{{route('pagoPlanilla.listar')}}" class="btn btn-danger"><i class="fas fa-ban"></i>Regresar</button></a>
-        <a href="{{route('pagoPlanilla.store',$mes)}}" class="btn btn-primary"><i class="fas fa-plus"></i>Registrar</button></a>
+        
     </div>
 
 </div>
