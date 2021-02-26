@@ -65,7 +65,7 @@
     </table>
     <br>
   
-    <a href="/crearJustificacion/{{$empleado->codEmpleado}}" style="margin-left:570px;" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>CREAR SOLICITUD</a>  
+    <a href="/crearJustificacion/{{$empleado->codEmpleado}}" style="margin-left:570px;" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>CREAR JUSTIFICACION</a>  
    
     
 

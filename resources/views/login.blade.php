@@ -13,11 +13,14 @@
       
 </head>
 <body class="login"> 
-
+    
         <div class="logo">
+            <!--
             <img src="{{asset('/img/visa.png')}}" alt="Sistema de Ventas & ABC">
-            <p>Sistema de Ventas & ABC</p>
+            -->
+            <p></p>
         </div>
+    
         <div class="content">                         
             <form method="POST" action="{{route('user.logearse')}}">
               @csrf  
@@ -57,9 +60,11 @@
                 <hr />
             </form>            
         </div>
+        <!--
         <div class="copyright">
             2020 &copy; Sistema de Ventas & ABC.
         </div>
+    -->
         <script src="/adminlte/plugins/jquery/jquery.min.js"></script>
         <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

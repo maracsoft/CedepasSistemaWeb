@@ -162,9 +162,10 @@
 
 
             <br />
+
+            <a href="/listarEmpleados/listarContratos/{{$turno->periodoEmpleado->codEmpleado}}" class="btn btn-info" style="margin-left:600px;">Regresar</a>
+            <input id="guardar" type="button" class="btn btn-primary"  value="Guardar" onclick="validarregistro()" />
             
-            <input id="guardar" type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
-            <a href="/listarEmpleados/listarContratos/{{$turno->periodoEmpleado->codEmpleado}}" class="btn btn-info">Regresar</a>
     </form>
 @endsection
 

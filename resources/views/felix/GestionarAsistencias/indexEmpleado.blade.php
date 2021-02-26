@@ -114,7 +114,7 @@
                       </td>
                       <td>
                         @if($hoy>=strtotime($itemasistencia->periodoEmpleado->turno->horaInicio2) && $hoy<=strtotime($itemasistencia->periodoEmpleado->turno->horaFin2) && $fechaHoy==$itemasistencia->fecha)
-
+                        
                           @if(is_null($itemasistencia->fechaHoraEntrada2))
                             <a href="/marcarAsistencia/marcar/{{$itemasistencia->codRegistroAsistencia}}*3" class="btn btn-info btn-sm btn-icon icon-left">ENTRADA</a>    
                           @else

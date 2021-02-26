@@ -138,7 +138,8 @@ class PeriodoEmpleadoController extends Controller
 
                 //cuando el contrato no tiene fin los pagos ingresados son mensuales
                 if($contrato->fechaFin!=null){
-                    $sueldo->sueldoMensual=($contrato->sueldoFijo)/$meses;
+                    //$sueldo->sueldoMensual=($contrato->sueldoFijo)/$meses;
+                    $sueldo->sueldoMensual=$contrato->sueldoFijo;
                 }else{
                     $sueldo->sueldoMensual=$contrato->sueldoFijo;
                 }

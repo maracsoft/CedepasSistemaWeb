@@ -25,7 +25,7 @@
     <form method="POST" action="{{ route('gestionInventario.update',$revision->codRevision)}}" id="frmgestion" name="frmgestion">
         @method('put')
         @csrf
-        <h1>REGISTRAR REVISIÓN DE INVENTARIO</h1>
+        <h1>EDITAR REVISIÓN DE INVENTARIO</h1>
         <div>
             
         <div class="col-6">
@@ -50,7 +50,7 @@
         </div>
         <div>
             <a href="{{route('gestionInventario.index')}}" class="btn btn-danger"><i class="fas fa-ban"></i>Regresar</button></a>
-            <input type="button" class="btn btn-primary" value="Registrar" onclick="validar()" />
+            <input type="button" class="btn btn-primary" value="Guardar" onclick="validar()" />
         </div>
         
     </form>

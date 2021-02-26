@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <a href="" class="btn btn-primary"><i class="fas fa-plus"></i>Buscar</button></a>
+            <a href="" class="btn btn-primary"><i class="fas fa-search"></i>Buscar</button></a>
         </div>
 
     </div>
@@ -64,7 +64,7 @@
             @foreach($listaPeriodos as $itemPeriodo)
             <tr
             @if($itemPeriodo->codEstado=='1')
-                style="background-color: #00a599;"
+                style="background-color: #f4c272;"
             @endif
             >
 

@@ -167,7 +167,7 @@
             @foreach($listaPeriodos as $itemPeriodo)
             <tr 
             @if($itemPeriodo->codEstado=='1')
-                style="background-color: black;"
+                style="background-color: #f4c272;"
             @endif
             >
 

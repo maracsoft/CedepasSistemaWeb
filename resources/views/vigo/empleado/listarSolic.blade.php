@@ -127,7 +127,7 @@ margin-top: 18px;
                     ">
                       {{$itemSolicitud->getNombreEstado()}}
                     
-                    @if($itemSolicitud->codEstadoSolicitud==3)
+                    @if($itemSolicitud->codEstadoSolicitud==3 or $itemSolicitud->codEstadoSolicitud==4)
                     <a href="{{route('solicitudFondos.descargarComprobanteAbono',$itemSolicitud->codSolicitud)}}">
                       <i class="fas fa-download">Ver Abono</i>
                     </a>

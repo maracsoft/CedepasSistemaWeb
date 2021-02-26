@@ -36,7 +36,7 @@
 <form method="POST" action="{{ route('activos.update',$activo->codActivo)}}" id="frmactivo" name="frmactivo">
     @method('put')
     @csrf
-    <h1>REGISTRAR NUEVO ACTIVO</h1>
+    <h1>EDITAR ACTIVO</h1>
     <div>
     <div class="col-6">
         <div class="form-group row">

@@ -13,7 +13,8 @@ class Existencia extends Model
     protected $primaryKey = 'codExistencia';
     // public $incrementing = false;
     // protected $keyType = 'string';
-
+    public $timestamps = false;  //para que no trabaje con los campos fecha 
+    
     protected $fillable = [
         'codExistencia',
         'stock',

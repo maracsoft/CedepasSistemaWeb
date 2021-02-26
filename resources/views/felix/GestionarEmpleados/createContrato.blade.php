@@ -210,7 +210,7 @@
             @endif
             
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;" id="lbSueldo">Sueldo Fijo:</label>
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;" id="lbSueldo">Sueldo:</label>
                 <div class="col-sm-4">
                     <input type="number" step="any" class="form-control" id="sueldo" name="sueldo" placeholder="sueldo..." >
                 </div>
@@ -259,8 +259,9 @@
                     </select>
                 </div>
             </div>
+            
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">AFP:</label>
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sistema de pensiones:</label>
                 <div class="col-sm-4">
                     <select class="form-control" name="codAFP" id="codAFP">
                     <option value="0">--Seleccionar--</option>
@@ -270,6 +271,7 @@
                     </select>
                 </div>
             </div>
+
             <div class="form-group row" id="comboPuestos">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Asistencia:</label>
                 <div class="col-sm-4">

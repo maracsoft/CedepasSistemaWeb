@@ -112,6 +112,12 @@ class ExistenciaController extends Controller
 
         } catch (\Exception $e) {
             Flash::error($e->getMessage());
+
+            error_log('ha ocurrido un erro en existencia controller
+            '.$e->getMessage().'
+            
+            ');
+
         }
 
         $mensaje = $this->mensaje."* Existencia creada correctamente";
