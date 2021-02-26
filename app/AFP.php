@@ -13,6 +13,11 @@ class AFP extends Model
     protected $primaryKey = 'codAFP';
 
     protected $fillable = [
-        'nombre'
+        'nombre','aporteObligatorio','comisionFlujo','comisionMixta','primaDeSeguro'
     ];
+
+    
+
+
+
 }

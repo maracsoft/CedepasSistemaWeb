@@ -107,13 +107,23 @@ class SolicitudFaltaController extends Controller
         //Storage::disk('certificado')->put($certificado->cer_archivo,\File::get($certificado_archivo));
         //Storage::put('solicitudes/',$certificado_archivo);
 
-
+        /*
         $arr = explode('/', $request->fechaInicio);
         $nFecha = $arr[0].'-'.$arr[1].'-'.$arr[2];
         $solicitud->fechaInicio=$nFecha; 
 
         $arr = explode('/', $request->fechaFin);
         $nFecha = $arr[0].'-'.$arr[1].'-'.$arr[2];
+        $solicitud->fechaFin=$nFecha; 
+        //$solicitud->documentoPrueba='';
+        $solicitud->save();
+        */
+        $arr = explode('/', $request->fechaInicio);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
+        $solicitud->fechaInicio=$nFecha; 
+
+        $arr = explode('/', $request->fechaFin);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
         $solicitud->fechaFin=$nFecha; 
         //$solicitud->documentoPrueba='';
         $solicitud->save();

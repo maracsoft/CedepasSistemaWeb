@@ -80,7 +80,7 @@
                     alert("Ingrese fecha de Fin");
                     $("#fechaFin").focus();
                 }
-                else if (document.getElementById("fechaFin").value <= document.getElementById("fechaInicio").value && tipo=="1"){
+                else if (probar2()==0 && tipo=="1"){
                     alert("La fecha final tiene que ser mayor que la inicial");
                 }
                 else if (document.getElementById("sueldo").value == ""){
@@ -116,6 +116,9 @@
                 else if (document.getElementById("fechaFin").value == ""){
                     alert("Ingrese fecha de Fin");
                     $("#fechaFin").focus();
+                }
+                else if (probar2()==0){
+                    alert("La fecha final tiene que ser mayor que la inicial");
                 }
                 else if (document.getElementById("sueldo").value == ""){
                     alert("Ingrese sueldo");
@@ -342,6 +345,37 @@
 <script>
     var fechaParaFin=$("#fechaFin").val();
     //alert(fechaParaFin);
+</script>
+<script>
+    function probar2(){
+        var cadena1=$('#fechaInicio').val();
+        var cadena2=$('#fechaFin').val();
+        if(parseInt(cadena1.substr(6,4), 0)==parseInt(cadena2.substr(6,4), 0)){
+            if(parseInt(cadena1.substr(3,2), 0)==parseInt(cadena2.substr(3,2), 0)){
+                if(parseInt(cadena1.substr(0,2), 0)<=parseInt(cadena2.substr(0,2), 0)){
+                    //alert('se puede');
+                    return 1;
+                }else{
+                    //alert('no se puede');
+                    return 0;
+                }
+            }else if(parseInt(cadena1.substr(3,2), 0)<parseInt(cadena2.substr(3,2), 0)){
+                //alert('se puede');
+                return 1;
+            }else{
+                //alert('no se puede');
+                return 0;
+            }
+        }else if(parseInt(cadena1.substr(6,4), 0)<parseInt(cadena2.substr(6,4), 0)){
+            //alert('se puede');
+            return 1;
+        }else{
+            //alert('no se puede');
+            return 0;
+        }
+
+        
+    }
 </script>
 @endsection
 

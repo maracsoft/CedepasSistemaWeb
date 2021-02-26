@@ -40,7 +40,8 @@
                 alert("Ingrese fecha de fin");
                 $("#fechaFin").focus();
             }
-            else if (document.getElementById("fechaFin").value < document.getElementById("fechaInicio").value){
+            //else if (document.getElementById("fechaFin").value < document.getElementById("fechaInicio").value){
+            else if (probar2()==0){
                 alert("La fecha final tiene que ser mayor que la inicial");
             }
             else{
@@ -104,7 +105,7 @@
                     <div class="form-group">                            
                         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
                             <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
-                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;" onchange="probar()">
+                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
                             <div class="input-group-btn">                                        
                                 <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
                             </div>
@@ -121,17 +122,43 @@
     </form>
 
 <script>
-    function probar(){
+    function probar2(){
         var cadena1=$('#fechaInicio').val();
-        alert('dia:'+cadena1.substr(0,2) +' mes:'+cadena1.substr(3,2)+' ano:'+cadena1.substr(6,4));
-
-
+        //alert('dia:'+cadena1.substr(0,2) +' mes:'+cadena1.substr(3,2)+' ano:'+cadena1.substr(6,4));
         var cadena2=$('#fechaFin').val();
-        alert('dia:'+cadena2.substr(0,2) +' mes:'+cadena2.substr(3,2)+' ano:'+cadena2.substr(6,4));
-
-        if(parseInt(cadena1.substr(0,2), 0)<){
-
+        //alert('dia:'+cadena2.substr(0,2) +' mes:'+cadena2.substr(3,2)+' ano:'+cadena2.substr(6,4));
+        /*
+        if(parseInt(cadena1.substr(0,2), 0)>=parseInt(cadena2.substr(0,2), 0)){
+            alert('inicio es mayor');
+        }else{
+            alert('fin es mayor');
         }
+        */
+        if(parseInt(cadena1.substr(6,4), 0)==parseInt(cadena2.substr(6,4), 0)){
+            if(parseInt(cadena1.substr(3,2), 0)==parseInt(cadena2.substr(3,2), 0)){
+                if(parseInt(cadena1.substr(0,2), 0)<=parseInt(cadena2.substr(0,2), 0)){
+                    //alert('se puede');
+                    return 1;
+                }else{
+                    //alert('no se puede');
+                    return 0;
+                }
+            }else if(parseInt(cadena1.substr(3,2), 0)<parseInt(cadena2.substr(3,2), 0)){
+                //alert('se puede');
+                return 1;
+            }else{
+                //alert('no se puede');
+                return 0;
+            }
+        }else if(parseInt(cadena1.substr(6,4), 0)<parseInt(cadena2.substr(6,4), 0)){
+            //alert('se puede');
+            return 1;
+        }else{
+            //alert('no se puede');
+            return 0;
+        }
+
+        
     }
 </script>
 

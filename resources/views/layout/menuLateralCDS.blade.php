@@ -1,9 +1,7 @@
 
 
 <!-- Sidebar Menu -->
-<nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      <!-- Add icons to the links using the .nav-icon class
+    <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
            <li class="nav-header">VIGO</li>
       <li class="nav-item has-treeview">
@@ -402,18 +400,3 @@
 
 
     {{-- fin jorge --}}
-
-
-      <li class="nav-item">
-        <a href="{{route('user.cerrarSesion')}}" class="nav-link">
-          <i class="fas fa-sign-out-alt"></i>
-          <p>
-            Cerrar Sesión
-          </p>
-        </a>
-      </li>
-
-
-      
-    </ul>
-  </nav>

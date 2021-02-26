@@ -88,10 +88,25 @@
       </div>
 
       
+<!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
 
+          @include('layout.menuLateralCDS') {{-- Siguen li --}}
+          
 
-      @include('layout.menuLateral')
+          <li class="nav-item">
+            <a href="{{route('user.cerrarSesion')}}" class="nav-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <p>
+                Cerrar Sesión
+              </p>
+            </a>
+          </li>
 
+        </ul>
+      </nav>
 
 
 

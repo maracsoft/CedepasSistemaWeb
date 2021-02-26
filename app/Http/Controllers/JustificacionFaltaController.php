@@ -78,7 +78,7 @@ class JustificacionFaltaController extends Controller
         
         $justificacion->descripcion=$request->descripcion;
 
-
+        /*
         $arr = explode('/', $request->fechaInicio);
         $nFecha = $arr[0].'-'.$arr[1].'-'.$arr[2];
         $justificacion->fechaInicio=$nFecha; 
@@ -87,6 +87,16 @@ class JustificacionFaltaController extends Controller
         $nFecha = $arr[0].'-'.$arr[1].'-'.$arr[2];
         $justificacion->fechaFin=$nFecha; 
         //$solicitud->documentoPrueba='';
+        $justificacion->save();
+        */
+        $arr = explode('/', $request->fechaInicio);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
+        $justificacion->fechaInicio=$nFecha; 
+
+        $arr = explode('/', $request->fechaFin);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];
+        $justificacion->fechaFin=$nFecha; 
+        //$justificacion->documentoPrueba='';
         $justificacion->save();
 
         //$solicitud->documentoPrueba= 'solicitud'.$solicitud->codRegistroSolicitud.'.pdf';
