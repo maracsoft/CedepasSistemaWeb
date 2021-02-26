@@ -56,6 +56,16 @@ class Empleado extends Model
         return false;
         
     }
+    public function getPuestoActual(){
+        $periodo = $this->getPeriodoEmpleadoActual();
+        if($periodo=='-1')
+            return new Puesto();
+
+
+        return $periodo->getPuesto();
+
+    }
+
 
     //retorna -1 si no tiene un periodo actual
     public function getPeriodoEmpleadoActual(){

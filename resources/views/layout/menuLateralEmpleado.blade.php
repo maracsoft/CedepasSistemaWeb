@@ -89,14 +89,3 @@
       </li>
 
       
-
-      <li class="nav-item">
-        <a href="{{route('user.cerrarSesion')}}" class="nav-link">
-          <i class="fas fa-sign-out-alt"></i>
-          <p>
-            Cerrar Sesión
-          </p>
-        </a>
-      </li>
-
-

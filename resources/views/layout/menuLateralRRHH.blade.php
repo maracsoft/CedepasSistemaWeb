@@ -1,11 +1,10 @@
 
-      <li class="nav-header">FELIX</li>
-      
+
         <li class="nav-item has-treeview">
 
           <a href="#" class="nav-link">
             <p>
-              Mantenedores
+              RRHH
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>

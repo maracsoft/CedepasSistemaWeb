@@ -84,9 +84,9 @@ class PeriodoCajaController extends Controller
 
         $periodo = PeriodoCaja::findOrFail($idPeriodo);
 
-        if($periodo->codEstado==3){
+        /* if($periodo->codEstado==3){
             return redirect()->route('resp.listarMisPeriodos')->with('datos','No tiene ningun periodo activo.');
-        }
+        } */
 
 
         $listaGastos = GastoCaja::where('codPeriodoCaja','=',$periodo->codPeriodoCaja)->get();

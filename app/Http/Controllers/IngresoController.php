@@ -32,7 +32,7 @@ class IngresoController extends Controller
     public function create(){
 
         $empleado = Empleado::all();
-        $idEncargado = 1;
+        $idEncargado = 9;
         //dd($codigo);
 
         $fecha = Carbon::now()->format('Y-m-d');

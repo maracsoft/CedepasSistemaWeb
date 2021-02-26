@@ -269,7 +269,7 @@
                         </div>
                     </div>
 
-                    @if($rend->codEstadoDeReposicion > 1) {{-- Si es 11 o es 2 --}}
+                    @if($rend->estadoDeReposicion > 1) {{-- Si es 11 o es 2 --}}
                         
                     
                     <div class="col">

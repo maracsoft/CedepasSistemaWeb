@@ -3,7 +3,7 @@
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
           <p>
-            Asistencia Contable
+            Caja Chica
             <i class="right fas fa-angle-left"></i>
           </p>
         </a>

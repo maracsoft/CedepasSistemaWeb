@@ -84,17 +84,58 @@
       
             <div class="info">
               <a href="#" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
+             
+                <label for="" style="color: rgb(95, 119, 119)">
+                  {{  (App\Empleado::getEmpleadoLogeado()->getPuestoActual()->nombre ) }}
+                </label>
+            
+              
             </div>
+            
+            
       </div>
 
       
 <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          
+         
+          @if(Auth::id()=='1'){{-- Si es admin --}}
+            @include('layout.menuLateralCDS')  
+          @else
+          Empleado:
+            @include('layout.menuLateralEmpleado')
+          ------------
+            @switch( (App\Empleado::getEmpleadoLogeado()->getPuestoActual()->nombre ) )
+                @case('Jefe de Administración') {{--  --}}
+                    @include('layout.menuLateralJefeAdmin')
+                    @break
+                @case('Jefe de RRHH'){{--  --}}
+                    @include('layout.menuLateralRRHH')
+                    @break
+                @case('Director'){{--  --}}
+                    @include('layout.menuLateralDirector')
+                    @break
+                @case('Cajero'){{--  --}}
+                    @include('layout.menuLateralCajero')
+                    @break
+                @case('Jefe de Inventario'){{--  --}}
+                    @include('layout.menuLateralJefeInv')
+                    @break
+                @case('Encargado almacén')
+                    @include('layout.menuLateralEncAlm')
+                    @break
+                @default
+            @endswitch
+          @endif
+          {{-- @include('layout.menuLateralCDS')
+  --}}
+           
 
-          @include('layout.menuLateralCDS') {{-- Siguen li --}}
-          
+
+
+
+
 
           <li class="nav-item">
             <a href="{{route('user.cerrarSesion')}}" class="nav-link">

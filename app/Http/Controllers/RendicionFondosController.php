@@ -137,6 +137,16 @@ class RendicionFondosController extends Controller
         return view('vigo.jefe.verReponer',compact('rend','solicitud','empleado','detallesRend'));
     }
 
+
+
+
+
+
+
+
+
+
+
     //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
     // se le devuelve al empleado los gastos que hizo en exceso
     public function reponer(Request $request){ //id de la rendicion
@@ -360,7 +370,7 @@ class RendicionFondosController extends Controller
             $prefijo = 'Repos';
         if($rend->estadoDeReposicion=='2')
             $prefijo = 'Devol';
-
+        
         $nombreArchivo = 'RF-'.$prefijo.'-'.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
         
         

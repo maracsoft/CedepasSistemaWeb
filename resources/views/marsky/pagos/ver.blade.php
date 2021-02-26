@@ -10,25 +10,25 @@
             <thead>
             
                 <tr>
-                    <th    >Empleado</th>
-                    <th    >dni</th>
-                    <th    >AFP</th>
-                    <th    >Sueldo Contrato</th>
-                    <th  >Costo Diario</th>
-                    <th    >Dias de Vac</th>
-                    <th    >Dias de Falta</th>
-                    <th    >Sueldo Bruto x Trabajar</th>
-                    <th    >Monto x Vac</th>
-                    <th    >Base Antes de faltas</th>
-                    <th    >Desc Faltas</th>
-                    <th    >Base Imponible</th>
-                    <th    >SNP</th>
-                    <th    >Aporte Obligatorio</th>
-                    <th    >Com mixta</th>
-                    <th    >Prima Seg</th>
+                    <th>Empleado</th>
+                    <th>dni</th>
+                    <th>AFP</th>
+                    <th>Sueldo Contrato</th>
+                    <th>Costo Diario</th>
+                    <th>Dias de Vac</th>
+                    <th>Dias de Falta</th>
+                    <th>Sueldo Bruto x Trabajar</th>
+                    <th>Monto x Vac</th>
+                    <th>Base Antes de faltas</th>
+                    <th>Desc Faltas</th>
+                    <th>Base Imponible</th>
+                    <th>SNP</th>
+                    <th>Aporte Obligatorio</th>
+                    <th>Com mixta</th>
+                    <th>Prima Seg</th>
                     
-                    <th    >Desc Total</th>
-                    <th    >Neto</th>
+                    <th>Desc Total</th>
+                    <th>Neto</th>
                     
                 </tr>
             </thead>

@@ -199,7 +199,7 @@
                     
 
                 <td>
-                <a href="{{route('resp.verPeriodo',$itemPeriodo->codPeriodoCaja)}}" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button></a>
+                    <a href="{{route('resp.verPeriodo',$itemPeriodo->codPeriodoCaja)}}" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button></a>
                 </td>
             </tr>
             @endforeach

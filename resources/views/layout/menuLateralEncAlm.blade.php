@@ -6,7 +6,7 @@
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
           <p>
-            Inventarios Jorge
+            Gestión de Almacén
             <i class="right fas fa-angle-left"></i>
           </p>
         </a>
