@@ -7,15 +7,17 @@
 <br>
 <div class="container">
 <h1>Periodo actual de Caja Chica</h1>
-    @if (session('datos'))
+
+    @if ($msjAlerta!='')
         <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
-            {{session('datos')}}
+            {{$msjAlerta}}
           <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
               <span aria-hidden="true"> &times;</span>
           </button>
           
         </div>
-        @endif 
+    @endif 
+
     <div class="row mt-2">
           
     <div class="col-6">

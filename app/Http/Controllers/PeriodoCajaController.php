@@ -84,6 +84,12 @@ class PeriodoCajaController extends Controller
 
         $periodo = PeriodoCaja::findOrFail($idPeriodo);
 
+        //si lo gastado es mayor al 80%, alerta
+        $msjAlerta='';
+        $gastado = $periodo->montoApertura-$periodo->montoFinal;
+        if( $gastado > 0.80*$periodo->montoApertura )
+            $msjAlerta = 'Sus gastos exceden el 80% del monto máximo de la caja chica, recomendamos liquidar caja y solicitar reposición.';
+        
         /* if($periodo->codEstado==3){
             return redirect()->route('resp.listarMisPeriodos')->with('datos','No tiene ningun periodo activo.');
         } */
@@ -91,8 +97,9 @@ class PeriodoCajaController extends Controller
 
         $listaGastos = GastoCaja::where('codPeriodoCaja','=',$periodo->codPeriodoCaja)->get();
            
-
-        return view('marsky.cajaChicaResp.verPeriodo',compact('periodo','listaGastos'));
+        
+        return view('marsky.cajaChicaResp.verPeriodo',
+            compact('periodo','listaGastos','msjAlerta'));
     }
 
     /* Registrar gasto  */

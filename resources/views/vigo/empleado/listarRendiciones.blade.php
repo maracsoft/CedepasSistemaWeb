@@ -24,7 +24,7 @@
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre Jefe:</label>
+        <label for="">Nombre Empleado:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
