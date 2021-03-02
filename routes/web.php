@@ -288,16 +288,16 @@ Route::get('/storePagoPlanilla/','GastoPlanillaController@store')->name('pagoPla
 Route::get('/verPagoPlanilla/{mes}','GastoPlanillaController@ver')->name('pagoPlanilla.ver');
 
 /* --------------------------------------- MODULO RENZO -------------------------------------------------- */
-Route::get('/gestionInventario/cambiarEstado/{id}','gestionInventarioController@cambiarEstadoDetalle');
-Route::get('/gestionInventario/filtro/{id}','gestionInventarioController@filtroDetalles');
-Route::get('/gestionInventario/{id}/eliminar','gestionInventarioController@delete')->name('gestionInventario.delete');
+Route::get('/gestionInventario/cambiarEstado/{id}','GestionInventarioController@cambiarEstadoDetalle');
+Route::get('/gestionInventario/filtro/{id}','GestionInventarioController@filtroDetalles');
+Route::get('/gestionInventario/{id}/eliminar','GestionInventarioController@delete')->name('gestionInventario.delete');
 Route::resource('gestionInventario', GestionInventarioController::class);
 
 Route::resource('activos', ActivoController::class);
-Route::get('/actualizarActivos/mostrarRevisiones','gestionInventarioController@mostrarRevisiones')->name('gestionInventario.mostrarRevisiones');
+Route::get('/actualizarActivos/mostrarRevisiones','GestionInventarioController@mostrarRevisiones')->name('gestionInventario.mostrarRevisiones');
 Route::get('/actualizarActivos/mostrarActivos/{id}','ActivoController@mostrarActivos')->name('activos.mostrarActivos');
 Route::get('/actualizarActivos/habilidarActivo/{id}','ActivoController@habilitarActivo')->name('activos.habilitarActivo');
-Route::get('/actualizarActivos/cambiarEstado/{id}','gestionInventarioController@cambiarEstado');
+Route::get('/actualizarActivos/cambiarEstado/{id}','GestionInventarioController@cambiarEstado');
 
 
 

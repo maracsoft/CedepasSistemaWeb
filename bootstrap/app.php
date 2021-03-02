@@ -41,6 +41,15 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+// PARA MANDAR A PRODUCCION (CAMBIAR PUBLIC PATH)
+$app->bind('path.public',function(){
+    return realpath('./../public/'); 
+ });
+ 
+//para correr en local, solo comentar esto
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
