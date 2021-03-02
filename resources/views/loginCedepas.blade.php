@@ -86,7 +86,7 @@
 	
 			</div>
 			<div align="center">
-				<img src="https://lh3.googleusercontent.com/proxy/JBDJ0EzX1HHyYAfO_a8C5X-5GM1ZKTQbchoDuGcpa_5uWWwsH23B1GK4wL1VUYYeggb_at4MTlyoU3BGncvSYY-A5v3mK3s6y8pIEvlIrZxHYM5rId9uLA"
+				<img src="/img/LogoCedepas.png"
 				width="200" height="140" ></div>
 		</div>
 		
