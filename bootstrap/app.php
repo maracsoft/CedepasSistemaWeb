@@ -42,9 +42,9 @@ $app->singleton(
 );
 
 // PARA MANDAR A PRODUCCION (CAMBIAR PUBLIC PATH)
-/* $app->bind('path.public',function(){
+$app->bind('path.public',function(){
     return realpath('./../public/'); 
- }); */
+ });
  
 //para correr en local, solo comentar esto
 
