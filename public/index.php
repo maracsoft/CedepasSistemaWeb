@@ -29,8 +29,8 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 //PRODUCCION
 
 
-require __DIR__.'/../../Cedepas/vendor/autoload.php';
-$app = require_once __DIR__.'/../../Cedepas/bootstrap/app.php';
+require __DIR__.'/../../gitCedepas/vendor/autoload.php';
+$app = require_once __DIR__.'/../../gitCedepas/bootstrap/app.php';
 
 
 
