@@ -477,12 +477,15 @@ class RendicionFondosController extends Controller
             }
 
         } catch (\Throwable $th) {
-        
+            
+
             error_log('\\n ---------------------- 
             Ocurrió el error:'.$th->getMessage().'
 
 
             ' );
+
+            return $th->getMessage();
 
         }
     }
