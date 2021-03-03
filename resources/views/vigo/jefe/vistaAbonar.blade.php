@@ -7,7 +7,7 @@
 @section('contenido')
 
 <div>
-    <p class="h1" style="text-align: center">Abonar a Solicitud de Fondos Aprobada</p>
+    <p class="h1" style="text-align: center">Abonar a Soliscitud de Fondos Aprobada</p>
 </div>
 
 <form method = "POST" action = "{{route('solicitudFondos.abonar')}}" onsubmit="return validar()"  enctype="multipart/form-data">
