@@ -416,7 +416,7 @@ class RendicionFondosController extends Controller
                         select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
                         from rendicion_gastos RG
                             inner join solicitud_fondos USING(codSolicitud)
-                            inner join Sede USING(codSede)
+                            inner join sede USING(codSede)
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             GROUP BY sede.nombre;
                     ');
@@ -433,7 +433,7 @@ class RendicionFondosController extends Controller
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             GROUP BY E.nombres;
                             ');
@@ -446,7 +446,7 @@ class RendicionFondosController extends Controller
                     select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
                     from rendicion_gastos RG
                         inner join solicitud_fondos SF USING(codSolicitud)
-                        inner join Proyecto P on P.codProyecto = SF.codProyecto 
+                        inner join proyecto P on P.codProyecto = SF.codProyecto 
                         where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                         GROUP BY P.nombre;
                         ');
@@ -461,7 +461,7 @@ class RendicionFondosController extends Controller
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             and SF.codSede = "'.$sede->codSede.'"
                             GROUP BY E.nombres;
@@ -517,7 +517,7 @@ class RendicionFondosController extends Controller
                         select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
                         from rendicion_gastos RG
                             inner join solicitud_fondos USING(codSolicitud)
-                            inner join Sede USING(codSede)
+                            inner join sede USING(codSede)
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             GROUP BY sede.nombre;
                     ');
@@ -534,7 +534,7 @@ class RendicionFondosController extends Controller
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             GROUP BY E.nombres;
                             ');
@@ -549,7 +549,7 @@ class RendicionFondosController extends Controller
                     select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
                     from rendicion_gastos RG
                         inner join solicitud_fondos SF USING(codSolicitud)
-                        inner join Proyecto P on P.codProyecto = SF.codProyecto 
+                        inner join proyecto P on P.codProyecto = SF.codProyecto 
                         where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                         GROUP BY P.nombre;
                         ');
@@ -570,7 +570,7 @@ class RendicionFondosController extends Controller
                     select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join Empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
                             where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
                             and SF.codSede = "'.$sede->codSede.'"
                             GROUP BY E.nombres;
