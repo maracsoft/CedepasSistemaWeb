@@ -10,7 +10,7 @@
     <p class="h1" style="text-align: center">Abonar a Solicitud de Fondos Aprobada</p>
 </div>
 
-<form method = "POST" action = "{{route('solicitudFondos.abonar',)}}" onsubmit="return validar()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('solicitudFondos.abonar')}}" onsubmit="return validar()"  enctype="multipart/form-data">
     {{-- Para saber en el post cual solicitud es  --}}    
     <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
    
