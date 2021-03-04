@@ -31,8 +31,8 @@ Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDe
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
 
-Route::get('/listarDeDirector','SolicitudFondosController@listarSolicitudesParaDirector')
-    ->name('solicitudFondos.listarDirector');
+Route::get('/listarDeDirector','SolicitudFondosController@listarSolicitudesParaGerente')
+    ->name('solicitudFondos.listarGerente');
 Route::get('/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesParaJefe')
     ->name('solicitudFondos.listarJefeAdmin');
 
@@ -101,7 +101,7 @@ Route::get('/verRendicion/emp/{id}', 'RendicionFondosController@ver')->name('ren
 
 Route::get('/verRendicion/admin/{id}', 'RendicionFondosController@verAdmin')->name('rendicionFondos.verAdmin');
 
-Route::get('/verRendicion/director/{id}', 'RendicionFondosController@verDirector')->name('rendicionFondos.verDirector');
+Route::get('/verRendicion/gerente/{id}', 'RendicionFondosController@verGerente')->name('rendicionFondos.verGerente');
 
 
 Route::get('/verReponer/{id}', 'RendicionFondosController@verReponer')->name('rendicionFondos.verReponer');

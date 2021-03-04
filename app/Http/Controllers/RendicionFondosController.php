@@ -113,8 +113,8 @@ class RendicionFondosController extends Controller
     }
 
 
-    //despliuega vista de  rendicion, del admiin
-    public function verDirector($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
+    //despliuega vista de  rendicion,
+    public function verGerente($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
         $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
         $rend = $listaRend[0];
 
@@ -122,7 +122,7 @@ class RendicionFondosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
 
-        return view('vigo.director.verRend',compact('rend','solicitud','empleado','detallesRend'));
+        return view('vigo.gerente.verRend',compact('rend','solicitud','empleado','detallesRend'));
     }
 
 

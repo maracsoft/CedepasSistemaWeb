@@ -113,8 +113,8 @@
                 @case('Jefe de RRHH'){{--  --}}
                     @include('layout.menuLateralRRHH')
                     @break
-                @case('Director'){{--  --}}
-                    @include('layout.menuLateralDirector')
+                @case('gerente'){{--  --}}
+                    @include('layout.menuLateralgerente')
                     @break
                 @case('Cajero'){{--  --}}
                     @include('layout.menuLateralCajero')

@@ -205,7 +205,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <a href="{{route('solicitudFondos.listarDirector')}}" 
+                                <a href="{{route('solicitudFondos.listarGerente')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú

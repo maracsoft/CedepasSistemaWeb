@@ -45,13 +45,13 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Director
+                gerente
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarDirector')}}" class="nav-link">
+                <a href="{{route('solicitudFondos.listarGerente')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Listar Fondos</p>
                 </a>

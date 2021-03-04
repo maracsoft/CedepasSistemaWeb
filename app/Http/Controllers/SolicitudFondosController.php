@@ -36,9 +36,9 @@ class SolicitudFondosController extends Controller
     //funcion cuello de botella para volver al index desde el VER SOLICITUD (pq estoy usando la misma vista)
     public function listarSolicitudes(){
         $empleado = Empleado::getEmpleadoLogeado();
-        if($empleado->esDirector()){
+        if($empleado->esgerente()){
             //lo enrutamos hacia su index
-            return redirect()->route('solicitudFondos.listarDirector');
+            return redirect()->route('solicitudFondos.listarGerente');
         }
 
         if($empleado->esJefeAdmin())//si es jefe de administracion
@@ -81,8 +81,8 @@ class SolicitudFondosController extends Controller
 
 
 
-    /* FUNCION ACTIVADA POR UN DIRECTOR */
-    public function listarSolicitudesParaDirector(Request $request){
+    /* FUNCION ACTIVADA POR UN gerente */
+    public function listarSolicitudesParaGerente(Request $request){
         
         $empleado = Empleado::getEmpleadoLogeado();
         $codProyecto = $empleado->codProyecto;
@@ -98,7 +98,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('vigo.director.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('vigo.gerente.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
 
@@ -152,7 +152,7 @@ class SolicitudFondosController extends Controller
 
 
 
-    //funcion del director, despliega la vista de revision. Si ya la revisó, esta tambien hace funcion de ver 
+    //funcion del gerente, despliega la vista de revision. Si ya la revisó, esta tambien hace funcion de ver 
     public function revisar($id){
         $listaBancos = Banco::All();
         $listaProyectos = Proyecto::All();
@@ -164,7 +164,7 @@ class SolicitudFondosController extends Controller
         $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
         $empleadoLogeado = $LempleadoLogeado[0];    
 
-        return view('vigo.director.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('vigo.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
     public function aprobar( $id){
@@ -183,7 +183,7 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
 
             DB::commit();
-            return redirect()->route('solicitudFondos.listarDirector')
+            return redirect()->route('solicitudFondos.listarGerente')
                 ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada! ');
         } catch (\Throwable $th) {
             error_log('
@@ -294,7 +294,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->save();
             DB::commit();
-            return redirect()->route('solicitudFondos.listarDirector')
+            return redirect()->route('solicitudFondos.listarGerente')
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
 
         } catch (\Throwable $th) {
@@ -308,7 +308,7 @@ class SolicitudFondosController extends Controller
             ');
 
             DB::rollBack();
-            return redirect()->route('solicitudFondos.listarDirector')
+            return redirect()->route('solicitudFondos.listarGerente')
             ->with('datos','Ha ocurrido un error');
         }
 

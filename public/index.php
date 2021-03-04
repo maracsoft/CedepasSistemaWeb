@@ -23,15 +23,15 @@ define('LARAVEL_START', microtime(true));
 
 
 //LOCAL
-/* require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
- */
+
 //PRODUCCION
 
 
-require __DIR__.'/../../gitCedepas/vendor/autoload.php';
+/* require __DIR__.'/../../gitCedepas/vendor/autoload.php';
 $app = require_once __DIR__.'/../../gitCedepas/bootstrap/app.php';
-
+ */
 
 
 

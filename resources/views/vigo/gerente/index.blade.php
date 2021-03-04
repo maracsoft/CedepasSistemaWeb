@@ -24,7 +24,7 @@
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre Director:</label>
+        <label for="">Nombre gerente:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
@@ -156,7 +156,7 @@
                             </a>
                           
                           @if($itemSolicitud->codEstadoSolicitud == 4)   
-                            <a href="{{route('rendicionFondos.verDirector',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('rendicionFondos.vergerente',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>
