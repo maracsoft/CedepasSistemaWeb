@@ -109,6 +109,35 @@
                             <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
                                     
                         </div>
+
+
+                         <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="ComboBoxSede">Estado de la Solicitud 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif :</label>
+                        </div>
+                        <div class="col"> {{-- Combo box de estado --}}
+                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            style="background-color: {{$solicitud->getColorEstado()}} ;
+                                color:{{$solicitud->getColorLetrasEstado()}};
+                                
+                            "
+                            readonly value="{{$solicitud->getNombreEstado()}} {{$solicitud->observacion}}">     
+                            <div>{{-- Tambien debe poder bajar el cbte de abono pq esta vista tambien es la de VER SOLICITUD --}}
+                                @if($solicitud->verificarEstado('Abonada'))
+                                <a href="{{route('solicitudFondos.descargarComprobanteAbono',$solicitud->codSolicitud)}}">
+                                    <i class="fas fa-download">Ver Abono</i>
+                                </a>
+                                @endif
+                            </div>
+                            
+                                    
+                        </div>
+
+
+
+
+                        
                     </div>
                 </div>
             </div>
@@ -216,30 +245,37 @@
                        
                           
                             
-                        @if($solicitud->codEstadoSolicitud==1)
+                        @if($solicitud->verificarEstado('Creada') || $solicitud->verificarEstado('Subsanada') )
 
-                            <form method="post" action="{{route('solicitudFondos.rechazar')}}"> 
+                            <form method="post" action="{{route('solicitudFondos.observar')}}"> 
                                 @csrf     
                                 <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
                                 <div class="row">
-
-
-                                    
                                     <div class="col">
-                                        <label for="">Razón Rechazo:</label>
-                                        <textarea class="form-control" name="razonRechazo" id="razonRechazo" cols="30" rows="4"></textarea>
+                                        <label for="">Observación:</label>
+                                        <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
                                     </div>
                                     
                                     <div class="col">
                                         <button type="submit"
                                             class='btn btn-danger'   style="float:right;">
-                                            <i class='fas fa-ban'></i>
-                                            Rechazar
+                                            <i class="fas fa-eye-slash"></i>
+                                            Observar
                                         </button> 
                                         <br>
                                     </div>    
                                 </div>
                             </form>
+
+
+                                <div class="col">
+                                    <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
+                                        class='btn btn-danger'  style="float:right;">
+                                        <i class='fas fa-ban'></i>
+                                        Rechazar
+                                    </a>    
+                                </div>
+                        
                                 <div class="col">
                                     <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
                                         class='btn btn-success'  style="float:right;">
@@ -248,7 +284,6 @@
                                     </a>    
                                 </div>
                         
-
                         
                         @endif
                         </div>

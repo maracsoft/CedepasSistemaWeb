@@ -6,7 +6,17 @@
 
 @section('contenido')
 
-<h1> Editar Solicitud de Fondos</h1>
+<h1> 
+    @if($solicitud->verificarEstado('Observada'))
+        Subsanar Solicitud de Fondos
+        
+    @else
+        Editar Solicitud de Fondos
+
+    @endif
+    
+
+</h1>
 <form method = "POST" action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}"  >
         
     {{-- CODIGO DEL EMPLEADO --}}
@@ -23,12 +33,12 @@
                             <label for="fecha">Fecha emision</label>
                       </div>
                       <div class="col">
-                            <div class="form-group" style="text-align:left;">                            
+                                                     
                                 <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
                                         value="{{$solicitud->fechaHoraEmision}}" >     
                                 </div>
-                            </div>
+                           
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
@@ -95,7 +105,7 @@
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
                 <label for="fecha">Justificacion</label>
                 <textarea class="form-control" name="justificacion" id="justificacion"
-                 aria-label="With textarea" style="resize:none; height:100px;">{{$solicitud->justificacion}}</textarea>
+                 aria-label="With textarea" style="resize:none; height:70px;">{{$solicitud->justificacion}}</textarea>
 
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
@@ -137,6 +147,37 @@
                                     @endforeach 
                                 </select>      
                         </div>
+
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel2">
+                                <label for="ComboBoxSede">Estado de <br> la Solicitud 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                        </div>
+                        <div class="col"> {{-- Combo box de estado --}}
+                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            style="background-color: {{$solicitud->getColorEstado()}} ;
+                                color:{{$solicitud->getColorLetrasEstado()}};
+                                
+                            "
+                            readonly value="{{$solicitud->getNombreEstado()}}@if($solicitud->verificarEstado('Observada') ): @endif {{$solicitud->observacion}}">     
+                            <div>
+                                @if($solicitud->verificarEstado('Abonada'))
+                                <a href="{{route('solicitudFondos.descargarComprobanteAbono',$solicitud->codSolicitud)}}">
+                                    <i class="fas fa-download">Ver Abono</i>
+                                </a>
+                                @endif
+                            </div>
+                            
+                                    
+                        </div>
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </div>

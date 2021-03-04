@@ -103,7 +103,7 @@
                 <td> 
                   <h3 style="font-size: 14pt;">
                   S/. {{$itemSolicitud->totalSolicitado  }}
-                  @if($itemSolicitud->codEstadoSolicitud == 4)
+                  @if($itemSolicitud->verificarEstado('Rendida'))
                     
                   // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
                   </h3>
@@ -117,16 +117,10 @@
                           text-align:center;
                           color: {{$itemSolicitud->getColorLetrasEstado()}} ;
                   ">
-               
-                 
-                
-
-                
-
               </td>
                 <td>  
-                  @if($itemSolicitud->codEstadoSolicitud == 4)
-                    <br>
+                  @if($itemSolicitud->verificarEstado('Rendida'))
+                    
                     {{$itemSolicitud->getRendicion()->codigoCedepas}}
 
                   @endif
@@ -140,7 +134,7 @@
                        
                        
                       {{-- Si la tenemos que evaluar --}}  
-                      @if($itemSolicitud->codEstadoSolicitud==1)
+                      @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
                           <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" 
                             class='btn btn-success'  style="float:right;">
                             
@@ -155,8 +149,8 @@
                               </h1>
                             </a>
                           
-                          @if($itemSolicitud->codEstadoSolicitud == 4)   
-                            <a href="{{route('rendicionFondos.vergerente',$itemSolicitud->codSolicitud)}}">
+                          @if($itemSolicitud->verificarEstado('Rendida'))   
+                            <a href="{{route('rendicionFondos.verGerente',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>

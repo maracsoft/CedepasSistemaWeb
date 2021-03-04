@@ -19,7 +19,10 @@ use App\EstadoOrden;
 use App\EstadoSolicitudFondos;
 use App\SolicitudFalta;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
+
 class SolicitudFondosController extends Controller
+
 
 {
 
@@ -34,6 +37,7 @@ class SolicitudFondosController extends Controller
 
 
     //funcion cuello de botella para volver al index desde el VER SOLICITUD (pq estoy usando la misma vista)
+    /* DEPRECATED */
     public function listarSolicitudes(){
         $empleado = Empleado::getEmpleadoLogeado();
         if($empleado->esgerente()){
@@ -87,12 +91,35 @@ class SolicitudFondosController extends Controller
         $empleado = Empleado::getEmpleadoLogeado();
         $codProyecto = $empleado->codProyecto;
         
-        $listaSolicitudesFondos = SolicitudFondos::
-        where('codProyecto','=',$empleado->codProyecto)
-        ->orderBy('codEstadoSolicitud','ASC')
-        ->orderBy('fechaHoraEmision','DESC')
+
+        //Debe listar con prioridad las CREADAS y las SUBSANADAS 
+
+        $query = DB::select('
+        SELECT * FROM `solicitud_fondos`
+            WHERE codProyecto = '.$empleado->codProyecto.' 
+            order by MOD(codEstadoSolicitud-1,5)
+        '); //residuo de 5 para que me priorice las 6 y 1 (residuo 0 )
+
+        $listaSolicitudesFondos = new Collection();
+        for ($i=0; $i < count($query); $i++) { 
+            $itemSol = SolicitudFondos::findOrFail($query[$i]->codSolicitud);
+            $listaSolicitudesFondos->add($itemSol);
+        }
+        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        $listaSolicitudesFondos=$listaSolicitudesFondos->paginate($this::PAGINATION);
         
-        ->paginate();
+        
+        
+        /*  
+        DEPRECATED 
+        $listaSolicitudesFondos = SolicitudFondos::
+            where('codProyecto','=',$empleado->codProyecto)
+            ->orderBy('MOD(codEstadoSolicitud,5)','ASC')
+            ->orderBy('fechaHoraEmision','DESC')
+        ->paginate(); */
+
+        
+
 
         $buscarpor = "";
 
@@ -173,8 +200,8 @@ class SolicitudFondosController extends Controller
         {
             DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
-            $solicitud->codEstadoSolicitud = '2';
-
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Aprobada');
+            $solicitud->observacion = '';
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
@@ -189,7 +216,11 @@ class SolicitudFondosController extends Controller
             error_log('
             
                 OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : APROBAR
-            
+                '.$th.'
+
+
+
+
             ');
 
             DB::rollBack();
@@ -211,7 +242,7 @@ class SolicitudFondosController extends Controller
         try {
            DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
-            $solicitud->codEstadoSolicitud = '3';
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Abonada');
 
             $solicitud->fechaHoraAbonado = Carbon::now()->subHours(5);
             $solicitud->save();
@@ -274,18 +305,60 @@ class SolicitudFondosController extends Controller
  
      }
  
-    public function rechazar(Request $request){
+
+    
+    public function observar(Request $request){
         try{
             DB::beginTransaction();
             error_log('cod sol = '.$request->codSolicitud);
             $solicitud = SolicitudFondos::findOrFail($request->codSolicitud);
-            $solicitud->codEstadoSolicitud = '5';
-            $solicitud->razonRechazo = $request->razonRechazo;
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Observada');
+            $solicitud->observacion = $request->razonRechazo;
             error_log('
             
             
             
             razon request:'.$request->razonRechazo);
+            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+            $empleadoLogeado = $LempleadoLogeado[0];
+            $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
+
+
+            $solicitud->save();
+            DB::commit();
+            return redirect()->route('solicitudFondos.listarGerente')
+            ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Observada');
+
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : OBSERVAR
+            
+                '.$th.'
+
+
+            ');
+
+            DB::rollBack();
+            return redirect()->route('solicitudFondos.listarGerente')
+            ->with('datos','Ha ocurrido un error');
+        }
+
+    }
+
+
+
+
+    public function rechazar($codSolicitud){
+        try{
+
+            DB::beginTransaction();
+            error_log('cod sol = '.$codSolicitud);
+            $solicitud = SolicitudFondos::findOrFail($codSolicitud);
+            $solicitud->codEstadoSolicitud = EstadoSolicitudFondos::getCodEstado('Subsanada');
+          
+
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
@@ -313,6 +386,15 @@ class SolicitudFondosController extends Controller
         }
 
     }
+
+
+
+
+
+
+
+
+
 
     //Despliega la vista de rendir esta solciitud. ES LO MISMO QUE UN CREATE EN EL RendicionFondosController
     public function rendir($id){ //le pasamos id de la sol fondos
@@ -391,7 +473,7 @@ class SolicitudFondosController extends Controller
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
             $solicitud->codBanco = $request->ComboBoxBanco;
             $solicitud->justificacion = $request->justificacion;
-            $solicitud->codEstadoSolicitud = '1';
+            $solicitud->codEstadoSolicitud = EstadoSolicitudFondos::getCodEstado('Creada');
             $solicitud->codSede = $request->ComboBoxSede;
             
             $vec[] = '';
@@ -444,15 +526,17 @@ class SolicitudFondosController extends Controller
         try {
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($id);
+
+            //Si está siendo editada porque la observaron, pasa de OBSERVADA a SUBSANADA
+            if ($solicitud->codEstadoSolicitud == SolicitudFondos::getCodEstado('Observada')) {
+                $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Subsanada');;
+            }
+            //Si no, que siga en su estado CREADA
+
+
             $solicitud->codProyecto = $request->ComboBoxProyecto;
             $solicitud->codigoCedepas = $request->codSolicitud;
 
-            /* $usuarioLogeado = Auth::id();
-            $LempleadoLogeado = Empleado::where('codUsuario','=',$usuarioLogeado)->get();
-            $empleadoLogeado = $LempleadoLogeado[0];
-
-            $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
- */
             
             $solicitud->totalSolicitado = $request->total;
 
@@ -493,7 +577,7 @@ class SolicitudFondosController extends Controller
             
         }catch(Exception $e){
             DB::rollback();
-            error_log('\\n ---------------------- 
+            error_log('\\n ----------------------  SOLICITUD FONDOS CONTROLLER UPDATE
             Ocurrió el error:'.$e->getMessage().'
             
             

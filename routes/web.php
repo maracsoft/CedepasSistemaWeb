@@ -67,7 +67,10 @@ Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
 
 
-Route::post('/SolicitudFondos/Rechazar/','SolicitudFondosController@rechazar')
+Route::post('/SolicitudFondos/Observar/','SolicitudFondosController@observar')
+->name('solicitudFondos.observar');
+
+Route::get('/SolicitudFondos/rechazar/{id}','SolicitudFondosController@rechazar')
 ->name('solicitudFondos.rechazar');
 
 

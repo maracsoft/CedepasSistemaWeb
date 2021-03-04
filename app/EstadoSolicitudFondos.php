@@ -13,6 +13,6 @@ class EstadoSolicitudFondos extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['nombreEstado'];
+    protected $fillable = ['nombre'];
 
 }

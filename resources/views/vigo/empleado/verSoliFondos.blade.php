@@ -112,23 +112,20 @@
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel">
-                                <label for="ComboBoxSede">Estado de la Solicitud:</label>
+                                <label for="ComboBoxSede">Estado de la Solicitud 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
                         </div>
-                        <div class="col"> {{-- Combo box de sede --}}
+                        <div class="col"> {{-- Combo box de estado --}}
                             <input readonly type="text" class="form-control" name="sede" id="sede"
                             style="background-color: {{$solicitud->getColorEstado()}} ;
                                 color:{{$solicitud->getColorLetrasEstado()}};
-                                text-align:center ;
-                                width:50%;
+                                
                             "
-                            readonly value="{{$solicitud->getNombreEstado()}}: 
-                            
-                            
-                            ">     
+                            readonly value="{{$solicitud->getNombreEstado()}}@if($solicitud->verificarEstado('Observada')): @endif {{$solicitud->observacion}}">     
                             <div>
-                                @if($solicitud->codEstadoSolicitud==3)
+                                @if($solicitud->verificarEstado('Abonada') || $solicitud->verificarEstado('Rendida') )
                                 <a href="{{route('solicitudFondos.descargarComprobanteAbono',$solicitud->codSolicitud)}}">
-                                    <i class="fas fa-download">Ver Abono</i>
+                                    <i class="fas fa-download">Ver Abono de fondos</i>
                                 </a>
                                 @endif
                             </div>
@@ -251,7 +248,7 @@
                                 <a href="{{route('solicitudFondos.listarEmp')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
-                                    Regresar al menú
+                                    Regresar al smenú
                                 </a>
 
                             </div>
@@ -259,23 +256,7 @@
                             <div class="col"></div>
                             <div class="col"></div>
                             
-                            @if($solicitud->codEstadoSolicitud==1)
-                            <div class="col">
-                                <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
-                                    class='btn btn-success'  style="float:right;">
-                                    <i class="fas fa-check"></i>
-                                    Aprobar
-                                </a>    
-                            </div>
-                                  
-                            <div class="col">
-                                <a href="{{route('solicitudFondos.rechazar',$solicitud->codSolicitud)}}" 
-                                    class='btn btn-danger'   style="float:right;">
-                                    <i class='fas fa-ban'></i>
-                                    Rechazar
-                                </a> 
-                            </div>    
-                            @endif
+                            
                         </div>
                     </div>
                    

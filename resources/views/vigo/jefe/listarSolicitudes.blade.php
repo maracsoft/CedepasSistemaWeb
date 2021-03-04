@@ -117,7 +117,7 @@
                 <td>        
                   
                          
-                        @if($itemSolicitud->codEstadoSolicitud == 2) {{-- Si está aprobada (pa abonar) --}}   
+                        @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
                           <a  class='btn btn-success' 
                           href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
                             Abonar <i class="fas fa-hand-holding-usd"></i>

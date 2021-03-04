@@ -111,7 +111,7 @@ margin-top: 18px;
                 <td> 
                   <h3 style="font-size: 14pt;">
                   S/. {{$itemSolicitud->totalSolicitado  }}
-                  @if($itemSolicitud->codEstadoSolicitud == 4)
+                  @if($itemSolicitud->verificarEstado('Rendida'))
                     
                   // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
                   </h3>
@@ -127,7 +127,7 @@ margin-top: 18px;
                     ">
                       {{$itemSolicitud->getNombreEstado()}}
                     
-                    @if($itemSolicitud->codEstadoSolicitud==3 or $itemSolicitud->codEstadoSolicitud==4)
+                    @if($itemSolicitud->verificarEstado('Abonada') or $itemSolicitud->verificarEstado('Rendida'))
                     <a href="{{route('solicitudFondos.descargarComprobanteAbono',$itemSolicitud->codSolicitud)}}">
                       <i class="fas fa-download">Ver Abono</i>
                     </a>
@@ -142,8 +142,9 @@ margin-top: 18px;
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
                 <td>
                     @switch($itemSolicitud->codEstadoSolicitud)
-                        @case(1){{-- Si solamente está creada --}}
-                                
+                        @case(App\SolicitudFondos::getCodEstado('Creada'))   {{-- Si solamente está creada --}}
+                        @case(App\SolicitudFondos::getCodEstado('Observada')) {{-- O si está observada --}}
+                        @case(App\SolicitudFondos::getCodEstado('Subsanada')) {{-- Si ya subsano las observaciones --}}
                                 {{-- MODIFICAR RUTAS DE Delete y Edit --}}
                             <a href="{{route('solicitudFondos.edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
                             <!--
@@ -169,7 +170,7 @@ margin-top: 18px;
                               });"><i class="fas fa-trash-alt"> </i></a>
                               
                             @break
-                        @case(2) {{-- YA FUE APROBADA --}}
+                        @case(App\SolicitudFondos::getCodEstado('Aprobada')) {{-- YA FUE APROBADA --}}
                           <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
@@ -177,7 +178,7 @@ margin-top: 18px;
                           </a>   
 
                             @break
-                        @case(3) {{-- ABONADA --}}
+                        @case(App\SolicitudFondos::getCodEstado('Abonada')) {{-- ABONADA --}}
                             <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">S</span>
@@ -190,12 +191,8 @@ margin-top: 18px;
 
 
                             @break
-                        @case(4) {{-- RENDIDA --}}
-                              {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                            {{-- <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
-                              <i class="fas fa-eye"> Sol</i>
-                            </a> --}}
-
+                        @case(App\SolicitudFondos::getCodEstado('Rendida')) {{-- RENDIDA --}}
+        
                             <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
@@ -209,7 +206,7 @@ margin-top: 18px;
                             </a>
                           
                             @break
-                        @case(5)
+                        @case(App\SolicitudFondos::getCodEstado('Rechazada')) {{-- RECHAZADA --}} 
                             <a href="{{route('solicitudFondos.ver',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">S</span>

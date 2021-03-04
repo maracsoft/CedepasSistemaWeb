@@ -7,7 +7,7 @@
 @section('contenido')
 
 <div>
-    <p class="h1" style="text-align: center">Abonar a Soliscitud de Fondos Aprobada</p>
+    <p class="h1" style="text-align: center">Abonar a Solicitud de Fondos Aprobada</p>
 </div>
 
 <form method = "POST" action = "{{route('solicitudFondos.abonar')}}" onsubmit="return validar()"  enctype="multipart/form-data">
@@ -85,7 +85,7 @@
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
                 <label for="fecha">Justificación</label>
                 <textarea readonly  class="form-control" name="justificacion" id="justificacion"
-                 aria-label="With textarea" style="resize:none; height:100px;">{{$solicitud->justificacion}}</textarea>
+                 aria-label="With textarea" style="resize:none; height:50px;">{{$solicitud->justificacion}}</textarea>
 
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
@@ -107,6 +107,24 @@
                             <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
                                     
                         </div>
+
+
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="ComboBoxSede">Estado de la Solicitud 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                        </div>
+                        <div class="col"> {{-- Combo box de estado --}}
+                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            style="background-color: {{$solicitud->getColorEstado()}} ;
+                                color:{{$solicitud->getColorLetrasEstado()}};
+                                
+                            "
+                            readonly value="{{$solicitud->getNombreEstado()}} {{$solicitud->observacion}}">     
+                        
+                                    
+                        </div>
+
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel">
@@ -227,7 +245,10 @@
                             <div class="col"></div>
                             <div class="col"></div>
                             
-                            @if($solicitud->codEstadoSolicitud=='2')
+                            {{-- incluir aqui el OBSERVAR --}}
+
+
+                            @if($solicitud->verificarEstado('Aprobada'))
                                 
                             
                             <div class="col">
