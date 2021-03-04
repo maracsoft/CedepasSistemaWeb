@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CDP extends Model
 {
-    protected $table = "CDP";
+    protected $table = "cdp";
     protected $primaryKey ="codTipoCDP";
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 

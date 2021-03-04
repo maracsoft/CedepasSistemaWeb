@@ -3,6 +3,6 @@
 
 
 <h1> BIENVENIDO </h1>
-
+Version php: {{phpversion()}}
 
 @endsection
