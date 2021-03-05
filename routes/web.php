@@ -104,39 +104,39 @@ Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solic
 
 /* RENDICIONES */
 
-Route::post('/guardarRendicion', 'RendicionFondosController@store')->name('rendicionFondos.store');
+Route::post('/guardarRendicion', 'rendicionGastosController@store')->name('rendicionGastos.store');
 
-Route::get('/verRendicion/emp/{id}', 'RendicionFondosController@ver')->name('rendicionFondos.ver');
+Route::get('/verRendicion/emp/{id}', 'rendicionGastosController@ver')->name('rendicionGastos.ver');
 
-Route::get('/verRendicion/admin/{id}', 'RendicionFondosController@verAdmin')->name('rendicionFondos.verAdmin');
+Route::get('/verRendicion/admin/{id}', 'rendicionGastosController@verAdmin')->name('rendicionGastos.verAdmin');
 
-Route::get('/verRendicion/gerente/{id}', 'RendicionFondosController@verGerente')->name('rendicionFondos.verGerente');
-
-
-Route::get('/verReponer/{id}', 'RendicionFondosController@verReponer')->name('rendicionFondos.verReponer');
-Route::post('/rendicion/reponer/','RendicionFondosController@reponer')
-    ->name('rendicionFondos.reponer');
+Route::get('/verRendicion/gerente/{id}', 'rendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
 
 
-Route::post('/reportes/ver', 'RendicionFondosController@reportes')->name('rendicionFondos.reportes');
+Route::get('/verReponer/{id}', 'rendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
+Route::post('/rendicion/reponer/','rendicionGastosController@reponer')
+    ->name('rendicionGastos.reponer');
 
 
-Route::get('/reportes/descargar/{str}', 'RendicionFondosController@descargarReportes')
-    ->name('rendicionFondos.descargarReportes');
+Route::post('/reportes/ver', 'rendicionGastosController@reportes')->name('rendicionGastos.reportes');
 
 
-Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionFondosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
+Route::get('/reportes/descargar/{str}', 'rendicionGastosController@descargarReportes')
+    ->name('rendicionGastos.descargarReportes');
+
+
+Route::get('/rendicion/descargarCDPDetalle/{id}','rendicionGastosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
 
 
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
-Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionFondosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
+Route::get('/rendicion/descargarArchivoRendicion/{id}','rendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
 
 
 // PARA REPONER LAS REPOSICIONES DE LOS EMPLEADOS QUE GASTARON MAS DE LO QUE RECIBIERON
 
 
-Route::get('/rendicion/listarJefeAdmin/','RendicionFondosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
-Route::get('/rendicion/listarEmpleado/','RendicionFondosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
+Route::get('/rendicion/listarJefeAdmin/','rendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
+Route::get('/rendicion/listarEmpleado/','rendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
 
 
 /* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */

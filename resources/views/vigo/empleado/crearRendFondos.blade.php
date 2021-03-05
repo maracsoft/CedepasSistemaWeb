@@ -13,7 +13,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('rendicionFondos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('rendicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -156,7 +156,7 @@
                                 <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     {{-- INPUT PARA EL CBTE DE LA FECHA --}}
                                     <input type="text" style="text-align: center" class="form-control" name="fechaComprobante" id="fechaComprobante"
-                                          value="{{ Carbon\Carbon::now()->subHours(5)->format('d/m/Y') }}" style="font-size: 10pt;"> 
+                                          value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="font-size: 10pt;"> 
                                     
                                     <div class="input-group-btn">                                        
                                         <button class="btn btn-primary date-set btn-sm" type="button" style="display: none">
@@ -630,8 +630,8 @@
 
             
             
-            console.log("{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
-            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->subHours(5)->format('d/m/Y')}}" );
+            console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
+            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
         
             
             $('#cantElementos').val(cont);

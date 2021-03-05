@@ -31,7 +31,7 @@ use PhpOffice\PhpWord\Style\Font;
 
 
 
-class RendicionFondosController extends Controller
+class RendicionGastosController extends Controller
 {
     
 
@@ -241,7 +241,7 @@ class RendicionFondosController extends Controller
            
             $rendicion-> resumenDeActividad = $request->resumen;
             
-            $rendicion-> fechaRendicion = Carbon::now()->subHours(5);
+            $rendicion-> fechaRendicion = Carbon::now();
             $rendicion-> estadoDeReposicion = '0';
             $rendicion-> save();    
             

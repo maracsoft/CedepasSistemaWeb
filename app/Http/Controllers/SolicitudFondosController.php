@@ -211,7 +211,7 @@ class SolicitudFondosController extends Controller
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
+            $solicitud->fechaHoraRevisado = Carbon::now();
 
             $solicitud->save();
 
@@ -250,7 +250,7 @@ class SolicitudFondosController extends Controller
             $solicitud = SolicitudFondos::findOrFail($id);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Abonada');
 
-            $solicitud->fechaHoraAbonado = Carbon::now()->subHours(5);
+            $solicitud->fechaHoraAbonado = Carbon::now();
             $solicitud->save();
             
 
@@ -344,7 +344,7 @@ class SolicitudFondosController extends Controller
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
+            $solicitud->fechaHoraRevisado = Carbon::now();
 
 
             $solicitud->save();
@@ -382,7 +382,7 @@ class SolicitudFondosController extends Controller
             
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-            $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
+            $solicitud->fechaHoraRevisado = Carbon::now();
 
 
             $solicitud->save();
@@ -487,7 +487,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
 
-            $solicitud->fechaHoraEmision =  Carbon::now()->subHours(5);
+            $solicitud->fechaHoraEmision =  Carbon::now();
             $solicitud->totalSolicitado = $request->total;
             $solicitud->girarAOrdenDe = $request->girarAOrden;
             $solicitud->numeroCuentaBanco = $request->nroCuenta;

@@ -104,7 +104,7 @@
                   
                          
                         @if($itemRendicion->estadoDeReposicion == 1) {{-- Si está a espera de reponer --}}   
-                          <a  class='btn btn-success' href="{{route('rendicionFondos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                          <a  class='btn btn-success' href="{{route('rendicionGastos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
                             Reponer <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
@@ -113,7 +113,7 @@
                               <span class="red">S</span>
                             </h1>
                           </a>
-                          <a href="{{route('rendicionFondos.verAdmin',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                          <a href="{{route('rendicionGastos.verAdmin',$itemRendicion->getSolicitud()->codSolicitud)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

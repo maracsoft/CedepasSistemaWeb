@@ -20,7 +20,7 @@
 
 </style>
    
-        <form method="POST" action="{{route('rendicionFondos.reportes')}}" onsubmit="return validarTextos()">
+        <form method="POST" action="{{route('rendicionGastos.reportes')}}" onsubmit="return validarTextos()">
           @csrf
             <div class="container">
               <div class="row" >

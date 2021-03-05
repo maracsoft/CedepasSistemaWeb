@@ -11,7 +11,7 @@
 
 </div>
 
-<form method = "POST" action = "{{route('rendicionFondos.store')}}"  >
+<form method = "POST" action = "{{route('rendicionGastos.store')}}"  >
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">

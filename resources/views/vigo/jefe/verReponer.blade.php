@@ -9,7 +9,7 @@
     <p class="h1" style="text-align: center">Reponer Gastos de un Empleado</p>
 </div>
 
-<form method = "POST" action = "{{route('rendicionFondos.reponer')}}"  enctype="multipart/form-data" >
+<form method = "POST" action = "{{route('rendicionGastos.reponer')}}"  enctype="multipart/form-data" >
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">

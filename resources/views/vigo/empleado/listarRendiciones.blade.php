@@ -104,7 +104,7 @@
                       <span class="red">S</span>
                     </h1>
                   </a>
-                  <a href="{{route('rendicionFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                  <a href="{{route('rendicionGastos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
                     <h1>
                       <span class="red">R</span>
                     </h1>

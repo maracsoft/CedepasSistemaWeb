@@ -29,7 +29,7 @@
                       <div class="col">
                                 <div  style="width: 100px; " >
                                     <input type="text" style="margin:0px auth;" class="form-control" name="fecha" id="fecha" disabled 
-                                        value="{{ Carbon\Carbon::now()->subHours(5)->format('d/m/Y') }}" >     
+                                        value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
                       </div>
                       

@@ -67,7 +67,10 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+
+    //LISTA DE HORARIOS DISPONIBLES AQUI https://www.php.net/manual/es/timezones.php
+
+    'timezone' => 'America/Lima',
 
     /*
     |--------------------------------------------------------------------------

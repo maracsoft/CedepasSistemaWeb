@@ -199,7 +199,7 @@ margin-top: 18px;
                             </h1>
                             </a>
                           
-                            <a href="{{route('rendicionFondos.ver',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('rendicionGastos.ver',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>

@@ -150,7 +150,7 @@
                             </a>
                           
                           @if($itemSolicitud->verificarEstado('Rendida'))   
-                            <a href="{{route('rendicionFondos.verGerente',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('rendicionGastos.verGerente',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>
