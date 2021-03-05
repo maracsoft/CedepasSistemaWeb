@@ -20,6 +20,7 @@ use App\EstadoSolicitudFondos;
 use App\SolicitudFalta;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
+use PhpParser\Node\Expr\Throw_;
 
 class SolicitudFondosController extends Controller
 
@@ -40,18 +41,23 @@ class SolicitudFondosController extends Controller
     /* DEPRECATED */
     public function listarSolicitudes(){
         $empleado = Empleado::getEmpleadoLogeado();
-        if($empleado->esgerente()){
+        $msj = session('datos');
+        $datos='';
+        if($msj!='')
+            $datos = 'datos';
+
+        if($empleado->esGerente()){
             //lo enrutamos hacia su index
-            return redirect()->route('solicitudFondos.listarGerente');
+            return redirect()->route('solicitudFondos.listarGerente')->with($datos,$msj);
         }
 
         if($empleado->esJefeAdmin())//si es jefe de administracion
         {
-            return redirect()->route('solicitudFondos.listarJefeAdmin');
+            return redirect()->route('solicitudFondos.listarJefeAdmin')->with($datos,$msj);
 
         }
 
-        return redirect()->route('solicitudFondos.listarEmp');
+        return redirect()->route('solicitudFondos.listarEmp')->with($datos,$msj);
 
     }
 
@@ -210,7 +216,7 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
 
             DB::commit();
-            return redirect()->route('solicitudFondos.listarGerente')
+            return redirect()->route('solicitudFondos.listarSolicitudes')
                 ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada! ');
         } catch (\Throwable $th) {
             error_log('
@@ -267,7 +273,7 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
 
             DB::commit();
-        return redirect()->route('solicitudFondos.listarJefeAdmin')
+        return redirect()->route('solicitudFondos.listarSolicitudes')
             ->with('datos','¡Solicitud '.$solicitud->codigoCedepas.' Abonada!');
 
 
@@ -307,18 +313,34 @@ class SolicitudFondosController extends Controller
  
 
     
-    public function observar(Request $request){
+    public function observar($cadena){
+
+
+        
+        
         try{
+
+            $vector = explode('*',$cadena);
+            if(count($vector)<2)
+                throw new Exception('El argumento cadena no es valido');
+
+
+            $codSolicitud = $vector[0];
+            $textoObs = $vector[1];
+
+
+
+
             DB::beginTransaction();
-            error_log('cod sol = '.$request->codSolicitud);
-            $solicitud = SolicitudFondos::findOrFail($request->codSolicitud);
+            error_log('cod sol = '.$codSolicitud);
+            $solicitud = SolicitudFondos::findOrFail($codSolicitud);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Observada');
-            $solicitud->observacion = $request->razonRechazo;
+            $solicitud->observacion = $textoObs;
             error_log('
             
             
             
-            razon request:'.$request->razonRechazo);
+            razon request:'.$textoObs);
             $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
             $empleadoLogeado = $LempleadoLogeado[0];
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
@@ -327,7 +349,7 @@ class SolicitudFondosController extends Controller
 
             $solicitud->save();
             DB::commit();
-            return redirect()->route('solicitudFondos.listarGerente')
+            return redirect()->route('solicitudFondos.listarSolicitudes')
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
@@ -356,18 +378,16 @@ class SolicitudFondosController extends Controller
             DB::beginTransaction();
             error_log('cod sol = '.$codSolicitud);
             $solicitud = SolicitudFondos::findOrFail($codSolicitud);
-            $solicitud->codEstadoSolicitud = EstadoSolicitudFondos::getCodEstado('Subsanada');
-          
-
-            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-            $empleadoLogeado = $LempleadoLogeado[0];
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Rechazada');
+            
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now()->subHours(5);
 
 
             $solicitud->save();
             DB::commit();
-            return redirect()->route('solicitudFondos.listarGerente')
+            return redirect()->route('solicitudFondos.listarSolicitudes')
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
 
         } catch (\Throwable $th) {
@@ -473,7 +493,7 @@ class SolicitudFondosController extends Controller
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
             $solicitud->codBanco = $request->ComboBoxBanco;
             $solicitud->justificacion = $request->justificacion;
-            $solicitud->codEstadoSolicitud = EstadoSolicitudFondos::getCodEstado('Creada');
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Creada');
             $solicitud->codSede = $request->ComboBoxSede;
             
             $vec[] = '';

@@ -28,6 +28,7 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
+
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
 
@@ -35,6 +36,11 @@ Route::get('/listarDeDirector','SolicitudFondosController@listarSolicitudesParaG
     ->name('solicitudFondos.listarGerente');
 Route::get('/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesParaJefe')
     ->name('solicitudFondos.listarJefeAdmin');
+
+//ruta para regresar al index de solicitudes del actor que esté logeado
+Route::get('/irAIndex','SolicitudFondosController@listarSolicitudes')
+    ->name('solicitudFondos.listarSolicitudes');
+
 
 
 Route::get('/SolicitudFondos/Revisar/{id}','SolicitudFondosController@revisar')
@@ -67,7 +73,7 @@ Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
 
 
-Route::post('/SolicitudFondos/Observar/','SolicitudFondosController@observar')
+Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
 ->name('solicitudFondos.observar');
 
 Route::get('/SolicitudFondos/rechazar/{id}','SolicitudFondosController@rechazar')

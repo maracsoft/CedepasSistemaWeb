@@ -245,11 +245,34 @@
                             <div class="col"></div>
                             <div class="col"></div>
                             
-                            {{-- incluir aqui el OBSERVAR --}}
-
+                            
 
                             @if($solicitud->verificarEstado('Aprobada'))
                                 
+
+                            <div class="col">
+                                <label for="">Observación:</label>
+                                <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
+                            </div>
+                            
+                            <div class="col">
+                                <button type="button" onclick="observar()"
+                                    class='btn btn-danger'   style="float:right;">
+                                    <i class="fas fa-eye-slash"></i>
+                                    Observar
+                                </button> 
+                                <br>
+                            </div>   
+
+
+                            <div class="col">
+                                <a href="{{route('solicitudFondos.rechazar',$solicitud->codSolicitud)}}" 
+                                    class='btn btn-danger'  style="float:right;">
+                                    <i class='fas fa-ban'></i>
+                                    Rechazar
+                                </a>    
+                            </div>
+
                             
                             <div class="col">
                                 <button type="submit" class='btn btn-success'  style="float:right;">
@@ -356,6 +379,19 @@
             actualizarTabla();
     
         });
+
+
+
+
+
+        function observar(){
+
+            textoObs = $('#observacion').val();
+            codigoSolicitud = {{$solicitud->codSolicitud}};
+            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
+            location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
+
+        }
 
         function validar(){
             if($('#nombreImgImagenEnvio').val() == '')

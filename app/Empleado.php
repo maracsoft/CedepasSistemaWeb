@@ -28,22 +28,17 @@ class Empleado extends Model
 
     } 
 
-    public function esDirector(){
+    public function esGerente(){
         $listaProyectos = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
         if(count($listaProyectos)>0)//si es director
             return true;
 
         return false;
 
-        /* 
-        DEPRECADO PORQUE AHORA EL codProyecto no se guarda en el empleado 
-        $proyecto = Proyecto::findOrFail($this->codProyecto); //agarramos el proyecto al que pertenece
-        if ($proyecto->codEmpleadoDirector == $this->codEmpleado) //si su cod es igual al del director 
-            return true;
-        return false; */
-
     }
 
+    
+    /* REFACTORIZAR ESTO PARA LA NUEVA CONFIGURACION DEL A BASE DE DATOOOOOOOOOOOOOOOOOOOOOOOOOS */
     //para modulo vigo. 
     public function esJefeAdmin(){
 

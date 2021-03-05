@@ -247,8 +247,7 @@
                             
                         @if($solicitud->verificarEstado('Creada') || $solicitud->verificarEstado('Subsanada') )
 
-                            <form method="post" action="{{route('solicitudFondos.observar')}}"> 
-                                @csrf     
+                              @csrf     
                                 <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
                                 <div class="row">
                                     <div class="col">
@@ -257,7 +256,7 @@
                                     </div>
                                     
                                     <div class="col">
-                                        <button type="submit"
+                                        <button type="button" onclick="observar()"
                                             class='btn btn-danger'   style="float:right;">
                                             <i class="fas fa-eye-slash"></i>
                                             Observar
@@ -265,11 +264,9 @@
                                         <br>
                                     </div>    
                                 </div>
-                            </form>
-
-
+                         
                                 <div class="col">
-                                    <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
+                                    <a href="{{route('solicitudFondos.rechazar',$solicitud->codSolicitud)}}" 
                                         class='btn btn-danger'  style="float:right;">
                                         <i class='fas fa-ban'></i>
                                         Rechazar
@@ -359,6 +356,15 @@
             actualizarTabla();
     
         });
+
+        function observar(){
+
+            textoObs = $('#observacion').val();
+            codigoSolicitud = {{$solicitud->codSolicitud}};
+            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
+            location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
+
+        }
 
         function cargarADetallesSol(){
 
