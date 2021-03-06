@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,17 @@ class RendicionGastos extends Model
     'resumenDeActividad','estadoDeReposicion'];
 
 
+    /* Retorna el codigo del estado indicado por el str parametro */
+    public static function getCodEstado($nombreEstado){
+        $lista = EstadoRendicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return 'Nombre no valido';
+        
+        return $lista[0]->codEstadoRendicion;
+
+    }
+
+
     public function getNombreSede() {
         return $this->getSolicitud()->getNombreSede();
 
@@ -33,26 +45,8 @@ class RendicionGastos extends Model
 
     //VER EXCEL https://docs.google.com/spreadsheets/d/1eBQV5QZJ6dTlFtu-PuF3i71Cjg58DIbef2qI0ZqKfoI/edit#gid=1819929291
     public function getNombreEstado(){ 
-        $estado = '';
-        switch ($this->estadoDeReposicion) {
-            case '0': //jamas debería estar en este estado
-                $estado = 'Momentaneo';
-                break;
-            case '1':
-                $estado = 'Esperando Reposición';
-            break;
-            case '11':
-                $estado = 'Repuesta y finalizada';
-            break;
-            case '2':
-                $estado = 'Devuelta y finalizada';
-                break;
-
-            default:
-                # code...
-                break;
-        }
-        return $estado;
+        $estado = EstadoRendicionGastos::findOrFail($this->codEstadoRendicion);
+        return $estado->nombre;
 
     }
 
@@ -103,7 +97,61 @@ class RendicionGastos extends Model
 
     }
 
-    
+    public static function reportePorSedes($fechaI, $fechaF){
+        $listaX = DB::select('
+        select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
+        from rendicion_gastos RG
+            inner join solicitud_fondos USING(codSolicitud)
+            inner join sede USING(codSede)
+            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+            GROUP BY sede.nombre;
+        ');
+        return $listaX;
 
+    }
+
+    public static function reportePorEmpleados($fechaI, $fechaF){
+        $listaX = DB::select('
+                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+                        from rendicion_gastos RG
+                            inner join solicitud_fondos SF USING(codSolicitud)
+                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            GROUP BY E.nombres;
+                            ');
+        return $listaX;
+         
+
+    } 
+    public static function reportePorProyectos($fechaI, $fechaF){
+        
+        $listaX = DB::select('
+        select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
+        from rendicion_gastos RG
+            inner join solicitud_fondos SF USING(codSolicitud)
+            inner join proyecto P on P.codProyecto = SF.codProyecto 
+            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+            GROUP BY P.nombre;
+            ');
+
+        return $listaX;
+
+    }
+
+
+    public static function reportePorSedeYEmpleados($fechaI, $fechaF, $idSede){
+        $sede = Sede::findOrFail($idSede);
+        $listaX = DB::select('
+        select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
+            from rendicion_gastos RG
+                inner join solicitud_fondos SF USING(codSolicitud)
+                inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
+                where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                and SF.codSede = "'.$sede->codSede.'"
+                GROUP BY E.nombres;
+                ');     
+        return $listaX;
+
+    }
 
 }

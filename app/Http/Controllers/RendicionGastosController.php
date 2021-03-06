@@ -40,8 +40,8 @@ class RendicionGastosController extends Controller
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarJefeAdmin(){
-        $listaRendiciones = RendicionGastos::where('estadoDeReposicion','>','0')
-            ->orderby('estadoDeReposicion','ASC')
+        $listaRendiciones = RendicionGastos::where('codEstadoRendicion','>','0')
+            ->orderby('codEstadoRendicion','ASC')
             ->get();
 
         $buscarpor = '';
@@ -50,6 +50,41 @@ class RendicionGastosController extends Controller
         
     }
 
+
+    //lista todas las rendiciones del gerente (pertenecientes al proyecto que este lidera)
+    public function listarDelGerente(){
+        $empleado = Empleado::getEmpleadoLogeado();
+        /* if(!$empleado->esGerente())
+            return 'Error: no eres gerente';
+         */ 
+        
+        $proyecto = $empleado->getProyectoGerencia();
+        if($proyecto->nombre=='')
+            return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
+        $listaSolicitudes = SolicitudFondos::where('codProyecto','=',$proyecto->codProyecto)->get();
+         
+
+        
+        //ahora agarramos de cada solicitud, su rendicion (si la tiene)
+        $listaRendiciones= new Collection();
+        for ($i=0; $i < count($listaSolicitudes); $i++) { //recorremos cada solicitud
+            $itemSol = $listaSolicitudes[$i];
+            if(!is_null($itemSol->codSolicitud)){ 
+                $itemRend = RendicionGastos::where('codSolicitud','=',$itemSol->codSolicitud)->first();
+                if(!is_null($itemRend))
+                    $listaRendiciones->push($itemRend);
+            }
+            
+        }
+
+        //ordena la coleccion ascendentemente
+        $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
+
+        $buscarpor = '';
+
+        return view('vigo.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor','proyecto'));
+        
+    }
 
     //retorna las rendiciones del emp logeado, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarEmpleado(){
@@ -74,7 +109,7 @@ class RendicionGastosController extends Controller
         }
 
         //ordena la coleccion ascendentemente
-        $listaRendiciones=$listaRendiciones->sortBy('estadoDeReposicion');
+        $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
 
         $buscarpor = '';
         //return $listaRendiciones;
@@ -85,6 +120,7 @@ class RendicionGastosController extends Controller
 
 
     
+
 
 
 
@@ -139,14 +175,6 @@ class RendicionGastosController extends Controller
 
 
 
-
-
-
-
-
-
-
-
     //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
     // se le devuelve al empleado los gastos que hizo en exceso
     public function reponer(Request $request){ //id de la rendicion
@@ -158,7 +186,7 @@ class RendicionGastosController extends Controller
             db::beginTransaction();
         
             //cambiamos el estado de la rendicion
-            $rendicion->estadoDeReposicion = '11';
+            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Repuesta a Favor');
             
             //guardamos el archivo comprobante del abono
 
@@ -231,23 +259,19 @@ class RendicionGastosController extends Controller
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
             $rendicion = new RendicionGastos();
-           
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
             $rendicion-> codigoCedepas = $request->codRendicion; 
-            
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
-           
             $rendicion-> resumenDeActividad = $request->resumen;
-            
             $rendicion-> fechaRendicion = Carbon::now();
-            $rendicion-> estadoDeReposicion = '0';
+            $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Momentaneo');
             $rendicion-> save();    
             
             $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
             if($rendicion->saldoAFavorDeEmpleado > 0 ){ //cedepas debe depositarle al empleado, estado 1
-                $rendicion-> estadoDeReposicion = '1';
+                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Rendida a Favor');
 
             }else{ //el empleado debe depositar a cedepas, estado 2. Se adjunta comprobante de transferencia
                 
@@ -263,7 +287,7 @@ class RendicionGastosController extends Controller
                 Storage::disk('comprobantesAbono')
                 ->put($nombreImagen, $fileget );
 
-                $rendicion-> estadoDeReposicion = '2';
+                $rendicion-> codEstadoRendicion = '2';
             }
 
             $rendicion-> save(); //para guardar la terminacion y el estado
@@ -317,7 +341,7 @@ class RendicionGastosController extends Controller
             }    
             
             //cambiamos el estaod de la solicitud a rendida
-            $solicitud ->codEstadoSolicitud = '4';
+            $solicitud ->codEstadoSolicitud = SolicitudFondos::getCodEstado('Rendida');
             $solicitud->save();
 
             DB::commit();  
@@ -366,9 +390,9 @@ class RendicionGastosController extends Controller
     function descargarArchivoRendicion($id){
         
         $rend = RendicionGastos::findOrFail($id);
-        if($rend->estadoDeReposicion=='11')
+        if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Repuesta a Favor') )
             $prefijo = 'Repos';
-        if($rend->estadoDeReposicion=='2')
+        if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Rendida en contra')    )
             $prefijo = 'Devol';
         
         $nombreArchivo = 'RF-'.$prefijo.'-'.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
@@ -394,8 +418,7 @@ class RendicionGastosController extends Controller
 
         try 
         {
-                //code...
-            
+              
 
             $fechaI = $request->fechaI;
             $fechaF = $request->fechaF;
@@ -406,21 +429,8 @@ class RendicionGastosController extends Controller
             switch ($tipoInforme) {
                 case '1': //POR SEDES
                     //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
-
-                                                /* 
-                
-                                                */
-                    //return $fechaI;
-                    //return $fechaF;
-                    $listaX = DB::select('
-                        select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos USING(codSolicitud)
-                            inner join sede USING(codSede)
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            GROUP BY sede.nombre;
-                    ');
-                // return  $listaX;
+                    $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
+                    
                     return view('vigo.jefe.reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
                     
 
@@ -429,43 +439,20 @@ class RendicionGastosController extends Controller
                 case '2': //POR EMPLEADOS
                     //Reporte de las sumas acumuladas de los gastos de cada empleado, con fecha inicio y fecha final
 
-                    $listaX = DB::select('
-                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            GROUP BY E.nombres;
-                            ');
+                    $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
                     return view('vigo.jefe.reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
                     break;
                 case '3':
 
-                    $listaX = DB::select('
-                    select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
-                    from rendicion_gastos RG
-                        inner join solicitud_fondos SF USING(codSolicitud)
-                        inner join proyecto P on P.codProyecto = SF.codProyecto 
-                        where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                        GROUP BY P.nombre;
-                        ');
+                    $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
                     return view('vigo.jefe.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
-                        break;
-
-                break;
+                
+                    break;
                 
                 case '4':
-                    $sede = Sede::findOrFail($request->ComboBoxSede);
-                    $listaX = DB::select('
-                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            and SF.codSede = "'.$sede->codSede.'"
-                            GROUP BY E.nombres;
-                            ');
+                    $sede  = Sede::findOrFail($request->ComboBoxSede);
+                    $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$sede->codSede);
 
                 return view('vigo.jefe.reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
                     break;
@@ -479,7 +466,7 @@ class RendicionGastosController extends Controller
         } catch (\Throwable $th) {
             
 
-            error_log('\\n ---------------------- 
+            error_log('\\n ----------------------  RENDICION GASTOS : REPORTES
             Ocurrió el error:'.$th->getMessage().'
 
 
@@ -513,14 +500,8 @@ class RendicionGastosController extends Controller
                     //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
                     //return $fechaI;
                     //return $fechaF;
-                    $listaX = DB::select('
-                        select sede.nombre as "Sede", SUM(RG.totalImporteRendido) as "Suma_Sede"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos USING(codSolicitud)
-                            inner join sede USING(codSede)
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            GROUP BY sede.nombre;
-                    ');
+                    $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
+                    
                 // return  $listaX;
                 $nombreVista = 'vigo.jefe.reportes.reporteSedes';
                 $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
@@ -530,14 +511,8 @@ class RendicionGastosController extends Controller
                 case '2': //POR EMPLEADOS
                     //Reporte de las sumas acumuladas de los gastos de cada empleado, con fecha inicio y fecha final
 
-                    $listaX = DB::select('
-                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            GROUP BY E.nombres;
-                            ');
+                    $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
+                    
 
                     $nombreVista = 'vigo.jefe.reportes.reporteEmpleado';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
@@ -545,36 +520,19 @@ class RendicionGastosController extends Controller
                     break;
                 case '3':
 
-                    $listaX = DB::select('
-                    select P.nombre as "NombreProy", SUM(RG.totalImporteRendido) as "Suma_Proyecto"
-                    from rendicion_gastos RG
-                        inner join solicitud_fondos SF USING(codSolicitud)
-                        inner join proyecto P on P.codProyecto = SF.codProyecto 
-                        where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                        GROUP BY P.nombre;
-                        ');
+                    $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
+                    
 
                     $nombreVista = 'vigo.jefe.reportes.reporteProyectos';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     
                 break;
-
-            
-                
                 case '4':
                     $sede = Sede::findOrFail($codSede);
-                    
+                    $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$codSede);
 
-                    $listaX = DB::select('
-                    select E.nombres as "NombreEmp", SUM(RG.totalImporteRendido) as "Suma_Empleado"
-                        from rendicion_gastos RG
-                            inner join solicitud_fondos SF USING(codSolicitud)
-                            inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
-                            and SF.codSede = "'.$sede->codSede.'"
-                            GROUP BY E.nombres;
-                            ');
+
                     $nombreVista = 'vigo.jefe.reportes.reporteEmpleadoXSede';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
                             
@@ -586,11 +544,7 @@ class RendicionGastosController extends Controller
                     # code...
                     break;
             }
-            error_log('\\n ---------------------- 
-:
-            LLEGAMOS
-            
-            ' );
+          
 
             $pdf = new PDF();
             $pdf = PDF::loadView();
@@ -602,7 +556,7 @@ class RendicionGastosController extends Controller
 
         } catch (\Throwable $th) {
         
-            error_log('\\n ---------------------- 
+            error_log('\\n ----------------------  RENDICIONGASTOS: DESCARGAR REPORTES
             Ocurrió el error:'.$th->getMessage().'
 
 

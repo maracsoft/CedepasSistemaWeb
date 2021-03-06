@@ -136,6 +136,8 @@ Route::get('/rendicion/descargarArchivoRendicion/{id}','rendicionGastosControlle
 
 
 Route::get('/rendicion/listarJefeAdmin/','rendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
+Route::get('/rendicion/listarGerente/','rendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
+
 Route::get('/rendicion/listarEmpleado/','rendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
 
 

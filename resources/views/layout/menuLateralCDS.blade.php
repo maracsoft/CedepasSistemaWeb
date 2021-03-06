@@ -56,6 +56,14 @@
                   <p>Listar Fondos</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('rendicionGastos.listarGerente')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Listar Rendic</p>
+                </a>
+              </li>
+
+              
 
               
             </ul>

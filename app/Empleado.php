@@ -18,7 +18,7 @@ class Empleado extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codUsuario','nombres','apellidos',
     'fechaNacimiento','codEmpleadoTipo','sexo','activo',
-    'codigoEmpleadoCedepas','codProyecto','dni'];
+    'codigoEmpleadoCedepas','codProyecto','dni','codPuesto'];
 
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
@@ -30,7 +30,7 @@ class Empleado extends Model
 
     public function esGerente(){
         $listaProyectos = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
-        if(count($listaProyectos)>0)//si es director
+        if(count($listaProyectos)>0)//si es gerente
             return true;
 
         return false;
@@ -41,26 +41,30 @@ class Empleado extends Model
     /* REFACTORIZAR ESTO PARA LA NUEVA CONFIGURACION DEL A BASE DE DATOOOOOOOOOOOOOOOOOOOOOOOOOS */
     //para modulo vigo. 
     public function esJefeAdmin(){
-
-        $periodo = $this->getPeriodoEmpleadoActual();
-        if($periodo=='-1') return false;
-
-        $puesto = $periodo->getPuesto();
+        $puesto = Puesto::findOrFail($this->codPuesto);
         if($puesto->nombre=='Jefe de Administración')
             return true;
+
         return false;
         
     }
     public function getPuestoActual(){
-        $periodo = $this->getPeriodoEmpleadoActual();
-        if($periodo=='-1')
-            return new Puesto();
+        return Puesto::findOrFail($this->codPuesto);
+        
 
-
-        return $periodo->getPuesto();
 
     }
 
+
+    //solo se aplica a los gerentes, retorna el proyecto que este gerente lidera
+    public function getProyectoGerencia(){
+        $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
+        if(count($proy) == 0 )
+            return new Proyecto();
+
+        return $proy[0];
+        
+    }
 
     //retorna -1 si no tiene un periodo actual
     public function getPeriodoEmpleadoActual(){
@@ -125,8 +129,6 @@ class Empleado extends Model
     
     public function periodoEmpleado(){//
         return $this->hasMany('App\PeriodoEmpleado','codEmpleado','codEmpleado');
-
-
     }
 
     public function getNombreCompleto(){
