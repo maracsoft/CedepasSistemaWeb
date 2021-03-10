@@ -275,19 +275,9 @@ class RendicionGastosController extends Controller
 
             }else{ //el empleado debe depositar a cedepas, estado 2. Se adjunta comprobante de transferencia
                 
-                //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
-                $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
-                $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
-                $terminacion = end( $vec); //ultimo elemento del vector
-                $rendicion->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
-                //               RF-Devol-                           -   5   .  jpg
-                $nombreImagen = 'RF-Devol-'.$this->rellernarCerosIzq($codRendRecienInsertada,6).'.'.$terminacion  ;
-                $archivo =  $request->file('imagenEnvio');
-                $fileget = \File::get( $archivo );
-                Storage::disk('comprobantesAbono')
-                ->put($nombreImagen, $fileget );
+                
 
-                $rendicion-> codEstadoRendicion = '2';
+                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Rendida a Favor');
             }
 
             $rendicion-> save(); //para guardar la terminacion y el estado

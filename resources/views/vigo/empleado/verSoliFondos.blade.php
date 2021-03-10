@@ -122,13 +122,13 @@
                                 
                             "
                             readonly value="{{$solicitud->getNombreEstado()}}@if($solicitud->verificarEstado('Observada')): @endif {{$solicitud->observacion}}">     
-                            <div>
+                            {{-- <div>
                                 @if($solicitud->verificarEstado('Abonada') || $solicitud->verificarEstado('Rendida') )
                                 <a href="{{route('solicitudFondos.descargarComprobanteAbono',$solicitud->codSolicitud)}}">
                                     <i class="fas fa-download">Ver Abono de fondos</i>
                                 </a>
                                 @endif
-                            </div>
+                            </div> --}}
                             
                                     
                         </div>

@@ -254,7 +254,11 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
             
 
-            $codSolRecienInsertada = (SolicitudFondos::latest('codSolicitud')->first())->codSolicitud;
+            //$codSolRecienInsertada = (SolicitudFondos::latest('codSolicitud')->first())->codSolicitud;
+            
+            /* 
+            //YA NO GUARDAREMOS LOS COMPROBANTES DE ABONOS DE LAS SOLICITUDES 
+
             //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
             $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
             $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
@@ -268,9 +272,10 @@ class SolicitudFondosController extends Controller
             $archivo =  $request->file('imagenEnvio');
             $fileget = \File::get( $archivo );
             Storage::disk('comprobantesAbono')
-            ->put($nombreImagen, $fileget );
+            ->put($nombreImagen, $fileget ); 
+            */
             
-            $solicitud->save();
+          
 
             DB::commit();
         return redirect()->route('solicitudFondos.listarSolicitudes')

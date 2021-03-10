@@ -331,7 +331,7 @@
 
 
 
-                    <div class="col" id="divEnteroArchivo">            
+                    {{-- <div class="col" id="divEnteroArchivo">            
                       <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
                               style="display: none" onchange="cambio('imagenEnvio')">  
                                       <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
@@ -341,7 +341,7 @@
                            <i class="fas fa-upload"></i>        
                           </div>       
                       </label>       
-                    </div>      
+                    </div>   --}}    
 
 
 
@@ -425,13 +425,15 @@
     function cambio(index){
 
         if(index=='imagenEnvio'){//si es pal comprobante de envio
-            var idname= 'imagenEnvio'; 
+            
+            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
+            /* var idname= 'imagenEnvio'; 
             var filename = $('#imagenEnvio').val().split('\\').pop();
             console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
             jQuery('span.'+idname).next().find('span').html(filename);
             document.getElementById("divFileImagenEnvio").innerHTML= filename;
             $('#nombreImgImagenEnvio').val(filename);
-            
+             */
         }
         else{ //para los CDP de la tabla
             var idname= 'imagen'+index; 
@@ -500,9 +502,9 @@
             //si el saldo es a favor de cedepas, el empl debe adjuntar 
                 //el comprobante de deposito devolucion de los fondos sobrantes
             
-            if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
+           /*  if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
                 msj='Tiene saldo a favor de Cedepas, debe adjuntar el comprobante de depósito con el monto sobrante.';
-            }
+            } */
 
             if(msj!='')
             {

@@ -281,7 +281,7 @@
                                 </button>
                             </div>
                                   
-                            <div class="col">            
+                            {{-- <div class="col">            
                                 <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
                                         style="display: none" onchange="cambio('imagenEnvio')">  
                                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
@@ -291,7 +291,10 @@
                                      <i class="fas fa-upload"></i>        
                                     </div>       
                                 </label>       
-                            </div> 
+                            </div>  --}}
+
+
+
                             @endif
 
 
@@ -393,14 +396,14 @@
 
         }
 
-        function validar(){
+        /* function validar(){
             if($('#nombreImgImagenEnvio').val() == '')
                 {
                     alert('Debe subir el comprobante del deposito.')
                     return false;
                 }
 
-        }
+        } */
 
         function cargarADetallesSol(){
 
