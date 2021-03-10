@@ -376,3 +376,33 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
     Route::post('/delete', ['as' => 'existenciaPerdida.delete', 'uses' => 'ExistenciaPerdidaController@destroy']);
 
 });
+
+
+
+
+
+
+
+
+
+// SORPRESA ELI 
+
+Route::get('/eli','EliController@f1');
+
+
+//rutas aleat
+Route::get('/adk2851182j5','EliController@f12');//1
+Route::get('/adsah125amaa','EliController@f13');
+Route::get('/a46a3a63baaa','EliController@f14');
+Route::get('/ad9218ehjasd','EliController@f15');
+Route::get('/e75s75s11aaa','EliController@f16');
+Route::get('/g08y0g8yy08b','EliController@f17');
+Route::get('/se57se7575ea','EliController@f18');
+Route::get('/adsafmhf1aw5','EliController@f19'); //8
+Route::get('/bb5fhmfh3qu5','EliController@f20');
+Route::get('/s57ebnmrty57','EliController@f21');
+Route::get('/aw4fmhta67aa','EliController@f22');
+Route::get('/hfhmfmhd545h','EliController@f23');
+Route::get('/c6fhmfhm8458','EliController@f24');
+Route::get('/ityrut53udfd','EliController@f25'); //14
+Route::get('/hdsbrw7w4sgs','EliController@f26');
