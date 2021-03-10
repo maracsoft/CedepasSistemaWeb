@@ -138,7 +138,7 @@ class EliController extends Controller
             
         }
 
-        return "el dia de hoy es :".$diaDeHoy;
+        //return "el dia de hoy es :".$diaDeHoy;
         
 
 
