@@ -135,8 +135,10 @@ class EliController extends Controller
                 " pero recien estamos ".
                 $diaDeHoy. " XD Diosito te ve cuando mientes";
             $error = true;
+            
         }
 
+        return "el dia de hoy es :".$diaDeHoy;
         
 
 
