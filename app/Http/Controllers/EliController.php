@@ -126,7 +126,7 @@ class EliController extends Controller
         }
 
 
-     /*    $diaDeHoy = Carbon::now()->format('d');
+        $diaDeHoy = Carbon::now()->format('d');
         //el primer dia es el 12
         $diaQueSolicitaVer = $nDia;
         if($diaQueSolicitaVer > $diaDeHoy ){
@@ -138,7 +138,7 @@ class EliController extends Controller
             $error = true;
             
         } 
-        */
+       
 
         //return "el dia de hoy es :".$diaDeHoy;
         
