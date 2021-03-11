@@ -68,7 +68,7 @@ class EliController extends Controller
         switch ($nDia) {
             case 12:
                 $mensaje = "Bienvenida :3 espero te guste esta wea xd, tkm mucho pq eres como mimir y a mí me gusta mucho mimir";
-                $nombreImagen="metete.png";
+                $nombreImagen="metete.PNG";
                 break;
             case 13:    //clase ingles
                 $mensaje = "";
@@ -126,7 +126,7 @@ class EliController extends Controller
         }
 
 
-        $diaDeHoy = Carbon::now()->format('d');
+     /*    $diaDeHoy = Carbon::now()->format('d');
         //el primer dia es el 12
         $diaQueSolicitaVer = $nDia;
         if($diaQueSolicitaVer > $diaDeHoy ){
@@ -137,7 +137,7 @@ class EliController extends Controller
                 $diaDeHoy. " XD Diosito te ve cuando mientes";
             $error = true;
             
-        }
+        } */
 
         //return "el dia de hoy es :".$diaDeHoy;
         
