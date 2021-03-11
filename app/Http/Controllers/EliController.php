@@ -125,7 +125,7 @@ class EliController extends Controller
          
         }
 
-/* 
+
         $diaDeHoy = Carbon::now()->format('d');
         //el primer dia es el 12
         $diaQueSolicitaVer = $nDia;
@@ -138,7 +138,7 @@ class EliController extends Controller
             $error = true;
             
         }
- */
+
         //return "el dia de hoy es :".$diaDeHoy;
         
 
