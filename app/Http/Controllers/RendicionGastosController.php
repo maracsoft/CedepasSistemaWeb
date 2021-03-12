@@ -35,7 +35,8 @@ class RendicionGastosController extends Controller
 {
     
 
-
+    const PAGINATION = '20';
+    
 
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
@@ -54,35 +55,19 @@ class RendicionGastosController extends Controller
     //lista todas las rendiciones del gerente (pertenecientes al proyecto que este lidera)
     public function listarDelGerente(){
         $empleado = Empleado::getEmpleadoLogeado();
-        /* if(!$empleado->esGerente())
-            return 'Error: no eres gerente';
-         */ 
-        
-        $proyecto = $empleado->getProyectoGerencia();
-        if($proyecto->nombre=='')
+        if(count($empleado->getListaProyectos())==0)
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
-        $listaSolicitudes = SolicitudFondos::where('codProyecto','=',$proyecto->codProyecto)->get();
-         
-
         
-        //ahora agarramos de cada solicitud, su rendicion (si la tiene)
-        $listaRendiciones= new Collection();
-        for ($i=0; $i < count($listaSolicitudes); $i++) { //recorremos cada solicitud
-            $itemSol = $listaSolicitudes[$i];
-            if(!is_null($itemSol->codSolicitud)){ 
-                $itemRend = RendicionGastos::where('codSolicitud','=',$itemSol->codSolicitud)->first();
-                if(!is_null($itemRend))
-                    $listaRendiciones->push($itemRend);
-            }
-            
-        }
-
+        $listaRendiciones = $empleado->getListaRendicionesGerente();
         //ordena la coleccion ascendentemente
         $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
 
+        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        $listaRendiciones=$listaRendiciones->paginate($this::PAGINATION);
+        
         $buscarpor = '';
 
-        return view('vigo.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor','proyecto'));
+        return view('vigo.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
         
     }
 
@@ -91,7 +76,6 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::getEmpleadoLogeado();
         //primero agarramos las solicitudes del empleado logeado
         $listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-         
             ->get();
 
         //ahora agarramos de cada solicitud, su rendicion (si la tiene)
@@ -267,6 +251,7 @@ class RendicionGastosController extends Controller
             $rendicion-> resumenDeActividad = $request->resumen;
             $rendicion-> fechaRendicion = Carbon::now();
             $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Momentaneo');
+
             $rendicion-> save();    
             
             $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
@@ -537,9 +522,7 @@ class RendicionGastosController extends Controller
           
 
             $pdf = new PDF();
-            $pdf = PDF::loadView();
-
-
+       
             
             $pdf = PDF::loadView($nombreVista,$argumentosVista)->setPaper('a4','landscape');
             return $pdf->download('informeMiau.pdf');
@@ -554,5 +537,19 @@ class RendicionGastosController extends Controller
 
         }
     }
+
+
+    public function descargarPDF($codRendicion){
+        $rendicion = RendicionGastos::findOrFail($codRendicion);
+        $pdf = $rendicion->getPDF();
+        return $pdf->download('Rendición de Gastos '.$rendicion->codigoCedepas.'.pdf');
+    }   
+    
+    public function verPDF($codRendicion){
+        $rendicion = RendicionGastos::findOrFail($codRendicion);
+        $pdf = $rendicion->getPDF();
+        return $pdf->stream();
+    }
+
 
 }

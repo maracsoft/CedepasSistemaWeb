@@ -6,7 +6,8 @@ use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 class Empleado extends Model
 {
     protected $table = "empleado";
@@ -50,24 +51,77 @@ class Empleado extends Model
     }
     public function getPuestoActual(){
         return Puesto::findOrFail($this->codPuesto);
-        
-
 
     }
 
 
     //solo se aplica a los gerentes, retorna el proyecto que este gerente lidera
-    public function getProyectoGerencia(){
+    /* public function getProyectoGerencia(){
         $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
         if(count($proy) == 0 )
             return new Proyecto();
 
         return $proy[0];
         
+    } */
+
+
+    //solo se aplica a los gerentes, retorna lista de proyectos que este gerente lidera
+    public function getListaProyectos(){
+        $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
+        //retornamos el Collection
+        return $proy;
+    }
+
+    // solo para gerente
+    public function getListaSolicitudesDeGerente(){
+        //Construimos primero la busqueda de todos los proyectos que tenga este gerente
+        $stringQuery = '
+        SELECT * FROM `solicitud_fondos`';
+        $listaProyectos = $this->getListaProyectos();
+
+        foreach ($listaProyectos as $itemProyecto ) {
+            $stringQuery = $stringQuery.
+                ' WHERE codProyecto = '.$itemProyecto->codProyecto.' ';
+        }
+
+        //Debe listar con prioridad las CREADAS y las SUBSANADAS 
+        $stringQuery = $stringQuery.' order by MOD(codEstadoSolicitud-1,5)';//residuo de 5 para que me priorice las 6 y 1 (residuo 0 )
+        
+        $query = DB::select($stringQuery);  //obtenemos la lista de todas las solicitudes de los proyectos que lidera este gerente
+
+        $listaSolicitudesFondos = new Collection(); //pasamos de vector a coleccion
+        for ($i=0; $i < count($query); $i++) { 
+            $itemSol = SolicitudFondos::findOrFail($query[$i]->codSolicitud);
+            $listaSolicitudesFondos->add($itemSol);
+        }
+
+        return $listaSolicitudesFondos;
+
+    }
+
+    //solo para gerente
+    public function getListaRendicionesGerente(){
+
+        $listaSolicitudes = $this->getListaSolicitudesDeGerente();
+        //ahora agarramos de cada solicitud, su rendicion (si la tiene)
+        $listaRendiciones= new Collection();
+        for ($i=0; $i < count($listaSolicitudes); $i++) { //recorremos cada solicitud
+            $itemSol = $listaSolicitudes[$i];
+            if(!is_null($itemSol->codSolicitud)){ 
+                $itemRend = RendicionGastos::where('codSolicitud','=',$itemSol->codSolicitud)->first();
+                if(!is_null($itemRend))
+                    $listaRendiciones->push($itemRend);
+            }
+            
+        }
+        return $listaRendiciones;
+
+
     }
 
     //retorna -1 si no tiene un periodo actual
-    public function getPeriodoEmpleadoActual(){
+    /* public function getPeriodoEmpleadoActual(){
         $periodos=PeriodoEmpleado::where('codEmpleado','=',$this->codEmpleado)
         ->where('activo','=',1)->get();
         if(count($periodos)==0)
@@ -76,7 +130,7 @@ class Empleado extends Model
         return $periodos[0];   
 
 
-    }
+    } */
 
     public static function getEmpleadoLogeado(){
         $codUsuario = Auth::id();         
@@ -136,10 +190,7 @@ class Empleado extends Model
 
     }
 
-    public function getProyecto(){
-        $proy = Proyecto::findOrFail($this->codProyecto);
-        return $proy;
-    }
+    
 
     public function tieneCaja(){
         if($this->getCaja()=='-1') //si no tiene caja

@@ -93,40 +93,19 @@ class SolicitudFondosController extends Controller
 
     /* FUNCION ACTIVADA POR UN gerente */
     public function listarSolicitudesParaGerente(Request $request){
-        
         $empleado = Empleado::getEmpleadoLogeado();
-        $codProyecto = $empleado->codProyecto;
+
+        
+        if(count($empleado->getListaProyectos())==0)
+            return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
+      
+        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
+        
         
 
-        //Debe listar con prioridad las CREADAS y las SUBSANADAS 
-
-        $query = DB::select('
-        SELECT * FROM `solicitud_fondos`
-            WHERE codProyecto = '.$empleado->codProyecto.' 
-            order by MOD(codEstadoSolicitud-1,5)
-        '); //residuo de 5 para que me priorice las 6 y 1 (residuo 0 )
-
-        $listaSolicitudesFondos = new Collection();
-        for ($i=0; $i < count($query); $i++) { 
-            $itemSol = SolicitudFondos::findOrFail($query[$i]->codSolicitud);
-            $listaSolicitudesFondos->add($itemSol);
-        }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
         $listaSolicitudesFondos=$listaSolicitudesFondos->paginate($this::PAGINATION);
         
-        
-        
-        /*  
-        DEPRECATED 
-        $listaSolicitudesFondos = SolicitudFondos::
-            where('codProyecto','=',$empleado->codProyecto)
-            ->orderBy('MOD(codEstadoSolicitud,5)','ASC')
-            ->orderBy('fechaHoraEmision','DESC')
-        ->paginate(); */
-
-        
-
-
         $buscarpor = "";
 
         $listaBancos = Banco::All();
@@ -249,33 +228,12 @@ class SolicitudFondosController extends Controller
            DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Abonada');
+            $solicitud->codEmpleadoAbonador = Empleado::getEmpleadoLogeado()->codEmpleado;
 
             $solicitud->fechaHoraAbonado = Carbon::now();
             $solicitud->save();
             
-
-            //$codSolRecienInsertada = (SolicitudFondos::latest('codSolicitud')->first())->codSolicitud;
             
-            /* 
-            //YA NO GUARDAREMOS LOS COMPROBANTES DE ABONOS DE LAS SOLICITUDES 
-
-            //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
-            $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
-            $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
-            $terminacion = end( $vec); //ultimo elemento del vector
-
-            error_log('la terminacion para el archivo guardado es: '.$terminacion);
-
-            $solicitud->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
-            //               RF-Devol-                           -   5   .  jpg
-            $nombreImagen = 'SF-Abono-'.$this->rellernarCerosIzq($codSolRecienInsertada,6).'.'.$terminacion;
-            $archivo =  $request->file('imagenEnvio');
-            $fileget = \File::get( $archivo );
-            Storage::disk('comprobantesAbono')
-            ->put($nombreImagen, $fileget ); 
-            */
-            
-          
 
             DB::commit();
         return redirect()->route('solicitudFondos.listarSolicitudes')
@@ -647,5 +605,20 @@ class SolicitudFondosController extends Controller
         ,'listaBancos','listaSedes','listaProyectos','listaEmpleados','listaEstados'));
 
     }
+
+
+    public function descargarPDF($codSolicitud){
+        $solicitud = SolicitudFondos::findOrFail($codSolicitud);
+        $pdf = $solicitud->getPDF();
+        return $pdf->download('Solicitud de Fondos '.$solicitud->codigoCedepas.'.pdf');
+    }   
+    
+    public function verPDF($codSolicitud){
+        $solicitud = SolicitudFondos::findOrFail($codSolicitud);
+        $pdf = $solicitud->getPDF();
+        return $pdf->stream();
+    }
+
+
 
 }

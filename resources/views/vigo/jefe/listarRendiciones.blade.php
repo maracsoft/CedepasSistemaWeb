@@ -120,7 +120,12 @@
                           </a>
                         
                         @endif
-
+                        <a class='btn btn-alert'  href="{{route('rendicionGastos.descargarPDF',$itemRendicion->codRendicionGastos)}}">
+                          <i class="fas fa-download">Descargar</i>
+                        </a>
+                        <a  target="blank"  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}">
+                          <i class="fas fa-file-pdf">Ver</i>
+                        </a>
                     
                 </td>
 

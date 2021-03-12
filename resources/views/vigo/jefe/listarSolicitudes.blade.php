@@ -114,7 +114,7 @@
                 
 
                 </td>
-                <td>        
+                <td>        {{-- OPCIONES --}}
                   
                          
                         @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
@@ -137,6 +137,13 @@
                         
                         @endif
 
+                        <a class='btn btn-alert'  href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}">
+                          <i class="fas fa-download">Descargar</i>
+                        </a>
+                        <a  target="blank"  href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}">
+                          <i class="fas fa-file-pdf">Ver</i>
+                        </a>
+                        
                     
                 </td>
 

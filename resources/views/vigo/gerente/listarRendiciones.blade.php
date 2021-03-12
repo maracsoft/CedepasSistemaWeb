@@ -43,7 +43,7 @@
         <label for="">Nombre proyecto:</label>
       </div>
       <div class="col"> 
-        <input type="text" class="form-control" value="{{$proyecto->nombre}}" readonly>
+        <input type="text" class="form-control" value="" readonly>
       </div>
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 

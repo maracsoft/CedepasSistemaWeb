@@ -16,7 +16,18 @@ class RendicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codSolicitud','codigoCedepas','totalImporteRecibido',
     'totalImporteRendido','saldoAFavorDeEmpleado',
-    'resumenDeActividad','estadoDeReposicion'];
+    'resumenDeActividad','estadoDeReposicion','fechaRendicion'];
+
+
+    public function getPDF(){
+        $listaItems = DetalleRendicionGastos::where('codRendicionGastos','=',$this->codRendicionGastos)->get();
+        
+        
+        $pdf = \PDF::loadview('vigo.pdfRendicionGastos',
+            array('rendicion'=>$this,'listaItems'=>$listaItems)
+                            )->setPaper('a4', 'portrait');
+        return $pdf;
+    }
 
 
     /* Retorna el codigo del estado indicado por el str parametro */
@@ -37,11 +48,18 @@ class RendicionGastos extends Model
     public function getNombreSolicitante(){
         return $this->getSolicitud()->getNombreSolicitante();
     }
+    public function getEmpleadoSolicitante(){
+        return $this->getSolicitud()->getEmpleadoSolicitante();
+    }
 
     public function getNombreProyecto(){
         return $this->getSOlicitud()->getNombreProyecto();
     }
 
+    public function getFechaRendicion(){
+        return $this->fechaRendicion;
+
+    }
 
     //VER EXCEL https://docs.google.com/spreadsheets/d/1eBQV5QZJ6dTlFtu-PuF3i71Cjg58DIbef2qI0ZqKfoI/edit#gid=1819929291
     public function getNombreEstado(){ 

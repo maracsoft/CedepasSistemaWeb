@@ -44,7 +44,7 @@ margin-top: 18px;
         <label for="">Proyecto:</label>
       </div>
       <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getProyecto()->nombre}}" readonly>
+        <input type="text" class="form-control" value="" readonly>
       </div>
       
 

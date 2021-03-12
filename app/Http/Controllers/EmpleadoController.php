@@ -54,7 +54,7 @@ class EmpleadoController extends Controller
         $empleado->apellidos=$request->apellidos;
         $empleado->direccion=$request->direccion;
         $empleado->tieneHijos=$request->tieneHijos;
-        $empleado->codProyecto = $request->codProyectoDestino;
+        //$empleado->codProyecto = $request->codProyectoDestino;
         //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
         //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
 

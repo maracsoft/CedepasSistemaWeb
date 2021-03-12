@@ -19,6 +19,14 @@ class SolicitudFondos extends Model
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
     'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','codSede','observacion'];
 
+    public function getPDF(){
+        $listaItems = DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();
+        $pdf = \PDF::loadview('vigo.pdfSolicitudFondos',
+            array('solicitud'=>$this,'listaItems'=>$listaItems)
+                            )->setPaper('a4', 'portrait');
+
+        return $pdf;
+    }
     public function getNombreSede(){
         $sede = Sede::findOrFail($this->codSede);
         return $sede->nombre;
@@ -95,6 +103,11 @@ class SolicitudFondos extends Model
     public function getNombreSolicitante(){
         $emp = Empleado::findOrFail($this->codEmpleadoSolicitante);
         return $emp->nombres.' '.$emp->apellidos;
+    }
+
+    public function getEmpleadoSolicitante(){
+        return Empleado::findOrFail($this->codEmpleadoSolicitante);
+
     }
 
     public function getRendicion(){

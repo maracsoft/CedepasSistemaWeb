@@ -97,6 +97,11 @@ Route::get('/solicitudes/reportes/','SolicitudFondosController@reportes')
 Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
     ->name('solicitudFondos.update');
 
+Route::get('/SolicitudFondos/descargar/{id}','SolicitudFondosController@descargarPDF')
+    ->name('solicitudFondos.descargarPDF');
+
+Route::get('/SolicitudFondos/verPDF/{id}','SolicitudFondosController@verPDF')
+    ->name('solicitudFondos.verPDF');
 
 
 
@@ -104,42 +109,44 @@ Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solic
 
 /* RENDICIONES */
 
-Route::post('/guardarRendicion', 'rendicionGastosController@store')->name('rendicionGastos.store');
+Route::post('/guardarRendicion', 'RendicionGastosController@store')->name('rendicionGastos.store');
 
-Route::get('/verRendicion/emp/{id}', 'rendicionGastosController@ver')->name('rendicionGastos.ver');
+Route::get('/verRendicion/emp/{id}', 'RendicionGastosController@ver')->name('rendicionGastos.ver');
 
-Route::get('/verRendicion/admin/{id}', 'rendicionGastosController@verAdmin')->name('rendicionGastos.verAdmin');
+Route::get('/verRendicion/admin/{id}', 'RendicionGastosController@verAdmin')->name('rendicionGastos.verAdmin');
 
-Route::get('/verRendicion/gerente/{id}', 'rendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
+Route::get('/verRendicion/gerente/{id}', 'RendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
 
 
-Route::get('/verReponer/{id}', 'rendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
-Route::post('/rendicion/reponer/','rendicionGastosController@reponer')
+Route::get('/verReponer/{id}', 'RendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
+Route::post('/rendicion/reponer/','RendicionGastosController@reponer')
     ->name('rendicionGastos.reponer');
 
 
-Route::post('/reportes/ver', 'rendicionGastosController@reportes')->name('rendicionGastos.reportes');
+Route::post('/reportes/ver', 'RendicionGastosController@reportes')->name('rendicionGastos.reportes');
 
 
-Route::get('/reportes/descargar/{str}', 'rendicionGastosController@descargarReportes')
+Route::get('/reportes/descargar/{str}', 'RendicionGastosController@descargarReportes')
     ->name('rendicionGastos.descargarReportes');
 
 
-Route::get('/rendicion/descargarCDPDetalle/{id}','rendicionGastosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
+Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionGastosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
 
 
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
-Route::get('/rendicion/descargarArchivoRendicion/{id}','rendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
+Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
 
 
 // PARA REPONER LAS REPOSICIONES DE LOS EMPLEADOS QUE GASTARON MAS DE LO QUE RECIBIERON
 
 
-Route::get('/rendicion/listarJefeAdmin/','rendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
-Route::get('/rendicion/listarGerente/','rendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
+Route::get('/rendicion/listarJefeAdmin/','RendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
+Route::get('/rendicion/listarGerente/','RendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
 
-Route::get('/rendicion/listarEmpleado/','rendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
+Route::get('/rendicion/listarEmpleado/','RendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
 
+Route::get('/rendicion/descargarPDF/{id}','RendicionGastosController@descargarPDF')->name('rendicionGastos.descargarPDF');
+Route::get('/rendicion/verPDF/{id}','RendicionGastosController@verPDF')->name('rendicionGastos.verPDF');
 
 /* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */
 
