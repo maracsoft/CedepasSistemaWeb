@@ -8,54 +8,6 @@
 
 @section('contenido')
 
-<!--
-<script type="text/javascript"> 
-    $(document).ready(function(){
-        $('#codArea').change(function(){
-
-            var codigo=$('#codArea').val();
-            
-            if(codigo!=0){
-
-                $.ajax({
-                    url: '/listarPuestos/' + codigo,
-                    type: 'post',
-                    data: {
-                        codigo     : codigo,
-                        _token	 	: "{{ csrf_token() }}"
-                    },
-                    dataType: 'JSON',
-                    success: function(respuesta) {
-                        var comboPuestos = '<label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>';
-                         comboPuestos += '<div class="col-sm-4">';
-                             comboPuestos += '<select class="form-control" name="codPuesto" id="codPuesto">';
-                                 comboPuestos += '<option value="0">--Seleccionar--</option>';
-                                for (var i in respuesta.puestos) {
-                                     comboPuestos += '<option value="'+respuesta.puestos[i].codPuesto+'">'+respuesta.puestos[i].nombre+'</option>';
-                                }
-                             comboPuestos += '</select>';
-                         comboPuestos += '</div>';
-
-                        $('#comboPuestos').html(comboPuestos);
-                    }
-                });
-                
-            }else{
-                var comboPuestos = '<label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>';
-                         comboPuestos += '<div class="col-sm-4">';
-                             comboPuestos += '<select class="form-control" name="codPuesto" id="codPuesto">';
-                                 comboPuestos += '<option value="0">--Seleccionar--</option>';
-                                
-                             comboPuestos += '</select>';
-                         comboPuestos += '</div>';
-
-                $('#comboPuestos').html(comboPuestos);
-            }
-
-        })
-    });
-</script>
--->
 
 <script type="text/javascript"> 
           
@@ -184,26 +136,29 @@
                     </div>
                 </div> 
             </div>
-<!--
+
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Area:</label>
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
                 <div class="col-sm-4">
-                    <select class="form-control" name="codArea" id="codArea">
-                    <option value="0">--Seleccionar--</option>
-
+                    <select class="form-control" name="codSexo" id="codSexo">
+                    <option value="0" >--Seleccionar--</option>
+                    <option value="M" {{ 'M'==$empleado->sexo ? 'selected':'' }}>Hombre</option>
+                    <option value="F" {{ 'F'==$empleado->sexo ? 'selected':'' }}>Mujer</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group row" id="comboPuestos">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codPuesto" id="codPuesto">
-                    <option value="0">--Seleccionar--</option>
 
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="tieneHijos" id="tieneHijos">
+                    <option value="1" {{ 1==$empleado->tieneHijos ? 'selected':'' }}>SI</option>
+                    <option value="0" {{ 0==$empleado->tieneHijos ? 'selected':'' }}>NO</option>
+                    
                     </select>
                 </div>
             </div>
-        -->
+
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
                 <div class="col-sm-4">
@@ -211,28 +166,60 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="codPuesto" id="codPuesto">
+                    @foreach($puestos as $itempuesto)
+                    <option value="{{$itempuesto->codPuesto}}" {{$itempuesto->codPuesto==$empleado->codPuesto ? 'selected':''}}>{{$itempuesto->nombre}}</option>    
+                    @endforeach
+                    </select>
+                </div>  
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="codSexo" id="codSexo">
-                        <option value="0" >--Seleccionar--</option>
-                        <option value="M" {{ 'M'==$empleado->sexo ? 'selected':'' }}>Hombre</option>
-                        <option value="F" {{ 'F'==$empleado->sexo ? 'selected':'' }}>Mujer</option>
-                        </select>
+            <div class="form-group row">                   
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
+                <div class="col-md-4">                        
+                    <div class="form-group">                            
+                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                            <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio"
+                                   value="{{date("d/m/Y",strtotime($empleado->fechaInicio))}}" style="text-align:center;">
+                            <div class="input-group-btn">                                        
+                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div> 
+            </div>
 
-                  <div class="form-group row">
-                    <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
-                    <div class="col-sm-4">
-                        <select class="form-control" name="tieneHijos" id="tieneHijos">
-                        <option value="1" {{ 1==$empleado->tieneHijos ? 'selected':'' }}>SI</option>
-                        <option value="0" {{ 0==$empleado->tieneHijos ? 'selected':'' }}>NO</option>
-                        
-                        </select>
+            <div class="form-group row">                   
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Fin:</label>
+                <div class="col-md-4">                        
+                    <div class="form-group">                            
+                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
+                                   value="{{date("d/m/Y",strtotime($empleado->fechaFin))}}" style="text-align:center;">
+                            <div class="input-group-btn">                                        
+                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div> 
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="codSede" id="codSede">
+                        @foreach($sedes as $itemsede)
+                        <option value="{{$itemsede->codSede}}" {{$itemsede->codSede==$empleado->codSede ? 'selected':''}}>{{$itemsede->nombre}}</option>    
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+                
+
+                  
 
 
             <br />

@@ -267,6 +267,101 @@
           </ul>
         </li>
       @endif
+      <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+          <i class="far fa-building nav-icon"></i>
+          <p>
+            Reposicion de Gastos
+            <i class="right fas fa-angle-left"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Empleado
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('reposicionGastos.listar',App\Empleado::getEmpleadoLogeado()->codEmpleado)}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Mis Reposicion</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                gerente
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.listarGerente')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Listar Fondos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('rendicionGastos.listarGerente')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Listar Rendic</p>
+                </a>
+              </li>
+
+              
+
+              
+            </ul>
+          </li>
+
+          
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Jefe Admin
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Solicitudes para abonar</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Rendiciones para Reponer</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reportes</p>
+                </a>
+              </li>
+              
+
+            </ul>
+
+          </li>
+        </ul>
+
+
+
+      </li>
         
       <!-----------------------------------------------UNIDAD 2----------------------------------------------------------------->
       <li class="nav-item has-treeview">
