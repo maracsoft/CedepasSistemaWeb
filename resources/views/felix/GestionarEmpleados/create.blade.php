@@ -8,55 +8,6 @@
 
 @section('contenido')
 
-<!--
-<script type="text/javascript"> 
-    $(document).ready(function(){
-        $('#codArea').change(function(){
-
-            var codigo=$('#codArea').val();
-            
-            if(codigo!=0){
-
-                $.ajax({
-                    url: '/listarPuestos/' + codigo,
-                    type: 'post',
-                    data: {
-                        codigo     : codigo,
-                        _token	 	: "{{ csrf_token() }}"
-                    },
-                    dataType: 'JSON',
-                    success: function(respuesta) {
-                        var comboPuestos = '<label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>';
-                         comboPuestos += '<div class="col-sm-4">';
-                             comboPuestos += '<select class="form-control" name="codPuesto" id="codPuesto">';
-                                 comboPuestos += '<option value="0">--Seleccionar--</option>';
-                                for (var i in respuesta.puestos) {
-                                     comboPuestos += '<option value="'+respuesta.puestos[i].codPuesto+'">'+respuesta.puestos[i].nombre+'</option>';
-                                }
-                             comboPuestos += '</select>';
-                         comboPuestos += '</div>';
-
-                        $('#comboPuestos').html(comboPuestos);
-                    }
-                });
-                
-            }else{
-                var comboPuestos = '<label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>';
-                         comboPuestos += '<div class="col-sm-4">';
-                             comboPuestos += '<select class="form-control" name="codPuesto" id="codPuesto">';
-                                 comboPuestos += '<option value="0">--Seleccionar--</option>';
-                                
-                             comboPuestos += '</select>';
-                         comboPuestos += '</div>';
-
-                $('#comboPuestos').html(comboPuestos);
-            }
-
-        })
-    });
-</script>
--->
-
     
 <script type="text/javascript"> 
           
@@ -91,7 +42,7 @@
             }
             else if (document.getElementById("apellidos").value == ""){
                 alert("Ingrese apellidos del usuario");
-                $("#apellidos").focus();
+                $("#apellidos").focus();      
             }
             else if (!expreg.test(document.getElementById("apellidos").value)){
                 alert("Ingrese apellidos correctos");
@@ -187,14 +138,6 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
-                <div class="col-sm-4">
-                    <input type="number" class="form-control" id="DNI" name="DNI" placeholder="DNI..." >
-                </div>
-            </div>
-
-
-            <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
                 <div class="col-sm-4">
                     <select class="form-control" name="codSexo" id="codSexo">
@@ -216,21 +159,63 @@
             </div>
 
             <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-1 col-form-label" style="margin-left:350px;">Proyecto:</label>
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
                 <div class="col-sm-4">
-                    <select class="form-control select2 select2-hidden-accessible selectpicker"
-                        data-select2-id="1" tabindex="-1" aria-hidden="true" 
-                        id="codProyectoDestino" name="codProyectoDestino" data-live-search="true" onchange="">
-                        <option value="-1" selected>- Seleccione -</option>    
-                        @foreach($proyectos as $itemproyecto)
-                            <option value="{{$itemproyecto->codProyecto}}">
-                                {{$itemproyecto->nombre}}
-                            </option>
-                        @endforeach      
-                    </select> 
+                    <input type="number" class="form-control" id="DNI" name="DNI" placeholder="DNI..." >
                 </div>
             </div>
-            
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Puesto:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="codPuesto" id="codPuesto">
+                    @foreach($puestos as $itempuesto)
+                    <option value="{{$itempuesto->codPuesto}}">{{$itempuesto->nombre}}</option>    
+                    @endforeach
+                    </select>
+                </div>  
+            </div>
+
+            <div class="form-group row">                   
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
+                <div class="col-md-4">                        
+                    <div class="form-group">                            
+                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                            <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio"
+                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
+                            <div class="input-group-btn">                                        
+                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="form-group row">                   
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Fin:</label>
+                <div class="col-md-4">                        
+                    <div class="form-group">                            
+                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
+                                   value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="text-align:center;">
+                            <div class="input-group-btn">                                        
+                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" name="codSede" id="codSede">
+                        @foreach($sedes as $itemsede)
+                        <option value="{{$itemsede->codSede}}">{{$itemsede->nombre}}</option>    
+                        @endforeach
+                    </select>
+                </div>
+            </div>
 
 
                 

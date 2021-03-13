@@ -383,3 +383,19 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
     Route::post('/delete', ['as' => 'existenciaPerdida.delete', 'uses' => 'ExistenciaPerdidaController@destroy']);
 
 });
+
+
+
+
+
+/**MODULO  "Reposiciones de Fondos a empleados"*/
+Route::get('/listarReposiciones','EmpleadoController@listarEmpleados');/*
+Route::post('/listarPuestos/{id}','EmpleadoController@listarPuestos');
+
+Route::get('/crearEmpleado','EmpleadoController@crearEmpleado');
+Route::post('/crearEmpleado/save','EmpleadoController@guardarCrearEmpleado');
+
+Route::get('/editarEmpleado/{id}','EmpleadoController@editarEmpleado');
+Route::post('/editarEmpleado/save','EmpleadoController@guardarEditarEmpleado');
+
+Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');*/

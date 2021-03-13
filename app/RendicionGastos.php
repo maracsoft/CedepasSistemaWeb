@@ -40,6 +40,21 @@ class RendicionGastos extends Model
 
     }
 
+    /* Retorna TRUE or FALSE cuando le mandamos el nombre de un estado */
+    public function verificarEstado($nombreEstado){
+        $lista = EstadoRendicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return false;
+        
+        $estado = $lista[0];
+        if($estado->codEstado == $this->codEstadoSolicitud)
+            return true;
+        
+        return false;
+        
+    }
+
+
 
     public function getNombreSede() {
         return $this->getSolicitud()->getNombreSede();
@@ -67,6 +82,9 @@ class RendicionGastos extends Model
         return $estado->nombre;
 
     }
+
+    
+
 
     public function getColorEstado(){ //BACKGROUND
         $color = '';

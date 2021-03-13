@@ -42,7 +42,9 @@
                 <td>{{$itemempleado->nombres}}, {{$itemempleado->apellidos}}</td>
                 <td>
                     <a href="/editarEmpleado/{{$itemempleado->codEmpleado}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>
+                    <!--
                     <a href="/listarEmpleados/listarContratos/{{$itemempleado->codEmpleado}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contrato</a>
+                    -->
 
                     <!--Boton eliminar -->
                     <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert

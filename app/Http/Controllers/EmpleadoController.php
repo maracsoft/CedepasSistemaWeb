@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Proyecto;
-
+use App\Sede;
 
 class EmpleadoController extends Controller
 {
@@ -30,14 +30,17 @@ class EmpleadoController extends Controller
     }
     public function crearEmpleado(){
         //$areas=Area::all();
-        $proyectos = Proyecto::All();
-        return view('felix.GestionarEmpleados.create',compact('proyectos'));
+        //$proyectos = Proyecto::All();
+        $puestos=Puesto::where('estado','!=',0)->get();
+        $sedes=Sede::all();
+        return view('felix.GestionarEmpleados.create',compact('puestos','sedes'));
     }
-
+    /*
     public function listarPuestos(Request $request,$id){
         $puestos=Puesto::where('codArea','=',$id)->get();
         return response()->json(['puestos'=>$puestos]);
     }
+    */
 
 
     public function guardarCrearEmpleado(Request $request){
