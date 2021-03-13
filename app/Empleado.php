@@ -318,4 +318,12 @@ class Empleado extends Model
     }
 
     
+
+
+
+
+    public function reposicion(){
+        $reposiciones=ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleadoSolicitante)->get();
+        return $reposiciones;
+    }
 }

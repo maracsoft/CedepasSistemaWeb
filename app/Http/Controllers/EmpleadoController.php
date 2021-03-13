@@ -56,30 +56,46 @@ class EmpleadoController extends Controller
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
         $empleado->direccion=$request->direccion;
-        $empleado->tieneHijos=$request->tieneHijos;
-        //$empleado->codProyecto = $request->codProyectoDestino;
-        //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
-        //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
 
         $arr = explode('/', $request->fechaNacimiento);
         $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
         $empleado->fechaNacimiento=$nFecha;   
 
-        //$empleado->codPuesto=$request->codPuesto;
         $empleado->sexo=$request->codSexo;
+        $empleado->tieneHijos=$request->tieneHijos;
         $empleado->activo=1;
         $empleado->codigoCedepas='E'.'00'.$usuario->codUsuario;
         $empleado->dni=$request->DNI;
+        $empleado->codPuesto=$request->codPuesto;
+        
+        $arr = explode('/', $request->fechaInicio);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        $empleado->fechaInicio=$nFecha;   
+        $arr = explode('/', $request->fechaFin);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        $empleado->fechaFin=$nFecha;  
+        
+        $empleado->codSede=$request->codSede;
+
+        //$empleado->codProyecto = $request->codProyectoDestino;
+        //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
+        //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
+
+
+        //$empleado->codPuesto=$request->codPuesto;
+        
         $empleado->save();
 
         return redirect('listarEmpleados');
     }
 
     public function editarEmpleado($id){
+        $puestos=Puesto::where('estado','!=',0)->get();
+        $sedes=Sede::all();
         $empleado=Empleado::find($id);
         //$areas=Area::all();
         //$puestos=Puesto::all();
-        return view('felix.GestionarEmpleados.edit',compact('empleado'));
+        return view('felix.GestionarEmpleados.edit',compact('empleado','puestos','sedes'));
     }
 
     public function guardarEditarEmpleado(Request $request){
@@ -97,19 +113,34 @@ class EmpleadoController extends Controller
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
         $empleado->direccion=$request->direccion;
-        $empleado->tieneHijos=$request->tieneHijos;
-        //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
-        //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
 
         $arr = explode('/', $request->fechaNacimiento);
         $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
         $empleado->fechaNacimiento=$nFecha;   
 
-        //$empleado->codPuesto=$request->codPuesto;
         $empleado->sexo=$request->codSexo;
+        $empleado->tieneHijos=$request->tieneHijos;
         //$empleado->activo=1;
-        //$empleado->codigoEmpleadoCedepas='E'.'00'.$usuario->codUsuario;
+        //$empleado->codigoCedepas='E'.'00'.$usuario->codUsuario;
         $empleado->dni=$request->DNI;
+        $empleado->codPuesto=$request->codPuesto;
+        
+        $arr = explode('/', $request->fechaInicio);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        $empleado->fechaInicio=$nFecha;   
+        $arr = explode('/', $request->fechaFin);
+        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        $empleado->fechaFin=$nFecha;  
+        
+        $empleado->codSede=$request->codSede;
+
+        //$empleado->codProyecto = $request->codProyectoDestino;
+        //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
+        //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
+
+
+        //$empleado->codPuesto=$request->codPuesto;
+        
         $empleado->save();
 
         return redirect('listarEmpleados');

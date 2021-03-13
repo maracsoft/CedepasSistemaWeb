@@ -389,7 +389,12 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
 
 
 /**MODULO  "Reposiciones de Fondos a empleados"*/
-Route::get('/listarReposiciones','EmpleadoController@listarEmpleados');/*
+Route::get('/Emp/Reposiciones/listar/{id}','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
+
+Route::get('/Emp/Reposiciones/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
+/*
+
+
 Route::post('/listarPuestos/{id}','EmpleadoController@listarPuestos');
 
 Route::get('/crearEmpleado','EmpleadoController@crearEmpleado');
