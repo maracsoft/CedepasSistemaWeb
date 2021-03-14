@@ -144,11 +144,18 @@
               </a>
             </li>
             <li class="nav-item">
+              <a href="/asignarGerentes" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gerentes</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="/listarAreas" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Areas/Puestos</p>
               </a>
             </li>
+            <!--
             <li class="nav-item">
               <a href="/listarAsistencia" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -167,6 +174,7 @@
                 <p>Justificaciones</p>
               </a>
             </li>
+            -->
             
           </ul>
         </li>

@@ -34,11 +34,11 @@
             <td>{{$itemProyecto->nombre}}</td>
             </td>
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
-              <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="agregarDetalle2()" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codProducto" name="codProducto" data-live-search="true" onchange="">
+              <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto{{$itemProyecto->codProyecto}}" name="Proyecto{{$itemProyecto->codProyecto}}" data-live-search="true">
                 <option value="0" selected>- Seleccione Gerente -</option>          
               
                 @foreach($listaGerentes as $gerente)
-                  <option value="{{$gerente->codEmpleado}}" >{{$gerente->getNombreCompleto()}}</option>                                 
+                  <option value="{{$gerente->codEmpleado}}" {{$itemProyecto->codEmpleadoDirector==$gerente->codEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
                 @endforeach
                 
               
@@ -62,13 +62,19 @@
     <script src="/select2/bootstrap-select.min.js"></script>     
      <script src="/calendario/js/bootstrap-datepicker.min.js"></script>
      <script src="/calendario/locales/bootstrap-datepicker.es.min.js"></script>
-     <script src="/archivos/js/createdoc.js"></script>
 @endsection
 
 <script>
-$(function(){
-    $(".dropdown-menu").on('click', 'a', function(){
-        $(this).parents('.dropdown').find('button').text($(this).text());
-    });
- });
- </script>
+  function guardar(codProyecto){
+    var codGerente=$('#Proyecto'+codProyecto).val();
+    if(codGerente!=0){
+      $.get('/asignarGerentes/actualizar/'+codProyecto+'*'+codGerente, function(data){
+        if(data) alert('Se actualizo el gerente');
+        else alert('No se pudo actualizar el gerente');
+      });
+    }else{
+      alert('seleccione un Gerente');
+    }
+    
+  }
+</script>

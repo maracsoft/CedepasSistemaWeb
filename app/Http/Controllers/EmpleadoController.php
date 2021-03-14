@@ -156,6 +156,4 @@ class EmpleadoController extends Controller
         return redirect('listarEmpleados');
     }
 
-    
-
 }
