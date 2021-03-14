@@ -425,9 +425,8 @@ Route::post('/editarEmpleado/save','EmpleadoController@guardarEditarEmpleado');
 Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');*/
 
 
-
-
 /* MODULO PROYECTOS  */
 
 Route::get('/asignarGerentes','ProyectoController@listarProyectosYGerentes')
     ->name('proyecto.asignarGerentes');
+Route::get('/asignarGerentes/actualizar/{id}','ProyectoController@actualizarProyectosYGerentes');
