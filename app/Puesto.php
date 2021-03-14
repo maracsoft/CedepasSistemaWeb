@@ -16,6 +16,13 @@ class Puesto extends Model
         'nombre','estado'
     ];
 
+    public static function getCodigo($nombrePuesto){
+        $lista = Puesto::where('nombre','=',$nombrePuesto)->get();
+        if(count($lista)==0)
+            return "";
+        return $lista[0]->codPuesto;
+    }
+
     public function area(){//singular pq un producto es de una cateoria
         return $this->hasOne('App\Area','codArea','codArea');//el tercer parametro es de Producto
     }

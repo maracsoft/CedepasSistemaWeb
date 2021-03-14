@@ -150,6 +150,9 @@ class EmpleadoController extends Controller
         $empleado=Empleado::find($id);
         $empleado->activo=0;
         $empleado->save();
+
+        $usuario=$empleado->usuario();
+        $usuario->delete();
         return redirect('listarEmpleados');
     }
 

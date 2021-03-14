@@ -98,24 +98,34 @@
                         color: {{$itemRendicion->getColorLetrasEstado()}} ;
                 ">
               </td>
-                <td>        
+                <td>       
+                  
+
+                  @if($itemRendicion->verificarEstado('Creada') || 
+                    $itemRendicion->verificarEstado('Subsanada') ||
+                     $itemRendicion->verificarEstado('Observada') )
+                    <a href="{{route('rendicionGastos.editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                            
+                  @endif
+                  
+
+
                   <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
                     <h1>
                       <span class="red">S</span>
                     </h1>
                   </a>
+
+
                   <a href="{{route('rendicionGastos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
                     <h1>
                       <span class="red">R</span>
                     </h1>
                   </a>
                          
-                        @if($itemRendicion->estadoDeReposicion == 1)    
-                          
-                        @else
-                          
                         
-                        @endif
 
                     
                 </td>

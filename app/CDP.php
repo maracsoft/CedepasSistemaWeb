@@ -15,4 +15,7 @@ class CDP extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['nombreCDP'];
 
+    public static function getNombre($codTipoCDP){
+        return CDP::findOrFail($codTipoCDP)->nombre;
+    }
 }

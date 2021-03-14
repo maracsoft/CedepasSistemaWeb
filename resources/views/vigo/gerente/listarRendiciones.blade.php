@@ -108,8 +108,14 @@
                 ">
               </td>
                 <td>        
-                  
-                         
+
+                        @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
+                          <a href="{{route('rendicionGastos.revisar',$itemRendicion->codRendicionGastos)}}" 
+                            class='btn btn-success'  style="float:right;">
+                            Revisar
+                          </a>    
+                        @endif
+
                         @if($itemRendicion->estadoDeReposicion == 1) {{-- Si está a espera de reponer --}}   
                           <a  class='btn btn-success' href="{{route('rendicionGastos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
                             Reponer <i class="fas fa-hand-holding-usd"></i>
@@ -126,7 +132,7 @@
                             </h1>
                           </a>
                         
-                        @endif
+                        @endif 
 
                     
                 </td>

@@ -19,6 +19,10 @@ class RendicionGastos extends Model
     'resumenDeActividad','estadoDeReposicion','fechaRendicion'];
 
 
+
+
+
+
     public function getPDF(){
         $listaItems = DetalleRendicionGastos::where('codRendicionGastos','=',$this->codRendicionGastos)->get();
         
@@ -55,6 +59,20 @@ class RendicionGastos extends Model
     }
 
 
+    //calcula el siguiente numero libre para ser usado como nroEnRendicion
+    //este siempre va en aumento, si hubiera el caso en el que están siendo usados el 1 4 6, el mayorLibre sería el 7
+    /* public function calcularMayorLibre(){
+        $listaDetalles = DetalleRendicionGastos::where(
+            'codRendicionGastos','=',$this->codRendicionGastos)->get();
+        $mayor=0;
+        for ($i=0; $i <count($listaDetalles) ; $i++) { 
+           
+            if( $mayor < $listaDetalles[$i]->nroEnRendicion)
+                $mayor = $listaDetalles[$i]->nroEnRendicion;
+        }
+
+        return $mayor+1;
+    } */
 
     public function getNombreSede() {
         return $this->getSolicitud()->getNombreSede();
@@ -88,20 +106,26 @@ class RendicionGastos extends Model
 
     public function getColorEstado(){ //BACKGROUND
         $color = '';
-        switch($this->estadoDeReposicion){
-            case '0': 
+        switch($this->codEstadoRendicion){
+            case $this::getCodEstado('Creada'): 
                 $color = 'rgb(215,208,239)';
                 break;
-            case '1': 
+            case $this::getCodEstado('Aprobada'):
                 $color = 'rgb(91,79,148)';
                 break;
-            case '11':
+            case $this::getCodEstado('Contabilizada'):
                 $color = 'rgb(195,186,230)';
                 break;
-            case '2':
+            case $this::getCodEstado('Observada'):
                 $color ='rgb(35,28,85)';
                 break;
-          
+            case $this::getCodEstado('Subsanada'):
+                $color ='rgb(35,28,85)';
+                break;
+            case $this::getCodEstado('Rechazada'):
+                $color ='rgb(35,28,85)';
+                break;
+                                    
             
         }
         return $color;
@@ -109,20 +133,25 @@ class RendicionGastos extends Model
 
     public function getColorLetrasEstado(){
         $color = '';
-        switch($this->estadoDeReposicion){
-            case '0': 
+        switch($this->codEstadoRendicion){
+            case $this::getCodEstado('Creada'): 
                 $color = 'black';
                 break;
-            case '1': 
+            case $this::getCodEstado('Aprobada'):
                 $color = 'white';
                 break;
-            case '11':
+            case $this::getCodEstado('Contabilizada'):
                 $color = 'black';
                 break;
-            case '2': 
+            case $this::getCodEstado('Observada'):
                 $color = 'white';
                 break;
-         
+            case $this::getCodEstado('Subsanada'):
+                $color ='black';
+                break;
+            case $this::getCodEstado('Rechazada'):
+                $color ='white';
+                break;
         }
         return $color;
     }

@@ -278,9 +278,6 @@ class SolicitudFondosController extends Controller
     
     public function observar($cadena){
 
-
-        
-        
         try{
 
             $vector = explode('*',$cadena);

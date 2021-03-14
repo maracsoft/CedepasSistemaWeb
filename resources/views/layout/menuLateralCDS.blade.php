@@ -126,109 +126,13 @@
 
       
 
-      <li class="nav-header">RENZO</li>
-
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="far fa-building nav-icon"></i>
-          <p>
-            Gestión de Inventario
-            <i class="right fas fa-angle-left"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <a href="{{route('gestionInventario.mostrarRevisiones')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Actualizar Activos</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{URL::to('/gestionInventario')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Gestión de Revisiones</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{URL::to('/activos')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Gestión de Activos</p>
-            </a>
-          </li>
-        </ul>
-      </li>
-
-
-
-
-
-
-      <li class="nav-header">MARSKY</li>
-
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="far fa-building nav-icon"></i>
-          <p>
-            Asistencia Contable
-            <i class="right fas fa-angle-left"></i>
-          </p>
-        </a>
-
-        <ul class="nav nav-treeview">
-          
-          
-          <li class="nav-item">
-            <a href="{{route('admin.listaPeriodos')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Admin periodos</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            
-            <a href="{{route('resp.verPeriodo',App\Empleado::getEmpleadoLogeado()->getPeriodoCaja())}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Mi periodo actual</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('resp.listarMisPeriodos')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Mis periodos</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{route('caja.index')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Mant Cajas</p>
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <a href="{{route('pagoPlanilla.listar')}}" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Pagos</p>
-            </a>
-          </li>
-          
-          
-
-          
-
-
-        </ul>
-
-
-
-      </li>
-
       <li class="nav-header">FELIX</li>
       @if(Auth::user()->isAdmin == 1)
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
 
             <p>
-              Mantenedores
+              PERSONAL
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -267,6 +171,10 @@
           </ul>
         </li>
       @endif
+
+
+
+
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
@@ -304,17 +212,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarGerente')}}" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Listar Fondos</p>
+                  <p>Reposiciones a aprobar</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarGerente')}}" class="nav-link">
-                  <i class="far fa-address-card nav-icon"></i>
-                  <p>Listar Rendic</p>
-                </a>
-              </li>
+            
 
               
 
@@ -333,27 +236,11 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Solicitudes para abonar</p>
+                  <p>Reposiciones para aceptar</p>
                 </a>
               </li>
-
-              <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
-                  <i class="far fa-address-card nav-icon"></i>
-                  <p>Rendiciones para Reponer</p>
-                </a>
-              </li>
-              
-              <li class="nav-item">
-                <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reportes</p>
-                </a>
-              </li>
-              
-
             </ul>
 
           </li>

@@ -17,13 +17,13 @@ use SebastianBergmann\Environment\Console;
 use App\CDP;
 use App\DetalleRendicionGastos;
 use App\RendicionGastos;
-
+use App\SolicitudFalta;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Storage;
 
 
-
+use App\Debug;
 
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Cell;
@@ -38,6 +38,28 @@ class RendicionGastosController extends Controller
     const PAGINATION = '20';
     
 
+    //RUTA MAESTRA QUE REDIRIJE A LOS INDEX DE LOS 3 ACTORES
+    public function listarRendiciones(){
+
+        $empleado = Empleado::getEmpleadoLogeado();
+        $msj = session('datos');
+        $datos='';
+        if($msj!='')
+            $datos = 'datos';
+
+        if($empleado->esGerente()){
+            //lo enrutamos hacia su index
+            return redirect()->route('rendicionGastos.listarGerente')->with($datos,$msj);
+        }
+
+        if($empleado->esJefeAdmin())//si es jefe de administracion
+        {
+            return redirect()->route('rendicionGastos.listarJefeAdmin')->with($datos,$msj);
+        }
+        return redirect()->route('rendicionGastos.listarEmpleado')->with($datos,$msj);
+
+
+    }
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarJefeAdmin(){
@@ -52,7 +74,7 @@ class RendicionGastosController extends Controller
     }
 
 
-    //lista todas las rendiciones del gerente (pertenecientes al proyecto que este lidera)
+    //lista todas las rendiciones del gerente (pertenecientes a los  proyectos que este lidera)
     public function listarDelGerente(){
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
@@ -159,6 +181,159 @@ class RendicionGastosController extends Controller
 
 
 
+    //despliega vista de edicion
+    public function editar($idRendicion){
+        $rendicion = RendicionGastos::findOrFail($idRendicion);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
+        $listaCDP = CDP::All();
+        return view('vigo.empleado.editRendFondos',compact('rendicion','solicitud','listaCDP'));
+
+    }
+
+
+    public function revisar($id){ //le pasamos la id de la rendicion de gastos
+        $rend = RendicionGastos::findOrFail($id);
+
+        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        
+        return view('vigo.gerente.revisarRend',compact('rend','solicitud','empleado','detallesRend'));
+    }
+
+
+
+    public function rechazar($codRendicion){
+        try{
+
+            DB::beginTransaction();
+            error_log('cod rend = '.$codRendicion);
+            $rendicion = RendicionGastos::findOrFail($codRendicion);
+            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Rechazada');
+            
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();
+            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $rendicion->fechaHoraRevisado = Carbon::now();
+
+            $rendicion->save();
+            DB::commit();
+            return redirect()->route('rendicionGastos.listarSolicitudes')
+            ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Rechazada');
+
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN RENDICION GASTOS CONTROLLER : RECHAZAR
+            
+                '.$th.'
+
+            ');
+
+            DB::rollBack();
+            return redirect()->route('rendicionGastos.listarRendiciones')
+            ->with('datos','Ha ocurrido un error');
+        }
+
+    }
+
+    
+    public function aprobar($codRendicion){
+        try{
+
+            DB::beginTransaction();
+            error_log('cod rend = '.$codRendicion);
+            $rendicion = RendicionGastos::findOrFail($codRendicion);
+            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
+            
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();
+            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $rendicion->fechaHoraRevisado = Carbon::now();
+
+            $rendicion->save();
+            DB::commit();
+            return redirect()->route('rendicionGastos.listarRendiciones')
+            ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Aprobada');
+
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN RENDICION GASTOS CONTROLLER : APROBAR
+            
+                '.$th.'
+
+            ');
+
+            DB::rollBack();
+            return redirect()->route('rendicionGastos.listarRendiciones')
+            ->with('datos','Ha ocurrido un error');
+        }
+
+    }
+
+
+
+
+
+
+
+    public function observar($cadena){
+
+        try{
+            $vector = explode('*',$cadena);
+            if(count($vector)<2)
+                throw new Exception('El argumento cadena no es valido');
+
+            $codRendicion = $vector[0];
+            $textoObs = $vector[1];
+
+            DB::beginTransaction();
+            error_log('cod rend = '.$codRendicion);
+            $rendicion = RendicionGastos::findOrFail($codRendicion);
+            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Observada');
+            $rendicion->observacion = $textoObs;
+            error_log('
+            
+            
+            
+            razon request:'.$textoObs);
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();
+            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
+            $rendicion->fechaHoraRevisado = Carbon::now();
+            
+
+            $rendicion->save();
+            DB::commit();
+            return redirect()->route('rendicionGastos.listarRendiciones')
+            ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Observada');
+
+        } catch (\Throwable $th) {
+            error_log('
+            
+                OCURRIO UN ERROR EN RENDICION GASTOS CONTROLLER : OBSERVAR
+            
+                '.$th.'
+
+
+            ');
+
+            DB::rollBack();
+            return redirect()->route('rendicionGastos.listarRendiciones')
+            ->with('datos','Ha ocurrido un error');
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
     // se le devuelve al empleado los gastos que hizo en exceso
     public function reponer(Request $request){ //id de la rendicion
@@ -250,25 +425,12 @@ class RendicionGastosController extends Controller
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
             $rendicion-> resumenDeActividad = $request->resumen;
             $rendicion-> fechaRendicion = Carbon::now();
-            $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Momentaneo');
-
+            $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Creada');
+            
             $rendicion-> save();    
             
             $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
-            if($rendicion->saldoAFavorDeEmpleado > 0 ){ //cedepas debe depositarle al empleado, estado 1
-                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Rendida a Favor');
-
-            }else{ //el empleado debe depositar a cedepas, estado 2. Se adjunta comprobante de transferencia
-                
-                
-
-                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Rendida a Favor');
-            }
-
-            $rendicion-> save(); //para guardar la terminacion y el estado
             
-
-
             $vec[] = '';
             
             $i = 0;
@@ -341,6 +503,125 @@ class RendicionGastosController extends Controller
 
     }
 
+
+    public function update( Request $request){
+        try {
+           
+            DB::beginTransaction();   
+            $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
+            $rendicion = RendicionGastos::findOrFail($request->codRendicion);
+            $rendicion-> totalImporteRendido = $request->totalRendido;
+            $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
+            $rendicion-> resumenDeActividad = $request->resumen;
+
+            //si estaba observada, pasa a subsanada
+            if($rendicion->verificarEstado('Observada'))
+                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Subsanada');
+            else
+                $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Creada');
+            
+            $rendicion-> save();    
+            
+           
+            $vec[] = '';
+            Debug::mensajeSimple('HASTA EL UNO ');
+            $i = 0;
+            $cantidadFilas = $request->cantElementos;
+            //RECORREMOS CADA FILA DE LA TABLA DEL FORMULARIO
+            while ($i< $cantidadFilas ) 
+            {
+                Debug::mensajeSimple('HASTA EL UNO y medio ');
+                //Si es nuevo el detalle, que lo guarde, sino que ni lo toque
+                if( str_contains($request->get('nombreImg'.$i),'RF-CDP') ){ 
+                    //ya existe (no se modificó nada en este item)
+                    Debug::mensajeSimple('HASTA EL UNO Y TRES CUARTOS');
+
+                }else
+                {
+                    Debug::mensajeSimple('HASTA EL UNO Y SIETE CUARTOS');
+                    /*Ahora hay 2 casos, 
+                     1. Este es un nuevo detalle creado de 0                ( request->codDetRend[$i] será 0 )
+                     2. Este detalle ya existía pero se le cambió la imagen ( !=0)
+                    */
+                    if($request->get('codDetRend'.$i) == '0'){ //NUEVO
+                        Debug::mensajeSimple('HASTA EL DOS ');
+                        $detalle=new DetalleRendicionGastos();
+                        $detalle->codRendicionGastos=          $rendicion->codRendicionGastos ;//ultimo insertad
+                        
+                        $fechaDet = $request->get('colFecha'.$i);
+                        //DAMOS VUELTA A LA FECHA  pq formato requerido por sql 2021-02-11   formato dado por mi calnedar 12/02/2020
+                                                        // AÑO                  MES                 DIA
+                        $detalle->fecha=                 substr($fechaDet,6,2).substr($fechaDet,3,2).substr($fechaDet,0,2);
+                        $detalle->setTipoCDPPorNombre( $request->get('colTipo'.$i) );
+                        $detalle->nroComprobante=        $request->get('colComprobante'.$i);
+                        $detalle->concepto=              $request->get('colConcepto'.$i);
+                        $detalle->importe=               $request->get('colImporte'.$i);    
+                        $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
+                        $detalle->nroEnRendicion = $i+1;
+                    }else{ //YA EXISTE Y SE LE CAMBIÓ EL ARCHIVO 
+                        Debug::mensajeSimple('HASTA EL TRES ');
+                        $detalle = DetalleRendicionGastos::findOrFail( $request->get('codDetRend'.$i)  );
+                        //ahora debemos sobreescribir el archivo que ya tiene
+                        $detalle->nroEnRendicion = $request->get('nroEnRendicion'.$i);   
+                    }
+                    
+                    //              Ahora almacenamos el archivo 
+                    Debug::mensajeSimple('HASTA EL CUATRO ');
+                    // PARA SACAR LA TERMINACIONDEL ARCHIVO
+                    $nombreImagen = $request->get('nombreImg'.$i);  //sacamos el nombre completo
+                    $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
+                    $terminacion = end( $vec); //ultimo elemento del vector
+                    
+                    $detalle->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
+
+                    Debug::mensajeSimple('HASTA EL CINCO');
+                    //               CDP-   000002                           -   5   .  jpg
+                    $nombreImagen = 'RendGast-CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                    $archivo =  $request->file('imagen'.$i);
+                    $fileget = \File::get( $archivo );
+                    Debug::mensajeSimple('HASTA EL SEIS');
+                    Storage::disk('comprobantes')
+                    ->put(
+                        $nombreImagen
+                            ,
+                            $fileget );
+                
+                    $vec[$i] = $detalle;
+                    $detalle->save();
+                    Debug::mensajeSimple('HASTA EL SIETE');
+                    
+
+                } //fin if
+                $i=$i+1;
+            }//fin while
+            
+            DB::commit();  
+            return redirect()
+                ->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Se ha Editado la rendicion N°'.$rendicion->codigoCedepas);
+        }catch(\Throwable $th){
+
+            error_log('\\n ---------------------- RENDICION GASTOS CONTROLLER STORE 
+            Ocurrió el error:'.$th.'
+            
+            
+            ' );
+
+            DB::rollback();
+            return redirect()
+                ->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Ha ocurrido un error.');
+        }
+
+        
+
+    }
+
+
+    
+
+
+
     function rellernarCerosIzq($numero, $nDigitos){
        return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
 
@@ -350,7 +631,7 @@ class RendicionGastosController extends Controller
     //se le pasa el codigo del detalle rendicion
     function descargarCDPDetalle($id ){
         $rend = DetalleRendicionGastos::findOrFail($id);
-        $nombreArchivo = 'RF-CDP-'.
+        $nombreArchivo = 'RendGast-CDP-'.
             $this->rellernarCerosIzq( $rend->codRendicionGastos,6 )
             .'-'.
             $this->rellernarCerosIzq($rend->nroEnRendicion,2).'.'.$rend->terminacionArchivo;
@@ -538,6 +819,20 @@ class RendicionGastosController extends Controller
         }
     }
 
+    
+    //funcion servicio, será consumida solo por javascript
+    public function listarDetalles($idRendicion){
+        $vector = [];
+        $listaDetalles = DetalleRendicionGastos::where('codRendicionGastos','=',$idRendicion)->get();
+        for ($i=0; $i < count($listaDetalles) ; $i++) { 
+            
+            $itemDet = $listaDetalles[$i];
+            $itemDet['nombreTipoCDP'] = $itemDet->getNombreTipoCDP(); //tengo que pasarlo aqui pq en el javascript no hay manera de calcularlo, de todas maneras no lo usaré como Modelo (objeto)
+            $itemDet['nombreImagen'] = 'RendGast-CDP-'.$this->rellernarCerosIzq($itemDet->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$itemDet->terminacionArchivo;
+            array_push($vector,$itemDet);            
+        }
+        return $vector  ;
+    }
 
     public function descargarPDF($codRendicion){
         $rendicion = RendicionGastos::findOrFail($codRendicion);

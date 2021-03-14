@@ -439,7 +439,7 @@
             var idname= 'imagen'+index; 
             var filename = $('#imagen'+index).val().split('\\').pop();
             console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
+            //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
             document.getElementById("divFile"+index).innerHTML= filename;
             $('#nombreImg'+index).val(filename);
         

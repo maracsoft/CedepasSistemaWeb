@@ -6,20 +6,19 @@
 
 @section('contenido')
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Editar Rendición de Gastos</p>
 
 
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('rendicionGastos.update')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
+    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $solicitud->getEmpleadoSolicitante()->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
-    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$empleadoLogeado->codEmpleado}}">
+    <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
     
     @csrf
     <div class="container" >
@@ -35,7 +34,7 @@
                                                
                                 <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
+                                        value="{{$rendicion->fechaRendicion}}" >     
                                 </div>
                            
                       </div>
@@ -46,80 +45,37 @@
 
                       </div>
                       <div class="col"> {{-- input de proyecto --}}
-                        <select class="form-control"  id="codProyecto" name="codProyecto" >
-                            <option value="-1">Seleccionar</option>
-                            @foreach($proyectos as $itemproyecto)
-                                <option value="{{$itemproyecto->codProyecto}}" >
-                                    {{$itemproyecto->nombre}}
-                                </option>                                 
-                            @endforeach 
-                        </select>   
+                          <input readonly type="text" class="form-control" name="proyecto" id="proyecto" value="{{$rendicion->getSolicitud()->getNombreProyecto()}}">    
+        
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="fecha">Evaluador</label>
+                            <label for="fecha">Colaborador</label>
 
                       </div>
                       <div class="col">
-                        <select class="form-control"  id="codEmpleadoEvaluador" name="codEmpleadoEvaluador" >
-                            <option value="-1">Seleccionar</option>
-                            @foreach($empleadosEvaluadores as $itemevaluador)
-                                <option value="{{$itemevaluador->codEmpleado}}" >
-                                    {{$itemevaluador->apellidos}}, {{$itemevaluador->nombres}}
-                                </option>                                 
-                            @endforeach 
-                        </select> 
+                            <input  readonly type="text" class="form-control" name="colaboradorNombre" 
+                                id="colaboradorNombre" value="{{$rendicion->getSolicitud()->getEmpleadoSolicitante()->getNombreCompleto()}}">    
+
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="fecha">Moneda</label>
+                            <label for="fecha">Cod Colaborador</label>
 
                       </div>
 
                       <div class="col">
-                        <select class="form-control"  id="codMoneda" name="codMoneda" >
-                            <option value="-1">Seleccionar</option>
-                            @foreach($monedas as $itemmoneda)
-                                <option value="{{$itemmoneda->codMoneda}}" >
-                                    {{$itemmoneda->nombre}}
-                                </option>                                 
-                            @endforeach 
-                        </select>
+                            <input readonly  type="text" class="form-control" 
+                                name="codColaborador" id="codColaborador" value="{{$rendicion->getSolicitud()->getEmpleadoSolicitante()->getNombreCompleto()}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="fecha">CuentaBancaria</label>
+                            <label for="fecha">Importe Recibido</label>
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="">    
-                      </div>
-
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Orden de </label>
-
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="">    
-                      </div>
-
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Banco</label>
-
-                      </div>
-
-                      <div class="col">
-                        <select class="form-control"  id="codBanco" name="codBanco" >
-                            <option value="-1">Seleccionar</option>
-                            @foreach($bancos as $itembanco)
-                                <option value="{{$itembanco->codBanco}}" >
-                                    {{$itembanco->nombreBanco}}
-                                </option>                                 
-                            @endforeach 
-                        </select>
+                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido"value="{{number_format($solicitud->totalSolicitado,2)}}">    
                       </div>
                       
                       
@@ -143,19 +99,19 @@
                     <div class="row">
                         <div class="col">
                             <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;">{{$rendicion->resumenDeActividad}}</textarea>
             
                         </div>
                     </div>
 
                     <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
-                        <!--
+
                         <div class="row">
                           <div  class="col">
                                 <label for="fecha">Cod Rendicion</label>
                           </div>
                           <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
+                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
                           </div>
 
 
@@ -164,12 +120,11 @@
                                 <label for="codSolicitud">Codigo Solicitud de Fondos</label>
                           </div>
                           <div class="col">
-                                <input value="" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                                <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                           </div>
 
 
                         </div>
-                        -->
                     </div>
 
                 </div>
@@ -198,6 +153,7 @@
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead >
+                        <th></th>
                         <th class="text-center">
                                                      
                                 <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
@@ -261,8 +217,9 @@
                         <th  class="text-center">
                             <div >
                                 <button type="button" id="btnadddet" name="btnadddet" 
-                                    class="btn btn-success btn-sm" onclick="agregarDetalle()" >
-                                    <i class="fas fa-plus"></i>Agregar
+                                    class="btn btn-success" onclick="agregarDetalle()" >
+                                    <i class="fas fa-plus"></i>
+                                     Agregar
                                 </button>
                             </div>      
                         
@@ -272,6 +229,7 @@
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
+                        <th width="5%" class="text-center">#</th>                                        
                         <th width="10%" class="text-center">Fecha Cbte</th>                                        
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Cbte</th>
@@ -344,13 +302,12 @@
                     </div>   
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">
-                        <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
+                        <input type="hidden" name="cantElementos" id="cantElementos">                              
                         <input type="hidden" name="totalRendido" id="totalRendido">                              
                         <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
 
                     </div>   
-                    <!--
+                    
                     <div class="col-md-8">
                     </div>   
                     <div class="col">                        
@@ -359,7 +316,7 @@
 
                     <div class="col">
                                                     
-                        <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" value="">                              
+                        <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
                     </div>   
                     <div class="col-md-8">
                     </div>   
@@ -370,25 +327,13 @@
                         <input type="text" class="form-control text-right"  
                             name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
                     </div>   
-                    -->
+
                     <div class="w-100">
 
                     </div>
                     <div class="col-md-8"></div>
 
 
-
-                    {{-- <div class="col" id="divEnteroArchivo">            
-                      <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
-                              style="display: none" onchange="cambio('imagenEnvio')">  
-                                      <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
-                      <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
-                           <div id="divFileImagenEnvio" class="hovered">       
-                              Subir comprobante deposito.      
-                           <i class="fas fa-upload"></i>        
-                          </div>       
-                      </label>       
-                    </div>   --}}    
 
 
 
@@ -407,21 +352,16 @@
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
-                        Registrar
+                        Actualizar
                     </button>    
                    
-                    <a href="{{route('reposicionGastos.listar',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
                 </div>    
             </div>
         </div>
     </div>
 
 </form>
-
-<script> 
-    
-</script>
-
 @endsection
 
 {{-- ************************************************************************************************************* --}}
@@ -478,53 +418,70 @@
 
         if(index=='imagenEnvio'){//si es pal comprobante de envio
             
-            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
-            /* var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-             */
+           
         }
         else{ //para los CDP de la tabla
             var idname= 'imagen'+index; 
             var filename = $('#imagen'+index).val().split('\\').pop();
             console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename);
+            //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
             document.getElementById("divFile"+index).innerHTML= filename;
             $('#nombreImg'+index).val(filename);
-            
         
         }
     
     }
+    function hola(){
+            console.log('EL VALOR DE LA IMAGEN EN JAVASCRIPT ES:' +  $('#imagen0').val() )
 
+    }
 
 </script>
 
      <script>
         var cont=0;
         
-        //var IGV=0;
+        var IGV=0;
         var total=0;
         var detalleRend=[];
-        //var importes=[];
-        //var controlproducto=[];
-        //var totalSinIGV=0;
-        //var saldoFavEmpl=0;
+        var importes=[];
+        var controlproducto=[];
+        var totalSinIGV=0;
+        var saldoFavEmpl=0;
 
-                //GENERACION DE codigoCedepas
-                var d = new Date();
-                codEmp = $('#codigoCedepasEmpleado').val();
-                mes = (d.getMonth()+1.0).toString();
-                if(mes.length > 0) mes = '0' + mes;
-
-                year =  d.getFullYear().toString().substr(2,2)  ;
-                $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-                //alert($('#codigoCedepas').val());
     
-        
+        $(document).ready(function(){
+            cargarDetallesRendicion();
+    
+        });
+
+        function cargarDetallesRendicion(){
+
+            //console.log('aaaa ' + '/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}});
+            //obtenemos los detalles de una ruta GET 
+            $.get('/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}}, function(data)
+            {      
+                listaDetalles = data;
+                    for (let index = 0; index < listaDetalles.length; index++) {              
+                        detalleRend.push({
+                            codDetalleRendicion:    listaDetalles[index].codDetalleRendicion,
+                            nroEnRendicion:         listaDetalles[index].nroEnRendicion,
+                            fecha:                  listaDetalles[index].fecha,
+                            tipo:                   listaDetalles[index].nombreTipoCDP,
+                            ncbte:                  listaDetalles[index].nroComprobante,
+                            concepto:               listaDetalles[index].concepto,
+                            nombreImagen:           listaDetalles[index].nombreImagen,
+                            importe:                listaDetalles[index].importe,            
+                            codigoPresupuestal:     listaDetalles[index].codigoPresupuestal
+                        });        
+                    }
+                    actualizarTabla();                
+
+            });
+        }
+
+
+
 
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
@@ -534,47 +491,40 @@
         function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
             
-            if($('#codProyecto').val()==-1 ) msj='Debe seleccionar un proyecto';
-            if($('#codEmpleadoEvaluador').val()==-1 ) msj='Debe seleccionar un evaluador';
-            if($('#codMoneda').val()==-1 ) msj='Debe seleccionar un tipo de moneda';
-            if($('#numeroCuentaBanco').val()=='' ) msj='Ingrese una cuenta bancaria';
-            if($('#girarAOrdenDe').val()=='' ) msj='Debe ingresar el propietario';
-            if($('#codBanco').val()==-1 ) msj='Debe seleccionar un banco';
+            if($('#resumen').val()=='' )
+                msj='Debe ingresar el resumen';
+            
+            if( $('#cantElementos').val()<=0 )
+                msj='Debe ingresar Items';
 
-            if($('#resumen').val()=='' ) msj='Debe ingresar el resumen';
-            if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
+
+           
 
             //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
             for (let index = 0; index < detalleRend.length; index++) {
                 nombre = $('#nombreImg'+index).val();
-                if(nombre=='') msj='Debe subir el comprobante del Item N°'+index;
+                if(nombre=='' || nombre=='Subir Archivo')
+                    msj='Debe subir el comprobante del Item N°'+index;
+
             }
+
+            //si el saldo es a favor de cedepas, el empl debe adjuntar 
+                //el comprobante de deposito devolucion de los fondos sobrantes
             
-            if(msj!=''){
-                alert(msj);
+           /*  if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
+                msj='Tiene saldo a favor de Cedepas, debe adjuntar el comprobante de depósito con el monto sobrante.';
+            } */
+
+            if(msj!='')
+            {
+                alert(msj)
                 return false;
             }
+
             return true;
         }
 
-        
-        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi. Siempre tiene que empezar por una letra
-        
-        function cadAleatoria(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var abecedario = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            var charactersLength = characters.length;
-            var abecedarioLength = abecedario.length;
-            for ( var i = 0; i < length; i++ ) {
-                if(i==0)//primer caracter fijo letra
-                    result += abecedario.charAt(Math.floor(Math.random() * abecedarioLength));
-                else//los demas da igual que sean numeros
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-
-            }
-            return result;
-        }
+    
         
     
         /* Eliminar productos */
@@ -592,8 +542,18 @@
             actualizarTabla();
     
         }
+        
     
-    
+        function getNombreImagen(index){
+            string = detalleRend[index].nombreImagen;
+            //console.log('el nobmre de la imagen es:'+string);
+            if(string==undefined)
+                return "Subir Archivo"
+            return string;            
+        }
+
+
+
         function actualizarTabla(){
             //funcion para poner el contenido de detallesVenta en la tabla
             //tambien actualiza el total
@@ -609,14 +569,21 @@
             for (let item = 0; item < detalleRend.length; item++) {
                 element = detalleRend[item];
                 cont = item+1;
-
+    
                 total=total +parseFloat(element.importe); 
-
+    
                 //importes.push(importe);
                 //item = getUltimoIndex();
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
+
+
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly">'   +
+                            '            <input readonly type="text" name="codDetRend'+item+'"  id="codDetRend'+item+'"   value="'+element.codDetalleRendicion+'"    style="width:40px; font-size:8pt;"          >                     '+
+                            '       <input type="text" class="form-control" name="nroEnRendicion'+item+'" id="nroEnRendicion'+item+'" value="'+element.nroEnRendicion+'" readonly="readonly">'   +
+                            '    </td>               '+
+
+                            '    <td style="text-align:center;">               '+
+                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly" style="font-size:10pt;"  >'   +
                             '    </td>               '+
                             
                             '    <td style="text-align:center;">               '+
@@ -627,17 +594,17 @@
                             '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
                             '    </td>               '+
                             '    <td> '+
-
+ 
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             
                             '    <td>               '+
-                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"                '+
+                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"    value="'+element.ubicacionArchivo+'"            '+
                             '              style="display: none" onchange="cambio('+item+')">  '         +      
-                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'">                         '+
+                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'" value="'+getNombreImagen(item)+'">                         '+
                             '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
                             '           <div id="divFile'+item+'" class="hovered">               '+
-                            '              Subir Archivo               '+
+                                       getNombreImagen(item) +
                             '           <i class="fas fa-upload"></i>                '+
                             '          </div>               '+
                             '      </label>               '+
@@ -658,56 +625,52 @@
 
 
                             '</tr>                 ';
-
-
+    
+    
                 $('#detalles').append(fila); 
             }
 
             $('#total').val(number_format(total,2));
-            $('#cantElementos').val(cont);
-            /*
             $('#totalRendido').val(total); //el que se va a leer
             
 
             var totalGastado= parseFloat(total)    ;
-            var totalRecibido= parseFloat(1000); 
-            console.log(' total= '+total +'       tot2= ' +1000);
+            var totalRecibido= parseFloat( {{$solicitud->totalSolicitado}}  ); 
+            //console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
 
             saldoFavEmpl = (totalGastado)-(totalRecibido);
             
 
             
             
-            console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
+            //console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
         
             
-            
+            $('#cantElementos').val(cont);
             
 
 
             if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
                 $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-            
-                document.getElementById("divEnteroArchivo").style.display="none";
-            
+           
+              
 
                 document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
             }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
                 $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-                document.getElementById("divEnteroArchivo").style.display="block";
-            
+               
                 document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
             }
 
             //alert('se termino de actualizar la tabla con cont='+cont);
-            */
         }
     
     
     
     
-        function agregarDetalle(){
+        function agregarDetalle()
+        {
 
 
             // VALIDAMOS
@@ -725,22 +688,22 @@
                 return false;
             }
             ncbte= $("#ncbte").val();   
-                
+             
             if (ncbte=='') 
             {
                 alert("Por favor ingrese el numero del comprobante del gasto.");    
                 return false;
             }
-                
+             
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
                 alert("Por favor ingrese el concepto");    
                 return false;
             }    
-                
+              
             
-
+    
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
@@ -748,14 +711,14 @@
                 return false;
             }    
             
-
+    
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
                 alert("Por favor ingrese el codigo presupuestal");    
                 return false;
             }    
-
+    
             if (importe==0)
             {
                 alert("Por favor ingrese precio de venta del producto");    
@@ -763,13 +726,18 @@
             }  
             
             // FIN DE VALIDACIONES
+    
+                item = cont+1;   
 
-                //item = cont+1;   
+                maximo = calcularNroEnRendicionMayor()+1;
                 detalleRend.push({
+                    codDetalleRendicion: 0,
+                    nroEnRendicion: maximo,
                     fecha:fecha,
                     tipo:tipo,
                     ncbte,ncbte,
                     concepto:concepto,
+                    ubicacionArchivo: '',
                     importe:importe,            
                     codigoPresupuestal:codigoPresupuestal
                 });        
@@ -785,41 +753,50 @@
             $('#importe').val('');
             $('#codigoPresupuestal').val('');
             
+    }
+    
+    /* No importa que se escriba sobre un numero de archivo que ya existió pq solo se usarán los que estén activos (las imagenes se sobreescriben xd) */
+    function calcularNroEnRendicionMayor(){
+        mayor = 0;
+        for (let index = 0; index < detalleRend.length; index++) {
+            if(mayor < detalleRend[index].nroEnRendicion)
+                mayor = detalleRend[index].nroEnRendicion;
         }
-    /*
+        return mayor;
+    }
+
     function limpiar(){
         $("#cantidad").val(0);
         //$("#precio").val(0);
         $("#producto_id").val(0);
     }
-    */
     
-        /* Mostrar Mensajes de Error */
-        function mostrarMensajeError(mensaje){
-            $(".alert").css('display', 'block');
-            $(".alert").removeClass("hidden");
-            $(".alert").addClass("alert-danger");
-            $(".alert").html("<button type='button' class='close' data-close='alert'>×</button>"+
-                                "<span><b>Error!</b> " + mensaje + ".</span>");
-            $('.alert').delay(5000).hide(400);
-        }
+    /* Mostrar Mensajes de Error */
+    function mostrarMensajeError(mensaje){
+        $(".alert").css('display', 'block');
+        $(".alert").removeClass("hidden");
+        $(".alert").addClass("alert-danger");
+        $(".alert").html("<button type='button' class='close' data-close='alert'>×</button>"+
+                            "<span><b>Error!</b> " + mensaje + ".</span>");
+        $('.alert').delay(5000).hide(400);
+    }
     
     
-        function number_format(amount, decimals) {
-            amount += ''; // por si pasan un numero en vez de un string
-            amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-            decimals = decimals || 0; // por si la variable no fue fue pasada
-            // si no es un numero o es igual a cero retorno el mismo cero
-            if (isNaN(amount) || amount === 0) 
-                return parseFloat(0).toFixed(decimals);
-            // si es mayor o menor que cero retorno el valor formateado como numero
-            amount = '' + amount.toFixed(decimals);
-            var amount_parts = amount.split('.'),
-                regexp = /(\d+)(\d{3})/;
-            while (regexp.test(amount_parts[0]))
-                amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-            return amount_parts.join('.');
-        }
+    function number_format(amount, decimals) {
+        amount += ''; // por si pasan un numero en vez de un string
+        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+        decimals = decimals || 0; // por si la variable no fue fue pasada
+        // si no es un numero o es igual a cero retorno el mismo cero
+        if (isNaN(amount) || amount === 0) 
+            return parseFloat(0).toFixed(decimals);
+        // si es mayor o menor que cero retorno el valor formateado como numero
+        amount = '' + amount.toFixed(decimals);
+        var amount_parts = amount.split('.'),
+            regexp = /(\d+)(\d{3})/;
+        while (regexp.test(amount_parts[0]))
+            amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+        return amount_parts.join('.');
+    }
     
     
     </script>

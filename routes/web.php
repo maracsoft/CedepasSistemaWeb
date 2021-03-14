@@ -28,6 +28,9 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
+Route::get('/listarDetallesDeRendicion/{id}','RendicionGastosController@listarDetalles');
+
+
 
 Route::get('/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
@@ -117,6 +120,20 @@ Route::get('/verRendicion/admin/{id}', 'RendicionGastosController@verAdmin')->na
 
 Route::get('/verRendicion/gerente/{id}', 'RendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
 
+Route::get('/rendiciones/editar/{idRend}','RendicionGastosController@editar')->name('rendicionGastos.editar');
+
+Route::Post('/rendiciones/update/','RendicionGastosController@update')->name('rendicionGastos.update');
+
+
+Route::get('/rendiciones/revisar/{id}','RendicionGastosController@revisar')->name('rendicionGastos.revisar');
+Route::get('/rendiciones/aprobar/{id}','RendicionGastosController@aprobar')->name('rendicionGastos.aprobar');
+Route::get('/rendiciones/rechazar/{id}','RendicionGastosController@rechazar')->name('rendicionGastos.rechazar');
+Route::get('/rendiciones/observar/{string}','RendicionGastosController@observar')->name('rendicionGastos.observar');
+
+
+//RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
+Route::get('/rendiciones/listar','RendicionGastosController@listarRendiciones')->name('rendicionGastos.listarRendiciones');
+
 
 Route::get('/verReponer/{id}', 'RendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
 Route::post('/rendicion/reponer/','RendicionGastosController@reponer')
@@ -137,8 +154,6 @@ Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionGastosController@desc
 Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
 
 
-// PARA REPONER LAS REPOSICIONES DE LOS EMPLEADOS QUE GASTARON MAS DE LO QUE RECIBIERON
-
 
 Route::get('/rendicion/listarJefeAdmin/','RendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
 Route::get('/rendicion/listarGerente/','RendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
@@ -147,6 +162,8 @@ Route::get('/rendicion/listarEmpleado/','RendicionGastosController@listarEmplead
 
 Route::get('/rendicion/descargarPDF/{id}','RendicionGastosController@descargarPDF')->name('rendicionGastos.descargarPDF');
 Route::get('/rendicion/verPDF/{id}','RendicionGastosController@verPDF')->name('rendicionGastos.verPDF');
+
+
 
 /* ----------------------------------------------        MODULO FELIX           ------------------------------------------ */
 
@@ -392,6 +409,8 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
 Route::get('/Emp/Reposiciones/listar/{id}','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
 
 Route::get('/Emp/Reposiciones/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
+Route::post('/Emp/Reposiciones/store','ReposicionGastosController@store')->name('reposicionGastos.store');
+
 /*
 
 
@@ -404,3 +423,11 @@ Route::get('/editarEmpleado/{id}','EmpleadoController@editarEmpleado');
 Route::post('/editarEmpleado/save','EmpleadoController@guardarEditarEmpleado');
 
 Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');*/
+
+
+
+
+/* MODULO PROYECTOS  */
+
+Route::get('/asignarGerentes','ProyectoController@listarProyectosYGerentes')
+    ->name('proyecto.asignarGerentes');
