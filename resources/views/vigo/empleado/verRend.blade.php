@@ -120,6 +120,22 @@
                             <div class="col">
                                     <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                             </div>
+
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+
+                            <div  class="colLabel">
+                                    <label for="ComboBoxSede">Estado de <br> la Solicitud
+                                        @if($rend->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                            </div>
+                            <div class="col"> {{-- Combo box de estado --}}
+                                <input readonly type="text" class="form-control" name="sede" id="sede"
+                                style="background-color: {{$rend->getColorEstado()}} ;
+                                    color:{{$rend->getColorLetrasEstado()}};   
+                                "
+                                readonly value="{{$rend->getNombreEstado()}}@if($rend->verificarEstado('Observada')): {{$rend->observacion}}@endif"  >           
+                            </div>
+
+
                         </div>
 
                         
@@ -157,7 +173,7 @@
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
                         <th width="13%" class="text-center">Fecha</th>                                        
                         <th width="13%">Tipo CDP</th>
-                        <th width="13%">Comprobante</th>                                 
+                              
                         <th width="10%"> N° Cbte</th>
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
@@ -180,12 +196,7 @@
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->getNombreTipoCDP()  }}
                                 </td>               
-                                <td style="text-align: center">
-                                    <a href="{{route('rendicion.descargarCDPDetalle',$itemDetalle->codDetalleRendicion)}}" 
-                                        class='btn btn-primary'>
-                                        <i class="fas fa-download"></i>
-                                    </a>   
-                                </td>
+                                
                             
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->nroComprobante  }}
@@ -215,78 +226,97 @@
                 </table>
             </div> 
                 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total Rendido/Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">Total Recibido: </label>    
-                    </div>   
-
+                <div class="row" id="divTotal" name="divTotal">    
                     <div class="col">
-                       
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $rend->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('rendiciones.descargarCDP',$rend->codRendicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav> 
 
-                            @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                Saldo a favor del Empl: 
-                            @else
-                                Saldo a favor de Cedepas: 
-                            @endif
-                            
-                        </label>    
-                    </div>   
-                    <div class="col">
-                     
-                        <input type="text" class="form-control text-right" name="total" id="total" 
-                        readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
-                    </div>   
-                    
 
-                    <div class="col-md-8 text-center">  
+
                         <div id="guardar">
                             <div class="form-group">
-                                <a href="{{route('solicitudFondos.listarEmp')}}" 
+                                <a href="{{route('rendicionGastos.listarRendiciones')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú
                                 </a>    
-                                           
+                                        
                             </div>    
+                        </div>
+                     
+
+                    </div>
+                    
+                    <div class="col">
+                        <div class="row">
+                              
+                            <div class="col">                        
+                                <label for="">Total Rendido/Gastado: </label>    
+                            </div>   
+                            <div class="col">
+                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                                <input type="hidden" name="cantElementos" id="cantElementos">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
+                            </div>   
+
+                            <div class="w-100"></div>
+                           
+                            <div class="col">                        
+                                <label for="">Total Recibido: </label>    
+                            </div>   
+                            <div class="col">
+                            
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
+                            </div>   
+                            <div class="w-100"></div>  
+                            <div class="col">                        
+                                <label for="">
+
+                                    @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                                        Saldo a favor del Empl: 
+                                    @else
+                                        Saldo a favor de Cedepas: 
+                                    @endif
+                                    
+                                </label>    
+                            </div>   
+                            <div class="col">
+                            
+                                <input type="text" class="form-control text-right" name="total" id="total" 
+                                readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
+                            </div>   
+                            <div class="w-100"></div>
+
+                            
+
+
                         </div>
                     </div>
 
-                    @if($rend->estadoDeReposicion > 1) {{-- Si es 11 o es 2 --}}
                         
                     
-                    <div class="col">
-                        <a href="{{route('rendicion.descargarArchivoRendicion',$rend->codRendicionGastos)}}" 
-                            class='btn btn-primary'>
-                            <i class="fas fa-download"></i>
-
-                            @if($rend->codEstadoDeReposicion=='2')
-                                Descargar Comprobante de devolución
-                            @else
-                                Descargar Comprobante de reposición
-                            @endif
-                            
-                        </a>  
-
-                    </div>
-                    @endif
+                 
                 </div>
                     
 

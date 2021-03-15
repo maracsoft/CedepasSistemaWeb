@@ -142,7 +142,7 @@ Route::post('/rendicion/reponer/','RendicionGastosController@reponer')
 Route::get('/rendicion/verContabilizar/{id}','RendicionGastosController@verContabilizar')
         ->name('rendicionGastos.verContabilizar');   
 
-Route::get( '/rendicion/contabilizar/{id}','RendicionGastosController@contabilizar')
+Route::get( '/rendicion/contabilizar/{cad}','RendicionGastosController@contabilizar')
 ->name('rendicionGastos.contabilizar');   
 
 Route::post('/reportes/ver', 'RendicionGastosController@reportes')->name('rendicionGastos.reportes');
@@ -152,7 +152,8 @@ Route::get('/reportes/descargar/{str}', 'RendicionGastosController@descargarRepo
     ->name('rendicionGastos.descargarReportes');
 
 
-Route::get('/rendicion/descargarCDPDetalle/{id}','RendicionGastosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
+Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descargarCDP')->name('rendiciones.descargarCDP');
+
 
 
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado

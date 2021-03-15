@@ -107,21 +107,42 @@
                     <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                         <div class="row">
-                          <div  class="col">
-                                <label for="fecha">Cod Rendicion</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
-                          </div>
+                            <div  class="col">
+                                    <label for="fecha">Cod Rendicion</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
+                            </div>
 
 
-                          <div class="w-100"></div> {{-- SALTO LINEA --}}
-                          <div  class="col">
-                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-                          </div>
-                          <div class="col">
-                                <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                          </div>
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+                            <div  class="col">
+                                    <label for="codSolicitud">Codigo Solicitud de Fondos</label>
+                            </div>
+                            <div class="col">
+                                    <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                            </div>
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+
+                            <div  class="col">
+                                    <label for="ComboBoxSede">Estado de <br> la Solicitud
+                                        @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                            </div>
+                            <div class="col"> {{-- Combo box de estado --}}
+                                <input readonly type="text" class="form-control" name="sede" id="sede"
+                                style="background-color: {{$rendicion->getColorEstado()}} ;
+                                    color:{{$rendicion->getColorLetrasEstado()}};   
+                                "
+                                readonly value="{{$rendicion->getNombreEstado()}}@if($rendicion->verificarEstado('Observada')): {{$rendicion->observacion}}@endif"  >           
+                            </div>
+
+
+
+
+
+
+
+
 
 
                         </div>
@@ -285,57 +306,95 @@
               
 
                 <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="hidden" name="totalRendido" id="totalRendido">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                    <div class="col">
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $rendicion->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('rendiciones.descargarCDP',$rendicion->codRendicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rendicion->codRendicionGastos,$i,$rendicion->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav>  
+                    </div>
 
-                    </div>   
-                    
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">Total Recibido: </label>    
-                    </div>   
 
                     <div class="col">
-                                                    
-                        <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label id="labelAFavorDe" for="">Saldo a favor del Empl: </label>    
-                    </div>   
-                    <div class="col">                     
-                        <input type="text" class="form-control text-right"  
-                            name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
-                    </div>   
+                        <div class="row">
+                          
+                            <div class="col">                        
+                                <label for="">Total Gastado: </label>    
+                            </div>   
+                            <div class="col">
+                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                                <input type="hidden" name="cantElementos" id="cantElementos">                              
+                                <input type="hidden" name="totalRendido" id="totalRendido">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
 
-                    <div class="w-100">
+                            </div>   
+                            
+                            <div class="w-100"></div>
 
+                            <div class="col">                        
+                                <label for="">Total Recibido: </label>    
+                            </div>   
+                            <div class="col">                       
+                                <input type="text" class="form-control text-right" name="totalRecibido" 
+                                    id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
+                            </div>   
+
+                            <div class="w-100"></div>  
+
+                            <div class="col">                        
+                                <label id="labelAFavorDe" for="">Saldo a favor del Empl: </label>    
+                            </div>   
+
+                            <div class="col">                     
+                                <input type="text" class="form-control text-right"  
+                                    name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
+                            </div>   
+
+                            <div class="w-100"></div>
+                            
+                            {{-- Este es para subir todos los archivos x.x  --}}
+                            <div class="col" id="divEnteroArchivo">            
+                                <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                                <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
+                                        style="display: none" onchange="cambio()">  
+                                                <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                                <label class="label" for="filenames" style="font-size: 12pt;">       
+                                    <div id="divFileImagenEnvio" class="hovered">       
+                                        Subir nuevos archivos comprobantes  
+                                    <i class="fas fa-upload"></i>        
+                                    </div>       
+                                </label>       
+                            </div>  
+
+                        </div>
                     </div>
-                    <div class="col-md-8"></div>
-
-                    {{-- Este es para subir todos los archivos x.x  --}}
-                    <div class="col" id="divEnteroArchivo">            
-                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
-                        <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
-                                style="display: none" onchange="cambio()">  
-                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
-                        <label class="label" for="filenames" style="font-size: 12pt;">       
-                             <div id="divFileImagenEnvio" class="hovered">       
-                                Subir nuevos archivos comprobantes  
-                             <i class="fas fa-upload"></i>        
-                            </div>       
-                        </label>       
-                    </div>  
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
 
 
 

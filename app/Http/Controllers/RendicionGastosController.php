@@ -68,7 +68,8 @@ class RendicionGastosController extends Controller
         
         //solo ver las que estan aprobadas (pa contabilizar)
         $listaRendiciones = RendicionGastos::
-            where('codEstadoRendicion','=',RendicionGastos::getCodEstado('Aprobada'))
+            where('codEstadoRendicion','=',RendicionGastos::getCodEstado('Aprobada') )
+            ->orwhere('codEstadoRendicion','=',RendicionGastos::getCodEstado('Contabilizada'))
             ->get();
         
         //ordena la coleccion ascendentemente
@@ -200,7 +201,33 @@ class RendicionGastosController extends Controller
         return view('vigo.contador.contabilizarRend',compact('rend','solicitud','empleado','detallesRend'));
     }
 
-    
+    public function contabilizar($cadena ){
+        
+        try {
+            DB::beginTransaction(); 
+            $vector = explode('*',$cadena);
+            $codRendicion = $vector[0];
+            $listaItems = explode(',',$vector[1]);
+
+            $rendicion = RendicionGastos::findOrFail($codRendicion);
+            $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
+            $rendicion->codEmpleadoContador = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $rendicion->save();
+            foreach ($listaItems as $item) {
+                $detGasto = DetalleRendicionGastos::findOrFail($item);
+                $detGasto->contabilizado = 1;
+                $detGasto->save();   
+            }
+            DB::commit();
+            return redirect()->route('rendicionGastos.listarContador')->with('datos','Se contabilizó correctamente la Rendicion '.$rendicion->codigoCedepas);
+        } catch (\Throwable $th) {
+            Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            DB::rollBack();
+            return redirect()->route('rendicionGastos.listarContador')->with('datos','Ha ocurrido un error');
+        }
+
+
+    }
 
 
 
@@ -253,7 +280,7 @@ class RendicionGastosController extends Controller
 
             $rendicion->save();
             DB::commit();
-            return redirect()->route('rendicionGastos.listarSolicitudes')
+            return redirect()->route('rendicionGastos.listarRendiciones')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Rechazada');
 
         } catch (\Throwable $th) {
@@ -707,13 +734,18 @@ class RendicionGastosController extends Controller
     }
 
 
-    //se le pasa el codigo del detalle rendicion
-    function descargarCDPDetalle($id ){
-        $rend = DetalleRendicionGastos::findOrFail($id);
-        $nombreArchivo = $this::raizArchivo.
-            $this->rellernarCerosIzq( $rend->codRendicionGastos,6 )
-            .'-'.
-            $this->rellernarCerosIzq($rend->nroEnRendicion,2).'.'.$rend->terminacionArchivo;
+    //se le pasa el INDEX del archivo 
+    function descargarCDP($cadena){
+        
+        $vector = explode('*',$cadena);
+        $codRend = $vector[0];
+        $i = $vector[1];
+        
+        $rend = RendicionGastos::findOrFail($codRend);
+        $nombreArchivo = RendicionGastos::getFormatoNombreCDP(
+                $rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)
+        );
+ 
         return Storage::download("/comprobantes/rendiciones/".$nombreArchivo);
 
     }

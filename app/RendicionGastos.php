@@ -49,6 +49,18 @@ class RendicionGastos extends Model
                 $terminacion;
     }
 
+    //retorna vector de strings 
+    public function getVectorTerminaciones(){
+        return explode('/',$this->terminacionesArchivos);
+    }
+
+    //la primera es la 1 OJO
+    public function getTerminacionNro($index){
+        $vector = explode('/',$this->terminacionesArchivos);
+        return $vector[$index-1];
+
+    }
+
     public static function rellernarCerosIzq($numero, $nDigitos){
         return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
  
@@ -181,7 +193,7 @@ class RendicionGastos extends Model
                 $color = 'white';
                 break;
             case $this::getCodEstado('Subsanada'):
-                $color ='black';
+                $color ='white';
                 break;
             case $this::getCodEstado('Rechazada'):
                 $color ='white';

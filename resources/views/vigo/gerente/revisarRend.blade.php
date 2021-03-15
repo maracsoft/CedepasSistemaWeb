@@ -122,6 +122,17 @@
                             <div class="col">
                                     <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                             </div>
+
+
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+                            <div class="col"> 
+                        {{--  --}}
+
+                              
+                                {{--  --}}
+
+                            </div>
+
                         </div>
 
                         
@@ -136,18 +147,6 @@
         </div>
       </div>
     
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
 
         {{-- LISTADO DE DETALLES  --}}
         <div class="col-md-12 pt-3">     
@@ -212,88 +211,125 @@
                 </table>
             </div> 
                 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total Rendido/Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">Total Recibido: </label>    
-                    </div>   
-
-                    <div class="col">
-                       
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">
-
-                            @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                Saldo a favor del Empl: 
-                            @else
-                                Saldo a favor de Cedepas: 
-                            @endif
-                            
-                        </label>    
-                    </div>   
-                    <div class="col">
-                        <input type="text" class="form-control text-right" name="total" id="total" 
-                        readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
-                    </div>   
-                    
-                    
-                    <div class="w-100"></div>
-                    <div class="col"></div>   
-                    <div class="col"></div>   
-
-                    
-                     
-                    @if($rend->verificarEstado('Creada') || $rend->verificarEstado('Subsanada') )
-
-                    @csrf     
-                      <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
-                    
-                          <div class="col">
-                              <label for="">Observación:</label>
-                              <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
-                         
-                              <button type="button" onclick="observarRendicion()"
-                                  class='btn btn-danger'   style="float:right;">
-                                  <i class="fas fa-eye-slash"></i>
-                                  Observar
-                              </button> 
-                              <br>
-                          </div>    
                       
-               
-                      <div class="col">
-                          <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
-                              class='btn btn-danger'  style="float:right;">
-                              <i class='fas fa-ban'></i>
-                              Rechazar
-                          </a>    
-                      </div>
-              
-                      <div class="col">
-                          <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
-                              class='btn btn-success'  style="float:right;">
-                              <i class="fas fa-check"></i>
-                              Aprobar
-                          </a>    
-                      </div>
-              
-              
-                    @endif
+          
+
+                <div class="row" id="divTotal" name="divTotal">                       
+                    <div class="col">
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $rend->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('rendiciones.descargarCDP',$rend->codRendicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav>  
+
+
+
+
+                    </div>   
+
+                    <div class="col" >
+                        <div class="row">
+                            
+                            <div class="col">                        
+                                <label for="">Total Rendido/Gastado: </label>    
+                            </div>   
+                            <div class="col">
+                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                                <input type="hidden" name="cantElementos" id="cantElementos">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
+                            </div>   
+
+
+
+                            <div class="w-100"></div>
+                            <div class="col">                        
+                                <label for="">Total Recibido: </label>    
+                            </div>   
+
+                            <div class="col">
+                            
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
+                            </div>   
+                            <div class="w-100"></div>
+                            <div class="col">                        
+                                <label for="">
+
+                                    @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                                        Saldo a favor del Empl: 
+                                    @else
+                                        Saldo a favor de Cedepas: 
+                                    @endif
+                                    
+                                </label>    
+                            </div>   
+                            <div class="col">
+                                <input type="text" class="form-control text-right" name="total" id="total" 
+                                readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
+                            </div>   
+                            
+                            
+                            <div class="w-100"></div>
+                    
+                            
+                            
+                            @if($rend->verificarEstado('Creada') || $rend->verificarEstado('Subsanada') )
+
+                            @csrf     
+                            <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
+                            
+                                <div class="col">
+                                    <label for="">Observación:</label>
+                                    <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
+                                
+                                    <button type="button" onclick="observarRendicion()"
+                                        class='btn btn-danger'   style="float:right;">
+                                        <i class="fas fa-eye-slash"></i>
+                                        Observar
+                                    </button> 
+                                    <br>
+                                </div>    
+                            
+                    
+                            <div class="col">
+                                <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
+                                    class='btn btn-danger'  style="float:right;">
+                                    <i class='fas fa-ban'></i>
+                                    Rechazars
+                                </a>    
+                            </div>
+                    
+                            <div class="col">
+                                <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
+                                    class='btn btn-success'  style="float:right;">
+                                    <i class="fas fa-check"></i>
+                                    Aprobar
+                                </a>    
+                            </div>
+                    
+                    
+                            @endif
+                        </div>
+                    </div>
+
+
 
                 </div>
                     
