@@ -193,15 +193,7 @@
                             </div>
 
                         </th>
-                        <th>
-                            <div style="font-size: 10pt; ">
-                                Se deben subir los archivos al final.
-
-
-
-                            </div>
-                           
-                        </th>
+              
                         <th class="text-center">
                             <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
@@ -234,9 +226,7 @@
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Cbte</th>
                         <th width="25%" class="text-center">Concepto </th>
-                        <th width="10%">
-                            Archivo
-                        </th>
+                    
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
                         
@@ -333,7 +323,19 @@
                     </div>
                     <div class="col-md-8"></div>
 
-
+                    {{-- Este es para subir todos los archivos x.x  --}}
+                    <div class="col" id="divEnteroArchivo">            
+                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
+                                style="display: none" onchange="cambio()">  
+                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                        <label class="label" for="filenames" style="font-size: 12pt;">       
+                             <div id="divFileImagenEnvio" class="hovered">       
+                                Subir nuevos archivos comprobantes  
+                             <i class="fas fa-upload"></i>        
+                            </div>       
+                        </label>       
+                    </div>  
 
 
 
@@ -413,32 +415,11 @@
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
-
-    function cambio(index){
-
-        if(index=='imagenEnvio'){//si es pal comprobante de envio
-            
-           
-        }
-        else{ //para los CDP de la tabla
-            var idname= 'imagen'+index; 
-            var filename = $('#imagen'+index).val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
-            document.getElementById("divFile"+index).innerHTML= filename;
-            $('#nombreImg'+index).val(filename);
-        
-        }
+   
     
-    }
-    function hola(){
-            console.log('EL VALOR DE LA IMAGEN EN JAVASCRIPT ES:' +  $('#imagen0').val() )
+    
+    
 
-    }
-
-</script>
-
-     <script>
         var cont=0;
         
         var IGV=0;
@@ -455,6 +436,22 @@
     
         });
 
+        var listaArchivos = '';  
+        function cambio(){
+            cantidadArchivos = document.getElementById('filenames').files.length;
+            console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
+            for (let index = 0; index < cantidadArchivos; index++) {
+                nombreAr = document.getElementById('filenames').files[index].name;
+                console.log('Archivo ' + index + ': '+ nombreAr);
+                listaArchivos = listaArchivos +', '+  nombreAr; 
+            }
+            listaArchivos = listaArchivos.slice(1, listaArchivos.length);
+            document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
+            
+            $('#nombresArchivos').val(listaArchivos);
+
+        }
+
         function cargarDetallesRendicion(){
 
             //console.log('aaaa ' + '/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}});
@@ -462,11 +459,14 @@
             $.get('/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}}, function(data)
             {      
                 listaDetalles = data;
-                    for (let index = 0; index < listaDetalles.length; index++) {              
+                    for (let index = 0; index < listaDetalles.length; index++) {     
+                        
+                        
+                        
                         detalleRend.push({
                             codDetalleRendicion:    listaDetalles[index].codDetalleRendicion,
                             nroEnRendicion:         listaDetalles[index].nroEnRendicion,
-                            fecha:                  listaDetalles[index].fecha,
+                            fecha:                  listaDetalles[index].fechaFormateada,
                             tipo:                   listaDetalles[index].nombreTipoCDP,
                             ncbte:                  listaDetalles[index].nroComprobante,
                             concepto:               listaDetalles[index].concepto,
@@ -499,21 +499,6 @@
 
 
            
-
-            //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
-            for (let index = 0; index < detalleRend.length; index++) {
-                nombre = $('#nombreImg'+index).val();
-                if(nombre=='' || nombre=='Subir Archivo')
-                    msj='Debe subir el comprobante del Item N°'+index;
-
-            }
-
-            //si el saldo es a favor de cedepas, el empl debe adjuntar 
-                //el comprobante de deposito devolucion de los fondos sobrantes
-            
-           /*  if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
-                msj='Tiene saldo a favor de Cedepas, debe adjuntar el comprobante de depósito con el monto sobrante.';
-            } */
 
             if(msj!='')
             {
@@ -578,7 +563,7 @@
 
 
                             '    <td style="text-align:center;">               '+
-                            '            <input readonly type="text" name="codDetRend'+item+'"  id="codDetRend'+item+'"   value="'+element.codDetalleRendicion+'"    style="width:40px; font-size:8pt;"          >                     '+
+                            '                               '+
                             '       <input type="text" class="form-control" name="nroEnRendicion'+item+'" id="nroEnRendicion'+item+'" value="'+element.nroEnRendicion+'" readonly="readonly">'   +
                             '    </td>               '+
 
@@ -597,18 +582,7 @@
  
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
-                            
-                            '    <td>               '+
-                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"    value="'+element.ubicacionArchivo+'"            '+
-                            '              style="display: none" onchange="cambio('+item+')">  '         +      
-                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'" value="'+getNombreImagen(item)+'">                         '+
-                            '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
-                            '           <div id="divFile'+item+'" class="hovered">               '+
-                                       getNombreImagen(item) +
-                            '           <i class="fas fa-upload"></i>                '+
-                            '          </div>               '+
-                            '      </label>               '+
-                            '    </td>                  '+
+                           
 
                             '    <td  style="text-align:right;">               '+
                             '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +
@@ -731,13 +705,11 @@
                 
                 maximo = calcularNroEnRendicionMayor()+1;
                 detalleRend.push({
-                    codDetalleRendicion: 0,
                     nroEnRendicion: maximo,
                     fecha:fecha,
                     tipo:tipo,
                     ncbte,ncbte,
                     concepto:concepto,
-                    ubicacionArchivo: '',
                     importe:importe,            
                     codigoPresupuestal:codigoPresupuestal
                 });        
@@ -755,7 +727,6 @@
             
     }
     
-    /* No importa que se escriba sobre un numero de archivo que ya existió pq solo se usarán los que estén activos (las imagenes se sobreescriben xd) */
     function calcularNroEnRendicionMayor(){
         mayor = 0;
         for (let index = 0; index < detalleRend.length; index++) {

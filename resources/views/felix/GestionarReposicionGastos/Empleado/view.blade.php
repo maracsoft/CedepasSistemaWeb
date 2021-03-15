@@ -69,23 +69,7 @@
                       <div class="col">
                         <input type="text" class="form-control" name="codMoneda" id="codMoneda" value="{{$reposicion->getMoneda()->nombre}}" disabled>
                       </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">CuentaBancaria</label>
-
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}" disabled>  
-                      </div>
-
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Orden de </label>
-
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}" disabled>  
-                      </div>
+                      
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
@@ -123,7 +107,23 @@
                         </div>
                     </div>
 
-                    <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                    <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                      <div  class="col">
+                            <label for="fecha">CuentaBancaria</label>
+
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}" disabled>  
+                      </div>
+
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Girar a Orden de </label>
+
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}" disabled>  
+                      </div>
                     </div>
 
                 </div>

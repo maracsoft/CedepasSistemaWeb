@@ -13,9 +13,9 @@ class ReposicionGastos extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador',
+    protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdmin','codEmpleadoConta',
     'codProyecto','codMoneda',
-    'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','observacion'];
+    'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
 
     public function getNombreEstado(){ 
@@ -67,7 +67,7 @@ class ReposicionGastos extends Model
                 $color = 'white';
                 break;
             case 5:
-                $color ='black';
+                $color ='white';
                 break;
             case 6:
                 $color ='white';

@@ -6,11 +6,10 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Rendición de  Gastos</p>
+    <p class="h1" style="text-align: center">Contabilizar Rendición de  Gastos</p>
 </div>
 
-<form method = "POST" action = "{{route('rendicionGastos.reponer')}}"  enctype="multipart/form-data" >
-    
+
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
@@ -164,6 +163,7 @@
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
+                        <th width="10%" class="text-center">Contab</th>
                         
                         
                     </thead>
@@ -197,6 +197,9 @@
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->codigoPresupuestal  }}
                                 </td>               
+                                <td style="text-align:center;">               
+                                    <input type="checkbox" onclick="contabilizarItem({{$itemDetalle->codDetalleRendicion}})" >
+                                </td>               
                                             
                             </tr> 
                         @endforeach
@@ -212,6 +215,9 @@
                 </table>
             </div> 
                 
+                <input type="text" id="listaContabilizados" 
+                    name = "listaContabilizados" value="">
+
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col-md-8">
                     </div>   
@@ -258,40 +264,37 @@
 
                     
                      
-                    @if($rend->verificarEstado('Creada') || $rend->verificarEstado('Subsanada') )
-
+                    @if($rend->verificarEstado('Aprobada') )
                     @csrf     
                       <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
                     
-                          <div class="col">
-                              <label for="">Observación:</label>
-                              <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
-                         
-                              <button type="button" onclick="observarRendicion()"
-                                  class='btn btn-danger'   style="float:right;">
-                                  <i class="fas fa-eye-slash"></i>
-                                  Observar
-                              </button> 
-                              <br>
-                          </div>    
-                      
-               
-                      <div class="col">
-                          <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
-                              class='btn btn-danger'  style="float:right;">
-                              <i class='fas fa-ban'></i>
-                              Rechazar
-                          </a>    
-                      </div>
-              
-                      <div class="col">
-                          <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
-                              class='btn btn-success'  style="float:right;">
-                              <i class="fas fa-check"></i>
-                              Aprobar
-                          </a>    
-                      </div>
-              
+                        <div class="col">
+                            <label for="">Observación:</label>
+                            <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
+                        
+                            <button type="button" onclick="observarRendicion()"
+                                class='btn btn-danger'   style="float:right;">
+                                <i class="fas fa-eye-slash"></i>
+                                Observar
+                            </button> 
+                            <br>
+                        </div>    
+                        <div class="col">
+                            <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
+                                class='btn btn-danger'  style="float:right;">
+                                <i class='fas fa-ban'></i>
+                                Rechazar
+                            </a>    
+                        </div>
+                
+                        <div class="col">
+                            <button type="button" onclick="guardarContabilizar()"
+                                class='btn btn-success'  style="float:right;">
+                                <i class="fas fa-check"></i>
+                                Guardar como Contabilizado
+                            </button>    
+                        </div>
+                
               
                     @endif
 
@@ -315,7 +318,7 @@
         </div>
     </div>
 
-</form>
+
 @endsection
 
 {{-- ************************************************************************************************************* --}}
@@ -355,9 +358,20 @@
         background-color:rgb(97, 170, 170);
     }
 
-
-</style>
-
+    input[type='checkbox'] {
+        /* -webkit-appearance:none; */
+        width:25px;
+        height:25px;
+        background:white;
+        border-radius:15px;
+        border:2px solid #555;
+    }
+    input[type='checkbox']:checked {
+        background: #abd;
+    }
+    
+    
+    </style>
 
 @section('script')
        
@@ -383,7 +397,32 @@
     
         });
     
-        
+        var listaItems = [];
+
+        function contabilizarItem(item){
+            
+            if( listaItems.indexOf(item)==-1  )
+            { //no lo tiene 
+                listaItems.push(item);
+            }
+            else 
+            { //ya lo tiene, lo quitamos
+                let pos = listaItems.indexOf(item);
+                listaItems.splice(pos,1);
+                
+            }
+           
+            $('#listaContabilizados').val(listaItems);
+
+        }
+
+
+        function guardarContabilizar (){
+            codRendicion = {{$rend->codRendicionGastos}};
+            location.href = '/SolicitudFondos/contabilizar/'+ codRendicion +'*' +listaItems;
+        }
+
+
         function observarRendicion(){
             textoObs = $('#observacion').val();
             codigoSolicitud = {{$rend->codRendicionGastos}};

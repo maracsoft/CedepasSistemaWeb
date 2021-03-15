@@ -88,24 +88,9 @@
                             @endforeach 
                         </select>
                       </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">CuentaBancaria</label>
+                      
 
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="">    
-                      </div>
-
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Orden de </label>
-
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="">    
-                      </div>
-
+                      
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
                             <label for="fecha">Banco</label>
@@ -149,7 +134,24 @@
                         </div>
                     </div>
 
-                    <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                    <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+
+                      <div  class="col">
+                            <label for="fecha">CuentaBancaria</label>
+
+                      </div>
+                      <div class="col">
+                            <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="">    
+                      </div>
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Girar a Orden de </label>
+
+                      </div>
+                      <div class="col">
+                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="">    
+                      </div>
+
                         <!--
                         <div class="row">
                           <div  class="col">

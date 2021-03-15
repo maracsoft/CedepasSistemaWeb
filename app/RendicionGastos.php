@@ -4,11 +4,13 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Storage;
 class RendicionGastos extends Model
 {
     protected $table = "rendicion_gastos";
     protected $primaryKey ="codRendicionGastos";
+
+    const raizArchivo = "RendGast-CDP-";
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
@@ -16,12 +18,42 @@ class RendicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codSolicitud','codigoCedepas','totalImporteRecibido',
     'totalImporteRendido','saldoAFavorDeEmpleado',
-    'resumenDeActividad','estadoDeReposicion','fechaRendicion'];
+    'resumenDeActividad','codEstadoRendicion','fechaRendicion','cantArchivos','terminacionesArchivos'];
 
 
 
+    public function borrarArchivosCDP(){ //borra todos los archivos que sean de esa rendicion
+        
+        $vectorTerminaciones = explode('/',$this->terminacionesArchivos);
+        Debug::mensajeSimple('El vectorTerminaciones es' .implode(',',$vectorTerminaciones));
+        
+        for ($i=1; $i <=  $this->cantArchivos; $i++) { 
+            $nombre = $this::raizArchivo.
+                        $this->rellernarCerosIzq($this->codRendicionGastos,6).
+                        '-'.
+                        $this->rellernarCerosIzq($i,2).
+                        '.'.
+                        $vectorTerminaciones[$i-1];
+            Storage::disk('rendiciones')->delete($nombre);
+        }
+    }
 
 
+    //               RendGast-CDP-   000002                           -   5   .  jpg
+    public static function getFormatoNombreCDP($codRendicionGastos,$i,$terminacion){
+        return  RendicionGastos::raizArchivo.
+                RendicionGastos::rellernarCerosIzq($codRendicionGastos,6).
+                '-'.
+                RendicionGastos::rellernarCerosIzq($i,2).
+                '.'.
+                $terminacion;
+    }
+
+    public static function rellernarCerosIzq($numero, $nDigitos){
+        return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
+ 
+     }
+    
 
     public function getPDF(){
         $listaItems = DetalleRendicionGastos::where('codRendicionGastos','=',$this->codRendicionGastos)->get();
@@ -50,8 +82,10 @@ class RendicionGastos extends Model
         if(count($lista)==0)
             return false;
         
+        
         $estado = $lista[0];
-        if($estado->codEstado == $this->codEstadoSolicitud)
+        
+        if($estado->codEstadoRendicion == $this->codEstadoRendicion)
             return true;
         
         return false;

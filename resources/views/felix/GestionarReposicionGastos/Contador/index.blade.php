@@ -20,11 +20,11 @@
   </style>
   
 <div>
-  <h3>Verificaciones de Gerente</h3>
+  <h3>Contabilizar Reposiciones</h3>
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre gerente:</label>
+        <label for="">Nombre de Contador:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
@@ -75,7 +75,9 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Codigo</th>
-                <th scope="col">Fecha emision</th>
+                <th scope="col">Fecha Emision</th>
+                <th scope="col">Fecha Gerente</th>
+                <th scope="col">Fecha Administracion</th>
                 <th scope="col">Banco</th>
                 <th scope="col">Empleado Solicitante</th>
                 <th scope="col">Proyecto</th>
@@ -97,6 +99,8 @@
             <tr>
               <td>{{$itemreposicion->codigoCedepas  }}</td>
                 <td>{{$itemreposicion->fechaEmision  }}</td>
+                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente}}</td>
+                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionAdmin}}</td>
                 <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
                 <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
                 <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
@@ -109,15 +113,13 @@
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
                   ">
                 </td>
-                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
+                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionConta==null ? 'No revisado':$itemreposicion->fechaHoraRevisionConta}}</td>
                 <td>
-                  @if($itemreposicion->codEstadoReposicion==1)
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
+                  @if($itemreposicion->codEstadoReposicion==3)
+                  <a href="{{route('reposicionGastos.viewConta',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
                   @else
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  <a href="{{route('reposicionGastos.viewConta',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
                   @endif
-                  
-                  
                   
                 </td>
 
@@ -126,7 +128,6 @@
       </tbody>
     </table>
     {{$reposiciones->links()}}
-
 </div>
 @endsection
 

@@ -20,7 +20,7 @@
   </style>
   
 <div>
-  <h3> Mis Rendiciones de Gastos </h3>
+  <h3> Mis Reposiciones de Gastos </h3>
   <div class="container">
     <div class="row">
       <div class="colLabel">
@@ -100,15 +100,17 @@
               </td>
                 <td>       
 
-                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Ver</a>
-                    
+                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
+                  <a href="" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Editar</a>
+                  @endif  
                 </td>
 
             </tr>
         @endforeach
       </tbody>
     </table>
-
+    {{$reposiciones->links()}}
 
     <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary btn-sm btn-icon icon-left" style="margin-left:610px;"><i class="entypo-pencil"></i>CREAR</a>  
 </div>

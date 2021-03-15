@@ -193,7 +193,6 @@
 
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col-md-8">
-                        
                     </div>   
                     <div class="col-md-2">                        
                         <label for="">Total Gastado: </label>    
@@ -207,25 +206,17 @@
                         <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
 
                     </div>   
-
                 </div>
                 <br>
                 <div class="row">
-                    @if($reposicion->codEstadoReposicion==1)
+                    @if($reposicion->codEstadoReposicion==3)
                     <div class="col-md-9">
-                        <label for="fecha">Observaciones</label>
-                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.actualizar',$reposicion->codReposicionGastos.'*2')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
-                        <a href="{{route('reposicionGastos.actualizar',$reposicion->codReposicionGastos.'*7')}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
-                    </div>    
+                        <a href="{{route('reposicionGastos.actualizarConta',$reposicion->codReposicionGastos.'*4')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Contabilizar</a>
+                    </div>
                     @endif
-                    
                 </div>
-                
-                    
 
                 
         </div> 
@@ -233,7 +224,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.verificar',$empleadoLogeado->codEmpleado)}}" class='btn btn-info'>Regresar</a>              
+                    <a href="{{route('reposicionGastos.verificarConta',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'>Regresar</a>              
                 </div>    
             </div>
         </div>
@@ -296,18 +287,16 @@
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
-
     function observar(){
         texto=$('#observacion').val();
         if(texto!=''){
             reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Geren/Reposiciones/observar/'+reposicion+'*'+texto;  
+            window.location.href='/Jefe/Reposiciones/observar/'+reposicion+'*'+texto;  
         }
         else{ 
             alert('Ingrese observacion');
         }
     }
-
     function cambio(index){
 
         if(index=='imagenEnvio'){//si es pal comprobante de envio

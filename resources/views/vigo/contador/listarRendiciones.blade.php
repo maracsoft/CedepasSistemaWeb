@@ -20,11 +20,11 @@
   </style>
   
 <div>
-  <h3>Verificaciones de Gerente</h3>
+  <h3> Rendiciones de Gastos a Contabilizar </h3>
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre gerente:</label>
+        <label for="">Nombre Jefe:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
@@ -37,28 +37,22 @@
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
       </div>
-      <!--
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 
       <div class="colLabel">
-        <label for="">Proyecto:</label>
+        <label for="">Nombre proyecto:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="" readonly>
       </div>
-      -->
+      <div class="w-100"></div> {{-- SALTO LINEA --}} 
+
 
       
     </div>
   </div>
-
-
-
-
-
-
-
-    
+  
+  
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
       @if (session('datos'))
@@ -74,58 +68,64 @@
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo</th>
-                <th scope="col">Fecha emision</th>
-                <th scope="col">Banco</th>
-                <th scope="col">Empleado Solicitante</th>
-                <th scope="col">Proyecto</th>
-                <th scope="col">Total Solicitado</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Fecha Revision</th>
-                
-
-                <th scope="col">Opciones</th>
+                <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
+                <th width="6%"  scope="col">Fecha Rendicion</th>
+                <th width="4%"  scope="col">Sede</th>
+                <th width="6%"  scope="col">Empleado </th>
+                <th width="25%"  scope="col">Proyecto</th>              
+                <th width="4%"  scope="col">Total Recibido</th>
+                <th width="4%"  scope="col">Total Gastado</th>
+                <th width="4%"  scope="col">Saldo</th>
+                <th width="15%"  scope="col">Estado</th>
+                <th width="5%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
       <tbody>
 
         {{--     varQuePasamos  nuevoNombre                        --}}
-        @foreach($reposiciones as $itemreposicion)
+        @foreach($listaRendiciones as $itemRendicion)
 
       
             <tr>
-              <td>{{$itemreposicion->codigoCedepas  }}</td>
-                <td>{{$itemreposicion->fechaEmision  }}</td>
-                <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-                <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
-                <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
-                <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
-                <td style="text-align: center">
-                  <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
-                  style="background-color: {{$itemreposicion->getColorEstado()}};
-                          width:95%;
-                          text-align:center;
-                          color: {{$itemreposicion->getColorLetrasEstado()}} ;
-                  ">
-                </td>
-                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
-                <td>
-                  @if($itemreposicion->codEstadoReposicion==1)
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
-                  @else
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
-                  @endif
-                  
-                  
-                  
+              <td>{{$itemRendicion->codigoCedepas  }}</td>
+              <td>{{$itemRendicion->fechaRendicion  }}</td>
+              <td>{{$itemRendicion->getNombreSede()  }}</td>
+              <td>{{$itemRendicion->getNombreSolicitante()  }}</td>
+              <td>{{$itemRendicion->getNombreProyecto()  }}</td>
+              <td>{{$itemRendicion->totalImporteRecibido  }}</td>
+              <td>{{$itemRendicion->totalImporteRendido  }}</td>
+              <td>{{$itemRendicion->saldoAFavorDeEmpleado  }}</td>
+              
+        
+              <td style="text-align: center">
+                
+                <input type="text" value="{{$itemRendicion->getNombreEstado()}}" class="form-control" readonly 
+                style="background-color: {{$itemRendicion->getColorEstado()}};
+                        width:95%;
+                        text-align:center;
+                        color: {{$itemRendicion->getColorLetrasEstado()}} ;
+                ">
+              </td>
+                <td>        
+                      
+                        @if($itemRendicion->verificarEstado('Aprobada') )
+                          <a href="{{route('rendicionGastos.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
+                            class='btn btn-success'  style="float:right;">
+                            Contabilizar
+                          </a>    
+                        @endif
+
+
+                    
                 </td>
 
             </tr>
         @endforeach
       </tbody>
     </table>
-    {{$reposiciones->links()}}
+
+
 
 </div>
 @endsection

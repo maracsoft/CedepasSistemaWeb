@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ReposicionGastosController extends Controller
 {
+    const PAGINATION = '20';
+
     function rellernarCerosIzq($numero, $nDigitos){
         return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
     }
@@ -24,7 +26,7 @@ class ReposicionGastosController extends Controller
     public function listarOfEmpleado($id){
         $empleado=Empleado::findOrFail($id);
         $arr=[1,3,5,6,7];
-        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->get();
+        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->paginate($this::PAGINATION);
         //$reposiciones=$empleado->reposicion();
         return view('felix.GestionarReposicionGastos.Empleado.index',compact('reposiciones','empleado'));
     }
@@ -132,7 +134,7 @@ class ReposicionGastosController extends Controller
         foreach ($proyectos as $itemproyecto) {
             $arr[]=$itemproyecto->codProyecto;
         }
-        $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr)->get();
+        $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr)->paginate($this::PAGINATION);
         return view('felix.GestionarReposicionGastos.Gerente.index',compact('reposiciones','empleado'));
     }
     public function viewGeren($id){
@@ -160,11 +162,27 @@ class ReposicionGastosController extends Controller
         $reposicion->save();
         return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
     }
+    public function observarGeren($id){
+        date_default_timezone_set('America/Lima');
+        $arr = explode('*', $id);
+        $reposicion=ReposicionGastos::find($arr[0]);
+        $reposicion->codEstadoReposicion=5;
+        $reposicion->observacion=$arr[1];
+        $reposicion->fechaHoraRevisionGerente=new DateTime();
+        $reposicion->save();
+        return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+    }
     /**JEFE DE ADMINISTRACION */
     public function listarOfJefe(){
         $empleado=Empleado::getEmpleadoLogeado();
+       
+        $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
+        $arr2=[];
+        foreach ($empleados as $itemempleado) {
+            $arr2[]=$itemempleado->codEmpleado;
+        }
         $arr=[2,3,5,6,7];
-        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->get();
+        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codEmpleadoSolicitante',$arr2)->paginate($this::PAGINATION);
         return view('felix.GestionarReposicionGastos.Jefe.index',compact('reposiciones','empleado'));
     }
     public function viewJefe($id){
@@ -188,9 +206,51 @@ class ReposicionGastosController extends Controller
         $arr = explode('*', $id);
         $reposicion=ReposicionGastos::find($arr[0]);
         $reposicion->codEstadoReposicion=$arr[1];
+        $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
         $reposicion->fechaHoraRevisionAdmin=new DateTime();
         $reposicion->save();
         return redirect()->route('reposicionGastos.verificarJefe');
+    }
+    public function observarJefe($id){
+        date_default_timezone_set('America/Lima');
+        $arr = explode('*', $id);
+        $reposicion=ReposicionGastos::find($arr[0]);
+        $reposicion->codEstadoReposicion=5;
+        $reposicion->observacion=$arr[1];
+        $reposicion->fechaHoraRevisionAdmin=new DateTime();
+        $reposicion->save();
+        return redirect()->route('reposicionGastos.verificarJefe',$reposicion->codEmpleadoEvaluador);
+    }
+    /**CONTADOR */
+    public function listarOfConta(){
+        $empleado=Empleado::getEmpleadoLogeado();
+       
+        $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
+        $arr2=[];
+        foreach ($empleados as $itemempleado) {
+            $arr2[]=$itemempleado->codEmpleado;
+        }
+        $arr=[3,4];
+        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codEmpleadoSolicitante',$arr2)->paginate($this::PAGINATION);
+        return view('felix.GestionarReposicionGastos.Contador.index',compact('reposiciones','empleado'));
+    }
+    public function viewConta($id){
+        $reposicion=ReposicionGastos::find($id);
+        $detalles=$reposicion->detalles();
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+
+        return view('felix.GestionarReposicionGastos.Contador.view',compact('reposicion','empleadoLogeado','detalles'));
+    }
+    public function actualizarEstadoConta($id){
+        date_default_timezone_set('America/Lima');
+        $arr = explode('*', $id);
+        $reposicion=ReposicionGastos::find($arr[0]);
+        $reposicion->codEstadoReposicion=$arr[1];
+        $reposicion->codEmpleadoConta=Empleado::getEmpleadoLogeado()->codEmpleado;
+        $reposicion->fechaHoraRevisionConta=new DateTime();
+        $reposicion->save();
+        return redirect()->route('reposicionGastos.verificarConta');
     }
 }
 

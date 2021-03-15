@@ -108,7 +108,7 @@
                 ">
               </td>
                 <td>        
-
+                      
                         @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
                           <a href="{{route('rendicionGastos.revisar',$itemRendicion->codRendicionGastos)}}" 
                             class='btn btn-success'  style="float:right;">

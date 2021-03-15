@@ -113,10 +113,10 @@
                 </td>
                 <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionAdmin==null ? 'No revisado':$itemreposicion->fechaHoraRevisionAdmin}}</td>
                 <td>
+                  @if($itemreposicion->codEstadoReposicion==2)
+                  <a href="{{route('reposicionGastos.viewJefe',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
+                  @else
                   <a href="{{route('reposicionGastos.viewJefe',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
-                  @if($itemreposicion->codEstadoReposicion!=3 && $itemreposicion->codEstadoReposicion!=7)
-                  <a href="{{route('reposicionGastos.actualizarJefe',$itemreposicion->codReposicionGastos.'*3')}}" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Abonada</a>
-                  <a href="{{route('reposicionGastos.actualizarJefe',$itemreposicion->codReposicionGastos.'*7')}}" class="btn btn-danger btn-sm"><i class="entypo-pencil"></i>Rechazar</a>  
                   @endif
                   
                 </td>
@@ -125,6 +125,7 @@
         @endforeach
       </tbody>
     </table>
+    {{$reposiciones->links()}}
 
 </div>
 @endsection

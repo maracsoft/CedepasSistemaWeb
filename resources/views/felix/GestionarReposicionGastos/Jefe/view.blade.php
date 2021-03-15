@@ -19,6 +19,7 @@
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
     <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$reposicion->codEmpleadoSolicitante}}">
+    <input type="hidden" name="codReposicionGastos" id="codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
     
     @csrf
     <div class="container" >
@@ -69,23 +70,7 @@
                       <div class="col">
                         <input type="text" class="form-control" name="codMoneda" id="codMoneda" value="{{$reposicion->getMoneda()->nombre}}" disabled>
                       </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">CuentaBancaria</label>
-
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}" disabled>  
-                      </div>
-
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Orden de </label>
-
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}" disabled>  
-                      </div>
+                      
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
@@ -123,7 +108,23 @@
                         </div>
                     </div>
 
-                    <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                    <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                      <div  class="col">
+                            <label for="fecha">CuentaBancaria</label>
+
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}" disabled>  
+                      </div>
+
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Girar a Orden de </label>
+
+                      </div>
+                      <div class="col">
+                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}" disabled>  
+                      </div>
                     </div>
 
                 </div>
@@ -205,14 +206,21 @@
                         <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
 
                     </div>   
-
-                    <div class="w-100">
-
-                    </div>
-                    <div class="col-md-8"></div>
-
                 </div>
-                    
+                <br>
+                <div class="row">
+                    @if($reposicion->codEstadoReposicion==2)
+                    <div class="col-md-9">
+                        <label for="fecha">Observaciones</label>
+                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{route('reposicionGastos.actualizarJefe',$reposicion->codReposicionGastos.'*3')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Abonada</a>
+                        <a href="{{route('reposicionGastos.actualizarJefe',$reposicion->codReposicionGastos.'*7')}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
+                    </div>
+                    @endif
+                </div>
 
                 
         </div> 
@@ -283,7 +291,16 @@
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
-
+    function observar(){
+        texto=$('#observacion').val();
+        if(texto!=''){
+            reposicion=$('#codReposicionGastos').val();
+            window.location.href='/Jefe/Reposiciones/observar/'+reposicion+'*'+texto;  
+        }
+        else{ 
+            alert('Ingrese observacion');
+        }
+    }
     function cambio(index){
 
         if(index=='imagenEnvio'){//si es pal comprobante de envio

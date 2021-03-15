@@ -190,15 +190,7 @@
                             </div>
 
                         </th>
-                        <th>
-                            <div style="font-size: 10pt; ">
-                                Se deben subir los archivos al final.
-
-
-
-                            </div>
-                           
-                        </th>
+                       
                         <th class="text-center">
                             <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
@@ -230,9 +222,7 @@
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Comprob</th>
                         <th width="25%" class="text-center">Concepto </th>
-                        <th width="10%">
-                            Archivo
-                        </th>
+                        
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
                         
@@ -328,6 +318,24 @@
 
                     </div>
                     <div class="col-md-8"></div>
+
+
+
+                    {{-- Este es para subir todos los archivos x.x  --}}
+                    <div class="col" id="divEnteroArchivo">            
+                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
+                                style="display: none" onchange="cambio()">  
+                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                        <label class="label" for="filenames" style="font-size: 12pt;">       
+                             <div id="divFileImagenEnvio" class="hovered">       
+                                Subir archivos comprobantes  
+                             <i class="fas fa-upload"></i>        
+                            </div>       
+                        </label>       
+                    </div>    
+                    
+                    
 
 
                 </div>
@@ -426,24 +434,25 @@
     
         });
 
-
+        var listaArchivos = '';
             
         //se ejecuta cada vez que escogewmos un file
-        function cambio(index,archivo){
-                var idname= 'imagen'+index; 
-                var filename = $('#imagen'+index).val().split('\\').pop();
-                console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-                //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
-                document.getElementById("divFile"+index).innerHTML= filename;
-                $('#nombreImg'+index).val(filename);
+        function cambio(){
 
-                //agregamos el nombre del archivo
-                detalleRend[index].ubicacionArchivo = $('#imagen'+index).val();
-                detalleRend[index].nombreArchivo = filename;
                 
-                console.log('el archivo es:'+archivo);
+                cantidadArchivos = document.getElementById('filenames').files.length;
+                console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
+                for (let index = 0; index < cantidadArchivos; index++) {
+                    nombreAr = document.getElementById('filenames').files[index].name;
+                    console.log('Archivo ' + index + ': '+ nombreAr);
+                    listaArchivos = listaArchivos +', '+  nombreAr; 
+                }
+                listaArchivos = listaArchivos.slice(1, listaArchivos.length);
+                document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
+                $('#nombresArchivos').val(listaArchivos);
         }
 
+        
 
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
@@ -565,19 +574,6 @@
  
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
-                            
-                            '    <td>               '+
-                            '      <input type="file" multiple class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"             '+
-                            '              style="display: none" onchange="cambio('+item+',this.files)">  '         +      
-                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'"  value="'+getNombreImagen(item)+'" >                         '+
-                            '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
-                            '           <div id="divFile'+item+'" class="hovered">               '+
-                                        getNombreImagen(item) +
-                            '           <i class="fas fa-upload"></i>                '+
-                            '          </div>               '+
-                            '      </label>               '+
-                            '    </td>                  '+
-
                             '    <td  style="text-align:right;">               '+
                             '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +
                             '    </td>               '+
@@ -697,8 +693,6 @@
                     tipo:tipo,
                     ncbte,ncbte,
                     concepto:concepto,
-                    ubicacionArchivo: '',
-                    nombreArchivo: '',
                     importe:importe,            
                     codigoPresupuestal:codigoPresupuestal
                 });        

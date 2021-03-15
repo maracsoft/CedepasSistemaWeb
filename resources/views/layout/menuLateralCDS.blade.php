@@ -104,6 +104,41 @@
             </ul>
 
           </li>
+
+
+
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Contabilidad
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Solicitudes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('rendicionGastos.listarContador')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Rendiciones</p>
+                </a>
+              </li>
+              
+            
+            </ul>
+          </li>
+
+
+
+
+
+
         </ul>
 
 
@@ -227,6 +262,7 @@
               </li>
             </ul>
           </li>
+          
 
           
           <li class="nav-item has-treeview">
@@ -247,10 +283,24 @@
             </ul>
 
           </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Contador
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('reposicionGastos.verificarConta')}}" class="nav-link">
+                  <i class="far fa-address-card nav-icon"></i>
+                  <p>Contabilizar</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
-
-
-
       </li>
         
       <!-----------------------------------------------UNIDAD 2----------------------------------------------------------------->
