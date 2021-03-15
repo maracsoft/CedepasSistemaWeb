@@ -43,10 +43,36 @@ class ReposicionGastos extends Model
 
     }
 
+
+    /* Retorna el codigo del estado indicado por el str parametro */
+    public static function getCodEstado($nombreEstado){
+        $lista = EstadoReposicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return 'Nombre no valido';
+        
+        return $lista[0]->codEstadoReposicion;
+
+    }
     
     public function getNombreEstado(){ 
         $estado = EstadoReposicionGastos::findOrFail($this->codEstadoReposicion);
         return $estado->nombre;
+    }
+
+    /* Retorna TRUE or FALSE cuando le mandamos el nombre de un estado */
+    public function verificarEstado($nombreEstado){
+        $lista = EstadoReposicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return false;
+        
+        
+        $estado = $lista[0];
+        
+        if($estado->codEstadoReposicion == $this->codEstadoReposicion)
+            return true;
+        
+        return false;
+        
     }
 
     public function getColorEstado(){ //BACKGROUND

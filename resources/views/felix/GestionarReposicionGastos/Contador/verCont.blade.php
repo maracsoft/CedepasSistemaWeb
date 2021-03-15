@@ -161,7 +161,7 @@
                         </th>
                         <th width="11%" class="text-center">Importe </th>
                         <th width="11%" class="text-center">Cod Presup </th>                                         
-                        
+                        <th>Contabilizar</th>
                     </thead>
                     <tfoot>
 
@@ -179,6 +179,19 @@
                                 <td>{{$itemdetalle->importe}}</td>
                                 <?php $total+=$itemdetalle->importe;?>
                                 <td>{{$itemdetalle->codigoPresupuestal}}</td>
+                                <td style="text-align:center;">               
+                                    <input type="checkbox"  readonly
+                                    @if($reposicion->verificarEstado('Contabilizada')) {{-- Ya está contabilizada --}}
+                                        @if($itemdetalle->contabilizado=='1')
+                                            checked
+                                        @endif    
+                                        onclick="return false;"
+                                    @else {{-- Caso normal cuando se está contabilizando --}}
+                                        onclick="contabilizarItem({{$itemdetalle->codDetalleReposicion}})"
+                                    @endif
+                                    
+                                    >
+                                </td>    
                             </tr>
                         @endforeach
                     </tbody>
@@ -188,6 +201,8 @@
 
          
               
+            <input type="text" id="listaContabilizados" 
+            name = "listaContabilizados" value="">
 
                 <div class="row" id="divTotal" name="divTotal">     
                     <div class="col">
@@ -238,13 +253,11 @@
                             <div class="col">
                                 @if($reposicion->codEstadoReposicion==3)
                                
-                                <div class="col-md-3">
-                                    <a href="{{route('reposicionGastos.actualizarConta',$reposicion->codReposicionGastos.'*4')}}" 
-                                        class="btn btn-success">
-                                        <i class="entypo-pencil"></i>
+                                <button type="button" onclick="guardarContabilizar()"
+                                        class='btn btn-success'  style="float:right;">
+                                        <i class="fas fa-check"></i>
                                         Guardar como Contabilizado
-                                    </a>
-                                </div>
+                                    </button>    
                                 @endif
                             </div>
 
@@ -315,8 +328,20 @@
     }
     .hovered:hover{
     background-color:rgb(97, 170, 170);
+    
 }
 
+    input[type='checkbox'] {
+        /* -webkit-appearance:none; */
+        width:25px;
+        height:25px;
+        background:white;
+        border-radius:15px;
+        border:2px solid #555;
+    }
+    input[type='checkbox']:checked {
+        background: #abd;
+    }
 
     </style>
 
@@ -392,6 +417,29 @@
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
 
+        }
+
+        var listaItems = [];//para contabilizar
+        function contabilizarItem(item){
+            
+            if( listaItems.indexOf(item)==-1  )
+            { //no lo tiene 
+                listaItems.push(item);
+            }
+            else 
+            { //ya lo tiene, lo quitamos
+                let pos = listaItems.indexOf(item);
+                listaItems.splice(pos,1);
+                
+            }
+           
+            $('#listaContabilizados').val(listaItems);
+
+        }
+
+        function guardarContabilizar (){
+            codReposicion = {{$reposicion->codReposicionGastos}};
+            location.href = '/Conta/Reposiciones/contabilizar/'+ codReposicion +'*' +listaItems;
         }
 
         function cadAleatoria(length) {

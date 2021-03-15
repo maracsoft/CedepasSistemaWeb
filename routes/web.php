@@ -433,7 +433,7 @@ Route::get('/Jefe/Reposiciones/observar/{id}','ReposicionGastosController@observ
 Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')->name('reposicionGastos.viewJefe');
 
 Route::get('/Conta/Reposiciones/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.verificarConta');
-Route::get('/Conta/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoConta')->name('reposicionGastos.actualizarConta');
+Route::get('/Conta/Reposiciones/contabilizar/{id}','ReposicionGastosController@contabilizar')->name('reposicionGastos.contabilizar');
 Route::get('/Conta/Reposiciones/view/{id}','ReposicionGastosController@viewConta')->name('reposicionGastos.viewConta');
 
 Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');

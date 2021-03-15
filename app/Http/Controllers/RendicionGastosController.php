@@ -513,7 +513,8 @@ class RendicionGastosController extends Controller
                 $detalle->concepto=              $request->get('colConcepto'.$i);
                 $detalle->importe=               $request->get('colImporte'.$i);    
                 $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
-                $detalle->nroEnRendicion = $i+1;          
+                $detalle->nroEnRendicion = $i+1;         
+                $detalle->save(); 
                 $i=$i+1;
             }    
             

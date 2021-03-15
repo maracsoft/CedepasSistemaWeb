@@ -191,6 +191,8 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Gerente.verGeren',compact('reposicion','empleadoLogeado','detalles'));
     }
+
+
     public function actualizarEstado($id){
         try{
             DB::beginTransaction();
@@ -203,11 +205,10 @@ class ReposicionGastosController extends Controller
             DB::commit();
             return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
         }catch(\Throwable $th){
-            //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            Debug::mensajeError('REPOSICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
             return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
         }
-        
     }
 
 
@@ -318,15 +319,41 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Contador.verCont',compact('reposicion','empleadoLogeado','detalles'));
     }
-    public function actualizarEstadoConta($id){
-        date_default_timezone_set('America/Lima');
-        $arr = explode('*', $id);
-        $reposicion=ReposicionGastos::find($arr[0]);
-        $reposicion->codEstadoReposicion=$arr[1];
-        $reposicion->codEmpleadoConta=Empleado::getEmpleadoLogeado()->codEmpleado;
-        $reposicion->fechaHoraRevisionConta=new DateTime();
-        $reposicion->save();
-        return redirect()->route('reposicionGastos.verificarConta');
+
+
+
+    public function contabilizar($cadena){
+        try {
+            DB::beginTransaction(); 
+            $vector = explode('*',$cadena);
+            $codReposicion = $vector[0];
+            $listaItems = explode(',',$vector[1]);
+
+            $reposicion = ReposicionGastos::findOrFail($codReposicion);
+            $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Contabilizada');
+            $reposicion->codEmpleadoConta = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->save();
+            foreach ($listaItems as $item) { //guardamos como contabilizados los items que nos llegaron
+                $detGasto = DetalleReposicionGastos::findOrFail($item);
+                $detGasto->contabilizado = 1;
+                $detGasto->save();   
+            }
+
+            DB::commit();
+            
+            return redirect()
+                ->route('reposicionGastos.verificarConta')
+                ->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
+        } catch (\Throwable $th) {
+            Debug::mensajeError('REPOSICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            DB::rollBack();
+            return redirect()->route('reposicionGastos.verificarConta')
+                ->with('datos','Ha ocurrido un error');
+        }
+
     }
+
+
+
 }
 

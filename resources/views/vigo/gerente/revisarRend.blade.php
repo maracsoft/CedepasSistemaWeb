@@ -307,14 +307,14 @@
                                     <br>
                                 </div>    
                             
-                    
-                            <div class="col">
+                            {{-- No se debería poder rechazar pq sino ya no se puede crear otra en base a esa solicitud xd --}}
+                            {{-- <div class="col">
                                 <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
                                     class='btn btn-danger'  style="float:right;">
                                     <i class='fas fa-ban'></i>
                                     Rechazars
                                 </a>    
-                            </div>
+                            </div> --}}
                     
                             <div class="col">
                                 <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
