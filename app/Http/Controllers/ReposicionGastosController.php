@@ -59,13 +59,21 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos','empleadosEvaluadores','monedas','bancos'));
     }
+
+
+    /*  
+    ALMACENAR LOS DATOS Y LOS ARCHIVOS DE DETALLES QUE ESTAN SUBIENDO
+    CADA ARCHIVO ES UNA FOTO DE UN CDP, pero están independientes xd o sea un archivo no está ligado necesariamente a un item de gasto 
+
+    https://www.itsolutionstuff.com/post/laravel-7-multiple-file-upload-tutorialexample.html
+    */
     public function store(Request $request){
         try{
             DB::beginTransaction(); 
             $reposicion=new ReposicionGastos();
             $reposicion->codEstadoReposicion=1;
             $reposicion->codEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->codEmpleado;
-            $reposicion->codEmpleadoEvaluador=Proyecto::find($request->codProyecto)->codEmpleadoDirector;
+            //$reposicion->codEmpleadoEvaluador=Proyecto::find($request->codProyecto)->codEmpleadoDirector;
             $reposicion->codProyecto=$request->codProyecto;
             $reposicion->codMoneda=$request->codMoneda;
      
@@ -80,13 +88,15 @@ class ReposicionGastosController extends Controller
             $reposicion->observacion=null;
     
             $reposicion->save();
-    
+            $codRepRecienInsertada = (ReposicionGastos::latest('codReposicionGastos')->first())->codReposicionGastos;
+            
             //creacion de detalles
             $vec[] = '';
                 
-                $i = 0;
-                $cantidadFilas = $request->cantElementos;
-                while ($i< $cantidadFilas ) {
+            $i = 0;
+            $cantidadFilas = $request->cantElementos;
+            while ($i< $cantidadFilas ) 
+            {
                     $detalle=new DetalleReposicionGastos();
                     $detalle->codReposicionGastos=$reposicion->codReposicionGastos ;//ultimo insertad
                     // formato requerido por sql 2021-02-11   
@@ -101,41 +111,59 @@ class ReposicionGastosController extends Controller
                     $detalle->importe=               $request->get('colImporte'.$i);    
                     $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
                     $detalle->nroEnReposicion = $i+1;
-                    
-                    
-                    
-                    //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
-                    $nombreImagen = $request->get('nombreImg'.$i);  //sacamos el nombre completo
-                    $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
-                    $terminacion = end( $vec); //ultimo elemento del vector
-                    
-                    $detalle->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
-    
-    
-                    //               CDP-   000002                           -   5   .  jpg
-                    $nombreImagen = 'RepGastos-CDP-'.$this->rellernarCerosIzq($detalle->codReposicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
-                    $archivo =  $request->file('imagen'.$i);
-                    $fileget = \File::get( $archivo );
-                    Storage::disk('comprobantes')
-                    ->put(
-                        $nombreImagen
-                            ,
-                            $fileget );
-                   
-                    $vec[$i] = $detalle;
-                    $detalle->save();
-                                       
+                    $detalle->save();  
                     $i=$i+1;
-                }
+            }
+
+
+            
+            Debug::mensajeSimple('LLEGO 1 ');
+            $nombresArchivos = explode(', ',$request->nombresArchivos);
+            $j=0;
+            $terminacionesArchivos='';
+            foreach ($request->file('filenames') as $archivo)
+            {   
+                Debug::mensajeSimple('LLEGO 2 ');
+                //separamos con puntos en un vector 
+                $vectorS = explode('.',$nombresArchivos[$j]);
+                $terminacion = end($vectorS); //ultimo elemento del vector
+                $terminacionesArchivos=$terminacionesArchivos.'/'.$terminacion;
+                Debug::mensajeSimple('LLEGO 3 ');
+                //               CDP-   000002                           -   5   .  jpg
+
+                $nombreImagen = ReposicionGastos::getFormatoNombreCDP($codRepRecienInsertada, $j+1,$terminacion);
+                Debug::mensajeSimple('el nombre de la imagen es:'.$nombreImagen);
+
+                $fileget = \File::get( $archivo );
+                Debug::mensajeSimple('LLEGO 4 ');
+                Storage::disk('reposiciones')
+                ->put($nombreImagen,$fileget );
+                $j++;
+            }
+
+            
+            $reposicion->cantArchivos = $j;
+            $terminacionesArchivos = trim($terminacionesArchivos,'/');
+            $reposicion->terminacionesArchivos=$terminacionesArchivos;
+
+            $reposicion->save();
+
             DB::commit();
             return redirect()->route('reposicionGastos.listar',$request->codEmpleado);
         }catch(\Throwable $th){
-            //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            
+            Debug::mensajeError('REPOSICION GASTOS CONTROLLER STORE', $th);
             DB::rollBack();
             return redirect()->route('reposicionGastos.listar',$request->codEmpleado);
         }
         
     }
+
+
+
+
+
+
     /**GERENTE DE PROYECTOS */
     public function listarOfGerente($id){
         $empleado=Empleado::findOrFail($id);
@@ -181,6 +209,27 @@ class ReposicionGastosController extends Controller
         }
         
     }
+
+
+    //se le pasa el INDEX del archivo 
+    function descargarCDP($cadena){
+        $vector = explode('*',$cadena);
+        $codRend = $vector[0];
+        $i = $vector[1];
+        $repo = ReposicionGastos::findOrFail($codRend);
+        $nombreArchivo = ReposicionGastos::getFormatoNombreCDP(
+                $repo->codReposicionGastos,$i,$repo->getTerminacionNro($i)
+        );
+        return Storage::download("/comprobantes/reposiciones/".$nombreArchivo);
+
+    }
+
+
+
+
+
+
+
     public function observarGeren($id){
         try{
             DB::beginTransaction();

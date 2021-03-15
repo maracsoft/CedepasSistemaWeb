@@ -7,11 +7,9 @@
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
-
-
-</div>
+    <div >
+        <p class="h1" style="text-align: center">Contabilizar Reposicion de Gastos</p>
+    </div>
 
 
 <form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
@@ -191,32 +189,70 @@
          
               
 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">
-                        <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
-                        <input type="hidden" name="totalRendido" id="totalRendido">
+                <div class="row" id="divTotal" name="divTotal">     
+                    <div class="col">
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos,$i,$reposicion->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav>  
 
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
+                    </div>
+                    
+                    <div class="col">
+                        <div class="row">
+                            
+                            <div class="col">                        
+                                <label for="">Total Gastado: </label>    
+                            </div>   
+                            <div class="col">
+                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                                <input type="hidden" name="cantElementos" id="cantElementos">
+                                <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
+                                <input type="hidden" name="totalRendido" id="totalRendido">
+        
+                                <input type="text" class="form-control text-right" 
+                                    name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
+        
+                            </div>   
+                            <div class="w-100"></div>
+                            <div class="col"></div>
+                            <div class="col">
+                                @if($reposicion->codEstadoReposicion==3)
+                               
+                                <div class="col-md-3">
+                                    <a href="{{route('reposicionGastos.actualizarConta',$reposicion->codReposicionGastos.'*4')}}" 
+                                        class="btn btn-success">
+                                        <i class="entypo-pencil"></i>
+                                        Guardar como Contabilizado
+                                    </a>
+                                </div>
+                                @endif
+                            </div>
 
-                    </div>   
-                </div>
-                <br>
-                <div class="row">
-                    @if($reposicion->codEstadoReposicion==3)
-                    <div class="col-md-9">
+
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.actualizarConta',$reposicion->codReposicionGastos.'*4')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Contabilizar</a>
-                    </div>
-                    @endif
-                </div>
+
+                    
 
                 
         </div> 
@@ -224,10 +260,14 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.verificarConta',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'>Regresar</a>              
+                    <a href="{{route('reposicionGastos.verificarConta',$empleadoLogeado->codEmpleado)}}" 
+                        class='btn btn-danger'>Regresar</a>              
                 </div>    
             </div>
         </div>
+
+
+
     </div>
 
 </form>

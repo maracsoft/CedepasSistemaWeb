@@ -240,15 +240,7 @@
                             </div>
 
                         </th>
-                        <th>
-                            <div style="font-size: 10pt; ">
-                                Se deben subir los archivos al final.
-
-
-
-                            </div>
-                           
-                        </th>
+                   
                         <th class="text-center">
                             <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
@@ -279,9 +271,7 @@
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Cbte</th>
                         <th width="25%" class="text-center">Concepto </th>
-                        <th width="10%">
-                            Archivo
-                        </th>
+                        
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
                         
@@ -381,17 +371,19 @@
 
 
 
-                    {{-- <div class="col" id="divEnteroArchivo">            
-                      <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
-                              style="display: none" onchange="cambio('imagenEnvio')">  
-                                      <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
-                      <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
-                           <div id="divFileImagenEnvio" class="hovered">       
-                              Subir comprobante deposito.      
-                           <i class="fas fa-upload"></i>        
-                          </div>       
-                      </label>       
-                    </div>   --}}    
+                    {{-- Este es para subir todos los archivos x.x  --}}
+                    <div class="col" id="divEnteroArchivo">            
+                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
+                                style="display: none" onchange="cambio()">  
+                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                        <label class="label" for="filenames" style="font-size: 12pt;">       
+                             <div id="divFileImagenEnvio" class="hovered">       
+                                Subir archivos comprobantes  
+                             <i class="fas fa-upload"></i>        
+                            </div>       
+                        </label>       
+                    </div>    
 
 
 
@@ -477,36 +469,7 @@
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
 
-    function cambio(index){
 
-        if(index=='imagenEnvio'){//si es pal comprobante de envio
-            
-            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
-            /* var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-             */
-        }
-        else{ //para los CDP de la tabla
-            var idname= 'imagen'+index; 
-            var filename = $('#imagen'+index).val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFile"+index).innerHTML= filename;
-            $('#nombreImg'+index).val(filename);
-            
-        
-        }
-    
-    }
-
-
-</script>
-
-     <script>
         var cont=0;
         
         //var IGV=0;
@@ -517,17 +480,36 @@
         //var totalSinIGV=0;
         //var saldoFavEmpl=0;
 
-                //GENERACION DE codigoCedepas
-                var d = new Date();
-                codEmp = $('#codigoCedepasEmpleado').val();
-                mes = (d.getMonth()+1.0).toString();
-                if(mes.length > 0) mes = '0' + mes;
 
-                year =  d.getFullYear().toString().substr(2,2)  ;
-                $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-                //alert($('#codigoCedepas').val());
-    
-        
+        $(document).ready(function(){
+            //GENERACION DE codigoCedepas
+            var d = new Date();
+            codEmp = $('#codigoCedepasEmpleado').val();
+            mes = (d.getMonth()+1.0).toString();
+            if(mes.length > 0) mes = '0' + mes;
+
+            year =  d.getFullYear().toString().substr(2,2)  ;
+            $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
+            //alert($('#codigoCedepas').val());
+
+        });
+        var listaArchivos = '';
+            
+        //se ejecuta cada vez que escogewmos un file
+        function cambio(){
+
+                
+                cantidadArchivos = document.getElementById('filenames').files.length;
+                console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
+                for (let index = 0; index < cantidadArchivos; index++) {
+                    nombreAr = document.getElementById('filenames').files[index].name;
+                    console.log('Archivo ' + index + ': '+ nombreAr);
+                    listaArchivos = listaArchivos +', '+  nombreAr; 
+                }
+                listaArchivos = listaArchivos.slice(1, listaArchivos.length);
+                document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
+                $('#nombresArchivos').val(listaArchivos);
+        }
 
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
@@ -634,17 +616,7 @@
                             '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
                             '    </td>               '+
                             
-                            '    <td>               '+
-                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"                '+
-                            '              style="display: none" onchange="cambio('+item+')">  '         +      
-                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'">                         '+
-                            '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
-                            '           <div id="divFile'+item+'" class="hovered">               '+
-                            '              Subir Archivo               '+
-                            '           <i class="fas fa-upload"></i>                '+
-                            '          </div>               '+
-                            '      </label>               '+
-                            '    </td>                  '+
+                          
 
                             '    <td  style="text-align:right;">               '+
                             '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +

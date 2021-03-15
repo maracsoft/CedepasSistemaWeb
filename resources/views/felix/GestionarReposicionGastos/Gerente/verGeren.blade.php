@@ -8,7 +8,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Evaluar Reposicion de Gastos</p>
 
 
 </div>
@@ -191,10 +191,45 @@
          
               
 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                        
-                    </div>   
+                <div class="row" id="divTotal" name="divTotal">      
+                    <div class="col"> 
+
+
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos,$i,$reposicion->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav>  
+
+                    </div>
+                    
+                    <div class="col">
+
+
+                    </div>
+
+
+
+
+  
                     <div class="col-md-2">                        
                         <label for="">Total Gastado: </label>    
                     </div>   
@@ -209,6 +244,8 @@
                     </div>   
 
                 </div>
+
+
                 <br>
                 <div class="row">
                     @if($reposicion->codEstadoReposicion==1)

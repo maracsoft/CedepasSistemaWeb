@@ -156,6 +156,8 @@ Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descarg
 
 
 
+
+
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
 Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
 
@@ -433,6 +435,10 @@ Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')
 Route::get('/Conta/Reposiciones/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.verificarConta');
 Route::get('/Conta/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoConta')->name('reposicionGastos.actualizarConta');
 Route::get('/Conta/Reposiciones/view/{id}','ReposicionGastosController@viewConta')->name('reposicionGastos.viewConta');
+
+Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');
+
+
 /*
 
 

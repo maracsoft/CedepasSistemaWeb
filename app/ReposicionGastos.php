@@ -10,6 +10,7 @@ class ReposicionGastos extends Model
     protected $primaryKey ="codReposicionGastos";
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
+    const raizArchivo = "RepGast-CDP-";
 
 
     // le indicamos los campos de la tabla 
@@ -18,6 +19,31 @@ class ReposicionGastos extends Model
     'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
 
+
+
+    //               RendGast-CDP-   000002                           -   5   .  jpg
+    public static function getFormatoNombreCDP($codRendicionGastos,$i,$terminacion){
+        return  ReposicionGastos::raizArchivo.
+                ReposicionGastos::rellernarCerosIzq($codRendicionGastos,6).
+                '-'.
+                ReposicionGastos::rellernarCerosIzq($i,2).
+                '.'.
+                $terminacion;
+    }
+
+    public static function rellernarCerosIzq($numero, $nDigitos){
+        return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
+ 
+    }
+    
+    //la primera es la 1 OJO
+    public function getTerminacionNro($index){
+        $vector = explode('/',$this->terminacionesArchivos);
+        return $vector[$index-1];
+
+    }
+
+    
     public function getNombreEstado(){ 
         $estado = EstadoReposicionGastos::findOrFail($this->codEstadoReposicion);
         return $estado->nombre;
@@ -77,6 +103,11 @@ class ReposicionGastos extends Model
                 break;
         }
         return $color;
+    }
+
+    public function getEmpleadoSolicitante(){
+        $empleado=Empleado::find($this->codEmpleadoSolicitante);
+        return $empleado;
     }
 
     public function evaluador(){

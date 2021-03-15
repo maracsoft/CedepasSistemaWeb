@@ -63,7 +63,7 @@
               <tr>
                 <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
                 <th width="6%"  scope="col">Fecha Emision</th>
-                <th width="4%"  scope="col">Evaluador</th>
+     
                 <th width="25%"  scope="col">Proyecto</th>              
                 <th width="4%"  scope="col">Orden de</th>
                 <th width="4%"  scope="col">Banco</th>
@@ -82,7 +82,7 @@
             <tr>
               <td>{{$itemreposicion->codigoCedepas  }}</td>
               <td>{{$itemreposicion->fechaEmision  }}</td>
-              <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
+              
               <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
               <td>{{$itemreposicion->girarAOrdenDe  }}</td>
               <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>

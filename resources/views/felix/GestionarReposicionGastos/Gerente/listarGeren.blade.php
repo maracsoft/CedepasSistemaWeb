@@ -98,7 +98,7 @@
               <td>{{$itemreposicion->codigoCedepas  }}</td>
                 <td>{{$itemreposicion->fechaEmision  }}</td>
                 <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-                <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
+                <td>{{$itemreposicion->getEmpleadoSolicitante()->getNombreCompleto()}}</td>
                 <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
                 <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
                 <td style="text-align: center">
