@@ -728,7 +728,7 @@
             // FIN DE VALIDACIONES
     
                 item = cont+1;   
-
+                
                 maximo = calcularNroEnRendicionMayor()+1;
                 detalleRend.push({
                     codDetalleRendicion: 0,

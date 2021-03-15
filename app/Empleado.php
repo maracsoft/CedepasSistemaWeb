@@ -331,7 +331,7 @@ class Empleado extends Model
 
 
     public function reposicion(){
-        $reposiciones=ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleadoSolicitante)->get();
+        $reposiciones=ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)->get();
         return $reposiciones;
     }
 }

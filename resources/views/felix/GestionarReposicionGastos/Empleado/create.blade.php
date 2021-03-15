@@ -55,7 +55,7 @@
                             @endforeach 
                         </select>   
                       </div>
-
+                      <!--
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
                             <label for="fecha">Evaluador</label>
@@ -71,6 +71,7 @@
                             @endforeach 
                         </select> 
                       </div>
+                        -->
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
                             <label for="fecha">Moneda</label>

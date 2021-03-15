@@ -53,9 +53,8 @@
       </div>
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 
-      
-
-      
+      AQUI VAN FILTROS DEL PROYECTO , POR DEFECTO DEBE APARECER EL PROYECTO DEL EMPLEADO LOGEADO (JEFE ADMIN )
+        UN JEFE DE ADMINISTRACION PUEDE ATENDER DE TODOS LOS PROYECTOS 
     </div>
   </div>
   

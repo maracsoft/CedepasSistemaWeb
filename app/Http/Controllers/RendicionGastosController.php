@@ -36,7 +36,7 @@ class RendicionGastosController extends Controller
     
 
     const PAGINATION = '20';
-    
+    const raizArchivo = "RendGast-CDP-";
 
     //RUTA MAESTRA QUE REDIRIJE A LOS INDEX DE LOS 3 ACTORES
     public function listarRendiciones(){
@@ -336,7 +336,8 @@ class RendicionGastosController extends Controller
 
     //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
     // se le devuelve al empleado los gastos que hizo en exceso
-    public function reponer(Request $request){ //id de la rendicion
+    //deprecato
+    /* public function reponer(Request $request){ //id de la rendicion
 
         $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
         
@@ -355,7 +356,7 @@ class RendicionGastosController extends Controller
             $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
             $terminacion = end( $vec); //ultimo elemento del vector
             
-
+            
             $rendicion->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
             //               RF-Repos-                           -   5   .  jpg
             $nombreImagen =
@@ -379,7 +380,7 @@ class RendicionGastosController extends Controller
             $rendicion->save();
             db::commit();
 
-            return redirect()->route('rendicionGastos.listarJefeAdmin')->with('datos','Gastos repuestos efectivamente');
+            return redirect()->route('rendicionGastos.listarRendiciones')->with('datos','Gastos repuestos efectivamente');
         }catch(Exception $e){
 
             error_log('\\n ---------------------- RENDICION FONDOS CONTROLLER REPONER 
@@ -389,13 +390,13 @@ class RendicionGastosController extends Controller
             ' );
 
             DB::rollback();
-            /* return redirect()
-                ->route('solicitudFondos.listarEmp')
-                ->with('datos','Ha ocurrido un error.'); */
+            return redirect()
+                ->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Ha ocurrido un error.');
         }
 
 
-    }
+    } */
     
     
     
@@ -410,9 +411,6 @@ class RendicionGastosController extends Controller
     CADA ARCHIVO ES UNA FOTO DE UN CDP, O SEA DE UN DETALLE
     */
     public function store( Request $request){
-
-
-           
         try {
            
                 DB::beginTransaction();   
@@ -460,16 +458,14 @@ class RendicionGastosController extends Controller
                 
                 $detalle->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
 
-
+                
                 //               CDP-   000002                           -   5   .  jpg
-                $nombreImagen = 'RF-CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                $nombreImagen = $this::raizArchivo.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                Debug::mensajeSimple('el nombre de la imagen es:'.$nombreImagen);
                 $archivo =  $request->file('imagen'.$i);
                 $fileget = \File::get( $archivo );
-                Storage::disk('comprobantes')
-                ->put(
-                    $nombreImagen
-                        ,
-                        $fileget );
+                Storage::disk('rendiciones')
+                ->put($nombreImagen,$fileget );
                
                 $vec[$i] = $detalle;
                 $detalle->save();
@@ -504,15 +500,76 @@ class RendicionGastosController extends Controller
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function prueba(){
+        Storage::disk('rendiciones')->delete('hola.txt');
+
+        $listaDetallesAnteriores = $this->getTerminacionesArchivoDetallesDeRendicion(215);       
+        return $listaDetallesAnteriores;
+    }  
+
+    //retorna un vector de enteros
+    public static function getCodigosDetallesDeRendicion($codRendicion){
+        $lista = DetalleRendicionGastos::Select('codDetalleRendicion')
+        ->where('codRendicionGastos','=',$codRendicion)
+        ->get()
+        ->toArray();
+        $vector = [];
+        for ($i=0; $i <count($lista); $i++) { 
+            $elemento = $lista[$i]['codDetalleRendicion'];
+            array_push($vector,$elemento);
+        }
+        return $vector;
+    }
+    //ESTAS DOS FUNCIONES SON PAREJA, LAS USO A LA VEZ
+    //retora vector de strings 
+    public static function getTerminacionesArchivoDetallesDeRendicion($codRendicion){
+        $lista = DetalleRendicionGastos::Select('codDetalleRendicion','terminacionArchivo')
+        ->where('codRendicionGastos','=',$codRendicion)
+        ->get()
+        ->toArray();
+        $vector = [];
+        for ($i=0; $i <count($lista); $i++) { 
+            $elemento= $lista[$i]['terminacionArchivo'];   
+            array_push($vector,$elemento);
+        }
+        return $vector;
+    }
+    
+
+
     public function update( Request $request){
         try {
-           
             DB::beginTransaction();   
-            $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
+            
             $rendicion = RendicionGastos::findOrFail($request->codRendicion);
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
             $rendicion-> resumenDeActividad = $request->resumen;
+            
+            //en este vector guardaremos los cod de detalles que no hayan venido en el request (o sea los borraron)
+            $vectorCodigosDetAnteriores = $this::getCodigosDetallesDeRendicion($rendicion->codRendicionGastos);
+            //aqui lo mismo pero sus terminaciones de archivo
+            $vectorTermDetAnteriores = $this::getTerminacionesArchivoDetallesDeRendicion($rendicion->codRendicionGastos);
+            
+
 
             //si estaba observada, pasa a subsanada
             if($rendicion->verificarEstado('Observada'))
@@ -523,28 +580,33 @@ class RendicionGastosController extends Controller
             $rendicion-> save();    
             
            
-            $vec[] = '';
-            Debug::mensajeSimple('HASTA EL UNO ');
+            
             $i = 0;
-            $cantidadFilas = $request->cantElementos;
+            $cantidadFilas = $request->cantElementos; //cant filas en la tabla del form
+         
             //RECORREMOS CADA FILA DE LA TABLA DEL FORMULARIO
-            while ($i< $cantidadFilas ) 
+            while ($i < $cantidadFilas ) 
             {
-                Debug::mensajeSimple('HASTA EL UNO y medio ');
+                Debug::mensajeSimple('ENTRÓ AL WHILE CON : '.implode('/',$vectorCodigosDetAnteriores)); 
                 //Si es nuevo el detalle, que lo guarde, sino que ni lo toque
-                if( str_contains($request->get('nombreImg'.$i),'RF-CDP') ){ 
+                if( str_contains($request->get('nombreImg'.$i),$this::raizArchivo) ){ 
                     //ya existe (no se modificó nada en este item)
-                    Debug::mensajeSimple('HASTA EL UNO Y TRES CUARTOS');
-
-                }else
+                    Debug::mensajeSimple('ITEM '.$i.' YA EXISTE Y NO SE HIZO NADA  ');
+                    $posicionAEliminar = array_search($request->get('codDetRend'.$i),$vectorCodigosDetAnteriores);
+                     //eliminamos ese codDetalle de la lista de no encontrados porque ya lo encontramos
+                    array_splice($vectorCodigosDetAnteriores,$posicionAEliminar ,1);
+                }
+                else
                 {
-                    Debug::mensajeSimple('HASTA EL UNO Y SIETE CUARTOS');
+                    
+
                     /*Ahora hay 2 casos, 
                      1. Este es un nuevo detalle creado de 0                ( request->codDetRend[$i] será 0 )
                      2. Este detalle ya existía pero se le cambió la imagen ( !=0)
                     */
                     if($request->get('codDetRend'.$i) == '0'){ //NUEVO
-                        Debug::mensajeSimple('HASTA EL DOS ');
+                        Debug::mensajeSimple('ITEM '.$i.' ES NUEVO Y LO VAMOS A ALMACENAR  ');
+                            
                         $detalle=new DetalleRendicionGastos();
                         $detalle->codRendicionGastos=          $rendicion->codRendicionGastos ;//ultimo insertad
                         
@@ -558,15 +620,35 @@ class RendicionGastosController extends Controller
                         $detalle->importe=               $request->get('colImporte'.$i);    
                         $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
                         $detalle->nroEnRendicion = $i+1;
-                    }else{ //YA EXISTE Y SE LE CAMBIÓ EL ARCHIVO 
-                        Debug::mensajeSimple('HASTA EL TRES ');
+                    }
+                    else
+                    { //YA EXISTE Y SE LE CAMBIÓ EL ARCHIVO 
+                        Debug::mensajeSimple('ITEM '.$i.' YA EXISTE Y LE CAMBIAREMOS EL ARCHIVO');
+
                         $detalle = DetalleRendicionGastos::findOrFail( $request->get('codDetRend'.$i)  );
                         //ahora debemos sobreescribir el archivo que ya tiene
-                        $detalle->nroEnRendicion = $request->get('nroEnRendicion'.$i);   
+                        $detalle->nroEnRendicion = $request->get('nroEnRendicion'.$i);  
+                        
+                        //eliminamos ese codDetalle porque ya lo encontramos
+                        $posicionAEliminar = array_search($request->get('codDetRend'.$i),$vectorCodigosDetAnteriores); 
+                        array_splice($vectorCodigosDetAnteriores,$posicionAEliminar ,1);
+
+                        //BORRAMOS EL ARCHIVO QUE TENIA PORQUE INSERTAREMOS OTRO
+                        $nombreDelArchivo = 
+                                    $this::raizArchivo.
+                                    $this->rellernarCerosIzq($detalle->codRendicionGastos,6).
+                                    '-'.
+                                    $this->rellernarCerosIzq($i+1,2).
+                                    '.'.
+                                    $detalle->terminacionArchivo; //anterior terminacion
+                        Debug::mensajeSimple('toy borrando el archivo '.$nombreDelArchivo);
+                        Storage::disk('rendiciones')->delete($nombreDelArchivo);
+
                     }
                     
                     //              Ahora almacenamos el archivo 
                     Debug::mensajeSimple('HASTA EL CUATRO ');
+
                     // PARA SACAR LA TERMINACIONDEL ARCHIVO
                     $nombreImagen = $request->get('nombreImg'.$i);  //sacamos el nombre completo
                     $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
@@ -574,27 +656,47 @@ class RendicionGastosController extends Controller
                     
                     $detalle->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
 
-                    Debug::mensajeSimple('HASTA EL CINCO');
+                 
                     //               CDP-   000002                           -   5   .  jpg
-                    $nombreImagen = 'RendGast-CDP-'.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion  ;
+                    $nombreImagen = $this::raizArchivo.$this->rellernarCerosIzq($detalle->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$terminacion ;
                     $archivo =  $request->file('imagen'.$i);
                     $fileget = \File::get( $archivo );
-                    Debug::mensajeSimple('HASTA EL SEIS');
-                    Storage::disk('comprobantes')
-                    ->put(
-                        $nombreImagen
-                            ,
-                            $fileget );
-                
+                   
+                    Storage::disk('rendiciones')->put($nombreImagen,$fileget );
+                    
                     $vec[$i] = $detalle;
                     $detalle->save();
-                    Debug::mensajeSimple('HASTA EL SIETE');
+               
                     
 
                 } //fin if
                 $i=$i+1;
             }//fin while
+
+            Debug::mensajeSimple('SALE DEL WHILE CON vectorDetallesAnt=: '.implode(',',$vectorCodigosDetAnteriores));
+
+            //AHORA BORRAMOS TODOS LOS ELEMENTOS DE vectorCodigosDetAnteriores pq fueron eliminados
             
+            $j = 0;
+            foreach ($vectorCodigosDetAnteriores as $det) {
+                Debug::mensajeSimple('ESTOY BORRANDO EL DETALLE REND: '.$det);
+                $detalle = DetalleRendicionGastos::findOrFail($det);
+                $detalle->delete();
+
+                //BORRAMOS EL ARCHIVO QUE TENIA
+                $nombreDelArchivo = 
+                                    $this::raizArchivo.
+                                    $this->rellernarCerosIzq($detalle->codRendicionGastos,6).
+                                    '-'.
+                                    $this->rellernarCerosIzq($i+1,2).
+                                    '.'.
+                                    $vectorTermDetAnteriores[$j];
+                Debug::mensajeSimple('toy borrando el archivo '.$nombreDelArchivo);
+                Storage::disk('rendiciones')->delete($nombreDelArchivo);
+                $j++;
+            }
+
+
             DB::commit();  
             return redirect()
                 ->route('rendicionGastos.listarRendiciones')
@@ -631,11 +733,11 @@ class RendicionGastosController extends Controller
     //se le pasa el codigo del detalle rendicion
     function descargarCDPDetalle($id ){
         $rend = DetalleRendicionGastos::findOrFail($id);
-        $nombreArchivo = 'RendGast-CDP-'.
+        $nombreArchivo = $this::raizArchivo.
             $this->rellernarCerosIzq( $rend->codRendicionGastos,6 )
             .'-'.
             $this->rellernarCerosIzq($rend->nroEnRendicion,2).'.'.$rend->terminacionArchivo;
-        return Storage::download("comprobantes/".$nombreArchivo);
+        return Storage::download("/comprobantes/rendiciones/".$nombreArchivo);
 
     }
 
@@ -643,7 +745,8 @@ class RendicionGastosController extends Controller
 
     //descarga el archivo que subió el empleado pq le sobró dinero  
     // o tambien el archivo de reposicion de cedepas hacia el empleado
-    function descargarArchivoRendicion($id){
+    //DEPRECATO
+    /* function descargarArchivoRendicion($id){
         
         $rend = RendicionGastos::findOrFail($id);
         if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Repuesta a Favor') )
@@ -651,12 +754,12 @@ class RendicionGastosController extends Controller
         if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Rendida en contra')    )
             $prefijo = 'Devol';
         
-        $nombreArchivo = 'RF-'.$prefijo.'-'.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
+        $nombreArchivo = $this::raizArchivo.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
         
         
         return Storage::download("comprobantesAbono/".$nombreArchivo);
 
-    }
+    } */
 
 
 

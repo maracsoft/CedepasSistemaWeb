@@ -20,11 +20,11 @@
   </style>
   
 <div>
-  <h3> Mis Rendiciones de Gastos </h3>
+  <h3>Verificaciones de Gerente</h3>
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre Empleado:</label>
+        <label for="">Nombre gerente:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
@@ -37,14 +37,27 @@
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
       </div>
+      <!--
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 
-      
+      <div class="colLabel">
+        <label for="">Proyecto:</label>
+      </div>
+      <div class="col"> 
+        <input type="text" class="form-control" value="" readonly>
+      </div>
+      -->
 
       
     </div>
   </div>
-  
+
+
+
+
+
+
+
     
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
@@ -56,20 +69,22 @@
           </button>
           
         </div>
-      @endif
+      @ENDIF
 
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
-                <th width="6%"  scope="col">Fecha Emision</th>
-                <th width="4%"  scope="col">Evaluador</th>
-                <th width="25%"  scope="col">Proyecto</th>              
-                <th width="4%"  scope="col">Orden de</th>
-                <th width="4%"  scope="col">Banco</th>
-                <th width="4%"  scope="col">Total</th>
-                <th width="15%"  scope="col">Estado</th>
-                <th width="5%"  scope="col">Opciones</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Fecha emision</th>
+                <th scope="col">Banco</th>
+                <th scope="col">Empleado Solicitante</th>
+                <th scope="col">Proyecto</th>
+                <th scope="col">Total Solicitado</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha Revision</th>
+                
+
+                <th scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -81,27 +96,27 @@
       
             <tr>
               <td>{{$itemreposicion->codigoCedepas  }}</td>
-              <td>{{$itemreposicion->fechaEmision  }}</td>
-              <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
-              <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
-              <td>{{$itemreposicion->girarAOrdenDe  }}</td>
-              <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-              <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
-              
-        
-              <td style="text-align: center">
-                
-                <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
-                style="background-color: {{$itemreposicion->getColorEstado()}};
-                        width:95%;
-                        text-align:center;
-                        color: {{$itemreposicion->getColorLetrasEstado()}} ;
-                ">
-              </td>
-                <td>       
-
-                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Ver</a>
-                    
+                <td>{{$itemreposicion->fechaEmision  }}</td>
+                <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
+                <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
+                <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
+                <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
+                <td style="text-align: center">
+                  <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
+                  style="background-color: {{$itemreposicion->getColorEstado()}};
+                          width:95%;
+                          text-align:center;
+                          color: {{$itemreposicion->getColorLetrasEstado()}} ;
+                  ">
+                </td>
+                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
+                <td>
+                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  @if($itemreposicion->codEstadoReposicion!=2 && $itemreposicion->codEstadoReposicion!=7)
+                  <a href="{{route('reposicionGastos.actualizar',$itemreposicion->codReposicionGastos.'*2')}}" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Aceptar</a>
+                  <a href="{{route('reposicionGastos.actualizar',$itemreposicion->codReposicionGastos.'*7')}}" class="btn btn-danger btn-sm"><i class="entypo-pencil"></i>Rechazar</a>  
+                  @endif
+                  
                 </td>
 
             </tr>
@@ -109,8 +124,6 @@
       </tbody>
     </table>
 
-
-    <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary btn-sm btn-icon icon-left" style="margin-left:610px;"><i class="entypo-pencil"></i>CREAR</a>  
 </div>
 @endsection
 

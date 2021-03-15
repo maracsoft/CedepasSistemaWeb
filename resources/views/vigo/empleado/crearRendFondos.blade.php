@@ -228,7 +228,7 @@
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
                         <th width="10%" class="text-center">Fecha Cbte</th>                                        
                         <th width="13%">Tipo</th>                                 
-                        <th width="10%"> N° Cbte</th>
+                        <th width="10%"> N° Comprob</th>
                         <th width="25%" class="text-center">Concepto </th>
                         <th width="10%">
                             Archivo
@@ -330,24 +330,6 @@
                     <div class="col-md-8"></div>
 
 
-
-                    {{-- <div class="col" id="divEnteroArchivo">            
-                      <input type="file" class="btn btn-primary" name="imagenEnvio" id="imagenEnvio"        
-                              style="display: none" onchange="cambio('imagenEnvio')">  
-                                      <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
-                      <label class="label" for="imagenEnvio" style="font-size: 12pt;">       
-                           <div id="divFileImagenEnvio" class="hovered">       
-                              Subir comprobante deposito.      
-                           <i class="fas fa-upload"></i>        
-                          </div>       
-                      </label>       
-                    </div>   --}}    
-
-
-
-
-
-
                 </div>
                     
 
@@ -420,38 +402,8 @@
 
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
-    //se ejecuta cada vez que escogewmos un file
-
-    function cambio(index){
-
-        if(index=='imagenEnvio'){//si es pal comprobante de envio
-            
-            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
-            /* var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-             */
-        }
-        else{ //para los CDP de la tabla
-            var idname= 'imagen'+index; 
-            var filename = $('#imagen'+index).val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
-            document.getElementById("divFile"+index).innerHTML= filename;
-            $('#nombreImg'+index).val(filename);
-        
-        
-        }
-    
-    }
 
 
-</script>
-
-     <script>
         var cont=0;
         
         var IGV=0;
@@ -473,6 +425,25 @@
             
     
         });
+
+
+            
+        //se ejecuta cada vez que escogewmos un file
+        function cambio(index,archivo){
+                var idname= 'imagen'+index; 
+                var filename = $('#imagen'+index).val().split('\\').pop();
+                console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+                //jQuery('span.'+idname).next().find('span').html(filename); NO HACE NADA XD
+                document.getElementById("divFile"+index).innerHTML= filename;
+                $('#nombreImg'+index).val(filename);
+
+                //agregamos el nombre del archivo
+                detalleRend[index].ubicacionArchivo = $('#imagen'+index).val();
+                detalleRend[index].nombreArchivo = filename;
+                
+                console.log('el archivo es:'+archivo);
+        }
+
 
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
@@ -549,7 +520,15 @@
     
         }
     
-    
+        function getNombreImagen(index){
+            string = detalleRend[index].nombreArchivo;
+            //console.log('el nobmre de la imagen es:'+string);
+            if(string==undefined || string == '')
+                return "Subir Archivo"
+            return string;            
+        }
+
+
         function actualizarTabla(){
             //funcion para poner el contenido de detallesVenta en la tabla
             //tambien actualiza el total
@@ -588,12 +567,12 @@
                             '    </td>               '+
                             
                             '    <td>               '+
-                            '      <input type="file" class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"                '+
-                            '              style="display: none" onchange="cambio('+item+')">  '         +      
-                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'">                         '+
+                            '      <input type="file" multiple class="btn btn-primary" name="imagen'+item+'" id="imagen'+item+'"             '+
+                            '              style="display: none" onchange="cambio('+item+',this.files)">  '         +      
+                            '                      <input type="hidden" name="nombreImg'+item+'" id="nombreImg'+item+'"  value="'+getNombreImagen(item)+'" >                         '+
                             '      <label class="label" for="imagen'+item+'" style="font-size: 10pt;" onclick="alertaArchivo()">               '+
                             '           <div id="divFile'+item+'" class="hovered">               '+
-                            '              Subir Archivo               '+
+                                        getNombreImagen(item) +
                             '           <i class="fas fa-upload"></i>                '+
                             '          </div>               '+
                             '      </label>               '+
@@ -642,15 +621,9 @@
 
             if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
                 $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-           
-                document.getElementById("divEnteroArchivo").style.display="none";
-           
-
                 document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
             }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
                 $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-                document.getElementById("divEnteroArchivo").style.display="block";
-          
                 document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
             }
 
@@ -658,7 +631,7 @@
         }
     
     
-    
+        
     
         function agregarDetalle()
         {
@@ -724,6 +697,8 @@
                     tipo:tipo,
                     ncbte,ncbte,
                     concepto:concepto,
+                    ubicacionArchivo: '',
+                    nombreArchivo: '',
                     importe:importe,            
                     codigoPresupuestal:codigoPresupuestal
                 });        

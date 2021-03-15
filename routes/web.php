@@ -18,7 +18,7 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 
 
-
+Route::get('/prueba','RendicionGastosController@prueba');
 
 
 
@@ -407,10 +407,19 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
 
 /**MODULO  "Reposiciones de Fondos a empleados"*/
 Route::get('/Emp/Reposiciones/listar/{id}','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
-
 Route::get('/Emp/Reposiciones/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
 Route::post('/Emp/Reposiciones/store','ReposicionGastosController@store')->name('reposicionGastos.store');
+Route::get('/Emp/Reposiciones/view/{id}','ReposicionGastosController@view')->name('reposicionGastos.view');
 
+
+Route::get('/Geren/Reposiciones/listar/{id}','ReposicionGastosController@listarOfGerente')->name('reposicionGastos.verificar');
+Route::get('/Geren/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstado')->name('reposicionGastos.actualizar');
+Route::get('/Geren/Reposiciones/view/{id}','ReposicionGastosController@viewGeren')->name('reposicionGastos.viewGeren');
+
+
+Route::get('/Jefe/Reposiciones/listar','ReposicionGastosController@listarOfJefe')->name('reposicionGastos.verificarJefe');
+Route::get('/Jefe/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoJefe')->name('reposicionGastos.actualizarJefe');
+Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')->name('reposicionGastos.viewJefe');
 /*
 
 

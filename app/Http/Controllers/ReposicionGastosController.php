@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Moneda;
 use App\Proyecto;
 use App\ReposicionGastos;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,26 @@ class ReposicionGastosController extends Controller
     /**EMPLEADO */
     public function listarOfEmpleado($id){
         $empleado=Empleado::findOrFail($id);
-        $reposicion=$empleado->reposicion();
-        return view('felix.GestionarReposicionGastos.Empleado.index',compact('reposicion','empleado'));
+        $arr=[1,3,5,6,7];
+        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->get();
+        //$reposiciones=$empleado->reposicion();
+        return view('felix.GestionarReposicionGastos.Empleado.index',compact('reposiciones','empleado'));
+    }
+    public function view($id){
+        /*
+        $listaCDP = CDP::All();
+        $proyectos = Proyecto::All();
+        $monedas=Moneda::All();
+        $bancos=Banco::All();
+        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
+        
+        */
+        $reposicion=ReposicionGastos::find($id);
+        $detalles=$reposicion->detalles();
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+
+        return view('felix.GestionarReposicionGastos.Empleado.view',compact('reposicion','empleadoLogeado','detalles'));
     }
     public function create(){
         $listaCDP = CDP::All();
@@ -40,7 +59,7 @@ class ReposicionGastosController extends Controller
         $reposicion=new ReposicionGastos();
         $reposicion->codEstadoReposicion=1;
         $reposicion->codEmpleadoSolicitante=Empleado::getEmpleadoLogeado()->codEmpleado;
-        $reposicion->codEmpleadoEvaluador=$request->codEmpleadoEvaluador;
+        $reposicion->codEmpleadoEvaluador=Proyecto::find($request->codProyecto)->codEmpleadoDirector;
         $reposicion->codProyecto=$request->codProyecto;
         $reposicion->codMoneda=$request->codMoneda;
  
@@ -106,6 +125,72 @@ class ReposicionGastosController extends Controller
         return redirect()->route('reposicionGastos.listar',$request->codEmpleado);
     }
     /**GERENTE DE PROYECTOS */
+    public function listarOfGerente($id){
+        $empleado=Empleado::findOrFail($id);
+        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
+        $arr=[];
+        foreach ($proyectos as $itemproyecto) {
+            $arr[]=$itemproyecto->codProyecto;
+        }
+        $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr)->get();
+        return view('felix.GestionarReposicionGastos.Gerente.index',compact('reposiciones','empleado'));
+    }
+    public function viewGeren($id){
+        /*
+        $listaCDP = CDP::All();
+        $proyectos = Proyecto::All();
+        $monedas=Moneda::All();
+        $bancos=Banco::All();
+        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
+        
+        */
+        $reposicion=ReposicionGastos::find($id);
+        $detalles=$reposicion->detalles();
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+
+        return view('felix.GestionarReposicionGastos.Gerente.view',compact('reposicion','empleadoLogeado','detalles'));
+    }
+    public function actualizarEstado($id){
+        date_default_timezone_set('America/Lima');
+        $arr = explode('*', $id);
+        $reposicion=ReposicionGastos::find($arr[0]);
+        $reposicion->codEstadoReposicion=$arr[1];
+        $reposicion->fechaHoraRevisionGerente=new DateTime();
+        $reposicion->save();
+        return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+    }
     /**JEFE DE ADMINISTRACION */
+    public function listarOfJefe(){
+        $empleado=Empleado::getEmpleadoLogeado();
+        $arr=[2,3,5,6,7];
+        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->get();
+        return view('felix.GestionarReposicionGastos.Jefe.index',compact('reposiciones','empleado'));
+    }
+    public function viewJefe($id){
+        /*
+        $listaCDP = CDP::All();
+        $proyectos = Proyecto::All();
+        $monedas=Moneda::All();
+        $bancos=Banco::All();
+        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
+        
+        */
+        $reposicion=ReposicionGastos::find($id);
+        $detalles=$reposicion->detalles();
+        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
+        $empleadoLogeado = $LempleadoLogeado[0];
+
+        return view('felix.GestionarReposicionGastos.Jefe.view',compact('reposicion','empleadoLogeado','detalles'));
+    }
+    public function actualizarEstadoJefe($id){
+        date_default_timezone_set('America/Lima');
+        $arr = explode('*', $id);
+        $reposicion=ReposicionGastos::find($arr[0]);
+        $reposicion->codEstadoReposicion=$arr[1];
+        $reposicion->fechaHoraRevisionAdmin=new DateTime();
+        $reposicion->save();
+        return redirect()->route('reposicionGastos.verificarJefe');
+    }
 }
 

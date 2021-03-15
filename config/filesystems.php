@@ -52,9 +52,21 @@ return [
             'root' => storage_path('app/comprobantes'),
         ],
 
+        'rendiciones' => [
+            'driver' => 'local',
+            'root' => storage_path('app/comprobantes/rendiciones'),
+        ],
+        'reposiciones' => [
+            'driver' => 'local',
+            'root' => storage_path('app/comprobantes/reposiciones'),
+        ],
+        
+
+        
+        //este ya no se usa
         'comprobantesAbono' => [
             'driver' => 'local',
-            'root' => storage_path('app/comprobantesAbono'),
+            'root' => storage_path('app/comprobantes/comprobantesAbono'),
         ],
         
 

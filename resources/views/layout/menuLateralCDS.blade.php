@@ -220,16 +220,11 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('reposicionGastos.verificar',App\Empleado::getEmpleadoLogeado()->codEmpleado)}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Reposiciones a aprobar</p>
+                  <p>Evaluar Reposiciones</p>
                 </a>
               </li>
-            
-
-              
-
-              
             </ul>
           </li>
 
@@ -244,7 +239,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('reposicionGastos.verificarJefe')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Reposiciones para aceptar</p>
                 </a>
