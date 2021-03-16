@@ -29,6 +29,8 @@ Route::get('/prueba','RendicionGastosController@prueba');
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
 Route::get('/listarDetallesDeRendicion/{id}','RendicionGastosController@listarDetalles');
+Route::get('/listarDetallesDeReposicion/{id}','ReposicionGastosController@listarDetalles');
+
 
 
 
@@ -415,9 +417,13 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
 
 
 /**MODULO  "Reposiciones de Fondos a empleados"*/
-Route::get('/Emp/Reposiciones/listar/{id}','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
+Route::get('/Emp/Reposiciones/listar/','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
 Route::get('/Emp/Reposiciones/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
 Route::post('/Emp/Reposiciones/store','ReposicionGastosController@store')->name('reposicionGastos.store');
+
+Route::post('/Emp/Reposiciones/update','ReposicionGastosController@update')->name('reposicionGastos.update');
+Route::get('/Emp/Reposiciones/editar/{id}','ReposicionGastosController@editar')->name('reposicionGastos.editar');
+
 Route::get('/Emp/Reposiciones/view/{id}','ReposicionGastosController@view')->name('reposicionGastos.view');
 
 
@@ -433,7 +439,7 @@ Route::get('/Jefe/Reposiciones/observar/{id}','ReposicionGastosController@observ
 Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')->name('reposicionGastos.viewJefe');
 
 Route::get('/Conta/Reposiciones/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.verificarConta');
-Route::get('/Conta/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoConta')->name('reposicionGastos.actualizarConta');
+Route::get('/Conta/Reposiciones/contabilizar/{id}','ReposicionGastosController@contabilizar')->name('reposicionGastos.contabilizar');
 Route::get('/Conta/Reposiciones/view/{id}','ReposicionGastosController@viewConta')->name('reposicionGastos.viewConta');
 
 Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');

@@ -22,17 +22,49 @@ class ReposicionGastosController extends Controller
 {
     const PAGINATION = '20';
 
+
+
+
+    //funcion servicio, será consumida solo por javascript
+    public function listarDetalles($idReposicion){
+        $vector = [];
+        $listaDetalles = DetalleReposicionGastos::where('codReposicionGastos','=',$idReposicion)->get();
+        for ($i=0; $i < count($listaDetalles) ; $i++) { 
+            
+            $itemDet = $listaDetalles[$i];
+            $itemDet['nombreTipoCDP'] = $itemDet->getNombreTipoCDP(); //tengo que pasarlo aqui pq en el javascript no hay manera de calcularlo, de todas maneras no lo usaré como Modelo (objeto)
+            $itemDet['nombreImagen'] = 'RendGast-CDP-'.$this->rellernarCerosIzq($itemDet->codReposicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$itemDet->terminacionArchivo;
+                // formato dado por sql 2021-02-11   
+                //formato requerido por mi  12/02/2020
+                $fechaDet = $itemDet->fechaComprobante;
+                //DAMOS VUELTA A LA FECHA
+                                // DIA                  MES                 AÑO
+            $nuevaFecha=substr($fechaDet,8,2).'/'.substr($fechaDet,5,2).'/'.substr($fechaDet,0,4);
+            $itemDet['fechaFormateada'] = $nuevaFecha;
+            array_push($vector,$itemDet);            
+        }
+        return $vector  ;
+    }
+
+
+
     function rellernarCerosIzq($numero, $nDigitos){
         return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
     }
     /**EMPLEADO */
-    public function listarOfEmpleado($id){
-        $empleado=Empleado::findOrFail($id);
+
+
+
+    public function listarOfEmpleado(){
+
+        $empleado=Empleado::getEmpleadoLogeado();
         $arr=[1,3,5,6,7];
         $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->paginate($this::PAGINATION);
         //$reposiciones=$empleado->reposicion();
         return view('felix.GestionarReposicionGastos.Empleado.listarEmp',compact('reposiciones','empleado'));
     }
+
+
     public function view($id){
         /*
         $listaCDP = CDP::All();
@@ -60,6 +92,24 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos','empleadosEvaluadores','monedas','bancos'));
     }
+
+
+    public function editar($id){
+        $reposicion = ReposicionGastos::findOrFail($id);
+        $listaCDP = CDP::All();
+        $proyectos = Proyecto::All();
+        $monedas=Moneda::All();
+        $bancos=Banco::All();
+        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
+
+        return view('felix.GestionarReposicionGastos.Empleado.editRepo',compact('empleadoLogeado','listaCDP','proyectos',
+            'empleadosEvaluadores','monedas','bancos','reposicion'));
+
+
+    }
+
+
 
 
     /*  
@@ -164,6 +214,120 @@ class ReposicionGastosController extends Controller
 
 
 
+    
+    public function update( Request $request){
+        
+        try {
+            $reposicion=ReposicionGastos::findOrFail($request->codReposicionGastos);
+            $reposicion->codProyecto=$request->codProyecto;
+            $reposicion->codMoneda=$request->codMoneda;
+     
+            $reposicion->girarAOrdenDe=$request->girarAOrdenDe;
+            $reposicion->numeroCuentaBanco=$request->numeroCuentaBanco;
+            $reposicion->codBanco=$request->codBanco;
+            $reposicion->resumen=$request->resumen;
+            //si estaba observada, pasa a subsanada
+            if($reposicion->verificarEstado('Observada'))
+                $reposicion-> codEstadoReposicion = ReposicionGastos::getCodEstado('Subsanada');
+            else
+                $reposicion-> codEstadoReposicion = ReposicionGastos::getCodEstado('Creada');
+            $reposicion-> save();        
+            
+
+
+
+
+            //borramos todos los detalles pq los ingresaremos again
+            DB::select('delete from detalle_reposicion_gastos where codReposicionGastos=" '.$reposicion->codReposicionGastos.'"');
+
+            //RECORREMOS la tabla con gastos 
+            $i = 0;
+            $cantidadFilas = $request->cantElementos;
+            while ($i< $cantidadFilas ) {
+                $detalle=new DetalleReposicionGastos();
+                $detalle->codReposicionGastos=          $reposicion->codReposicionGastos ;//ultimo insertad
+                // formato requerido por sql 2021-02-11   
+                //formato dado por mi calnedar 12/02/2020
+                $fechaDet = $request->get('colFecha'.$i);
+                //DAMOS VUELTA A LA FECHA
+                                                // AÑO                  MES                 DIA
+                $detalle->fechaComprobante=                 substr($fechaDet,6,2).substr($fechaDet,3,2).substr($fechaDet,0,2);
+                $detalle->setTipoCDPPorNombre( $request->get('colTipo'.$i) );
+                $detalle->nroComprobante=        $request->get('colComprobante'.$i);
+                $detalle->concepto=              $request->get('colConcepto'.$i);
+                $detalle->importe=               $request->get('colImporte'.$i);    
+                $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
+                $detalle->nroEnReposicion = $i+1;          
+                $i=$i+1;
+                $detalle->save();
+
+            }    
+
+
+            //SOLO BORRAMOS TODO E INSERTAMOS NUEVOS ARCHIVOS SI ES QUE SE INGRESÓ NUEVOS
+            if( $request->nombresArchivos!='' ){
+                $reposicion->borrarArchivosCDP(); /* FALTA HACER ESTA FUNCION */
+                
+                $nombresArchivos = explode(', ',$request->nombresArchivos);
+                $terminacionesArchivos='';   $j=0;
+                foreach ($request->file('filenames') as $archivo) //guardamos los que se insertaron ahora 
+                {   
+              
+                    //separamos con puntos en un vector 
+                    $vectorS = explode('.',$nombresArchivos[$j]);
+                    $terminacion = end($vectorS); //ultimo elemento del vector
+                    $terminacionesArchivos=$terminacionesArchivos.'/'.$terminacion;
+                    
+                    //               CDP-   000002                           -   5   .  jpg
+                    $nombreImagen = ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos ,$j+1 ,$terminacion ) ;
+                    Debug::mensajeSimple('el nombre de la imagen es:'.$nombreImagen);
+
+                    $fileget = \File::get( $archivo );
+                
+                    Storage::disk('reposiciones')
+                    ->put($nombreImagen,$fileget );
+                    $j++;
+                }
+
+                $reposicion->cantArchivos = $j;
+                $terminacionesArchivos = trim($terminacionesArchivos,'/');
+                $reposicion->terminacionesArchivos=$terminacionesArchivos;
+            }
+            $reposicion->save();
+            
+
+
+            DB::commit();  
+            return redirect()
+                ->route('reposicionGastos.listar')
+                ->with('datos','Se ha Editado la reposicion N°'.$reposicion->codigoCedepas);
+        }catch(\Throwable $th){
+            Debug::mensajeError(' REPOSICION GASTOS CONTROLLER UPDATE' ,$th);
+            
+            DB::rollback();
+            return redirect()
+                ->route('reposicionGastos.listar')
+                ->with('datos','Ha ocurrido un error.');
+        }
+
+        
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**GERENTE DE PROYECTOS */
     public function listarOfGerente($id){
@@ -192,7 +356,7 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Gerente.verGeren',compact('reposicion','empleadoLogeado','detalles'));
     }
-    
+
 
 
     //se le pasa el INDEX del archivo 
@@ -261,6 +425,8 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
     }
+
+
     public function actualizarEstadoJefe($id){
         try{
             DB::beginTransaction();
@@ -280,6 +446,9 @@ class ReposicionGastosController extends Controller
         }
         
     }
+
+
+
     public function observarJefe($id){
         try{
             DB::beginTransaction();
@@ -319,6 +488,8 @@ class ReposicionGastosController extends Controller
 
         return view('felix.GestionarReposicionGastos.Contador.verCont',compact('reposicion','empleadoLogeado','detalles'));
     }
+
+  /*
     public function actualizarEstadoConta($id){
         try{
             DB::beginTransaction();
@@ -337,7 +508,7 @@ class ReposicionGastosController extends Controller
         }
         
     }
-
+*/
     public function actualizarEstado($id){
         try{
             DB::beginTransaction();
@@ -374,7 +545,7 @@ class ReposicionGastosController extends Controller
         }
     }
     public function abonar($id){}
-    public function contabilizar($id){}
+    //public function contabilizar($id){}
     public function observar($id){}
     public function rechazar($id){//gerente-jefe (codReposicion)
         try{
@@ -392,6 +563,43 @@ class ReposicionGastosController extends Controller
             DB::rollBack();
             return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
         }
+
+
+
+
+    public function contabilizar($cadena){
+        try {
+            DB::beginTransaction(); 
+            $vector = explode('*',$cadena);
+            $codReposicion = $vector[0];
+            $listaItems = explode(',',$vector[1]);
+
+            $reposicion = ReposicionGastos::findOrFail($codReposicion);
+            $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Contabilizada');
+            $reposicion->codEmpleadoConta = Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->save();
+            foreach ($listaItems as $item) { //guardamos como contabilizados los items que nos llegaron
+                $detGasto = DetalleReposicionGastos::findOrFail($item);
+                $detGasto->contabilizado = 1;
+                $detGasto->save();   
+            }
+
+            DB::commit();
+            
+            return redirect()
+                ->route('reposicionGastos.verificarConta')
+                ->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
+        } catch (\Throwable $th) {
+            Debug::mensajeError('REPOSICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            DB::rollBack();
+            return redirect()->route('reposicionGastos.verificarConta')
+                ->with('datos','Ha ocurrido un error');
+        }
+
+
     }
+
+
+
 }
 

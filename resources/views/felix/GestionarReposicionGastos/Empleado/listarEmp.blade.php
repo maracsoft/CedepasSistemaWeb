@@ -100,9 +100,13 @@
               </td>
                 <td>       
 
-                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" 
+                      class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
                   @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
-                  <a href="" class="btn btn-success btn-sm"><i class="entypo-pencil"></i>Editar</a>
+                  <a href="{{route('reposicionGastos.editar',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm">
+                      <i class="entypo-pencil"></i>
+                      Editar
+                  </a>
                   @endif  
                 </td>
 

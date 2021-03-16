@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Storage;
 class ReposicionGastos extends Model
 {
     protected $table = "reposicion_gastos";
@@ -31,6 +31,26 @@ class ReposicionGastos extends Model
                 $terminacion;
     }
 
+
+    public function borrarArchivosCDP(){ //borra todos los archivos que sean de esa rendicion
+        
+        $vectorTerminaciones = explode('/',$this->terminacionesArchivos);
+        
+        for ($i=1; $i <=  $this->cantArchivos; $i++) { 
+            $nombre = $this::raizArchivo.
+                        $this->rellernarCerosIzq($this->codReposicionGastos,6).
+                        '-'.
+                        $this->rellernarCerosIzq($i,2).
+                        '.'.
+                        $vectorTerminaciones[$i-1];
+            Storage::disk('reposiciones')->delete($nombre);
+            Debug::mensajeSimple('Se acaba de borrar el archivo:'.$nombre);
+        }
+    }
+
+
+
+
     public static function rellernarCerosIzq($numero, $nDigitos){
         return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
  
@@ -43,10 +63,36 @@ class ReposicionGastos extends Model
 
     }
 
+
+    /* Retorna el codigo del estado indicado por el str parametro */
+    public static function getCodEstado($nombreEstado){
+        $lista = EstadoReposicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return 'Nombre no valido';
+        
+        return $lista[0]->codEstadoReposicion;
+
+    }
     
     public function getNombreEstado(){ 
         $estado = EstadoReposicionGastos::findOrFail($this->codEstadoReposicion);
         return $estado->nombre;
+    }
+
+    /* Retorna TRUE or FALSE cuando le mandamos el nombre de un estado */
+    public function verificarEstado($nombreEstado){
+        $lista = EstadoReposicionGastos::where('nombre','=',$nombreEstado)->get();
+        if(count($lista)==0)
+            return false;
+        
+        
+        $estado = $lista[0];
+        
+        if($estado->codEstadoReposicion == $this->codEstadoReposicion)
+            return true;
+        
+        return false;
+        
     }
 
     public function getColorEstado(){ //BACKGROUND

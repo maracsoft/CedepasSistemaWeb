@@ -25,7 +25,6 @@ class RendicionGastos extends Model
     public function borrarArchivosCDP(){ //borra todos los archivos que sean de esa rendicion
         
         $vectorTerminaciones = explode('/',$this->terminacionesArchivos);
-        Debug::mensajeSimple('El vectorTerminaciones es' .implode(',',$vectorTerminaciones));
         
         for ($i=1; $i <=  $this->cantArchivos; $i++) { 
             $nombre = $this::raizArchivo.
@@ -35,6 +34,8 @@ class RendicionGastos extends Model
                         '.'.
                         $vectorTerminaciones[$i-1];
             Storage::disk('rendiciones')->delete($nombre);
+            Debug::mensajeSimple('Se acaba de borrar el archivo:'.$nombre);
+            
         }
     }
 

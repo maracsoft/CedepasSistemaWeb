@@ -313,13 +313,13 @@
                                     </button> 
                                     <br>
                                 </div>    
-                                <div class="col">
+                                {{-- <div class="col">
                                     <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
                                         class='btn btn-danger'  style="float:right;">
                                         <i class='fas fa-ban'></i>
                                         Rechazar
                                     </a>    
-                                </div>
+                                </div> --}}
                         
                                 <div class="col">
                                     <button type="button" onclick="guardarContabilizar()"
