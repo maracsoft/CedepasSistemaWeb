@@ -15,11 +15,18 @@ class ReposicionGastos extends Model
 
     // le indicamos los campos de la tabla 
     protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdmin','codEmpleadoConta',
-    'codProyecto','codMoneda',
+    'codProyecto','codMoneda','totalImporte',
     'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
 
-
+    public function getPDF(){
+        $reposicion = $this;
+        $detalles=$this->detalles();
+        $pdf = \PDF::loadview('felix.GestionarReposicionGastos.pdfReposicion',
+            compact('reposicion','detalles'))
+            ->setPaper('a4', 'portrait');
+        return $pdf;
+    }
 
     //               RendGast-CDP-   000002                           -   5   .  jpg
     public static function getFormatoNombreCDP($codRendicionGastos,$i,$terminacion){

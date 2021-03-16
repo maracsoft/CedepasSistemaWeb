@@ -93,7 +93,7 @@
                 
                 
                 <tr>
-                    <td colspan="2" style="text-align: center">Son : AQUI FALTA FUNCION DE ESCRITURA LITERAL</td>
+                    <td colspan="2" style="text-align: center">Son : {{$solicitud->escribirTotalSolicitado()}}  FALTA MONEDA(en tabla)</td>
                     <td style="text-align: right">S/ {{number_format($solicitud->totalSolicitado,2)}}</td>
                     <td></td>
                 </tr>

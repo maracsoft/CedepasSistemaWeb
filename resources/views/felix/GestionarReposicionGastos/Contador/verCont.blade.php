@@ -270,7 +270,7 @@
                 
                 </div>
                 <br>
-                <div class="row">
+                {{-- <div class="row">
                     @if($reposicion->verificarEstado('Abonada'))
                     <div class="col-md-9">
                         <label for="fecha">Observaciones</label>
@@ -278,7 +278,7 @@
                         <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
                     </div> 
                     @endif
-                </div>
+                </div> --}}
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
@@ -294,10 +294,6 @@
     </div>
 
 </form>
-
-<script> 
-    
-</script>
 
 @endsection
 
@@ -362,7 +358,7 @@
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
-    function observar(){
+    /* function observar(){
         texto=$('#observacion').val();
         if(texto!=''){
             reposicion=$('#codReposicionGastos').val();
@@ -371,32 +367,11 @@
         else{ 
             alert('Ingrese observacion');
         }
-    }
-    function cambio(index){
+    } */
 
-        if(index=='imagenEnvio'){//si es pal comprobante de envio
-            
-            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
-            /* var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-             */
-        }
-        else{ //para los CDP de la tabla
-            var idname= 'imagen'+index; 
-            var filename = $('#imagen'+index).val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFile"+index).innerHTML= filename;
-            $('#nombreImg'+index).val(filename);
-            
-        
-        }
+
+
     
-    }
 
 
 </script>
@@ -412,17 +387,6 @@
         //var totalSinIGV=0;
         //var saldoFavEmpl=0;
 
-                //GENERACION DE codigoCedepas
-                var d = new Date();
-                codEmp = $('#codigoCedepasEmpleado').val();
-                mes = (d.getMonth()+1.0).toString();
-                if(mes.length > 0) mes = '0' + mes;
-
-                year =  d.getFullYear().toString().substr(2,2)  ;
-                $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-                //alert($('#codigoCedepas').val());
-    
-        
 
         function alertaArchivo(){
             alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');

@@ -45,7 +45,9 @@
     <ul class="navbar-nav">
 
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+          <a class="nav-link" data-widget="pushmenu" href="#"
+           role="button"><i class="fas fa-bars"></i>
+          </a>
       </li>
 
 
@@ -98,7 +100,8 @@
       
 <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" 
+          role="menu" data-accordion="false">
          
           @if(Auth::id()=='1'){{-- Si es admin --}}
             @include('layout.menuLateralCDS')  
@@ -133,15 +136,8 @@
                 @default
             @endswitch
           @endif
-          {{-- @include('layout.menuLateralCDS')
-  --}}
+          {{-- @include('layout.menuLateralCDS')--}}
            
-
-
-
-
-
-
           <li class="nav-item">
             <a href="{{route('user.cerrarSesion')}}" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>

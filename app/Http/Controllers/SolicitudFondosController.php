@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 use PhpParser\Node\Expr\Throw_;
 
+use App\Debug;
+
 class SolicitudFondosController extends Controller
 
 
@@ -121,18 +123,25 @@ class SolicitudFondosController extends Controller
 */
     public function listarSolicitudesParaJefe(Request $request){
         
-        $codUsuario = Auth::id(); 
-
+        
         $empleado = Empleado::getEmpleadoLogeado();
         /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
         ->get();
         $empleado = $empleados[0]; */
+        $estados =[];
+        array_push($estados,SolicitudFondos::getCodEstado('Aprobada') );
+        array_push($estados,SolicitudFondos::getCodEstado('Abonada') );
+        array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
         
+      
+        //error_log($array);
+
         $listaSolicitudesFondos = SolicitudFondos::
-        where('codEstadoSolicitud','=','2') //aprobadas
-        ->orwhere('codEstadoSolicitud','=','4') //rendidas
-        ->orderBy('fechaHoraEmision','DESC')
-        ->paginate();
+            whereIn('codEstadoSolicitud',$estados)
+            ->orderBy('fechaHoraEmision','DESC')
+            ->paginate()
+            ;
+
 
         $buscarpor = "";
 
@@ -141,6 +150,29 @@ class SolicitudFondosController extends Controller
         return view('vigo.jefe.listarSolicitudes',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
+    public function listarSolicitudesParaContador(){
+        
+        $empleado = Empleado::getEmpleadoLogeado();
+
+        $estados =[];
+        array_push($estados,SolicitudFondos::getCodEstado('Abonada') );
+        array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
+     
+
+        $listaSolicitudesFondos = SolicitudFondos::
+            whereIn('codEstadoSolicitud',$estados)
+            ->orderBy('fechaHoraEmision','DESC')
+            ->paginate()
+            ;
+
+
+        $buscarpor = "";
+        $listaBancos = Banco::All();
+
+        return view('vigo.contador.listarSolicitudes',
+            compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+    
+    }
 
 
     //DESPLIEGA LA VISTA PARA VER LA SOLICITUD (VERLA NOMASSS). ES DEL EMPLEAOD ESTA
@@ -152,8 +184,7 @@ class SolicitudFondosController extends Controller
         $solicitud = SolicitudFondos::findOrFail($id);
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
        
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];    
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
         return view('vigo.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
@@ -173,8 +204,7 @@ class SolicitudFondosController extends Controller
         $solicitud = SolicitudFondos::findOrFail($id);
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
        
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];    
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
         return view('vigo.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
@@ -187,8 +217,8 @@ class SolicitudFondosController extends Controller
             $solicitud = SolicitudFondos::findOrFail($id);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Aprobada');
             $solicitud->observacion = '';
-            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-            $empleadoLogeado = $LempleadoLogeado[0];
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();  
+
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
 
@@ -198,21 +228,43 @@ class SolicitudFondosController extends Controller
             return redirect()->route('solicitudFondos.listarSolicitudes')
                 ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada! ');
         } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : APROBAR
-                '.$th.'
+           Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : APROBAR',$th);
+           DB::rollBack();
+           return redirect()->route('solicitudFondos.listarSolicitudes')
+           ->with('datos','Ha ocurrido un error');
 
-
-
-
-            ');
-
-            DB::rollBack();
         }
 
     }
 
+
+    public function contabilizar($id){
+        try 
+        {
+            DB::beginTransaction();
+            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Contabilizada');
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();  
+
+            $solicitud->codEmpleadoContador = $empleadoLogeado->codEmpleado;
+            
+            $solicitud->save();
+            DB::commit();
+            return redirect()->route('solicitudFondos.listarSolicitudes')
+                ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Contabilizada! ');
+        } catch (\Throwable $th) {
+           Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : CONTABILIZAR',$th);
+           DB::rollBack();
+
+           return redirect()->route('solicitudFondos.listarSolicitudes')
+                ->with('datos','Ha ocurrido un error.');
+        }
+
+
+
+
+
+    }
 
     public function vistaAbonar($id){ 
         $solicitud = SolicitudFondos::findOrFail($id);
@@ -241,31 +293,23 @@ class SolicitudFondosController extends Controller
 
 
         } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : ABONAR
-            
-                '.$th.'
-
-
-            ');
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : ABONAR',$th);
             DB::rollBack();
+            return redirect()->route('solicitudFondos.listarSolicitudes')
+            ->with('datos','Ha ocurrido un error.');
+
         }
 
     }
 
+
+    //DEPRECADO
     function descargarComprobanteAbono($id){
-
         $solicitud = SolicitudFondos::findOrFail($id);
-
         $nombreArchivo = 'SF-Abono-'.
             $this->rellernarCerosIzq($id,6).
             '.'.$solicitud->terminacionArchivo;
         return Storage::download("comprobantesAbono/".$nombreArchivo);
-
-
-
-
     }
 
 
@@ -292,17 +336,13 @@ class SolicitudFondosController extends Controller
 
 
             DB::beginTransaction();
-            error_log('cod sol = '.$codSolicitud);
+          
             $solicitud = SolicitudFondos::findOrFail($codSolicitud);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Observada');
             $solicitud->observacion = $textoObs;
-            error_log('
-            
-            
-            
-            razon request:'.$textoObs);
-            $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-            $empleadoLogeado = $LempleadoLogeado[0];
+           
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();  
+
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
 
@@ -313,18 +353,11 @@ class SolicitudFondosController extends Controller
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : OBSERVAR
-            
-                '.$th.'
-
-
-            ');
-
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : OBSERVAR',$th);
+           
             DB::rollBack();
-            return redirect()->route('solicitudFondos.listarGerente')
-            ->with('datos','Ha ocurrido un error');
+            return redirect()->route('solicitudFondos.listarSolicitudes')
+            ->with('datos','Ha ocurrido un error ');
         }
 
     }
@@ -351,17 +384,10 @@ class SolicitudFondosController extends Controller
             ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Rechazada');
 
         } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN SOLICITUD FONDOS CONTROLLER : RECHAZAR
-            
-                '.$th.'
-
-
-            ');
-
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : RECHAZAR',$th);
+          
             DB::rollBack();
-            return redirect()->route('solicitudFondos.listarGerente')
+            return redirect()->route('solicitudFondos.listarSolicitudes')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -383,15 +409,11 @@ class SolicitudFondosController extends Controller
         $listaProyectos = Proyecto::All();
         $listaSedes = Sede::All();
         $listaCDP = CDP::All();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         $listaEmpleadosDeSede  = Empleado::All();
         return view ('vigo.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
         ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP'));
-
-
-
     }
 
 
@@ -408,8 +430,7 @@ class SolicitudFondosController extends Controller
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
         //return $detallesSolicitud;
         
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('vigo.empleado.editSoliFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
@@ -423,8 +444,7 @@ class SolicitudFondosController extends Controller
         $listaProyectos = Proyecto::All();
         $listaSedes = Sede::All();
         
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         $listaEmpleadosDeSede  = Empleado::All();
         return view('vigo.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
@@ -442,8 +462,7 @@ class SolicitudFondosController extends Controller
             $solicitud->codigoCedepas = $request->codSolicitud;
 
             $usuarioLogeado = Auth::id();
-            $LempleadoLogeado = Empleado::where('codUsuario','=',$usuarioLogeado)->get();
-            $empleadoLogeado = $LempleadoLogeado[0];
+            $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
             $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
 
@@ -480,13 +499,10 @@ class SolicitudFondosController extends Controller
             return redirect()
                 ->route('solicitudFondos.listarEmp')
                 ->with('datos','Se ha creado la solicitud '.$solicitud->codigoCedepas);
-        }catch(Exception $e){
-            error_log('\\n ---------------------- SOLICITUD FONDOS  CONTROLLER STORE 
-            Ocurrió el error:'.$e->getMessage().'
+        }catch(\Throwable $th){
             
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : STORE',$th);
             
-            ' );
-
             DB::rollback();
             return redirect()
                 ->route('solicitudFondos.listarEmp')
@@ -497,7 +513,20 @@ class SolicitudFondosController extends Controller
 
     }
 
+    public function verContabilizar($id){
+        $listaBancos = Banco::All();
+        $listaProyectos = Proyecto::All();
+        $listaSedes = Sede::All();
+        
+        $solicitud = SolicitudFondos::findOrFail($id);
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
+       
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
+        return view('vigo.contador.contabilizarSoliFondos',
+            compact('solicitud','detallesSolicitud','empleadoLogeado',
+                    'listaBancos','listaProyectos','listaSedes'));
+    }
 
 
     //actualiza el contenido de una solicitud
@@ -509,7 +538,7 @@ class SolicitudFondosController extends Controller
 
             //Si está siendo editada porque la observaron, pasa de OBSERVADA a SUBSANADA
             if ($solicitud->codEstadoSolicitud == SolicitudFondos::getCodEstado('Observada')) {
-                $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Subsanada');;
+                $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Subsanada');
             }
             //Si no, que siga en su estado CREADA
 
@@ -520,7 +549,7 @@ class SolicitudFondosController extends Controller
             
             $solicitud->totalSolicitado = $request->total;
 
-            error_log('&&&&&&&&&&&&&&&&&&&&&& '.$request->total);
+            
             $solicitud->girarAOrdenDe = $request->girarAOrden;
             $solicitud->numeroCuentaBanco = $request->nroCuenta;
             $solicitud->codBanco = $request->ComboBoxBanco;
@@ -553,17 +582,15 @@ class SolicitudFondosController extends Controller
             }    
             
             DB::commit();  
-            return redirect()->route('solicitudFondos.listarEmp')->with('datos','Registro '.$solicitud->codigoCedepas.' actualizado');
+            return redirect()->route('solicitudFondos.listarEmp')
+                ->with('datos','Registro '.$solicitud->codigoCedepas.' actualizado');
             
-        }catch(Exception $e){
+        }catch(\Throwable $th){
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : UPDATE',$th);
+            
             DB::rollback();
-            error_log('\\n ----------------------  SOLICITUD FONDOS CONTROLLER UPDATE
-            Ocurrió el error:'.$e->getMessage().'
-            
-            
-            ' );
-            
-            return redirect()->route('solicitudFondos.listarEmp')->with('datos','Ocurrió un error.');
+            return redirect()->route('solicitudFondos.listarEmp')
+                ->with('datos','Ocurrió un error.');
         }
     }
 
@@ -577,12 +604,9 @@ class SolicitudFondosController extends Controller
 
 
     public function reportes(){
-        $codUsuario = Auth::id(); //este es el idSolicitante 
-
         
-        $empleados = Empleado::where('codUsuario','=',$codUsuario)
-        ->get();
-        $empleado = $empleados[0];
+        $empleado = Empleado::getEmpleadoLogeado();
+
 
         
         $listaSolicitudesFondos = SolicitudFondos::

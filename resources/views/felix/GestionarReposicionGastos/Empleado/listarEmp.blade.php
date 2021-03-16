@@ -107,7 +107,20 @@
                       <i class="entypo-pencil"></i>
                       Editar
                   </a>
-                  @endif  
+                  @endif
+                  <a href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
+                    class="btn btn-warning btn-sm">
+                    <i class="entypo-pencil"></i>
+                    PDF
+                  </a>
+
+                  <a href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                    class="btn btn-warning btn-sm">
+                    <i class="entypo-pencil"></i>
+                    verPDF
+                  </a>
+
+                  
                 </td>
 
             </tr>

@@ -20,11 +20,25 @@
   </style>
   
 <div>
-  <h3> Solicitudes de Fondos para Aprobar </h3>
+  <h3> Solicitudes de fondos para Abonar </h3>
+  
+  
+  {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
+  @if (session('datos'))
+  <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+      {{session('datos')}}
+    <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+        <span aria-hidden="true"> &times;</span>
+    </button>
+    
+  </div>
+  @endif
+
+
   <div class="container">
     <div class="row">
       <div class="colLabel">
-        <label for="">Nombre gerente:</label>
+        <label for="">Nombre Jefe:</label>
       </div>
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
@@ -39,52 +53,30 @@
       </div>
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 
-      <div class="colLabel">
-        <label for="">Proyecto:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="" readonly>
-      </div>
-      
-
-      
+      AQUI VAN FILTROS DEL PROYECTO , POR DEFECTO DEBE APARECER EL PROYECTO DEL EMPLEADO LOGEADO (JEFE ADMIN )
+        UN JEFE DE ADMINISTRACION PUEDE ATENDER DE TODOS LOS PROYECTOS 
     </div>
   </div>
+  
+  
 
-
-
-
-
-
-
-    
-
-{{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
-      @if (session('datos'))
-        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
-            {{session('datos')}}
-          <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
-              <span aria-hidden="true"> &times;</span>
-          </button>
-          
-        </div>
-      @ENDIF
 
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo Sol</th>
-                <th scope="col">Fecha emision</th>
-                <th scope="col">Sede</th>
-                <th scope="col">Empleado </th>
-                <th scope="col">Proyecto</th>
-                <th scope="col">Total Solicitado // Rendido</th>
-                <th scope="col">Estado</th>
-                <th>Cod Rendicion</th>
-                <th scope="col">Fecha Revision</th>
+                <th width="7%" scope="col">Codigo Sol</th>
+                <th width="6%"  scope="col">Fecha emision</th>
+                <th width="4%"  scope="col">Sede</th>
+                <th width="6%"  scope="col">Empleado </th>
+                <th width="25%"  scope="col">Proyecto</th>
+                <th width="10%"  scope="col">Evaluador</th>
                 
-
-                <th scope="col">Opciones</th>
+                <th width="4%"  scope="col">Total Solicitado</th>
+                
+                <th width="6%"  scope="col">Fecha Revision</th>
+                <th width="10%"  scope="col">Estado</th>
+                
+                <th width="5%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -99,15 +91,13 @@
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
                 <td>{{$itemSolicitud->getNombreSede()  }}</td>
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
-                <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
-                <td> 
-                  <h3 style="font-size: 14pt;">
-                      S/. {{$itemSolicitud->totalSolicitado  }}
-                    @if($itemSolicitud->estaRendida())
-                      // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
-                    @endif
-                  </h3>
-                </td>
+                <td> {{$itemSolicitud->getNombreProyecto()}} </td>
+                <td> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
+                <td>{{$itemSolicitud->totalSolicitado  }}</td>
+                
+          
+                <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+
                 <td style="text-align: center">
                   
                   <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
@@ -116,44 +106,43 @@
                           text-align:center;
                           color: {{$itemSolicitud->getColorLetrasEstado()}} ;
                   ">
-              </td>
-              <td>  
-                @if($itemSolicitud->estaRendida())
+               
+                 
+                
+
+                
+
+                </td>
+                <td>        {{-- OPCIONES --}}
                   
-                  {{$itemSolicitud->getRendicion()->codigoCedepas}}
-
-                @endif
-              </td>
-
-              <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
-                <td>
-                      {{-- Si la tenemos que evaluar --}}  
-                      @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
-                          <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" 
-                            class='btn btn-success'  style="float:right;">
-                            
-                            Revisar
-                          </a>    
-
-
-                      @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
-                            <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
-                              <h1>
-                                <span class="red">S</span> 
-                              </h1>
-                            </a>
-                          
-                          @if($itemSolicitud->estaRendida())   
-                            <a href="{{route('rendicionGastos.verGerente',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                              <h1>
-                                <span class="red">R</span>
-                              </h1>
-                            </a>
-
-                          @endif
-
                         
-                      @endif
+                        @if($itemSolicitud->verificarEstado('Abonada')) {{-- Si está aprobada (pa abonar) --}}   
+                          <a  class='btn btn-success' 
+                          href="{{route('solicitudFondos.verContabilizar',$itemSolicitud->codSolicitud)}}">
+                            Contabilizar <i class="fas fa-hand-holding-usd"></i>
+                          </a>
+                        @else{{-- si está rendida (pa verla nomas ) --}}
+                          <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                            <h1>
+                              <span class="red">S</span>
+                            </h1>
+                          </a>
+                        
+                          <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->codSolicitud)}}">
+                            <h1>
+                              <span class="red">R</span>
+                            </h1>
+                          </a>
+                        
+                        @endif
+
+                        <a class='btn btn-alert'  href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}">
+                          <i class="fas fa-download">Descargar</i>
+                        </a>
+                        <a  target="blank"  href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}">
+                          <i class="fas fa-file-pdf">Ver</i>
+                        </a>
+                        
                     
                 </td>
 

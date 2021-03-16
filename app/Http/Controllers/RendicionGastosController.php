@@ -156,11 +156,9 @@ class RendicionGastosController extends Controller
 
 
     //del empleado
-    public function ver($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
-        $rend = $listaRend[0];
-
-        $solicitud = SolicitudFondos::findOrFail($id);
+    public function ver($id){ 
+        $rend = RendicionGastos::findOrFail($id);
+        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
 
@@ -180,9 +178,11 @@ class RendicionGastosController extends Controller
 
 
     //despliuega vista de  rendicion,
-    public function verGerente($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $rend = RendicionGastos::findOrFail($id);
-
+    public function verGerente($codRend){ 
+        //le pasamos la id de la solicitud de fondos a la que está enlazada
+        
+        $rend = RendicionGastos::findOrFail($codRend);
+        
         $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();

@@ -6,7 +6,7 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Solicitud de Fondos</p>
+    <p class="h1" style="text-align: center">Contabilizar Solicitud de Fondos</p>
 
 
 </div>
@@ -123,7 +123,7 @@
                                 
                             "
                             readonly value="{{$solicitud->getNombreEstado()}} {{$solicitud->observacion}}">     
-                           
+                            
                             
                                     
                         </div>
@@ -239,11 +239,11 @@
                        
                           
                             
-                        @if($solicitud->verificarEstado('Creada') || $solicitud->verificarEstado('Subsanada') )
+                        @if($solicitud->verificarEstado('Abonada') )
 
                               @csrf     
                                 <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col">
                                         <label for="">Observación:</label>
                                         <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
@@ -265,13 +265,13 @@
                                         <i class='fas fa-ban'></i>
                                         Rechazar
                                     </a>    
-                                </div>
+                                </div> --}}
                         
                                 <div class="col">
-                                    <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
+                                    <a href="{{route('solicitudFondos.contabilizar',$solicitud->codSolicitud)}}" 
                                         class='btn btn-success'  style="float:right;">
                                         <i class="fas fa-check"></i>
-                                        Aprobar
+                                        Marcar como contabilizada
                                     </a>    
                                 </div>
                         

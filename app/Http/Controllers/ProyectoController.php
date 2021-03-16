@@ -9,6 +9,7 @@ use App\Empleado;
 use App\ProyectoContador;
 use App\Puesto;
 use Illuminate\Support\Facades\DB;
+use NumberFormatter;
 
 class ProyectoController extends Controller
 {
@@ -75,5 +76,7 @@ class ProyectoController extends Controller
             return false;
         }
     }
+
+    
     
 }

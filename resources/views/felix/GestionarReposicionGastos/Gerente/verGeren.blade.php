@@ -46,7 +46,8 @@
 
                       </div>
                       <div class="col"> {{-- input de proyecto --}}
-                        <input type="text" class="form-control" name="codProyecto" id="codProyecto" value="{{$reposicion->getProyecto()->nombre}}" disabled>
+                        <input type="text" class="form-control" name="codProyecto" 
+                            id="codProyecto" value="{{$reposicion->getProyecto()->nombre}}" disabled>
                       </div>
                       <!--
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
@@ -82,19 +83,11 @@
                         <input type="text" class="form-control" name="codBanco" id="codBanco" value="{{$reposicion->getBanco()->nombreBanco}}" disabled>  
                       </div>
                       
-                      
-                      
-
-
-
                     </div>
 
 
-                </div>
-                
-                
-                
-                
+                </div>{{-- Fin container --}}
+
             </div>
 
 
@@ -133,18 +126,10 @@
                 
             </div>
         </div>
-      </div>
+    </div>
     
       
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
+      
          
 
 
@@ -188,83 +173,99 @@
             </div> 
 
 
-         
-              
-
-                <div class="row" id="divTotal" name="divTotal">      
-                    <div class="col"> 
+            <div class="row" id="divTotal" name="divTotal">      
+                <div class="col"> 
 
 
-                        <nav class="mt-2">
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                      <i class="nav-icon fas fa-tachometer-alt"></i>
-                                      <p>
-                                        Descargar Archivos Comprobantes
-                                        <i class="right fas fa-angle-left"></i>
-                                      </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
-                                            <li class="nav-item">
-                                                <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
+                    {{-- <nav id="colorNav">
+                        <ul>
+                            <li class="green">
+                                <a href="#" class="icon-home">Descargar Archivos Comprobantes</a>
+                                <ul>
+
+                                    @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
+                                        <li>
+                                            <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
                                                 <i class="far fa-address-card nav-icon"></i>
                                                 <p>   {{App\ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos,$i,$reposicion->getTerminacionNro($i)) }}</p>
-                                                </a>
-                                            </li>    
-                                        @endfor
-                                    </ul>
-                                  </li>
-                            </ul>
-                        </nav>  
+                                            </a>
+                                        </li>    
+                                    @endfor
+                                    <li> <a href="">hola</a></li>
+                                    
+                                    <!-- More dropdown options -->
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav> --}}
 
-                    </div>
-                    
-                    <div class="col">
+ 
+                        <ul class="nav nav-pills nav-sidebar flex-column" 
+                            data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                    Descargar Archivos Comprobantes
+                                    <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
+                                        <li class="nav-item">
+                                            <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos,$i,$reposicion->getTerminacionNro($i)) }}</p>
+                                            </a>
+                                        </li>    
+                                    @endfor
+                                </ul>
+                            </li> 
+                        </ul>
+                      
 
 
-                    </div>
 
 
-
-
-  
-                    <div class="col-md-2">                        
-                        <label for="">Total Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">
-                        <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
-                        <input type="hidden" name="totalRendido" id="totalRendido">
-
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
-
-                    </div>   
 
                 </div>
+                
+                <div class="col"></div>
+
+                <div class="col-md-2">                        
+                    <label for="">Total Gastado: </label>    
+                </div>   
+                <div class="col-md-2">
+                    {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                    <input type="hidden" name="cantElementos" id="cantElementos">
+                    <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
+                    <input type="hidden" name="totalRendido" id="totalRendido">
+
+                    <input type="text" class="form-control text-right" name="total"
+                            id="total" readonly="readonly" value="{{number_format($total,2)}}">   
+
+                </div>   
+
+            </div>
 
 
-                <br>
-                <div class="row">
-                    @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
-                    <div class="col-md-9">
-                        <label for="fecha">Observaciones</label>
-                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
-                        <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
-                    </div>    
-                    @endif
-                    
+            <br>
+            <div class="row">
+                @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
+                <div class="col-md-9">
+                    <label for="fecha">Observaciones</label>
+                    <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                    <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
                 </div>
+                <div class="col-md-3">
+                    <a href="{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
+                    <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
+                </div>    
+                @endif
                 
-                    
-
+            </div>
                 
+           
         </div> 
         
         <div class="col-md-12 text-center">  
@@ -274,13 +275,10 @@
                 </div>    
             </div>
         </div>
-    </div>
+    
 
 </form>
 
-<script> 
-    
-</script>
 
 @endsection
 
@@ -321,60 +319,130 @@
     }
     .hovered:hover{
     background-color:rgb(97, 170, 170);
+    }
+
+/* PARA MI MENU DESPLEGABLE NUEVO */
+#colorNav > ul{
+ width: 450px;
+ margin:0 auto;
+}
+#colorNav > ul > li{ /* will style only the top level li */
+ list-style: none;
+ box-shadow: 0 0 10px rgba(100, 100, 100, 0.2) inset,1px 1px 1px #CCC;
+ display: inline-block;
+ line-height: 1;
+ margin: 1px;
+ border-radius: 3px;
+ position:relative;
 }
 
+#colorNav > ul > li > a{
+ color:inherit;
+ text-decoration:none !important;
+ font-size:24px;
+ padding: 25px;
+}
+#colorNav li ul{
+ position:absolute;
+ list-style:none;
+ text-align:center;
+ width:180px;
+ left:50%;
+ margin-left:-90px;
+ top:70px;
+ font:bold 12px 'Open Sans Condensed', sans-serif;
+ 
+/* This is important for the show/hide CSS animation */
+ max-height:0px;
+ overflow:hidden;
+ 
+-webkit-transition:max-height 0.4s linear;
+ -moz-transition:max-height 0.4s linear;
+ transition:max-height 0.4s linear;
+}
+#colorNav li:hover ul{
+ max-height:200px;
+}
 
-    </style>
+#colorNav li ul li{
+ background-color:#313131;
+}
+ 
+#colorNav li ul li a{
+ padding:12px;
+ color:#fff !important;
+ text-decoration:none !important;
+ display:block;
+}
+ 
+#colorNav li ul li:nth-child(odd){ /* zebra stripes */
+ background-color:#363636;
+}
+ 
+#colorNav li ul li:hover{
+ background-color:#444;
+}
+ 
+#colorNav li ul li:first-child{
+ border-radius:3px 3px 0 0;
+ margin-top:25px;
+ position:relative;
+}
+ 
+#colorNav li ul li:first-child:before{ /* the pointer tip */
+ content:'';
+ position:absolute;
+ width:1px;
+ height:1px;
+ border:5px solid transparent;
+ border-bottom-color:#313131;
+ left:50%;
+ top:-10px;
+ margin-left:-5px;
+}
+ 
+#colorNav li ul li:last-child{
+ border-bottom-left-radius:3px;
+ border-bottom-right-radius:3px;
+}
+#colorNav li.green{
+ /* This is the color of the menu item */
+ background-color:#00c08b;
+ 
+/* This is the color of the icon */
+ color:#127a5d;
+}
+ 
+#colorNav li.red{ background-color:#ea5080;color:#aa2a52;}
+#colorNav li.blue{ background-color:#53bfe2;color:#2884a2;}
+#colorNav li.yellow{ background-color:#f8c54d;color:#ab8426;}
+#colorNav li.purple{ background-color:#df6dc2;color:#9f3c85;}
+
+
+</style>
 
 @section('script')
 
 
 
        {{-- PARA EL FILE  --}}
-<script type="application/javascript">
+    <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
 
-    function observar(){
-        texto=$('#observacion').val();
-        if(texto!=''){
-            reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
+        function observar(){
+            texto=$('#observacion').val();
+            if(texto!=''){
+                reposicion=$('#codReposicionGastos').val();
+                window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
+            }
+            else{ 
+                alert('Ingrese observacion');
+            }
         }
-        else{ 
-            alert('Ingrese observacion');
-        }
-    }
 
-    function cambio(index){
-
-        if(index=='imagenEnvio'){//si es pal comprobante de envio
-            
-            //DEPRECADO PORQUE AHORA EL ARCHIVO DE CBTE DE DEVOLUCION DE FONDOS SE ADJUNTA COMO UN CBTE MÁS
-            /* var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-             */
-        }
-        else{ //para los CDP de la tabla
-            var idname= 'imagen'+index; 
-            var filename = $('#imagen'+index).val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            //jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFile"+index).innerHTML= filename;
-            $('#nombreImg'+index).val(filename);
-            
         
-        }
-    
-    }
 
 
-</script>
-
-     <script>
         var cont=0;
         
         //var IGV=0;
@@ -385,16 +453,6 @@
         //var totalSinIGV=0;
         //var saldoFavEmpl=0;
 
-                //GENERACION DE codigoCedepas
-                var d = new Date();
-                codEmp = $('#codigoCedepasEmpleado').val();
-                mes = (d.getMonth()+1.0).toString();
-                if(mes.length > 0) mes = '0' + mes;
-
-                year =  d.getFullYear().toString().substr(2,2)  ;
-                $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-                //alert($('#codigoCedepas').val());
-    
         
 
         function alertaArchivo(){

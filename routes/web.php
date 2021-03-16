@@ -41,6 +41,8 @@ Route::get('/listarDeDirector','SolicitudFondosController@listarSolicitudesParaG
     ->name('solicitudFondos.listarGerente');
 Route::get('/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesParaJefe')
     ->name('solicitudFondos.listarJefeAdmin');
+Route::get('/listarDeContador','SolicitudFondosController@listarSolicitudesParaContador')
+    ->name('solicitudFondos.listarContador');
 
 //ruta para regresar al index de solicitudes del actor que esté logeado
 Route::get('/irAIndex','SolicitudFondosController@listarSolicitudes')
@@ -60,6 +62,10 @@ Route::get('/Emp/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
 Route::get('/SolicitudFondos/vistaAbonar/{id}','SolicitudFondosController@vistaAbonar')
     ->name('solicitudFondos.vistaAbonar');
 
+
+Route::get('/SolicitudFondos/verContabilizar/{id}','SolicitudFondosController@verContabilizar')
+    ->name('solicitudFondos.verContabilizar');
+
 Route::post('/SolicitudFondos/Abonar/','SolicitudFondosController@abonar')
     ->name('solicitudFondos.abonar');
 
@@ -72,7 +78,9 @@ Route::get('/SolicitudFondos/descargarComprobanteAbono/{id}','SolicitudFondosCon
 Route::get('/SolicitudFondos/Aprobar/{id}','SolicitudFondosController@aprobar')
     ->name('solicitudFondos.aprobar');
     
-        
+Route::get('/SolicitudFondos/Contabilizar/{id}','SolicitudFondosController@contabilizar')
+    ->name('solicitudFondos.contabilizar');
+
 
 Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
@@ -449,6 +457,13 @@ Route::get('/Reposicion/{id}/aprobar','ReposicionGastosController@aprobar')->nam
 Route::get('/Reposicion/{id}/rechazar','ReposicionGastosController@rechazar')->name('reposicionGastos.rechazar');
 Route::get('/Reposicion/{id}/observar','ReposicionGastosController@observar')->name('reposicionGastos.observar');
 Route::get('/Reposicion/{id}/abonar','ReposicionGastosController@abonar')->name('reposicionGastos.abonar');
+
+
+//probando manito
+Route::get('/Reposicion/{id}/PDF','ReposicionGastosController@descargarPDF')->name('reposicionGastos.PDF');
+Route::get('/Reposicion/{id}/verPDF','ReposicionGastosController@verPDF')->name('reposicionGastos.verPDF');
+
+
 /*
 
 

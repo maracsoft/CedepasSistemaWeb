@@ -145,6 +145,7 @@ class ReposicionGastosController extends Controller
             
             //creacion de detalles
             $vec[] = '';
+            $total=0;
                 
             $i = 0;
             $cantidadFilas = $request->cantElementos;
@@ -161,14 +162,15 @@ class ReposicionGastosController extends Controller
                     $detalle->setTipoCDPPorNombre( $request->get('colTipo'.$i) );
                     $detalle->nroComprobante=        $request->get('colComprobante'.$i);
                     $detalle->concepto=              $request->get('colConcepto'.$i);
-                    $detalle->importe=               $request->get('colImporte'.$i);    
+                    $detalle->importe=               $request->get('colImporte'.$i);
+                    $total+=(float)$request->get('colImporte'.$i);
                     $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
                     $detalle->nroEnReposicion = $i+1;
                     $detalle->save();  
                     $i=$i+1;
             }
-
-
+            $reposicion->totalImporte=$total;
+            $reposicion->save();
             
             $nombresArchivos = explode(', ',$request->nombresArchivos);
             $j=0;
@@ -237,7 +239,7 @@ class ReposicionGastosController extends Controller
 
 
 
-
+            $total=0;
             //borramos todos los detalles pq los ingresaremos again
             DB::select('delete from detalle_reposicion_gastos where codReposicionGastos=" '.$reposicion->codReposicionGastos.'"');
 
@@ -257,12 +259,15 @@ class ReposicionGastosController extends Controller
                 $detalle->nroComprobante=        $request->get('colComprobante'.$i);
                 $detalle->concepto=              $request->get('colConcepto'.$i);
                 $detalle->importe=               $request->get('colImporte'.$i);    
+                $total+=(float)$request->get('colImporte'.$i);
                 $detalle->codigoPresupuestal  =  $request->get('colCodigoPresupuestal'.$i);   
                 $detalle->nroEnReposicion = $i+1;          
                 $i=$i+1;
                 $detalle->save();
 
-            }    
+            }  
+            $reposicion->totalImporte=$total;
+            $reposicion->save();  
 
 
             //SOLO BORRAMOS TODO E INSERTAMOS NUEVOS ARCHIVOS SI ES QUE SE INGRESÓ NUEVOS
@@ -668,6 +673,23 @@ class ReposicionGastosController extends Controller
 
 
     }
+
+
+    public function descargarPDF($id){
+        $reposicion=ReposicionGastos::findOrFail($id);
+        $pdf = $reposicion->getPDF();
+        return $pdf->download('Rendición de Gastos '.$reposicion->codigoCedepas.'.pdf');
+    }
+    
+    public function verPDF($id){
+        $reposicion=ReposicionGastos::findOrFail($id);
+        $pdf = $reposicion->getPDF();
+        return $pdf->stream();
+    }
+
+
+
+
 
 
 
