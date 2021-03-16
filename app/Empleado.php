@@ -74,6 +74,14 @@ class Empleado extends Model
 
     }
 
+    public static function getListaContadoresActivos(){
+        $lista = Empleado::
+            where('codPuesto','=','11')
+            ->where('activo','=','1')->get();
+        return $lista;
+
+    }
+
     //solo se aplica a los gerentes, retorna lista de proyectos que este gerente lidera
     public function getListaProyectos(){
         $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();

@@ -20,17 +20,31 @@ class ProyectoController extends Controller
         
         $listaProyectos = Proyecto::getProyectosActivos();
         $listaGerentes = Empleado::getListaGerentesActivos();
+        $listaContadores = Empleado::getListaContadoresActivos();
 
-        return view('asignarGerentes',compact('listaProyectos','listaGerentes'));
+        return view('asignarGerentes',compact('listaProyectos','listaGerentes','listaContadores'));
     }
 
-    function actualizarProyectosYGerentes($id){
+    function listarContadores($id){
+
+        
+        $proyecto=Proyecto::findOrFail($id);
+
+        return view('contadoresProyecto',compact('proyecto'));
+    }
+
+
+    function actualizarProyectosYGerentesContadores($id){
         try{
             $arr = explode('*', $id);
             DB::beginTransaction();
             $proyecto=Proyecto::findOrFail($arr[0]);
             $gerente=Empleado::findOrFail($arr[1]);
-            $proyecto->codEmpleadoDirector=$gerente->codEmpleado;
+            if($arr[2]==1){
+                $proyecto->codEmpleadoDirector=$gerente->codEmpleado;
+            }else{
+                $proyecto->codEmpleadoConta=$gerente->codEmpleado;
+            }
             $proyecto->save();
             DB::commit();
             return true;
@@ -39,4 +53,5 @@ class ProyectoController extends Controller
             return false;
         }
     }
+    
 }
