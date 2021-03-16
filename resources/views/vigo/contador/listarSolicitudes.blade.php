@@ -20,7 +20,7 @@
   </style>
   
 <div>
-  <h3> Solicitudes de fondos para Abonar </h3>
+  <h3> Solicitudes de fondos para Contabilizar </h3>
   
   
   {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
@@ -66,7 +66,7 @@
               <tr>
                 <th width="7%" scope="col">Codigo Sol</th>
                 <th width="6%"  scope="col">Fecha emision</th>
-                <th width="4%"  scope="col">Sede</th>
+              
                 <th width="6%"  scope="col">Empleado </th>
                 <th width="25%"  scope="col">Proyecto</th>
                 <th width="10%"  scope="col">Evaluador</th>
@@ -89,7 +89,7 @@
             <tr>
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
-                <td>{{$itemSolicitud->getNombreSede()  }}</td>
+           
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td> {{$itemSolicitud->getNombreProyecto()}} </td>
                 <td> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
@@ -122,13 +122,13 @@
                             Contabilizar <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                          <a href="{{route('solicitudFondos.verContabilizar',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
                             </h1>
                           </a>
                         
-                          <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->codSolicitud)}}">
+                          <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

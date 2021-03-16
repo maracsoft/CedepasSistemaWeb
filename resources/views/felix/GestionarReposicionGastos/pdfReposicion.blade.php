@@ -177,7 +177,7 @@
             <p style="text-align: center; font-size: 13px;"><b>
                 _________________________<br>
                 AUTORIZADO POR<br>
-                {{$reposicion->evaluador()->getNombreCompleto()}}
+                {{is_null($reposicion->codEmpleadoEvaluador) ? $reposicion->getProyecto()->evaluador()->getNombreCompleto() : $reposicion->evaluador()->getNombreCompleto()}}
             </b></p>
         </div>
     </div>

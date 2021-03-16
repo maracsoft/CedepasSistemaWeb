@@ -283,7 +283,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.verificarConta',$empleadoLogeado->codEmpleado)}}" 
+                    <a href="{{route('reposicionGastos.listarRepoOfContador',$empleadoLogeado->codEmpleado)}}" 
                         class='btn btn-danger'>Regresar</a>              
                 </div>    
             </div>

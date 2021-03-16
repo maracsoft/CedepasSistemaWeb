@@ -201,7 +201,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.verificar')}}" class="nav-link">
+                <a href="{{route('reposicionGastos.listarRepoOfGerente')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Evaluar Reposiciones</p>
                 </a>
@@ -221,7 +221,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.verificarJefe')}}" class="nav-link">
+                <a href="{{route('reposicionGastos.listarRepoOfJefe')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Reposiciones para aceptar</p>
                 </a>
@@ -239,7 +239,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.verificarConta')}}" class="nav-link">
+                <a href="{{route('reposicionGastos.listarRepoOfContador')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Contabilizar</p>
                 </a>

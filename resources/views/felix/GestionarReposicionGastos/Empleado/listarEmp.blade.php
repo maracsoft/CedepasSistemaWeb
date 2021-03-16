@@ -44,7 +44,21 @@
       
     </div>
   </div>
+  <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
   
+  <nav class="navbar float-right">
+    <form class="form-inline my-2 my-lg-0">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+          <option value="0">--Seleccionar--</option>
+          @foreach($proyectos as $itemproyecto)
+              <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                  {{$itemproyecto->nombre}}
+              </option>                                 
+          @endforeach 
+        </select>
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+  </nav>
     
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
@@ -108,13 +122,13 @@
                       Editar
                   </a>
                   @endif
-                  <a href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a  href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     PDF
                   </a>
 
-                  <a href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a target="blank" href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     verPDF
@@ -129,7 +143,7 @@
     </table>
     {{$reposiciones->links()}}
 
-    <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary btn-sm btn-icon icon-left" style="margin-left:610px;"><i class="entypo-pencil"></i>CREAR</a>  
+      
 </div>
 @endsection
 

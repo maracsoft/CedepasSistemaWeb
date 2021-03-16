@@ -21,7 +21,7 @@ use App\SolicitudFalta;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 use PhpParser\Node\Expr\Throw_;
-
+use App\Moneda;
 use App\Debug;
 
 class SolicitudFondosController extends Controller
@@ -102,7 +102,6 @@ class SolicitudFondosController extends Controller
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
       
         $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
-        
         
 
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
@@ -425,7 +424,7 @@ class SolicitudFondosController extends Controller
         $listaBancos = Banco::All();
         $listaProyectos = Proyecto::All();
         $listaSedes = Sede::All();
-        
+        $listaMonedas = Moneda::All();
         $solicitud = SolicitudFondos::findOrFail($id);
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
         //return $detallesSolicitud;
@@ -433,7 +432,8 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('vigo.empleado.editSoliFondos',
-            compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+            compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos',
+                'listaMonedas','listaProyectos','listaSedes'));
     }
 
 
@@ -443,11 +443,13 @@ class SolicitudFondosController extends Controller
         $listaBancos = Banco::All();
         $listaProyectos = Proyecto::All();
         $listaSedes = Sede::All();
-        
+        $listaMonedas = Moneda::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         $listaEmpleadosDeSede  = Empleado::All();
-        return view('vigo.empleado.crearSoliFondos',compact('empleadoLogeado','listaBancos','listaProyectos','listaSedes','listaEmpleadosDeSede'));
+        return view('vigo.empleado.crearSoliFondos',
+            compact('empleadoLogeado','listaBancos','listaProyectos',
+                'listaMonedas','listaSedes','listaEmpleadosDeSede'));
 
     }
 
@@ -473,8 +475,9 @@ class SolicitudFondosController extends Controller
             $solicitud->codBanco = $request->ComboBoxBanco;
             $solicitud->justificacion = $request->justificacion;
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Creada');
-            $solicitud->codSede = $request->ComboBoxSede;
             
+            $solicitud->codMoneda = $request->ComboBoxMoneda;
+
             $vec[] = '';
             $solicitud->save();
                 
@@ -555,7 +558,8 @@ class SolicitudFondosController extends Controller
             $solicitud->codBanco = $request->ComboBoxBanco;
             $solicitud->justificacion = $request->justificacion;
             //$solicitud->codEstadoSolicitud = '1';
-            $solicitud->codSede = $request->ComboBoxSede;
+            
+            $solicitud->codMoneda = $request->ComboBoxMoneda;
             
             $vec[] = '';
             $solicitud->save();

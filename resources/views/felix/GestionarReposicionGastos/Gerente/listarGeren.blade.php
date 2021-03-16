@@ -51,6 +51,19 @@
       
     </div>
   </div>
+  <nav class="navbar float-right">
+    <form class="form-inline my-2 my-lg-0">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+          <option value="0">--Seleccionar--</option>
+          @foreach($proyectos as $itemproyecto)
+              <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                  {{$itemproyecto->nombre}}
+              </option>                                 
+          @endforeach 
+        </select>
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+  </nav>
 
 
 
@@ -112,12 +125,12 @@
                 <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
                 <td>
                   @if($itemreposicion->verificarEstado('Creada') || $itemreposicion->verificarEstado('Subsanada')  )
-                    <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" 
+                    <a href="{{route('reposicionGastos.verReposicionOfGerente',$itemreposicion->codReposicionGastos)}}" 
                       class="btn btn-warning btn-sm">
                       <i class="entypo-pencil"></i>Evaluar
                     </a>
                   @else
-                    <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}"
+                    <a href="{{route('reposicionGastos.verReposicionOfGerente',$itemreposicion->codReposicionGastos)}}"
                       class="btn btn-info btn-sm">
                       <i class="entypo-pencil"></i>Ver
                     </a>

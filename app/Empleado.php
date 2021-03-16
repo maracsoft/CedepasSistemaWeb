@@ -98,7 +98,9 @@ class Empleado extends Model
            array_push($vecProy,$itemProyecto->codProyecto );
         }
     
-        $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)->get();
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)
+        ->orderBy('codEstadoSolicitud')
+        ->get();
         return $listaSolicitudesFondos;
 
     }

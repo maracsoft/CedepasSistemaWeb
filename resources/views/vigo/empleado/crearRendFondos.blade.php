@@ -105,21 +105,28 @@
                     <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                         <div class="row">
-                          <div  class="col">
-                                <label for="fecha">Cod Rendicion</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
-                          </div>
+                            <div  class="col">
+                                    <label for="fecha">Cod Rendicion</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
+                            </div>
+                            <div  class="colLabel">
+                            <label for="ComboBoxSede">Moneda</label>
+                            </div>
+                            <div class="col"> {{-- Combo box de sede --}}
+                                <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
+                                    readonly value="{{$solicitud->getMoneda()->nombre}}">     
+                                        
+                            </div>
 
-
-                          <div class="w-100"></div> {{-- SALTO LINEA --}}
-                          <div  class="col">
-                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-                          </div>
-                          <div class="col">
-                                <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                          </div>
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+                            <div  class="col">
+                                    <label for="codSolicitud">Codigo Solicitud de Fondos</label>
+                            </div>
+                            <div class="col">
+                                    <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                            </div>
 
 
                         </div>

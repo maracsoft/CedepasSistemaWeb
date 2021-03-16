@@ -17,7 +17,7 @@ class SolicitudFondos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaHoraEmision',
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
-    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','codSede','observacion'];
+    'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','observacion','codMoneda'];
 
     public function getPDF(){
         $listaItems = DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();
@@ -27,11 +27,7 @@ class SolicitudFondos extends Model
 
         return $pdf;
     }
-    public function getNombreSede(){
-        $sede = Sede::findOrFail($this->codSede);
-        return $sede->nombre;
-
-    }
+    
 
     public function getNombreProyecto(){
         $proyecto = Proyecto::findOrFail($this->codProyecto);
@@ -126,6 +122,16 @@ class SolicitudFondos extends Model
     
     }
 
+    public function getNombreMoneda(){
+        $moneda = Moneda::findOrFail($this->codMoneda);
+        return $moneda->nombre;
+    }
+
+    public function getMoneda(){
+        $moneda = Moneda::findOrFail($this->codMoneda);
+        return $moneda;
+    }
+
     //retorna el objeto empleado del que lo revisó (su director / gerente)
     public function getEvaluador(){
         $e = Empleado::findOrFail($this->codEmpleadoEvaluador);
@@ -135,19 +141,19 @@ class SolicitudFondos extends Model
     public function getColorEstado(){ //BACKGROUND
         $color = '';
         switch($this->codEstadoSolicitud){
-            case '1': //CREADO
+            case $this::getCodEstado('Creada'): //CREADO
                 $color = 'rgb(215,208,239)';
                 break;
-            case '2': //aprobado
+            case $this::getCodEstado('Aprobada'): //aprobado
                 $color = 'rgb(91,79,148)';
                 break;
-            case '3': //abonado
+            case $this::getCodEstado('Abonada'): //abonado
                 $color = 'rgb(195,186,230)';
                 break;
-            case '4': //rendida
+            case $this::getCodEstado('Contabilizada'): //rendida
                 $color ='rgb(35,28,85)';
                 break;
-            case '5': //rechazada
+            case $this::getCodEstado('Observada'): //rechazada
                 $color = 'rgb(248,18,8)';
                 break;
             
@@ -158,19 +164,19 @@ class SolicitudFondos extends Model
     public function getColorLetrasEstado(){
         $color = '';
         switch($this->codEstadoSolicitud){
-            case '1': //creada
+            case $this::getCodEstado('Creada'): //creada
                 $color = 'black';
                 break;
-            case '2': //aprobada
+            case $this::getCodEstado('Aprobada')://aprobada
                 $color = 'white';
                 break;
-            case '3': //abonada
+            case $this::getCodEstado('Abonada'): //abonada
                 $color = 'black';
                 break;
-            case '4': //rendida
+            case $this::getCodEstado('Contabilizada'): //rendida
                 $color = 'white';
                 break;
-            case '5': //rechazada
+            case $this::getCodEstado('Rechazada')://rechazada
                 $color = 'white';
                 break;
             

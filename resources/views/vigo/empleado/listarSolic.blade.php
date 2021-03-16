@@ -84,7 +84,7 @@ margin-top: 18px;
               <tr>
                 <th scope="col">Codigo Sol</th>
                 <th scope="col">Fecha emision</th>
-                <th scope="col">Sede</th>
+               
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado & Rendido </th>
                 <th scope="col">Estado</th>
@@ -108,13 +108,15 @@ margin-top: 18px;
             <tr>
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->getfechaHoraEmision()  }}</td>
-                <td>{{$itemSolicitud->getNombreSede()  }}</td>
+                
                 <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td> 
+
+                  
                   <h3 style="font-size: 14pt;">
-                      S/. {{$itemSolicitud->totalSolicitado  }}
+                    {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->totalSolicitado  }}
                     @if($itemSolicitud->estaRendida())
-                      // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
+                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->getRendicion()->totalImporteRendido}}
                     @endif
                   </h3>
                 </td>
@@ -217,11 +219,15 @@ margin-top: 18px;
 
 
                     @if(!$itemSolicitud->estaRendida())
-                    <a href="{{route('solicitudFondos.rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
-                      Rendir 
-                      <i class="fas fa-list"></i>
-                    </a>
-                    @else
+                      @if($itemSolicitud->verificarEstado('Abonada') || $itemSolicitud->verificarEstado('Contabilizada') )
+                      
+                        <a href="{{route('solicitudFondos.rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
+                          Rendir 
+                          <i class="fas fa-list"></i>
+                        </a>
+                      @endif
+
+                    @else {{-- Está rendida --}}
                     <a href="{{route('rendicionGastos.ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                       <h1>
                         <span class="red">R</span>

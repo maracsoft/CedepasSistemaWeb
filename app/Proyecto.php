@@ -44,4 +44,9 @@ class Proyecto extends Model
         $detalles=ProyectoContador::where('codProyecto','=',$this->codProyecto)->get();
         return count($detalles);
     }
+
+    public function evaluador(){
+        $empleado=Empleado::find($this->codEmpleadoDirector);
+        return $empleado;
+    }
 }

@@ -34,7 +34,7 @@
                       </div>
                       <div class="col">
                                                      
-                                <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                <div class="input-group date form_date " style="width: 300px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fecha" id="fecha" disabled
                                         value="{{$solicitud->fechaHoraEmision}}" >     
                                 </div>
@@ -129,24 +129,33 @@
                                     @endforeach 
                                 </select>      
                         </div>
+
+
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  class="colLabel2">
-                                <label for="ComboBoxSede">Sede</label>
+                       
+                     
+                        <div class="colLabel2">
+                                <label for="ComboBoxMoneda">Moneda:</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
-                                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
-                                    {{-- <option value="0">-- Seleccionar -- </option> --}}
-                                    @foreach($listaSedes as $itemSede)
-                                        <option value="{{$itemSede['codSede']}}" 
-                                        @if($solicitud->codSede== $itemSede->codSede)
-                                            selected
-                                        @endif
-                                        >
-                                            {{$itemSede->nombre}}
+                                <select class="form-control"  id="ComboBoxMoneda" name="ComboBoxMoneda" >
+                                    <option value="-1">-- Seleccionar --</option>
+                                    @foreach($listaMonedas as $itemMoneda)
+                                        <option value="{{$itemMoneda->codMoneda}}" 
+                                            @if($solicitud->codMoneda== $itemMoneda->codMoneda)
+                                                selected
+                                            @endif
+                                            >
+                                            {{$itemMoneda->nombre}}
                                         </option>                                 
                                     @endforeach 
                                 </select>      
                         </div>
+
+
+
+
+
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
@@ -160,18 +169,12 @@
                                 
                             "
                             readonly value="{{$solicitud->getNombreEstado()}}@if($solicitud->verificarEstado('Observada') ): @endif {{$solicitud->observacion}}">     
-                            <div>
-                                @if($solicitud->verificarEstado('Abonada'))
-                                <a href="{{route('solicitudFondos.descargarComprobanteAbono',$solicitud->codSolicitud)}}">
-                                    <i class="fas fa-download">Ver Abono</i>
-                                </a>
-                                @endif
-                            </div>
+                            
                             
                                     
                         </div>
 
-
+                        
 
 
 

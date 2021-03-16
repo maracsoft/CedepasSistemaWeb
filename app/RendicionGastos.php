@@ -121,10 +121,7 @@ class RendicionGastos extends Model
         return $mayor+1;
     } */
 
-    public function getNombreSede() {
-        return $this->getSolicitud()->getNombreSede();
-
-    }
+    
     public function getNombreSolicitante(){
         return $this->getSolicitud()->getNombreSolicitante();
     }

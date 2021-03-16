@@ -477,7 +477,7 @@ class RendicionGastosController extends Controller
            
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
-            $solicitud ->codEstadoSolicitud = SolicitudFondos::getCodEstado('Rendida');//cambiamos el estaod de la solicitud a rendida
+            $solicitud ->estaRendida = 1; //cambiamos el estaod de la solicitud a rendida
             $solicitud->save();
 
             $rendicion = new RendicionGastos();
@@ -489,6 +489,7 @@ class RendicionGastosController extends Controller
             $rendicion-> resumenDeActividad = $request->resumen;
             $rendicion-> fechaRendicion = Carbon::now();
             $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Creada');
+            $rendicion->codMoneda = $solicitud->codMoneda;
             $rendicion-> save();    
             $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
             

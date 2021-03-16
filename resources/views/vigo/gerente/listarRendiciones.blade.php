@@ -70,7 +70,7 @@
               <tr>
                 <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
                 <th width="6%"  scope="col">Fecha Rendicion</th>
-                <th width="4%"  scope="col">Sede</th>
+              
                 <th width="6%"  scope="col">Empleado </th>
                 <th width="25%"  scope="col">Proyecto</th>              
                 <th width="4%"  scope="col">Total Recibido</th>
@@ -90,7 +90,7 @@
             <tr>
               <td>{{$itemRendicion->codigoCedepas  }}</td>
               <td>{{$itemRendicion->fechaRendicion  }}</td>
-              <td>{{$itemRendicion->getNombreSede()  }}</td>
+            
               <td>{{$itemRendicion->getNombreSolicitante()  }}</td>
               <td>{{$itemRendicion->getNombreProyecto()  }}</td>
               <td>{{$itemRendicion->totalImporteRecibido  }}</td>
@@ -108,7 +108,11 @@
                 ">
               </td>
                 <td>        
-                      
+                        <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                          <h1>
+                            <span class="red">S</span>
+                          </h1>
+                        </a>
                         @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
                           <a href="{{route('rendicionGastos.revisar',$itemRendicion->codRendicionGastos)}}" 
                             class='btn btn-success'  style="float:right;">
@@ -116,22 +120,12 @@
                           </a>    
                         @endif
 
-                        @if($itemRendicion->estadoDeReposicion == 1) {{-- Si está a espera de reponer --}}   
-                          <a  class='btn btn-success' href="{{route('rendicionGastos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                            Reponer <i class="fas fa-hand-holding-usd"></i>
-                          </a>
-                        @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                            <h1>
-                              <span class="red">S</span>
-                            </h1>
-                          </a>
+                        @if($itemRendicion->verificarEstado('Contabilizada')  ) {{-- Si está a espera de reponer --}}   
                           <a href="{{route('rendicionGastos.verGerente',$itemRendicion->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>
                           </a>
-                        
                         @endif 
 
                     

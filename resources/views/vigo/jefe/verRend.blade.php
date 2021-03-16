@@ -114,7 +114,14 @@
                             <div class="col">
                                  <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rend->codigoCedepas}}">     
                             </div>
-
+                            <div  class="colLabel">
+                                <label for="ComboBoxSede">Moneda</label>
+                            </div>
+                            <div class="col"> {{-- Combo box de sede --}}
+                                <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
+                                    readonly value="{{$solicitud->getMoneda()->nombre}}">     
+                                        
+                            </div>
 
                             <div class="w-100"></div> {{-- SALTO LINEA --}}
                             <div class="colLabel">

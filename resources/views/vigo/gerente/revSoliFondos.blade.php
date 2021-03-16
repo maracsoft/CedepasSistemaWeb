@@ -4,9 +4,18 @@
   
 @endsection
 
+
+{{-- ESTA VISTA SIRVE TANTO COMO PARA REVISAR (aprobar rechazar observar)  COMO PARA VERLA NOMAS LUEGO--}}
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Solicitud de Fondos</p>
+    <p class="h1" style="text-align: center">
+        @if($solicitud->verificarEstado('Aprobada'))
+        Revisar
+        @else
+        Ver 
+        @endif 
+         Solicitud de Fondos
+    </p>
 
 
 </div>
@@ -102,14 +111,15 @@
                                
                         </div>
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      
                         <div  class="colLabel">
-                                <label for="ComboBoxSede">Sede</label>
+                            <label for="ComboBoxSede">Moneda</label>
                         </div>
                         <div class="col"> {{-- Combo box de sede --}}
-                            <input readonly  type="text" class="form-control" name="sede" id="sede" readonly value="{{$solicitud->getNombreSede()}}">     
+                            <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
+                                readonly value="{{$solicitud->getMoneda()->nombre}}">     
                                     
                         </div>
-
 
                          <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel">

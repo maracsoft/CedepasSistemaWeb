@@ -7,8 +7,6 @@
 @section('contenido')
 <div >
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
-
-
 </div>
 
 <form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" >
@@ -27,7 +25,7 @@
                             <label for="fecha">Fecha Actual:</label>
                       </div>
                       <div class="col">
-                                <div  style="width: 100px; " >
+                                <div  style="width: 300px; " >
                                     <input type="text" style="margin:0px auth;" class="form-control" name="fecha" id="fecha" disabled 
                                         value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
@@ -109,21 +107,38 @@
                                         </option>                                 
                                     @endforeach 
                                 </select>      
+
                         </div>
+
+
+
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
+                       
+
                         <div class="colLabel2">
-                                <label for="ComboBoxSede">Sede:</label>
+                                <label for="ComboBoxMoneda">Moneda:</label>
                         </div>
-                        <div class="col"> {{-- Combo box de sede --}}
-                                <select class="form-control"  id="ComboBoxSede" name="ComboBoxSede" >
+                        <div class="col"> {{-- Combo box de itemMoneda --}}
+                                <select class="form-control"  id="ComboBoxMoneda" name="ComboBoxMoneda" >
                                     <option value="-1">-- Seleccionar --</option>
-                                    @foreach($listaSedes as $itemSede)
-                                        <option value="{{$itemSede['codSede']}}" >
-                                            {{$itemSede->nombre}}
+                                    @foreach($listaMonedas as $itemMoneda)
+                                        <option value="{{$itemMoneda->codMoneda}}" >
+                                            {{$itemMoneda->nombre}}
                                         </option>                                 
                                     @endforeach 
                                 </select>      
                         </div>
+
+                        
+
+
+
+
+
+
+
+
+
                     </div>
 
 

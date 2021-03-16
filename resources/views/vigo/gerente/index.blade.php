@@ -75,7 +75,7 @@
               <tr>
                 <th scope="col">Codigo Sol</th>
                 <th scope="col">Fecha emision</th>
-                <th scope="col">Sede</th>
+                
                 <th scope="col">Empleado </th>
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado // Rendido</th>
@@ -97,7 +97,7 @@
             <tr>
               <td>{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
-                <td>{{$itemSolicitud->getNombreSede()  }}</td>
+              
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td> 
