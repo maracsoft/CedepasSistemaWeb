@@ -457,4 +457,5 @@ Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');*/
 
 Route::get('/asignarGerentes','ProyectoController@listarProyectosYGerentes')
     ->name('proyecto.asignarGerentes');
-Route::get('/asignarGerentes/actualizar/{id}','ProyectoController@actualizarProyectosYGerentes');
+Route::get('/asignarGerentesContadores/actualizar/{id}','ProyectoController@actualizarProyectosYGerentesContadores');
+Route::get('/contadores/{id}','ProyectoController@listarContadores')->name('proyecto.listarContadores');

@@ -20,7 +20,7 @@
             <th scope="col">ID</th>
             <th scope="col">NOMBRE PROYECTO</th>
             <th scope="col">GERENTE</th>
-
+            <th scope="col">CONTADOR</th>
           </tr>
 
         </thead>
@@ -35,7 +35,7 @@
             </td>
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
               <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto{{$itemProyecto->codProyecto}}" name="Proyecto{{$itemProyecto->codProyecto}}" data-live-search="true">
-                <option value="0" selected>- Seleccione Gerente -</option>          
+                <option value="0" {{$itemProyecto->codEmpleadoDirector!=null ? 'hidden':'selected'}}>- Seleccione Gerente -</option>          
               
                 @foreach($listaGerentes as $gerente)
                   <option value="{{$gerente->codEmpleado}}" {{$itemProyecto->codEmpleadoDirector==$gerente->codEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
@@ -43,6 +43,20 @@
                 
               
               </select> 
+            </td>
+            <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
+              <!--
+              <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar2({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto2{{$itemProyecto->codProyecto}}" name="Proyecto2{{$itemProyecto->codProyecto}}" data-live-search="true">
+                <option value="0" {{$itemProyecto->codEmpleadoConta!=null ? 'hidden':'selected'}}>- Seleccione Contador -</option>          
+              
+                @foreach($listaContadores as $contador)
+                  <option value="{{$contador->codEmpleado}}" {{$itemProyecto->codEmpleadoConta==$contador->codEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
+                @endforeach
+                
+              
+              </select> 
+              -->
+              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contadores</a>
             </td>
           </tr>
 
@@ -68,7 +82,7 @@
   function guardar(codProyecto){
     var codGerente=$('#Proyecto'+codProyecto).val();
     if(codGerente!=0){
-      $.get('/asignarGerentes/actualizar/'+codProyecto+'*'+codGerente, function(data){
+      $.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codGerente+'*1', function(data){
         if(data) alert('Se actualizo el gerente');
         else alert('No se pudo actualizar el gerente');
       });
@@ -77,4 +91,17 @@
     }
     
   }
+  /*
+  function guardar2(codProyecto){
+    var codContador=$('#Proyecto2'+codProyecto).val();
+    if(codContador!=0){
+      $.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codContador+'*2', function(data){
+        if(data) alert('Se actualizo el contador');
+        else alert('No se pudo actualizar el contador');
+      });
+    }else{
+      alert('seleccione un Contador');
+    }
+    
+  }*/
 </script>
