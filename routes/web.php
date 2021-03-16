@@ -427,15 +427,15 @@ Route::get('/Emp/Reposiciones/editar/{id}','ReposicionGastosController@editar')-
 Route::get('/Emp/Reposiciones/view/{id}','ReposicionGastosController@view')->name('reposicionGastos.view');
 
 
-Route::get('/Geren/Reposiciones/listar/{id}','ReposicionGastosController@listarOfGerente')->name('reposicionGastos.verificar');
-Route::get('/Geren/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstado')->name('reposicionGastos.actualizar');
-Route::get('/Geren/Reposiciones/observar/{id}','ReposicionGastosController@observarGeren')->name('reposicionGastos.observar');
+Route::get('/Geren/Reposiciones/listar/','ReposicionGastosController@listarOfGerente')->name('reposicionGastos.verificar');
+//Route::get('/Geren/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstado')->name('reposicionGastos.actualizar');
+//Route::get('/Geren/Reposiciones/observar/{id}','ReposicionGastosController@observarGeren')->name('reposicionGastos.observar');
 Route::get('/Geren/Reposiciones/view/{id}','ReposicionGastosController@viewGeren')->name('reposicionGastos.viewGeren');
 
 
 Route::get('/Jefe/Reposiciones/listar','ReposicionGastosController@listarOfJefe')->name('reposicionGastos.verificarJefe');
-Route::get('/Jefe/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoJefe')->name('reposicionGastos.actualizarJefe');
-Route::get('/Jefe/Reposiciones/observar/{id}','ReposicionGastosController@observarJefe')->name('reposicionGastos.observarJefe');
+//Route::get('/Jefe/Reposiciones/actualizar/{id}','ReposicionGastosController@actualizarEstadoJefe')->name('reposicionGastos.actualizarJefe');
+//Route::get('/Jefe/Reposiciones/observar/{id}','ReposicionGastosController@observarJefe')->name('reposicionGastos.observarJefe');
 Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')->name('reposicionGastos.viewJefe');
 
 Route::get('/Conta/Reposiciones/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.verificarConta');
@@ -444,7 +444,11 @@ Route::get('/Conta/Reposiciones/view/{id}','ReposicionGastosController@viewConta
 
 Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');
 
-
+//estados
+Route::get('/Reposicion/{id}/aprobar','ReposicionGastosController@aprobar')->name('reposicionGastos.aprobar');
+Route::get('/Reposicion/{id}/rechazar','ReposicionGastosController@rechazar')->name('reposicionGastos.rechazar');
+Route::get('/Reposicion/{id}/observar','ReposicionGastosController@observar')->name('reposicionGastos.observar');
+Route::get('/Reposicion/{id}/abonar','ReposicionGastosController@abonar')->name('reposicionGastos.abonar');
 /*
 
 
@@ -465,3 +469,5 @@ Route::get('/asignarGerentes','ProyectoController@listarProyectosYGerentes')
     ->name('proyecto.asignarGerentes');
 Route::get('/asignarGerentesContadores/actualizar/{id}','ProyectoController@actualizarProyectosYGerentesContadores');
 Route::get('/contadores/{id}','ProyectoController@listarContadores')->name('proyecto.listarContadores');
+Route::post('/contadores/save','ProyectoController@agregarContador')->name('proyecto.agregarContador');
+Route::get('/contadores/delete/{id}','ProyectoController@eliminarContador')->name('proyecto.eliminarContador');

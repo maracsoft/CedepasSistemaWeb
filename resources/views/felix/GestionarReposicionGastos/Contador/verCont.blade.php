@@ -268,7 +268,17 @@
                     
 
                 
-        </div> 
+                </div>
+                <br>
+                <div class="row">
+                    @if($reposicion->verificarEstado('Abonada'))
+                    <div class="col-md-9">
+                        <label for="fecha">Observaciones</label>
+                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
+                    </div> 
+                    @endif
+                </div>
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
@@ -356,7 +366,7 @@
         texto=$('#observacion').val();
         if(texto!=''){
             reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Jefe/Reposiciones/observar/'+reposicion+'*'+texto;  
+            window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
         }
         else{ 
             alert('Ingrese observacion');

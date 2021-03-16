@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Proyecto;
 use Illuminate\Http\Request;
 use App\Empleado;
+use App\ProyectoContador;
 use App\Puesto;
 use Illuminate\Support\Facades\DB;
 
@@ -26,11 +27,32 @@ class ProyectoController extends Controller
     }
 
     function listarContadores($id){
-
-        
         $proyecto=Proyecto::findOrFail($id);
+        $contadoresSeleccionados=$proyecto->getContadores();
+        $arr=[];
+        foreach ($contadoresSeleccionados as $itemcontador) {
+            $arr[]=$itemcontador->codEmpleado;
+        }
+        $contadores=Empleado::where('codPuesto','=',Puesto::getCodigo('Contador'))->whereNotIn('codEmpleado',$arr)->get();
+        
 
-        return view('contadoresProyecto',compact('proyecto'));
+        return view('contadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
+    }
+
+    function agregarContador(Request $request){
+        $detalle=new ProyectoContador();
+        $detalle->codProyecto=$request->codProyecto;
+        $detalle->codEmpleadoContador=$request->codEmpleadoConta;
+        $detalle->save();
+
+        return redirect()->route('proyecto.listarContadores',$request->codProyecto);
+    }
+
+    function eliminarContador($id){
+        $detalle=ProyectoContador::where('codEmpleadoContador','=',$id)->get();
+        $detalle[0]->delete();
+
+        return redirect()->route('proyecto.listarContadores',$detalle[0]->codProyecto);
     }
 
 

@@ -13,7 +13,7 @@ class Proyecto extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['nombre','codEmpleadoDirector','codEmpleadoConta'];
+    protected $fillable = ['nombre','codEmpleadoDirector'];
     
 
     //retorna 1 si el proyecto tiene una caja chica, 0 si no
@@ -29,5 +29,19 @@ class Proyecto extends Model
         return Proyecto::All();
         //return Proyecto::where('activo','=','1')->get();
 
-    } 
+    }
+
+    public function getContadores(){
+        $detalles=ProyectoContador::where('codProyecto','=',$this->codProyecto)->get();
+        $arr=[];
+        foreach ($detalles as $itemdetalle) {
+            $arr[]=$itemdetalle->codEmpleadoContador;
+        }
+        return Empleado::whereIn('codEmpleado',$arr)->get();
+    }
+
+    public function nroContadores(){
+        $detalles=ProyectoContador::where('codProyecto','=',$this->codProyecto)->get();
+        return count($detalles);
+    }
 }

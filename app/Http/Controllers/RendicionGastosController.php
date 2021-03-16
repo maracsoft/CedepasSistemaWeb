@@ -100,6 +100,7 @@ class RendicionGastosController extends Controller
 
     //lista todas las rendiciones del gerente (pertenecientes a los  proyectos que este lidera)
     public function listarDelGerente(){
+        
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
@@ -165,30 +166,28 @@ class RendicionGastosController extends Controller
 
         return view('vigo.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
     }
-
+    
     //despliuega vista de  rendicion, del admiin
     public function verAdmin($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
-        $rend = $listaRend[0];
+        $rend = RendicionGastos::findOrFail($id);
 
-        $solicitud = SolicitudFondos::findOrFail($id);
+        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
-
-        return view('vigo.jefe.verRend',compact('rend','solicitud','empleado','detallesRend'));
+        
+        return view('vigo.jefe.verRend',compact('rend','solicitud','empleado','detallesRend'));     
     }
 
 
     //despliuega vista de  rendicion,
     public function verGerente($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
-        $rend = $listaRend[0];
+        $rend = RendicionGastos::findOrFail($id);
 
-        $solicitud = SolicitudFondos::findOrFail($id);
+        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
-
-        return view('vigo.gerente.verRend',compact('rend','solicitud','empleado','detallesRend'));
+        
+        return view('vigo.gerente.revisarRend',compact('rend','solicitud','empleado','detallesRend'));        
     }
 
     //despliuega vista de  contabilizar rendicion,

@@ -56,7 +56,7 @@
               
               </select> 
               -->
-              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contadores</a>
+              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contadores ({{$itemProyecto->nroContadores()}})</a>
             </td>
           </tr>
 

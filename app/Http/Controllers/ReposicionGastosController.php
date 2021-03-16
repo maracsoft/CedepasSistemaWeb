@@ -10,6 +10,7 @@ use App\Empleado;
 use App\Http\Controllers\Controller;
 use App\Moneda;
 use App\Proyecto;
+use App\ProyectoContador;
 use App\Puesto;
 use App\ReposicionGastos;
 use DateTime;
@@ -33,7 +34,7 @@ class ReposicionGastosController extends Controller
             
             $itemDet = $listaDetalles[$i];
             $itemDet['nombreTipoCDP'] = $itemDet->getNombreTipoCDP(); //tengo que pasarlo aqui pq en el javascript no hay manera de calcularlo, de todas maneras no lo usaré como Modelo (objeto)
-            $itemDet['nombreImagen'] = 'RendGast-CDP-'.$this->rellernarCerosIzq($itemDet->codReposicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$itemDet->terminacionArchivo;
+            $itemDet['nombreImagen'] = ReposicionGastos::getFormatoNombreCDP($itemDet->codReposicionGastos,$i+1,$itemDet->terminacionArchivo);
                 // formato dado por sql 2021-02-11   
                 //formato requerido por mi  12/02/2020
                 $fechaDet = $itemDet->fechaComprobante;
@@ -56,12 +57,15 @@ class ReposicionGastosController extends Controller
 
 
     public function listarOfEmpleado(){
-
+       
         $empleado=Empleado::getEmpleadoLogeado();
-        $arr=[1,3,5,6,7];
-        $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->paginate($this::PAGINATION);
-        //$reposiciones=$empleado->reposicion();
-        return view('felix.GestionarReposicionGastos.Empleado.listarEmp',compact('reposiciones','empleado'));
+
+        $reposiciones= ReposicionGastos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            ->orderBy('codEstadoReposicion')
+            ->paginate($this::PAGINATION);
+    //return $reposiciones;
+        return view('felix.GestionarReposicionGastos.Empleado.listarEmp',
+            compact('reposiciones','empleado'));
     }
 
 
@@ -76,8 +80,7 @@ class ReposicionGastosController extends Controller
         */
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('felix.GestionarReposicionGastos.Empleado.verEmp',compact('reposicion','empleadoLogeado','detalles'));
     }
@@ -87,8 +90,7 @@ class ReposicionGastosController extends Controller
         $monedas=Moneda::All();
         $bancos=Banco::All();
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos','empleadosEvaluadores','monedas','bancos'));
     }
@@ -168,18 +170,17 @@ class ReposicionGastosController extends Controller
 
 
             
-            Debug::mensajeSimple('LLEGO 1 ');
             $nombresArchivos = explode(', ',$request->nombresArchivos);
             $j=0;
             $terminacionesArchivos='';
             foreach ($request->file('filenames') as $archivo)
             {   
-                Debug::mensajeSimple('LLEGO 2 ');
+                
                 //separamos con puntos en un vector 
                 $vectorS = explode('.',$nombresArchivos[$j]);
                 $terminacion = end($vectorS); //ultimo elemento del vector
                 $terminacionesArchivos=$terminacionesArchivos.'/'.$terminacion;
-                Debug::mensajeSimple('LLEGO 3 ');
+               
                 //               CDP-   000002                           -   5   .  jpg
 
                 $nombreImagen = ReposicionGastos::getFormatoNombreCDP($codRepRecienInsertada, $j+1,$terminacion);
@@ -200,12 +201,12 @@ class ReposicionGastosController extends Controller
             $reposicion->save();
 
             DB::commit();
-            return redirect()->route('reposicionGastos.listar',$request->codEmpleado);
+            return redirect()->route('reposicionGastos.listar');
         }catch(\Throwable $th){
             
             Debug::mensajeError('REPOSICION GASTOS CONTROLLER STORE', $th);
             DB::rollBack();
-            return redirect()->route('reposicionGastos.listar',$request->codEmpleado);
+            return redirect()->route('reposicionGastos.listar');
         }
         
     }
@@ -330,8 +331,8 @@ class ReposicionGastosController extends Controller
 
 
     /**GERENTE DE PROYECTOS */
-    public function listarOfGerente($id){
-        $empleado=Empleado::findOrFail($id);
+    public function listarOfGerente(){
+        $empleado=Empleado::getEmpleadoLogeado();
         $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
         $arr=[];
         foreach ($proyectos as $itemproyecto) {
@@ -340,19 +341,16 @@ class ReposicionGastosController extends Controller
         $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr)->paginate($this::PAGINATION);
         return view('felix.GestionarReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado'));
     }
+
+
+
+
+
     public function viewGeren($id){
-        /*
-        $listaCDP = CDP::All();
-        $proyectos = Proyecto::All();
-        $monedas=Moneda::All();
-        $bancos=Banco::All();
-        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
-        
-        */
-        $reposicion=ReposicionGastos::find($id);
+      
+        $reposicion=ReposicionGastos::findOrFail($id);
         $detalles=$reposicion->detalles();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('felix.GestionarReposicionGastos.Gerente.verGeren',compact('reposicion','empleadoLogeado','detalles'));
     }
@@ -378,24 +376,7 @@ class ReposicionGastosController extends Controller
 
 
 
-    public function observarGeren($id){
-        try{
-            DB::beginTransaction();
-            date_default_timezone_set('America/Lima');
-            $arr = explode('*', $id);
-            $reposicion=ReposicionGastos::find($arr[0]);
-            $reposicion->codEstadoReposicion=5;
-            $reposicion->observacion=$arr[1];
-            $reposicion->fechaHoraRevisionGerente=new DateTime();
-            $reposicion->save();
-            DB::commit();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
-        }catch(\Throwable $th){
-            DB::rollBack();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
-        }
-        
-    }
+    
     /**JEFE DE ADMINISTRACION */
     public function listarOfJefe(){
         $empleado=Empleado::getEmpleadoLogeado();
@@ -420,13 +401,11 @@ class ReposicionGastosController extends Controller
         */
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
-
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
         return view('felix.GestionarReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
     }
 
-
+    /*
     public function actualizarEstadoJefe($id){
         try{
             DB::beginTransaction();
@@ -445,10 +424,10 @@ class ReposicionGastosController extends Controller
             return redirect()->route('reposicionGastos.verificarJefe');
         }
         
-    }
+    }*/
 
 
-
+    /*
     public function observarJefe($id){
         try{
             DB::beginTransaction();
@@ -466,25 +445,24 @@ class ReposicionGastosController extends Controller
             return redirect()->route('reposicionGastos.verificarJefe',$reposicion->codEmpleadoEvaluador);
         }
         
-    }
+    }*/
     /**CONTADOR */
     public function listarOfConta(){
         $empleado=Empleado::getEmpleadoLogeado();
-       
-        $proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
+        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        //$proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
         $arr2=[];
-        foreach ($proyectos as $itemproyecto) {
+        foreach ($detalles as $itemproyecto) {
             $arr2[]=$itemproyecto->codProyecto;
         }
-        $arr=[3,4];
+        $arr=[3,4,5];
         $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codProyecto',$arr2)->paginate($this::PAGINATION);
         return view('felix.GestionarReposicionGastos.Contador.listarCont',compact('reposiciones','empleado'));
     }
     public function viewConta($id){
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
-        $LempleadoLogeado = Empleado::where('codUsuario','=', Auth::id())->get();
-        $empleadoLogeado = $LempleadoLogeado[0];
+        $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
         return view('felix.GestionarReposicionGastos.Contador.verCont',compact('reposicion','empleadoLogeado','detalles'));
     }
@@ -509,6 +487,7 @@ class ReposicionGastosController extends Controller
         
     }
 */
+    /*
     public function actualizarEstado($id){
         try{
             DB::beginTransaction();
@@ -519,21 +498,41 @@ class ReposicionGastosController extends Controller
             $reposicion->fechaHoraRevisionGerente=new DateTime();
             $reposicion->save();
             DB::commit();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            return redirect()->route('reposicionGastos.verificar');
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            return redirect()->route('reposicionGastos.verificar');
         }
         
-    }
+    }*/
+    /*
+    public function observarGeren($id){
+        try{
+            DB::beginTransaction();
+            date_default_timezone_set('America/Lima');
+            $arr = explode('*', $id);
+            $reposicion=ReposicionGastos::find($arr[0]);
+            $reposicion->codEstadoReposicion=5;
+            $reposicion->observacion=$arr[1];
+            $reposicion->fechaHoraRevisionGerente=new DateTime();
+            $reposicion->save();
+            DB::commit();
+            return redirect()->route('reposicionGastos.verificar');
+        }catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->route('reposicionGastos.verificar');
+        }
+        
+    }*/
 
 
     public function aprobar($id){//gerente
         try{
             DB::beginTransaction();
             $reposicion=ReposicionGastos::find($id);
-            $reposicion->codEstadoReposicion=2;
+            $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Aprobada');
+            $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
             $reposicion->fechaHoraRevisionGerente=new DateTime();
             $reposicion->save();
             DB::commit();
@@ -544,27 +543,98 @@ class ReposicionGastosController extends Controller
             return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
         }
     }
-    public function abonar($id){}
-    //public function contabilizar($id){}
-    public function observar($id){}
+    public function abonar($id){//jefe (codReposicion)
+        try{
+            DB::beginTransaction();
+            date_default_timezone_set('America/Lima');
+            $reposicion=ReposicionGastos::find($id);
+            $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Abonada');
+            $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->fechaHoraRevisionAdmin=new DateTime();
+            $reposicion->save();
+            DB::commit();
+            return redirect()->route('reposicionGastos.verificarJefe');
+        }catch(\Throwable $th){
+            //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
+            DB::rollBack();
+            return redirect()->route('reposicionGastos.verificarJefe');
+        }
+    }
+
+    public function observar($id){//gerente-jefe-contador (codReposicion-observacion)
+        try{
+            DB::beginTransaction();
+            date_default_timezone_set('America/Lima');
+            $arr = explode('*', $id);
+            $reposicion=ReposicionGastos::find($arr[0]);
+            $empleado=Empleado::getEmpleadoLogeado();
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->fechaHoraRevisionAdmin=new DateTime();
+            }else if($empleado->codPuesto==Puesto::getCodigo('Contador')){
+                $reposicion->codEmpleadoConta=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->fechaHoraRevisionConta=new DateTime();
+            }else{
+                $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
+                $reposicion->fechaHoraRevisionGerente=new DateTime();
+            }
+            $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Observada');
+            $reposicion->observacion=$arr[1];
+            
+            $reposicion->save();
+            DB::commit();
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                return redirect()->route('reposicionGastos.verificarJefe');
+            }else if($empleado->codPuesto==Puesto::getCodigo('Contador')){
+                return redirect()->route('reposicionGastos.verificarConta');
+            }else{
+                return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            }
+            
+        }catch(\Throwable $th){
+            DB::rollBack();
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                return redirect()->route('reposicionGastos.verificarJefe');
+            }else if($empleado->codPuesto==Puesto::getCodigo('Contador')){
+                return redirect()->route('reposicionGastos.verificarConta');
+            }else{
+                return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            }
+        }
+    }
     public function rechazar($id){//gerente-jefe (codReposicion)
         try{
             DB::beginTransaction();
             $reposicion=ReposicionGastos::find($id);
             $empleado=Empleado::getEmpleadoLogeado();
-            if($empleado->codPuesto==Puesto::getCodigo('Gerente')){}
-            $reposicion->codEstadoReposicion=Empleado::getEmpleadoLogeado()->codEmpleado;;
-            $reposicion->fechaHoraRevisionGerente=new DateTime();
+
+
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
+                $reposicion->fechaHoraRevisionAdmin=new DateTime();
+            }else{
+                $reposicion->codEmpleadoEvaluador=$empleado->codEmpleado;
+                $reposicion->fechaHoraRevisionGerente=new DateTime();
+            }
+            $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Rechazada');
             $reposicion->save();
             DB::commit();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                return redirect()->route('reposicionGastos.verificarJefe');
+            }else{
+                return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            }
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
+                return redirect()->route('reposicionGastos.verificarJefe');
+            }else{
+                return redirect()->route('reposicionGastos.verificar',$reposicion->codEmpleadoEvaluador);
+            }
         }
 
-
+    }
 
 
     public function contabilizar($cadena){

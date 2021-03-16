@@ -216,8 +216,8 @@
                         <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.actualizarJefe',$reposicion->codReposicionGastos.'*3')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Abonada</a>
-                        <a href="{{route('reposicionGastos.actualizarJefe',$reposicion->codReposicionGastos.'*7')}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
+                        <a href="{{route('reposicionGastos.abonar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Abonada</a>
+                        <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
                     </div>
                     @endif
                 </div>
@@ -295,7 +295,7 @@
         texto=$('#observacion').val();
         if(texto!=''){
             reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Jefe/Reposiciones/observar/'+reposicion+'*'+texto;  
+            window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';
         }
         else{ 
             alert('Ingrese observacion');

@@ -248,15 +248,15 @@
 
                 <br>
                 <div class="row">
-                    @if($reposicion->codEstadoReposicion==1)
+                    @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
                     <div class="col-md-9">
                         <label for="fecha">Observaciones</label>
                         <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
                         <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.actualizar',$reposicion->codReposicionGastos.'*2')}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
-                        <a href="{{route('reposicionGastos.actualizar',$reposicion->codReposicionGastos.'*7')}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
+                        <a href="{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
+                        <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
                     </div>    
                     @endif
                     
@@ -338,7 +338,7 @@
         texto=$('#observacion').val();
         if(texto!=''){
             reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Geren/Reposiciones/observar/'+reposicion+'*'+texto;  
+            window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
         }
         else{ 
             alert('Ingrese observacion');

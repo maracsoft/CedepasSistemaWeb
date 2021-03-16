@@ -113,7 +113,7 @@
                               <span class="red">S</span>
                             </h1>
                           </a>
-                          <a href="{{route('rendicionGastos.verAdmin',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                          <a href="{{route('rendicionGastos.verAdmin',$itemRendicion->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

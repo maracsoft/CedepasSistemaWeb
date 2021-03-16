@@ -161,60 +161,6 @@
 
       
 
-      <li class="nav-header">FELIX</li>
-      @if(Auth::user()->isAdmin == 1)
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-
-            <p>
-              PERSONAL
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/listarEmpleados" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Empleados</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/asignarGerentes" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Gerentes</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/listarAreas" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Areas/Puestos</p>
-              </a>
-            </li>
-            <!--
-            <li class="nav-item">
-              <a href="/listarAsistencia" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Asistencias</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/listarSolicitudesJefe" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Solicitudes</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/listarJustificacionesJefe" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Justificaciones</p>
-              </a>
-            </li>
-            -->
-            
-          </ul>
-        </li>
-      @endif
-
 
 
 
@@ -237,7 +183,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.listar',App\Empleado::getEmpleadoLogeado()->codEmpleado)}}" class="nav-link">
+                <a href="{{route('reposicionGastos.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Mis Reposicion</p>
                 </a>
@@ -255,7 +201,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.verificar',App\Empleado::getEmpleadoLogeado()->codEmpleado)}}" class="nav-link">
+                <a href="{{route('reposicionGastos.verificar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Evaluar Reposiciones</p>
                 </a>
@@ -303,6 +249,50 @@
         </ul>
       </li>
         
+
+
+   
+      @if(Auth::user()->isAdmin == 1)
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+
+            <p>
+              PERSONAL
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/listarEmpleados" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Empleados</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/asignarGerentes" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gerentes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/listarAreas" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Areas/Puestos</p>
+              </a>
+            </li>
+           
+            
+          </ul>
+        </li>
+      @endif
+
+
+
+
+
+
+
+
       <!-----------------------------------------------UNIDAD 2----------------------------------------------------------------->
       <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
@@ -357,88 +347,6 @@
 
           
         </ul>
-      </li>
-      {{--   JORGE        ----------------------------------------------------------------- --}}
-      <li class="nav-header">JORGE</li>
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="far fa-building nav-icon"></i>
-          <p>
-            Inventarios Jorge
-            <i class="right fas fa-angle-left"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-         
-               
-          <li class="nav-item">
-            <a href="{{ route('categoria.index') }}" class="nav-link">
-                <i class="nav-icon far fa-circle"></i>
-                <p>
-                    Categoria
-                </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="{{ route('existencia.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-database"></i>
-                  <p>
-                      Existencia
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="{{ route('ingreso.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-arrow-circle-right"></i>
-                  <p>
-                      Ingreso
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="{{ route('salida.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-arrow-circle-left"></i>
-                  <p>
-                      Salida
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="{{ route('existenciaPerdida.index') }}" class="nav-link">
-                  <i class="nav-icon fas fa-exclamation-circle"></i>
-                  <p>
-                      Existentes Perdidos
-                  </p>
-              </a>
-          </li>
-          
-          <li class="nav-item">
-              <a href="{{ route('exportar') }}" class="nav-link">
-                  <i class="nav-icon fas fa-file-alt"></i>
-                  <p>
-                      Reporte
-                  </p>
-              </a>
-          </li>
-
-          <li class="nav-item">
-              <a href="{{ route('reporte') }}" class="nav-link">
-                  <i class="nav-icon fas fa-file-alt"></i>
-                  <p>
-                      Movimiento de existentes
-                  </p>
-              </a>
-          </li>
-
-
-        </ul>
-
-
-
       </li>
 
 

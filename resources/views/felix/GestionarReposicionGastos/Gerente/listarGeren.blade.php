@@ -111,10 +111,16 @@
                 </td>
                 <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
                 <td>
-                  @if($itemreposicion->codEstadoReposicion==1)
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
+                  @if($itemreposicion->verificarEstado('Creada') || $itemreposicion->verificarEstado('Subsanada')  )
+                    <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" 
+                      class="btn btn-warning btn-sm">
+                      <i class="entypo-pencil"></i>Evaluar
+                    </a>
                   @else
-                  <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                    <a href="{{route('reposicionGastos.viewGeren',$itemreposicion->codReposicionGastos)}}"
+                      class="btn btn-info btn-sm">
+                      <i class="entypo-pencil"></i>Ver
+                    </a>
                   @endif
                   
                   

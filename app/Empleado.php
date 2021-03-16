@@ -92,26 +92,13 @@ class Empleado extends Model
     // solo para gerente
     public function getListaSolicitudesDeGerente(){
         //Construimos primero la busqueda de todos los proyectos que tenga este gerente
-        $stringQuery = '
-        SELECT * FROM `solicitud_fondos`';
         $listaProyectos = $this->getListaProyectos();
-
+        $vecProy=[];
         foreach ($listaProyectos as $itemProyecto ) {
-            $stringQuery = $stringQuery.
-                ' WHERE codProyecto = '.$itemProyecto->codProyecto.' ';
+           array_push($vecProy,$itemProyecto->codProyecto );
         }
-
-        //Debe listar con prioridad las CREADAS y las SUBSANADAS 
-        $stringQuery = $stringQuery.' order by MOD(codEstadoSolicitud-1,5)';//residuo de 5 para que me priorice las 6 y 1 (residuo 0 )
-        
-        $query = DB::select($stringQuery);  //obtenemos la lista de todas las solicitudes de los proyectos que lidera este gerente
-
-        $listaSolicitudesFondos = new Collection(); //pasamos de vector a coleccion
-        for ($i=0; $i < count($query); $i++) { 
-            $itemSol = SolicitudFondos::findOrFail($query[$i]->codSolicitud);
-            $listaSolicitudesFondos->add($itemSol);
-        }
-
+    
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)->get();
         return $listaSolicitudesFondos;
 
     }

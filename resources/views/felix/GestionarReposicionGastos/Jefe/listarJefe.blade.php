@@ -78,7 +78,7 @@
                 <th scope="col">Fecha emision</th>
                 <th scope="col">Fecha Gerente</th>
                 <th scope="col">Banco</th>
-                <th scope="col">Empleado Solicitante</th>
+                <th scope="col">Empleado Evaluador</th>
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado</th>
                 <th scope="col">Estado</th>

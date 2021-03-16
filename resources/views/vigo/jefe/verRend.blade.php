@@ -6,18 +6,20 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Ver Rendicion de Gastos</p>
-
-
+    <p class="h1" style="text-align: center">
+        Ver Rendicion de Gastos
+    </p>
 </div>
 
-<form method = "POST" action = "{{route('rendicionGastos.store')}}"  >
+<form method = "POST" action = "{{route('rendicionGastos.reponer')}}"  enctype="multipart/form-data" >
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
+    <input type="hidden" name="codRendicionGastos" id="codRendicionGastos" value="{{ $rend->codRendicionGastos }}">
     
+
     @csrf
     <div class="container" >
         <div class="row">           
@@ -63,7 +65,8 @@
                       </div>
 
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="codColaborador" id="codColaborador" value="{{$empleado->codigoCedepas}}">    
+                            <input readonly  type="text" class="form-control" name="codColaborador" 
+                            id="codColaborador" value="{{$empleado->codigoCedepas}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div class="colLabel">
@@ -71,7 +74,8 @@
 
                       </div>
                       <div class="col">
-                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
+                            <input readonly  type="text" class="form-control" name="importeRecibido" 
+                            id="importeRecibido" value="{{$solicitud->totalSolicitado}}">    
                       </div>
                       
                       
@@ -120,6 +124,17 @@
                             <div class="col">
                                     <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                             </div>
+
+
+                            <div class="w-100"></div> {{-- SALTO LINEA --}}
+                            <div class="col"> 
+                        {{--  --}}
+
+                              
+                                {{--  --}}
+
+                            </div>
+
                         </div>
 
                         
@@ -134,18 +149,6 @@
         </div>
       </div>
     
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
 
         {{-- LISTADO DE DETALLES  --}}
         <div class="col-md-12 pt-3">     
@@ -157,7 +160,7 @@
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
                         <th width="13%" class="text-center">Fecha</th>                                        
                         <th width="13%">Tipo CDP</th>
-                        <th width="13%">Comprobante</th>                                 
+                                                   
                         <th width="10%"> N° Cbte</th>
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
@@ -180,12 +183,7 @@
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->getNombreTipoCDP()  }}
                                 </td>               
-                                <td style="text-align: center">
-                                    <a href="{{route('rendicion.descargarCDPDetalle',$itemDetalle->codDetalleRendicion)}}" 
-                                        class='btn btn-primary'>
-                                        <i class="fas fa-download"></i>
-                                    </a>   
-                                </td>
+                               
                             
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->nroComprobante  }}
@@ -215,85 +213,106 @@
                 </table>
             </div> 
                 
+                      
+          
+
                 <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total Rendido/Gastado: </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">Total Recibido: </label>    
-                    </div>   
-
                     <div class="col">
-                       
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
-                    </div>   
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col">                        
-                        <label for="">
+                        <nav class="mt-2">
+                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link">
+                                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                                      <p>
+                                        Descargar Archivos Comprobantes
+                                        <i class="right fas fa-angle-left"></i>
+                                      </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        @for($i = 1; $i <= $rend->cantArchivos; $i++)
+                                            <li class="nav-item">
+                                                <a href="{{route('rendiciones.descargarCDP',$rend->codRendicionGastos.'*'.$i)}}" class="nav-link">
+                                                <i class="far fa-address-card nav-icon"></i>
+                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)) }}</p>
+                                                </a>
+                                            </li>    
+                                        @endfor
+                                    </ul>
+                                  </li>
+                            </ul>
+                        </nav>  
 
-                            @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                Saldo a favor del Empl: 
-                            @else
-                                Saldo a favor de Cedepas: 
-                            @endif
+
+
+
+                    </div>   
+
+                    <div class="col" >
+                        <div class="row">
                             
-                        </label>    
-                    </div>   
-                    <div class="col">
-                     
-                        <input type="text" class="form-control text-right" name="total" id="total" 
-                        readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
-                    </div>   
-                    
+                            <div class="col">                        
+                                <label for="">Total Rendido/Gastado: </label>    
+                            </div>   
+                            <div class="col">
+                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                                <input type="hidden" name="cantElementos" id="cantElementos">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
+                            </div>   
 
-                    <div class="col-md-8 text-center">  
-                        <div id="guardar">
-                            <div class="form-group">
-                                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" 
-                                    class='btn btn-primary' style="float:left;">
-                                    <i class="fas fa-undo"></i>
-                                    Regresar al menú
-                                </a>    
-                                           
-                            </div>    
+
+
+                            <div class="w-100"></div>
+                            <div class="col">                        
+                                <label for="">Total Recibido: </label>    
+                            </div>   
+
+                            <div class="col">
+                            
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
+                            </div>   
+                            <div class="w-100"></div>
+                            <div class="col">                        
+                                <label for="">
+
+                                    @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                                        Saldo a favor del Empl: 
+                                    @else
+                                        Saldo a favor de Cedepas: 
+                                    @endif
+                                    
+                                </label>    
+                            </div>   
+                            <div class="col">
+                                <input type="text" class="form-control text-right" name="total" id="total" 
+                                readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
+                            </div>   
+                            
+                            
+                            <div class="w-100"></div>
+                    
                         </div>
                     </div>
-                    
-                    @if($rend->estadoDeReposicion > 1) {{-- Si es 11 o es 2 --}}
-                        
-                    
-                    <div class="col">
-                        <a href="{{route('rendicion.descargarArchivoRendicion',$rend->codRendicionGastos)}}" 
-                            class='btn btn-primary'>
-                            <i class="fas fa-download"></i>
 
-                            @if($rend->codEstadoDeReposicion=='2')
-                                Descargar Comprobante de devolución
-                            @else
-                                Descargar Comprobante de reposición
-                            @endif
-                            
-                        </a>  
 
-                    </div>
-                    @endif
+
                 </div>
                     
 
                 
         </div> 
         
-        
+        <div class="col-md-12 text-center">  
+            <div id="guardar">
+                <div class="form-group">
+                    <a href="{{route('rendicionGastos.listarRendiciones')}}" 
+                        class='btn btn-primary' style="float:left;">
+                        <i class="fas fa-undo"></i>
+                        Regresar al menú
+                    </a>    
+                               
+                </div>    
+            </div>
+        </div>
     </div>
 
 </form>
@@ -332,8 +351,12 @@
         margin-top: 20px;
         text-align: left;
     }
-    
-    </style>
+    .hovered:hover{
+        background-color:rgb(97, 170, 170);
+    }
+
+
+</style>
 
 
 @section('script')
@@ -349,189 +372,16 @@
         var totalSinIGV=0;
     
         $(document).ready(function(){
-            var d = new Date();
-            codEmp = $('#codigoCedepas').val();
-            mes = (d.getMonth()+1.0).toString();
-            if(mes.length > 0) mes = '0' + mes;
             
-            year =  d.getFullYear().toString().substr(2,2)  ;
-            //$('#codRendicion').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-            
-    
         });
     
-        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
-        function cadAleatoria(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var charactersLength = characters.length;
-            for ( var i = 0; i < length; i++ ) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-            return result;
-        }
-    
-        /* Eliminar productos */
-        function eliminardetalle(index){
-            //total=total-importes[index]; 
-            //tam=detalleRend.length;
-    
-         
-    
-            //removemos 1 elemento desde la posicion index
-            detalleRend.splice(index,1);
-           
-            console.log('BORRANDO LA FILA' + index);
-            //cont--;
-            actualizarTabla();
-    
-        }
-    
-    
-        function actualizarTabla(){
-            //funcion para poner el contenido de detallesVenta en la tabla
-            //tambien actualiza el total
-            //$('#detalles')
-            total=0;
-            //vaciamos la tabla
-            for (let index = 100; index >=0; index--) {
-                $('#fila'+index).remove();
-                //console.log('borrando index='+index);
-            }
-            
-            //insertamos en la tabla los nuevos elementos
-            for (let item = 0; item < detalleRend.length; item++) {
-                element = detalleRend[item];
-                cont = item+1;
-    
-                total=total +parseFloat(element.importe); 
-    
-                //importes.push(importe);
-                //item = getUltimoIndex();
-                var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            '    <td> '+
- 
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
-                            '</tr>                 ';
-    
-    
-                $('#detalles').append(fila); 
-            }
-            $('#total').val(number_format(total,2));
-            
-            
-            $('#cantElementos').val(cont);
-            
-          
-            //alert('se termino de actualizar la tabla con cont='+cont);
-        }
-    
-    
-    
-    
-        function agregarDetalle()
-        {
+        
+        
+        
 
-
-            // VALIDAMOS
-
-            fecha = $("#fechaComprobante").val();    
-            if (fecha=='') 
-            {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
-            }   
-            tipo = $("#ComboBoxCDP").val();    
-            if (tipo==-1) 
-            {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
-            }
-            ncbte= $("#ncbte").val();   
-             
-            if (ncbte=='') 
-            {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
-            }
-             
-            concepto=$("#concepto").val();    
-            if (concepto=='') 
-            {
-                alert("Por favor ingrese el concepto");    
-                return false;
-            }    
-              
-            
     
-            importe=$("#importe").val();    
-            if (!(importe>0)) 
-            {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
-            }    
-            
     
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
-            if (codigoPresupuestal=='') 
-            {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
-            }    
     
-            if (importe==0)
-            {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
-            }  
-            
-            // FIN DE VALIDACIONES
-    
-                item = cont+1;   
-                detalleRend.push({
-                    fecha:fecha,
-                    tipo:tipo,
-                    ncbte,ncbte,
-                    concepto:concepto,
-                    importe:importe,            
-                    codigoPresupuestal:codigoPresupuestal
-                });        
-                cont++;
-            actualizarTabla();
-            //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
-            //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
-            $('#fechaComprobante').val('');
-            $('#ComboBoxCDP').val(0);
-            $('#ncbte').val('');
-            
-            $('#concepto').val('');
-            $('#importe').val('');
-            $('#codigoPresupuestal').val('');
-            
-    }
     
     function limpiar(){
         $("#cantidad").val(0);

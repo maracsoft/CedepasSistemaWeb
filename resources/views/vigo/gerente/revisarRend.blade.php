@@ -6,7 +6,15 @@
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Rendición de  Gastos</p>
+    {{-- ESTE ARCHIVO SIRVE TANTO COMO VER Y COMO REVISAR(aprobar/observar) --}}
+    <p class="h1" style="text-align: center">
+        @if($rend->verificarEstado('Creada') || $rend->verificarEstado('Subsanada') )
+
+        Revisar Rendición de  Gastos
+        @else 
+        Ver Rendicion de Gastos
+        @endif
+    </p>
 </div>
 
 <form method = "POST" action = "{{route('rendicionGastos.reponer')}}"  enctype="multipart/form-data" >
@@ -306,23 +314,13 @@
                                     </button> 
                                     <br>
                                 </div>    
-                            
-                            {{-- No se debería poder rechazar pq sino ya no se puede crear otra en base a esa solicitud xd --}}
-                            {{-- <div class="col">
-                                <a href="{{route('rendicionGastos.rechazar',$rend->codRendicionGastos)}}" 
-                                    class='btn btn-danger'  style="float:right;">
-                                    <i class='fas fa-ban'></i>
-                                    Rechazars
-                                </a>    
-                            </div> --}}
-                    
-                            <div class="col">
-                                <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
-                                    class='btn btn-success'  style="float:right;">
-                                    <i class="fas fa-check"></i>
-                                    Aprobar
-                                </a>    
-                            </div>
+                                <div class="col">
+                                    <a href="{{route('rendicionGastos.aprobar',$rend->codRendicionGastos)}}" 
+                                        class='btn btn-success'  style="float:right;">
+                                        <i class="fas fa-check"></i>
+                                        Aprobar
+                                    </a>    
+                                </div>
                     
                     
                             @endif
