@@ -8,26 +8,26 @@ use Illuminate\Http\Request;
 
 class PuestoController extends Controller
 {
-    public function listarPuestos($id){
-        $area=Area::find($id);
-        $puestos=Puesto::where('codArea','=',$id)->where('estado','=',1)->get();
-        return view('felix.GestionarAreasPuestos.indexPuesto',compact('puestos','area'));
+    const PAGINATION=10;
+
+    public function listarPuestos(Request $request){
+        $nombreBuscar=$request->nombreBuscar;
+        $puestos=Puesto::where('estado','=',1)->where('nombre','like','%'.$nombreBuscar.'%')->paginate($this::PAGINATION);
+        return view('felix.GestionarAreasPuestos.indexPuesto',compact('puestos','nombreBuscar'));
     }
 
-    public function crearPuesto($id){
-        $area=Area::find($id);
-        return view('felix.GestionarAreasPuestos.createPuesto',compact('area'));
+    public function crearPuesto(){
+        return view('felix.GestionarAreasPuestos.createPuesto');
     }
 
     public function guardarCrearPuesto(Request $request){
         
         $puesto=new Puesto();
         $puesto->nombre=$request->descripcion;
-        $puesto->codArea=$request->codArea;
         $puesto->estado=1;
         $puesto->save();
 
-        return Redirect('/listarPuestos/'.$request->codArea);
+        return Redirect('/listarPuestos');
     }
 
     public function editarPuesto($id){
@@ -41,7 +41,7 @@ class PuestoController extends Controller
         $puesto->nombre=$request->descripcion;
         $puesto->save();
 
-        return Redirect('/listarPuestos/'.$puesto->codArea);
+        return Redirect('/listarPuestos');
     }
 
     public function eliminarPuesto($id){
@@ -49,7 +49,7 @@ class PuestoController extends Controller
         $puesto->estado=0;
         $puesto->save();
 
-        return Redirect('/listarPuestos/'.$puesto->codArea);
+        return Redirect('/listarPuestos');
         //return response()->json();
     }
 }

@@ -75,7 +75,7 @@
                 <tr style="font-weight: bold">
                     <td style="width: 40px; text-align: center;">Item</td>
                     <td style="text-align: center;">Concepto</td>
-                    <td style="width: 80px; text-align: center;">Importe S/</td>
+                    <td style="width: 80px; text-align: center;">Importe {{$solicitud->getMoneda()->simbolo}}</td>
                     <td style="width: 90px; text-align: center;">Código Presupuestal</td>
                 </tr>
 
@@ -93,8 +93,9 @@
                 
                 
                 <tr>
-                    <td colspan="2" style="text-align: center">Son : {{$solicitud->escribirTotalSolicitado()}}  FALTA MONEDA(en tabla)</td>
-                    <td style="text-align: right">S/ {{number_format($solicitud->totalSolicitado,2)}}</td>
+                    <td colspan="2" style="text-align: center">Son : {{$solicitud->escribirTotalSolicitado()}}  {{$solicitud->getMoneda()->nombre}}</td>
+                    
+                    <td style="text-align: right">{{$solicitud->getMoneda()->simbolo}} {{number_format($solicitud->totalSolicitado,2)}}</td>
                     <td></td>
                 </tr>
 
@@ -124,7 +125,7 @@
         <table style="width:100%">
             <tbody style="width:100%">
                 <tr>
-                    <td style="width: 110px; font-weight: bold;">JUSTIFICACION
+                    <td style="width: 110px; font-weight: bold;">JUSTIFICACIÓN
                         DE LA
                         SOLICITUD:</td>
                     <td >{{$solicitud->justificacion}}</td>

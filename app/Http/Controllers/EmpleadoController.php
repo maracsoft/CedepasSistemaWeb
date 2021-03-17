@@ -16,17 +16,12 @@ use App\Sede;
 
 class EmpleadoController extends Controller
 {
-    public function listarEmpleados(){
-        
-        $empleados = Empleado::where('activo','=',1)->get();
-        /*
-        foreach ($Empresas as $Empresa) {//$Empresa es un registro
-            echo $Empresa->nombre;
-        }
-        */
-       
-        return view('felix.GestionarEmpleados.index',compact('empleados'));//pasar variables del controlador a la vista
-                                                                //nombre, valor
+    const PAGINATION = '10';
+
+    public function listarEmpleados(Request $request){
+        $dniBuscar=$request->dniBuscar;
+        $empleados = Empleado::where('activo','=',1)->where('dni','like',$dniBuscar.'%')->orderBy('fechaRegistro','desc')->paginate($this::PAGINATION);
+        return view('felix.GestionarEmpleados.index',compact('empleados','dniBuscar'));
     }
     public function crearEmpleado(){
         //$areas=Area::all();
@@ -55,25 +50,25 @@ class EmpleadoController extends Controller
         $empleado->codUsuario=$usuario->codUsuario;
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
-        $empleado->direccion=$request->direccion;
+        //$empleado->direccion=$request->direccion;
 
-        $arr = explode('/', $request->fechaNacimiento);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaNacimiento=$nFecha;   
+        //$arr = explode('/', $request->fechaNacimiento);
+        //$nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        //$empleado->fechaNacimiento=$nFecha;   
 
-        $empleado->sexo=$request->codSexo;
-        $empleado->tieneHijos=$request->tieneHijos;
+        //$empleado->sexo=$request->codSexo;
+        //$empleado->tieneHijos=$request->tieneHijos;
         $empleado->activo=1;
-        $empleado->codigoCedepas='E'.'00'.$usuario->codUsuario;
+        $empleado->codigoCedepas=$request->codigo;
         $empleado->dni=$request->DNI;
         $empleado->codPuesto=$request->codPuesto;
         
-        $arr = explode('/', $request->fechaInicio);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaInicio=$nFecha;   
-        $arr = explode('/', $request->fechaFin);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaFin=$nFecha;  
+        //$arr = explode('/', $request->fechaInicio);
+        //$nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        $empleado->fechaRegistro=date('y-m-d');   
+        //$arr = explode('/', $request->fechaFin);
+        //$nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
+        //$empleado->fechaFin=$nFecha;  
         
         $empleado->codSede=$request->codSede;
 
@@ -108,39 +103,13 @@ class EmpleadoController extends Controller
         //$usuario->isAdmin=0;
         $usuario->save();
         //Empleado
-        //$empleado=new Empleado();
-        //$empleado->codUsuario=$usuario->codUsuario;
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
-        $empleado->direccion=$request->direccion;
-
-        $arr = explode('/', $request->fechaNacimiento);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaNacimiento=$nFecha;   
-
-        $empleado->sexo=$request->codSexo;
-        $empleado->tieneHijos=$request->tieneHijos;
-        //$empleado->activo=1;
-        //$empleado->codigoCedepas='E'.'00'.$usuario->codUsuario;
+        $empleado->codigoCedepas=$request->codigo;
         $empleado->dni=$request->DNI;
-        $empleado->codPuesto=$request->codPuesto;
-        
-        $arr = explode('/', $request->fechaInicio);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaInicio=$nFecha;   
-        $arr = explode('/', $request->fechaFin);
-        $nFecha = $arr[2].'-'.$arr[1].'-'.$arr[0];     
-        $empleado->fechaFin=$nFecha;  
-        
+        $empleado->codPuesto=$request->codPuesto; 
         $empleado->codSede=$request->codSede;
 
-        //$empleado->codProyecto = $request->codProyectoDestino;
-        //$empleado->fechaNacimiento=$request->fechaNacimiento->format('y-m-d');
-        //$empleado->fechaNacimiento=date_format($request->fechaNacimiento,'y-m-d');
-
-
-        //$empleado->codPuesto=$request->codPuesto;
-        
         $empleado->save();
 
         return redirect('listarEmpleados');
@@ -148,6 +117,7 @@ class EmpleadoController extends Controller
 
     public function cesarEmpleado($id){
         $empleado=Empleado::find($id);
+        $empleado->fechaDeBaja=date('y-m-d');
         $empleado->activo=0;
         $empleado->save();
 

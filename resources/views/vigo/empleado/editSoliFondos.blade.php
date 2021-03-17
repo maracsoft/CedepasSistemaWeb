@@ -137,7 +137,7 @@
                         <div class="colLabel2">
                                 <label for="ComboBoxMoneda">Moneda:</label>
                         </div>
-                        <div class="col"> {{-- Combo box de sede --}}
+                        <div class="col"> {{-- Combo box de monedas --}}
                                 <select class="form-control"  id="ComboBoxMoneda" name="ComboBoxMoneda" >
                                     <option value="-1">-- Seleccionar --</option>
                                     @foreach($listaMonedas as $itemMoneda)
@@ -159,11 +159,11 @@
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
-                                <label for="ComboBoxSede">Estado de <br> la Solicitud 
+                                <label for="estado">Estado de <br> la Solicitud 
                                     @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
                         </div>
                         <div class="col"> {{-- Combo box de estado --}}
-                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            <input readonly type="text" class="form-control" name="estado" id="estado"
                             style="background-color: {{$solicitud->getColorEstado()}} ;
                                 color:{{$solicitud->getColorLetrasEstado()}};
                                 

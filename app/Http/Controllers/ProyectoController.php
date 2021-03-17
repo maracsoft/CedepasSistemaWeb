@@ -10,11 +10,39 @@ use App\ProyectoContador;
 use App\Puesto;
 use Illuminate\Support\Facades\DB;
 use NumberFormatter;
-
+use App\Sede;
+use App\Debug;
 class ProyectoController extends Controller
 {
     
+    function crear(){
+        $listaSedes = Sede::All();
 
+        return view('vigo.proyecto.create',compact('listaSedes'));
+    }
+
+    function store(Request $request){
+        try {
+            DB::beginTransaction();
+
+            $proyecto = new Proyecto();
+            $proyecto->nombre = $request->nombre;
+            $proyecto->activo = 1;
+            $proyecto->codSedePrincipal = $request->codSede;
+            $proyecto->abreviatura = $request->abreviatura;
+            $proyecto->save();
+
+            DB::commit();
+
+            return redirect()->route('proyecto.asignarGerentes')->with('datos','Proyecto creado exitosamente.');
+        } catch (\Throwable $th) {
+           
+            Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
+            DB::rollBack();
+        }
+
+
+    }
 
     //despliega la vista de los proyectos para asignarlos a sus gerentes.
     function listarProyectosYGerentes(){

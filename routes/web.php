@@ -222,7 +222,7 @@ Route::get('/editarHorario/{id}','PeriodoEmpleadoController@editarHorario');
 Route::post('/editarHorario/save','PeriodoEmpleadoController@guardarEditarHorario');
 
 
-/**GESTIONAR AREAS */
+/**GESTIONAR AREAS
 Route::get('/listarAreas','AreaController@listarAreas');
 
 Route::get('/crearArea','AreaController@crearArea');
@@ -232,11 +232,11 @@ Route::get('/editarArea/{id}','AreaController@editarArea');
 Route::post('/editarArea/save','AreaController@guardarEditarArea');
 
 Route::get('/eliminarArea/{id}','AreaController@eliminarArea');
-
+*/
 /**GESTIONAR PUESTOS */
-Route::get('/listarPuestos/{id}','PuestoController@listarPuestos');
+Route::get('/listarPuestos','PuestoController@listarPuestos');
 
-Route::get('/crearPuesto/{id}','PuestoController@crearPuesto');
+Route::get('/crearPuesto','PuestoController@crearPuesto');
 Route::post('/crearPuesto/save','PuestoController@guardarCrearPuesto');
 
 Route::get('/editarPuesto/{id}','PuestoController@editarPuesto');
@@ -485,3 +485,7 @@ Route::get('/asignarGerentesContadores/actualizar/{id}','ProyectoController@actu
 Route::get('/contadores/{id}','ProyectoController@listarContadores')->name('proyecto.listarContadores');
 Route::post('/contadores/save','ProyectoController@agregarContador')->name('proyecto.agregarContador');
 Route::get('/contadores/delete/{id}','ProyectoController@eliminarContador')->name('proyecto.eliminarContador');
+
+Route::get('/proyecto/crear','ProyectoController@crear')->name('proyecto.crear');
+Route::post('/proyecto/store','ProyectoController@store')->name('proyecto.store');
+

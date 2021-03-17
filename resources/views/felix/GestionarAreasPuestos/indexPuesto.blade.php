@@ -5,9 +5,19 @@
 <div class="card-body">
     
 
-  <div class="well"><H3 style="text-align: center;">PUESTOS DEL AREA DE "{{$area->nombre}}"</H3></div>
-
-    <br/> 
+  <div class="well"><H3 style="text-align: center;">PUESTOS</H3></div>
+  <div class="row">
+    <div class="col-md-2">
+      <a href="/crearPuesto" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+    </div>
+    <div class="col-md-10">
+      <form class="form-inline float-right">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nombre" aria-label="Search" name="nombreBuscar" id="nombreBuscar" value="{{$nombreBuscar}}">
+        <button class="btn btn-success " type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+  <br>
 
     <table class="table table-bordered table-hover datatable" id="table-3">
       <thead>                  
@@ -51,9 +61,7 @@
         
       </tbody>
     </table>
-    <br>
-    <a href="/crearPuesto/{{$area->codArea}}" style="margin-left:570px;" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>AGREGAR PUESTO</a>
-
+    {{$puestos->links()}}
   </div>
 
 

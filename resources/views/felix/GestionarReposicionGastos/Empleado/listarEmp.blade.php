@@ -44,10 +44,13 @@
       
     </div>
   </div>
-  <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
-  
-  <nav class="navbar float-right">
-    <form class="form-inline my-2 my-lg-0">
+  <br>
+  <div class="row">
+    <div class="col-md-2">
+      <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+    </div>
+    <div class="col-md-10">
+      <form class="form-inline float-right">
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
           <option value="0">--Seleccionar--</option>
           @foreach($proyectos as $itemproyecto)
@@ -56,9 +59,12 @@
               </option>                                 
           @endforeach 
         </select>
-        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-    </form>
-  </nav>
+        <button class="btn btn-success " type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+  
+  
     
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}

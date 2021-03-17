@@ -51,6 +51,22 @@
       
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+      <form class="form-inline float-right">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+          <option value="0">--Seleccionar--</option>
+          @foreach($proyectos as $itemproyecto)
+              <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                  {{$itemproyecto->nombre}}
+              </option>                                 
+          @endforeach 
+        </select>
+        <button class="btn btn-success " type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
 
 
 

@@ -81,8 +81,8 @@
                 <tr>
                     <td class="conLineas"  style="font-weight: bold;">Moneda:</td>
                     <td class="conLineas" >{{$reposicion->getMoneda()->nombre}}</td>
-                    <td class="conLineas"  style="font-weight: bold;">Importe Recibido:</td>
-                    <td class="conLineas" >S/ {{number_format($reposicion->totalImporte,2)}}</td>
+                    <td class="conLineas"  style="font-weight: bold;">Importe Gastado:</td>
+                    <td class="conLineas" >{{$reposicion->getMoneda()->simbolo}}  {{number_format($reposicion->totalImporte,2)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -94,7 +94,7 @@
                     <td class="conLineas"  style="width: 60px; text-align: center;">Tipo</td>
                     <td class="conLineas"  style="width: 70px; text-align: center;">Nro Compbte</td>
                     <td class="conLineas"  style="text-align: center;">Concepto</td>
-                    <td class="conLineas"  style="width: 80px; text-align: center;">Importe S/</td>
+                    <td class="conLineas"  style="width: 80px; text-align: center;">Importe {{$reposicion->getMoneda()->simbolo}} </td>
                     <td class="conLineas"  style="width: 90px; text-align: center;">Código Presupuestal</td>
                 </tr>
 

@@ -74,9 +74,9 @@
                 </tr>
                 <tr>
                     <td style="font-weight: bold;">Moneda:</td>
-                    <td>SOLES</td>
+                    <td>{{$rendicion->getMoneda()->nombre}} </td>
                     <td style="font-weight: bold;">Importe Recibido:</td>
-                    <td>S/ {{number_format($rendicion->totalImporteRecibido,2)}}</td>
+                    <td>{{$rendicion->getMoneda()->simbolo}} {{number_format($rendicion->totalImporteRecibido,2)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -88,7 +88,7 @@
                     <td style="width: 60px; text-align: center;">Tipo</td>
                     <td style="width: 70px; text-align: center;">Nro Compbte</td>
                     <td style="text-align: center;">Concepto</td>
-                    <td style="width: 80px; text-align: center;">Importe S/</td>
+                    <td style="width: 80px; text-align: center;">Importe {{$rendicion->getMoneda()->simbolo}} </td>
                     <td style="width: 90px; text-align: center;">Código Presupuestal</td>
                 </tr>
 
@@ -109,7 +109,7 @@
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
-                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Total Importe rendido S/</td>
+                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Total Importe rendido {{$rendicion->getMoneda()->simbolo}} </td>
                     <td style="text-align: right; background-color:rgb(238, 238, 238);">
                         {{number_format($rendicion->totalImporteRendido,2)}}</td>
                     <td style="border: 0;"></td>
@@ -118,7 +118,7 @@
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
-                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor de cedepas S/</td>
+                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor de cedepas {{$rendicion->getMoneda()->simbolo}} </td>
                     <td style="text-align: right; background-color:rgb(238, 238, 238);">
                         @if($rendicion->saldoAFavorDeEmpleado>0)
                             {{number_format($rendicion->saldoAFavorDeEmpleado,2)}}
@@ -133,7 +133,7 @@
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
-                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor del/a colaborador/a S/</td>
+                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor del/a colaborador/a {{$rendicion->getMoneda()->simbolo}} </td>
                     <td style="text-align: right; background-color:rgb(238, 238, 238);">
                         @if($rendicion->saldoAFavorDeEmpleado<0)
                            {{number_format(-$rendicion->saldoAFavorDeEmpleado,2)}}

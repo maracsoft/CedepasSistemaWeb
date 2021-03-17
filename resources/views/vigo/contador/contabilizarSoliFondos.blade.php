@@ -115,9 +115,9 @@
 
                        
                         <div  class="colLabel">
-                            <label for="ComboBoxSede">Moneda</label>
+                            <label for="">Moneda</label>
                         </div>
-                        <div class="col"> {{-- Combo box de sede --}}
+                        <div class="col"> {{--  --}}
                             <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
                                 readonly value="{{$solicitud->getMoneda()->nombre}}">     
                                     
@@ -125,11 +125,11 @@
 
                          <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel">
-                                <label for="ComboBoxSede">Estado de la Solicitud 
+                                <label for="">Estado de la Solicitud 
                                     @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif :</label>
                         </div>
                         <div class="col"> {{-- Combo box de estado --}}
-                            <input readonly type="text" class="form-control" name="sede" id="sede"
+                            <input readonly type="text" class="form-control" name="estado" id="estado"
                             style="background-color: {{$solicitud->getColorEstado()}} ;
                                 color:{{$solicitud->getColorLetrasEstado()}};
                                 

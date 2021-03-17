@@ -48,14 +48,6 @@
                 alert("Ingrese apellidos correctos");
                 $("#apellidos").focus();
             }
-            else if (document.getElementById("direccion").value == ""){
-                alert("Ingrese direccion del usuario");
-                $("#direccion").focus();
-            }
-            else if (document.getElementById("fechaNacimiento").value == ""){
-                alert("Ingrese fecha de nacimiento del usuario");
-                $("#fechaNacimiento").focus();
-            }
             else if (document.getElementById("DNI").value == ""){
                 alert("Ingrese DNI de la usuario");
                 $("#DNI").focus();
@@ -63,9 +55,6 @@
             else if (document.getElementById("DNI").value.length != 8){
                 alert("Ingrese DNI de 8 caracteres");
                 $("#DNI").focus();
-            }
-            else if (document.getElementById("codSexo").value == "0"){
-                alert("Seleccione el sexo de usuario");
             }
             else{
                 document.frmempresa.submit(); // enviamos el formulario	
@@ -100,7 +89,13 @@
                     <input type="password" class="form-control" id="contraseña2" name="contraseña2" placeholder="Contraseña...">
                 </div>
             </div>
-
+            <hr>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Codigo:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo..." value="{{$empleado->codigoCedepas}}">
+                </div>
+            </div>
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Nombres:</label>
                 <div class="col-sm-4">
@@ -112,50 +107,6 @@
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Apellidos:</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos..." value="{{$empleado->apellidos}}">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Direccion:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direccion..." value="{{$empleado->direccion}}">
-                </div>
-            </div>
-
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha de nacimiento:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaNacimiento" id="fechaNacimiento"
-                                   value="{{date("d/m/Y",strtotime($empleado->fechaNacimiento))}}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codSexo" id="codSexo">
-                    <option value="0" >--Seleccionar--</option>
-                    <option value="M" {{ 'M'==$empleado->sexo ? 'selected':'' }}>Hombre</option>
-                    <option value="F" {{ 'F'==$empleado->sexo ? 'selected':'' }}>Mujer</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">¿Tiene Hijos?:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="tieneHijos" id="tieneHijos">
-                    <option value="1" {{ 1==$empleado->tieneHijos ? 'selected':'' }}>SI</option>
-                    <option value="0" {{ 0==$empleado->tieneHijos ? 'selected':'' }}>NO</option>
-                    
-                    </select>
                 </div>
             </div>
 
@@ -175,36 +126,6 @@
                     @endforeach
                     </select>
                 </div>  
-            </div>
-
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio"
-                                   value="{{date("d/m/Y",strtotime($empleado->fechaInicio))}}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-
-            <div class="form-group row">                   
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Fin:</label>
-                <div class="col-md-4">                        
-                    <div class="form-group">                            
-                        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                            <input type="text"  class="form-control" name="fechaFin" id="fechaFin"
-                                   value="{{date("d/m/Y",strtotime($empleado->fechaFin))}}" style="text-align:center;">
-                            <div class="input-group-btn">                                        
-                                <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
             </div>
 
             <div class="form-group row">

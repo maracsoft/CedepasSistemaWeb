@@ -63,7 +63,7 @@
               <tr>
                 <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
                 <th width="6%"  scope="col">Fecha Rendicion</th>
-                <th width="4%"  scope="col">Sede</th>
+            
                 <th width="25%"  scope="col">Proyecto</th>              
                 <th width="4%"  scope="col">Total Recibido</th>
                 <th width="4%"  scope="col">Total Gastado</th>
@@ -82,7 +82,7 @@
             <tr>
               <td>{{$itemRendicion->codigoCedepas  }}</td>
               <td>{{$itemRendicion->fechaRendicion  }}</td>
-              <td>{{$itemRendicion->getNombreSede()  }}</td>
+             
               <td>{{$itemRendicion->getNombreProyecto()  }}</td>
               <td>{{$itemRendicion->totalImporteRecibido  }}</td>
               <td>{{$itemRendicion->totalImporteRendido  }}</td>

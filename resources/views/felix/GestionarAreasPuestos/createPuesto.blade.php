@@ -30,7 +30,6 @@
     <br>
     <form id="frmPuesto" name="frmPuesto" role="form" action="/crearPuesto/save" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
-            <input id="codArea" type="hidden" name="codArea" value="{{ $area->codArea }}" >
 
             <div class="form-group row" style="margin-left:250px;">
                 <label class="col-sm-1 col-form-label">Nombre:</label>
@@ -43,6 +42,6 @@
             <!--
              <input type="button" class="btn btn-primary"  value="Guardar" onclick="validarregistro()" /> -->
             <input type="button" class="btn btn-primary" style="margin-left:600px;" value="GUARDAR"  onclick="validarregistro()"/>
-            <a href="/listarPuestos/{{$area->codArea}}" class="btn btn-info">Regresar</a>
+            <a href="/listarPuestos" class="btn btn-info">Regresar</a>
     </form>
 @endsection

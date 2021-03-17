@@ -7,10 +7,36 @@
 @endsection
 @section('contenido')
 <br>
+
+
+
+@if (session('datos'))
+<div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+    {{session('datos')}}
+  <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+      <span aria-hidden="true"> &times;</span>
+  </button>
+  
+</div>
+@endif
+
+
+<div class="col-md-2">
+  <a href="{{route('proyecto.crear')}}" class="btn btn-primary">
+    <i class="fas fa-plus"></i>
+    Nuevo Proyecto
+  </a>
+</div>
+
+
 <div class="card">
     <div class="card-header">
       <h3 class="card-title">PROYECTOS Y GERENTES</h3>
     </div>
+
+
+    
+
     <!-- /.card-header -->
     <div class="card-body p-0">
       <table class="table table-sm">

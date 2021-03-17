@@ -200,6 +200,9 @@ class RendicionGastos extends Model
         return $color;
     }
 
+    public function getMoneda(){
+        return $this->getSolicitud()->getMoneda();
+    }
 
     public function getSolicitud(){
         return SolicitudFondos::findOrFail($this->codSolicitud);
@@ -218,6 +221,8 @@ class RendicionGastos extends Model
         return $listaX;
 
     }
+    
+
 
     public static function reportePorEmpleados($fechaI, $fechaF){
         $listaX = DB::select('

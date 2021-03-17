@@ -89,7 +89,7 @@
               <li class="nav-item">
                 <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Rendiciones para Reponer</p>
+                  <p>Rendiciones</p>
                 </a>
               </li>
               
@@ -271,13 +271,13 @@
             <li class="nav-item">
               <a href="/asignarGerentes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Gerentes</p>
+                <p>Gerentes/Contadores</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/listarAreas" class="nav-link">
+              <a href="/listarPuestos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Areas/Puestos</p>
+                <p>Puestos</p>
               </a>
             </li>
            

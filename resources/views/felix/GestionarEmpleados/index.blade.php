@@ -2,27 +2,22 @@
 
 @section('contenido')
 
-<script>
-  $(function () {
-    $("#table-3").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-    });
-  });
-
-  var mismoDNI = '<?php echo Session::get('mismoDNI'); ?>';
-
-  if(mismoDNI!=''){
-    if (mismoDNI) alert('No se puede registrar mas de un usuario con el mismo DNI');
-  }
-
-</script>
 
 <div class="card-body">
     
   <div class="well"><H3 style="text-align: center;"><strong>EMPLEADOS</strong></H3></div>
-
-    <br/> 
+  <div class="row">
+    <div class="col-md-2">
+      <a href="/crearEmpleado" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+    </div>
+    <div class="col-md-10">
+      <form class="form-inline float-right">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar por DNI" aria-label="Search" name="dniBuscar" id="dniBuscar" value="{{$dniBuscar}}">
+        <button class="btn btn-success " type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+  <br>
 
     <table class="table table-bordered table-hover datatable" id="table-3">
       <thead>                  
@@ -30,6 +25,7 @@
           <th>DNI</th>
           <th>USUARIO</th>
           <th>NOMBRES Y APELLIDOS</th>
+          <th>PUESTO</th>
           <th>OPCIONES</th>
         </tr>
       </thead>
@@ -40,8 +36,9 @@
                 <td>{{$itemempleado->dni}}</td>
                 <td>{{$itemempleado->usuario()->usuario}}</td>
                 <td>{{$itemempleado->nombres}}, {{$itemempleado->apellidos}}</td>
+                <td>{{$itemempleado->getPuestoActual()->nombre}}</td>
                 <td>
-                    <a href="/editarEmpleado/{{$itemempleado->codEmpleado}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>
+                    <a href="/editarEmpleado/{{$itemempleado->codEmpleado}}" class="btn btn-warning btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>
                     <!--
                     <a href="/listarEmpleados/listarContratos/{{$itemempleado->codEmpleado}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contrato</a>
                     -->
@@ -72,9 +69,7 @@
       </tbody>
     </table>
     
-    <a href="/crearEmpleado" class="btn btn-primary btn-sm btn-icon icon-left" style="margin-left:610px;"><i class="entypo-pencil"></i>CREAR</a>  
-    
-    
+    {{$empleados->links()}}
 
   </div>
 

@@ -396,9 +396,7 @@
                 msj='Debe seleccionar el proyecto';
             
            
-            if($('#ComboBoxSede').val()=='-1' )
-                msj='Debe seleccionar la sede';
-            
+           
 
             if($('#ComboBoxBanco').val()=='-1' )
                 msj='Debe seleccionar el banco.';

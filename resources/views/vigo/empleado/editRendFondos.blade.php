@@ -125,11 +125,11 @@
                             <div class="w-100"></div> {{-- SALTO LINEA --}}
 
                             <div  class="col">
-                                    <label for="ComboBoxSede">Estado de <br> la Solicitud
+                                    <label for="estado">Estado de <br> la Solicitud
                                         @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
                             </div>
                             <div class="col"> {{-- Combo box de estado --}}
-                                <input readonly type="text" class="form-control" name="sede" id="sede"
+                                <input readonly type="text" class="form-control" name="estado" id="estado"
                                 style="background-color: {{$rendicion->getColorEstado()}} ;
                                     color:{{$rendicion->getColorLetrasEstado()}};   
                                 "

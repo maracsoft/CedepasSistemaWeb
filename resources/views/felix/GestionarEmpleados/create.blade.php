@@ -48,14 +48,6 @@
                 alert("Ingrese apellidos correctos");
                 $("#apellidos").focus();
             }
-            else if (document.getElementById("direccion").value == ""){
-                alert("Ingrese direccion del usuario");
-                $("#direccion").focus();
-            }
-            else if (document.getElementById("fechaNacimiento").value == ""){
-                alert("Ingrese fecha de nacimiento del usuario");
-                $("#fechaNacimiento").focus();
-            }
             else if (document.getElementById("DNI").value == ""){
                 alert("Ingrese DNI de la usuario");
                 $("#DNI").focus();
@@ -63,9 +55,6 @@
             else if (document.getElementById("DNI").value.length != 8){
                 alert("Ingrese DNI de 8 caracteres");
                 $("#DNI").focus();
-            }
-            else if (document.getElementById("codSexo").value == "0"){
-                alert("Seleccione el sexo de usuario");
             }
             else{
                 document.frmempresa.submit(); // enviamos el formulario	
@@ -100,6 +89,13 @@
                     <input type="password" class="form-control" id="contraseña2" name="contraseña2" placeholder="Contraseña...">
                 </div>
             </div>
+            <hr>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Codigo:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo..." >
+                </div>
+            </div>
 
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Nombres:</label>
@@ -114,14 +110,14 @@
                     <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos..." >
                 </div>
             </div>
-
+            <!--
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Direccion:</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direccion..." >
                 </div>
             </div>
-
+            
             <div class="form-group row">                   
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha de nacimiento:</label>
                 <div class="col-md-4">                        
@@ -136,6 +132,8 @@
                     </div>
                 </div> 
             </div>
+            
+
 
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sexo:</label>
@@ -157,7 +155,7 @@
                     </select>
                 </div>
             </div>
-
+            -->
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">DNI:</label>
                 <div class="col-sm-4">
@@ -175,7 +173,7 @@
                     </select>
                 </div>  
             </div>
-
+            <!--
             <div class="form-group row">                   
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Fecha Inicio:</label>
                 <div class="col-md-4">                        
@@ -205,7 +203,7 @@
                     </div>
                 </div> 
             </div>
-
+            -->
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede:</label>
                 <div class="col-sm-4">

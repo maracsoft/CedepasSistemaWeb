@@ -51,8 +51,11 @@
       
     </div>
   </div>
-  <nav class="navbar float-right">
-    <form class="form-inline my-2 my-lg-0">
+  <br>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+      <form class="form-inline float-right">
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
           <option value="0">--Seleccionar--</option>
           @foreach($proyectos as $itemproyecto)
@@ -61,9 +64,10 @@
               </option>                                 
           @endforeach 
         </select>
-        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-    </form>
-  </nav>
+        <button class="btn btn-success " type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
 
 
 

@@ -17,9 +17,7 @@ class Empleado extends Model
 
     
     // le indicamos los campos de la tabla 
-    protected $fillable = ['codUsuario','nombres','apellidos',
-    'fechaNacimiento','codEmpleadoTipo','sexo','activo',
-    'codigoEmpleadoCedepas','codProyecto','dni','codPuesto'];
+    protected $fillable = ['codUsuario','nombres','apellidos','activo','codigoCedepas','dni','codPuesto','fechaRegistro','fechaDeBaja','codSede'];
 
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
