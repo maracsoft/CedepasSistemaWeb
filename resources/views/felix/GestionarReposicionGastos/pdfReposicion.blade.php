@@ -90,18 +90,18 @@
         <table style="width:100%">
             <tbody style="width:100%; font-size: 11px;">
                 <tr style="font-weight: bold; background-color:rgb(238, 238, 238);">
-                    <td class="conLineas"  style="width: 70px; text-align: center;">Fecha</td>
-                    <td class="conLineas"  style="width: 60px; text-align: center;">Tipo</td>
-                    <td class="conLineas"  style="width: 70px; text-align: center;">Nro Compbte</td>
-                    <td class="conLineas"  style="text-align: center;">Concepto</td>
-                    <td class="conLineas"  style="width: 80px; text-align: center;">Importe {{$reposicion->getMoneda()->simbolo}} </td>
-                    <td class="conLineas"  style="width: 90px; text-align: center;">Código Presupuestal</td>
+                    <td class="conLineas" style="width: 70px; text-align: center;">Fecha</td>
+                    <td class="conLineas" style="width: 60px; text-align: center;">Tipo</td>
+                    <td class="conLineas" style="width: 70px; text-align: center;">Nro Compbte</td>
+                    <td class="conLineas" style="text-align: center;">Concepto</td>
+                    <td class="conLineas" style="width: 80px; text-align: center;">Importe {{$reposicion->getMoneda()->simbolo}} </td>
+                    <td class="conLineas" style="width: 90px; text-align: center;">Código Presupuestal</td>
                 </tr>
 
                 @foreach($detalles as $itemdetalle)
                     <tr>
                         <td class="conLineas"  style="text-align: center">{{$itemdetalle->fechaComprobante}}</td>
-                        <td class="conLineas"  style="text-align: center">{{$itemdetalle->getNombreTipoCDP()}}</td>
+                        <td class="conLineas"  style="text-align: center">{{$itemdetalle->getCDP()->codigoSUNAT}}</td> 
                         <td class="conLineas"  style="text-align: center">{{$itemdetalle->nroComprobante}}</td>
                         <td class="conLineas" >{{$itemdetalle->concepto}}</td>
                         <td class="conLineas"  style="text-align: right">{{number_format($itemdetalle->importe,2)}}</td>

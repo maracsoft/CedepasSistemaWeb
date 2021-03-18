@@ -85,7 +85,7 @@
             <tbody style="width:100%; font-size: 11px;">
                 <tr style="font-weight: bold; background-color:rgb(238, 238, 238);">
                     <td style="width: 70px; text-align: center;">Fecha</td>
-                    <td style="width: 60px; text-align: center;">Tipo</td>
+                    <td style="width: 60px; text-align: center;">TipoCDP</td>
                     <td style="width: 70px; text-align: center;">Nro Compbte</td>
                     <td style="text-align: center;">Concepto</td>
                     <td style="width: 80px; text-align: center;">Importe {{$rendicion->getMoneda()->simbolo}} </td>
@@ -95,7 +95,7 @@
                 @foreach($listaItems as $item)
                     <tr>
                         <td style="text-align: center">{{$item->fecha}}</td>
-                        <td style="text-align: center">{{$item->getNombreTipoCDP()}}</td>
+                        <td style="text-align: center">{{$item->getCDP()->codigoSUNAT}}</td>
                         <td style="text-align: center">{{$item->nroComprobante}}</td>
                         <td>{{$item->concepto}}</td>
                         <td style="text-align: right">{{number_format($item->importe,2)}}</td>

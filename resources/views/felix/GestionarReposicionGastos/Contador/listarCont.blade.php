@@ -136,7 +136,17 @@
                   @else
                   <a href="{{route('reposicionGastos.verReposicionOfContador',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
                   @endif
-                  
+                  <a  href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
+                    class="btn btn-warning btn-sm">
+                    <i class="entypo-pencil"></i>
+                    PDF
+                  </a>
+
+                  <a target="blank" href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                    class="btn btn-warning btn-sm">
+                    <i class="entypo-pencil"></i>
+                    verPDF
+                  </a>
                 </td>
 
             </tr>

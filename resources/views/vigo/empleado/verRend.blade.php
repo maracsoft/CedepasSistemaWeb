@@ -230,7 +230,7 @@
                 
                 <div class="row" id="divTotal" name="divTotal">    
                     <div class="col">
-                        @include('vigo.desplegableDescargarArchivos')
+                        @include('vigo.desplegableDescargarArchivosRend')
                         
 
 

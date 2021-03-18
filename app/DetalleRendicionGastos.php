@@ -27,4 +27,9 @@ class DetalleRendicionGastos extends Model
         $cdp = CDP::findOrFail($this->codTipoCDP);
         return $cdp->nombreCDP;
     }
+
+    public function getCDP(){
+        return CDP::findOrFail($this->codTipoCDP);
+
+    }
 }

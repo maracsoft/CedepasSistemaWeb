@@ -29,7 +29,17 @@ class Empleado extends Model
 
     public function esGerente(){
         $listaProyectos = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
-        if(count($listaProyectos)>0)//si es gerente
+        $puesto = Puesto::findOrFail($this->codPuesto);
+        if(count($listaProyectos)>0 && $puesto->nombre=='Gerente')//si es gerente
+            return true;
+
+        return false;
+
+    }
+
+    public function esContador(){
+        $detalles = ProyectoContador::where('codEmpleadoContador','=',$this->codEmpleado)->get();
+        if(count($detalles)>0)//si es gerente
             return true;
 
         return false;

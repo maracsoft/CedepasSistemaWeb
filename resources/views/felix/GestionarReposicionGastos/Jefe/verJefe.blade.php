@@ -8,7 +8,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Abonar Reposicion de Gastos</p>
 
 
 </div>
@@ -192,10 +192,26 @@
               
 
                 <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
+                    <div class="col"  style="">
+
+                        @include('vigo.desplegableDescargarArchivosRepo')
+
                     </div>   
-                    <div class="col-md-2">                        
+
+
+
+                    <div class="col-md-2" style="text-align:center">                        
                         <label for="">Total Gastado: </label>    
+                        <br><br><br>
+                            <label for="fecha">Observaciones</label>
+                            
+                            <textarea class="form-control" name="observacion" id="observacion" 
+                                aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                            
+                            <br>
+                            
+
+                        
                     </div>   
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
@@ -203,35 +219,52 @@
                         <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
                         <input type="hidden" name="totalRendido" id="totalRendido">
 
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
+                        <input type="text" class="form-control text-right" name="total" 
+                            id="total" readonly="readonly" value="{{number_format($total,2)}}">   
+
+                            <br><br><br>
+                        <a href="#" class="btn btn-warning" onclick="observar()">
+                            Observar
+                        </a>    
 
                     </div>   
                 </div>
-                <br>
-                <div class="row">
-                    @if($reposicion->codEstadoReposicion==2)
-                    <div class="col-md-9">
-                        <label for="fecha">Observaciones</label>
-                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{route('reposicionGastos.abonar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Abonada</a>
-                        <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
-                    </div>
-                    @endif
-                </div>
-
+               
                 
         </div> 
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfJefe',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'>Regresar</a>              
+                    <a href="{{route('reposicionGastos.listarRepoOfJefe',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'>
+                        Regresar al Menú
+                    </a>  
+                    
+                    <a href="{{route('reposicionGastos.abonar',$reposicion->codReposicionGastos)}}" 
+                        class="btn btn-success float-right">
+                        <i class="entypo-pencil"></i>
+                        Marcar como Abonada
+                    </a>
+                    <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right">
+                        <i class="entypo-pencil"></i>
+                        Rechazar
+                    </a>  
+
+
                 </div>    
             </div>
         </div>
+
+
+        
+
+        
+
+
+
+
+
+
     </div>
 
 </form>

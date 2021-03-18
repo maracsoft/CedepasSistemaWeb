@@ -423,7 +423,8 @@ Route::group(['prefix' => 'existenciaPerdida'], function () {
 });
 
 
-
+//RUTA MAESTAR PARA REPOSICION
+Route::get('/reposiciones/listar','ReposicionGastosController@listarReposiciones')->name('reposicionGastos.listarReposiciones');
 
 
 /**MODULO  "Reposiciones de Fondos a empleados"*/
