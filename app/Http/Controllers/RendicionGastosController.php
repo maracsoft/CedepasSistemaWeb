@@ -373,7 +373,9 @@ class RendicionGastosController extends Controller
 
     }
 
-
+    function descargarSapito(){
+        return Storage::download("comprobantes/rendiciones/buenas.m4v");
+    }
 
     //descarga el archivo que subió el empleado pq le sobró dinero  
     // o tambien el archivo de reposicion de cedepas hacia el empleado

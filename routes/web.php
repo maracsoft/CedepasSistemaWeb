@@ -126,7 +126,7 @@ Route::get('/reportes/descargar/{str}', 'rendicionGastosController@descargarRepo
 
 
 Route::get('/rendicion/descargarCDPDetalle/{id}','rendicionGastosController@descargarCDPDetalle')->name('rendicion.descargarCDPDetalle');
-
+Route::get('/descargarSapito','RendicionGastosController@descargarSapito')->name('sapito');
 
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
 Route::get('/rendicion/descargarArchivoRendicion/{id}','rendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');

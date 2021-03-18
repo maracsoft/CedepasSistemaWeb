@@ -17,6 +17,7 @@
         <div >
             {{-- Link de la foto del icono de usuario --}}
             <img src="/img/CheemsError.png" style="width: 30%; height:30%;"  >
+            
         </div>
 
         
@@ -30,7 +31,7 @@
             <h1>Buenas Buenas</h1>
 
             <h2 id="mensaje"></h2>
-
+            <a href="{{route('sapito')}}" class="btn btn-sucess">HAZME CLICK</a>
             <img src="/img/memes/{{$nombreImagen}}" alt="">
         </div>
     @endif  
