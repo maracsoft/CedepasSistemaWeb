@@ -13,7 +13,7 @@ class Proyecto extends Model
 
 
     // le indicamos los campos de la tabla 
-    protected $fillable = ['nombre','codEmpleadoDirector'];
+    protected $fillable = ['nombre','codEmpleadoDirector','codPresupuestal','activo','codSedePrincipal'];
     
 
     //retorna 1 si el proyecto tiene una caja chica, 0 si no

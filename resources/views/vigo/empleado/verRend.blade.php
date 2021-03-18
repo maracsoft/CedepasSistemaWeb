@@ -96,7 +96,7 @@
                         <div class="col">
                             <label for="fecha">Resumen de la actividad:</label>
                             <textarea class="form-control" name="resumen" id="resumen" readonly aria-label="With textarea"
-                             style="resize:none; height:100px;">{{$rend->resumenDeActividad}}</textarea>
+                             style="resize:none; height:100px;">{{$rendicion->resumenDeActividad}}</textarea>
             
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                                 <label for="fecha">Cod Rendicion:</label>
                             </div>
                             <div class="col">
-                                 <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rend->codigoCedepas}}">     
+                                 <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codigoCedepas}}">     
                             </div>
 
 
@@ -125,14 +125,14 @@
 
                             <div  class="colLabel">
                                     <label for="estado">Estado de <br> la Solicitud
-                                        @if($rend->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                                        @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
                             </div>
                             <div class="col"> {{-- Combo box de estado --}}
                                 <input readonly type="text" class="form-control" name="estado" id="estado"
-                                style="background-color: {{$rend->getColorEstado()}} ;
-                                    color:{{$rend->getColorLetrasEstado()}};   
+                                style="background-color: {{$rendicion->getColorEstado()}} ;
+                                    color:{{$rendicion->getColorLetrasEstado()}};   
                                 "
-                                readonly value="{{$rend->getNombreEstado()}}@if($rend->verificarEstado('Observada')): {{$rend->observacion}}@endif"  >           
+                                readonly value="{{$rendicion->getNombreEstado()}}@if($rendicion->verificarEstado('Observada')): {{$rendicion->observacion}}@endif"  >           
                             </div>
 
 
@@ -160,7 +160,9 @@
         </div> --}}
            
            
-         
+        <br>
+        @include('vigo.empleado.listadoDesplegableSolicitud')  
+
 
 
         {{-- LISTADO DE DETALLES  --}}
@@ -228,29 +230,8 @@
                 
                 <div class="row" id="divTotal" name="divTotal">    
                     <div class="col">
-                        <nav class="mt-2">
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                      <i class="nav-icon fas fa-tachometer-alt"></i>
-                                      <p>
-                                        Descargar Archivos Comprobantes
-                                        <i class="right fas fa-angle-left"></i>
-                                      </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        @for($i = 1; $i <= $rend->cantArchivos; $i++)
-                                            <li class="nav-item">
-                                                <a href="{{route('rendiciones.descargarCDP',$rend->codRendicionGastos.'*'.$i)}}" class="nav-link">
-                                                <i class="far fa-address-card nav-icon"></i>
-                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)) }}</p>
-                                                </a>
-                                            </li>    
-                                        @endfor
-                                    </ul>
-                                  </li>
-                            </ul>
-                        </nav> 
+                        @include('vigo.desplegableDescargarArchivos')
+                        
 
 
 
@@ -277,7 +258,7 @@
                             <div class="col">
                                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                                 <input type="hidden" name="cantElementos" id="cantElementos">                              
-                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
                             </div>   
 
                             <div class="w-100"></div>
@@ -287,13 +268,13 @@
                             </div>   
                             <div class="col">
                             
-                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
+                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
                             </div>   
                             <div class="w-100"></div>  
                             <div class="col">                        
                                 <label for="">
 
-                                    @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                                    @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
                                         Saldo a favor del Empl: 
                                     @else
                                         Saldo a favor de Cedepas: 
@@ -304,7 +285,7 @@
                             <div class="col">
                             
                                 <input type="text" class="form-control text-right" name="total" id="total" 
-                                readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
+                                readonly value="{{number_format(abs($rendicion->saldoAFavorDeEmpleado),2)}}">                              
                             </div>   
                             <div class="w-100"></div>
 

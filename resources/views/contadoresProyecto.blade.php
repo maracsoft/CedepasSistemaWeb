@@ -62,7 +62,7 @@
     </table>
     <br>
     
-    <a href="{{route('proyecto.asignarGerentes')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
+    <a href="{{route('proyecto.index')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
 
   </div>
 @endsection

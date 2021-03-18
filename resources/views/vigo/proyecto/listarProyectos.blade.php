@@ -21,16 +21,17 @@
 @endif
 
 
-<div class="col-md-2">
+
+<div class="col" style="text-align:center;">
   <a href="{{route('proyecto.crear')}}" class="btn btn-primary">
     <i class="fas fa-plus"></i>
     Nuevo Proyecto
   </a>
 </div>
-
+<br>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header" style=" ">
       <h3 class="card-title">PROYECTOS Y GERENTES</h3>
     </div>
 
@@ -43,10 +44,14 @@
         <thead>
 
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">IdBD</th>
+            
+            <th scope="col">Cod Proy</th>
             <th scope="col">NOMBRE PROYECTO</th>
             <th scope="col">GERENTE</th>
             <th scope="col">CONTADOR</th>
+            <th scope="col">Opciones</th>
+            
           </tr>
 
         </thead>
@@ -57,6 +62,8 @@
           
           <tr>
             <td>{{$itemProyecto->codProyecto}}</td>
+            <td>{{$itemProyecto->codigoPresupuestal}}</td>
+            
             <td>{{$itemProyecto->nombre}}</td>
             </td>
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
@@ -82,7 +89,16 @@
               
               </select> 
               -->
-              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contadores ({{$itemProyecto->nroContadores()}})</a>
+              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left">
+                <i class="entypo-pencil"></i>Contadores ({{$itemProyecto->nroContadores()}})
+              </a>
+            </td>
+            <td>
+              <a href="{{route('proyecto.editar',$itemProyecto->codProyecto)}}" class="btn btn-alert">
+                <i class="fas fa-pen-square"></i>
+                Editar
+              </a>
+
             </td>
           </tr>
 

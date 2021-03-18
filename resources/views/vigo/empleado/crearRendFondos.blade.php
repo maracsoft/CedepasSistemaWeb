@@ -138,20 +138,12 @@
                 
             </div>
         </div>
-      </div>
-    
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
+    </div>
 
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
+        
+        
+        <br>
+        @include('vigo.empleado.listadoDesplegableSolicitud')  
 
         {{-- LISTADO DE DETALLES  --}}
         <div class="col-md-12 pt-3">     

@@ -307,29 +307,8 @@
 
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col">
-                        <nav class="mt-2">
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                      <i class="nav-icon fas fa-tachometer-alt"></i>
-                                      <p>
-                                        Descargar Archivos Comprobantes
-                                        <i class="right fas fa-angle-left"></i>
-                                      </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        @for($i = 1; $i <= $rendicion->cantArchivos; $i++)
-                                            <li class="nav-item">
-                                                <a href="{{route('rendiciones.descargarCDP',$rendicion->codRendicionGastos.'*'.$i)}}" class="nav-link">
-                                                <i class="far fa-address-card nav-icon"></i>
-                                                <p>   {{App\RendicionGastos::getFormatoNombreCDP($rendicion->codRendicionGastos,$i,$rendicion->getTerminacionNro($i)) }}</p>
-                                                </a>
-                                            </li>    
-                                        @endfor
-                                    </ul>
-                                  </li>
-                            </ul>
-                        </nav>  
+                        @include('vigo.desplegableDescargarArchivos')
+                        
                     </div>
 
 

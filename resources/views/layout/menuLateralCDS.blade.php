@@ -249,7 +249,12 @@
         </ul>
       </li>
         
-
+      <li class="nav-item">
+        <a href="{{route('proyecto.index')}}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Proyectos</p>
+        </a>
+      </li>
 
    
       @if(Auth::user()->isAdmin == 1)
@@ -268,12 +273,7 @@
                 <p>Empleados</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="/asignarGerentes" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Gerentes/Contadores</p>
-              </a>
-            </li>
+          
             <li class="nav-item">
               <a href="/listarPuestos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>

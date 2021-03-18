@@ -157,23 +157,24 @@ class RendicionGastosController extends Controller
 
     //del empleado
     public function ver($id){ 
-        $rend = RendicionGastos::findOrFail($id);
-        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $rendicion = RendicionGastos::findOrFail($id);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
-
-        return view('vigo.empleado.verRend',compact('rend','solicitud','empleado','detallesRend'));
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
+        
+        return view('vigo.empleado.verRend',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
     }
     
     //despliuega vista de  rendicion, del admiin
     public function verAdmin($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $rend = RendicionGastos::findOrFail($id);
+        $rendicion = RendicionGastos::findOrFail($id);
 
-        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.jefe.verRend',compact('rend','solicitud','empleado','detallesRend'));     
+        return view('vigo.jefe.verRend',compact('rendicion','solicitud','empleado','detallesRend'));     
     }
 
 
@@ -181,23 +182,23 @@ class RendicionGastosController extends Controller
     public function verGerente($codRend){ 
         //le pasamos la id de la solicitud de fondos a la que está enlazada
         
-        $rend = RendicionGastos::findOrFail($codRend);
+        $rendicion = RendicionGastos::findOrFail($codRend);
         
-        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.gerente.revisarRend',compact('rend','solicitud','empleado','detallesRend'));        
+        return view('vigo.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));        
     }
 
     //despliuega vista de  contabilizar rendicion,
     public function verContabilizar($id){ //le pasamos la id de la rend
-        $rend = RendicionGastos::findOrFail($id);
-        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $rendicion = RendicionGastos::findOrFail($id);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
 
-        return view('vigo.contador.contabilizarRend',compact('rend','solicitud','empleado','detallesRend'));
+        return view('vigo.contador.contabilizarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
     public function contabilizar($cadena ){
@@ -232,13 +233,13 @@ class RendicionGastosController extends Controller
 
     public function verReponer($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
         $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
-        $rend = $listaRend[0];
+        $rendicion = $listaRend[0];
 
         $solicitud = SolicitudFondos::findOrFail($id);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.jefe.verReponer',compact('rend','solicitud','empleado','detallesRend'));
+        return view('vigo.jefe.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -254,13 +255,13 @@ class RendicionGastosController extends Controller
 
 
     public function revisar($id){ //le pasamos la id de la rendicion de gastos
-        $rend = RendicionGastos::findOrFail($id);
+        $rendicion = RendicionGastos::findOrFail($id);
 
-        $solicitud = SolicitudFondos::findOrFail($rend->codSolicitud);
+        $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rend->codRendicionGastos)->get();
+        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.gerente.revisarRend',compact('rend','solicitud','empleado','detallesRend'));
+        return view('vigo.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -591,9 +592,9 @@ class RendicionGastosController extends Controller
 
 
     public function prueba(){
-        $rend = RendicionGastos::findOrFail(217);    
+        $rendicion = RendicionGastos::findOrFail(217);    
        
-        if($rend->verificarEstado('Creada')  )
+        if($rendicion->verificarEstado('Creada')  )
             return "SI";
         else
             return "NO";
@@ -633,7 +634,7 @@ class RendicionGastosController extends Controller
     public function update( Request $request){
         try {
 
-
+            
             DB::beginTransaction();   
             $rendicion = RendicionGastos::findOrFail($request->codRendicion);
             $rendicion-> totalImporteRendido = $request->totalRendido;
@@ -742,9 +743,9 @@ class RendicionGastosController extends Controller
         $codRend = $vector[0];
         $i = $vector[1];
         
-        $rend = RendicionGastos::findOrFail($codRend);
+        $rendicion = RendicionGastos::findOrFail($codRend);
         $nombreArchivo = RendicionGastos::getFormatoNombreCDP(
-                $rend->codRendicionGastos,$i,$rend->getTerminacionNro($i)
+                $rendicion->codRendicionGastos,$i,$rendicion->getTerminacionNro($i)
         );
  
         return Storage::download("/comprobantes/rendiciones/".$nombreArchivo);
@@ -758,13 +759,13 @@ class RendicionGastosController extends Controller
     //DEPRECATO
     /* function descargarArchivoRendicion($id){
         
-        $rend = RendicionGastos::findOrFail($id);
-        if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Repuesta a Favor') )
+        $rendicion = RendicionGastos::findOrFail($id);
+        if($rendicion->codEstadoRendicion== RendicionGastos::getCodEstado('Repuesta a Favor') )
             $prefijo = 'Repos';
-        if($rend->codEstadoRendicion== RendicionGastos::getCodEstado('Rendida en contra')    )
+        if($rendicion->codEstadoRendicion== RendicionGastos::getCodEstado('Rendida en contra')    )
             $prefijo = 'Devol';
         
-        $nombreArchivo = $this::raizArchivo.$this->rellernarCerosIzq($id,6).'.'.$rend->terminacionArchivo ;
+        $nombreArchivo = $this::raizArchivo.$this->rellernarCerosIzq($id,6).'.'.$rendicion->terminacionArchivo ;
         
         
         return Storage::download("comprobantesAbono/".$nombreArchivo);

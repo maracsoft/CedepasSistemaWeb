@@ -21,6 +21,17 @@ class ProyectoController extends Controller
         return view('vigo.proyecto.create',compact('listaSedes'));
     }
 
+    function editar($codProyecto){
+        $proyecto = Proyecto::findOrFail($codProyecto);
+        $listaSedes = Sede::All();
+
+        return view('vigo.proyecto.edit',compact('listaSedes','proyecto'));
+    }
+
+    
+
+
+
     function store(Request $request){
         try {
             DB::beginTransaction();
@@ -29,31 +40,82 @@ class ProyectoController extends Controller
             $proyecto->nombre = $request->nombre;
             $proyecto->activo = 1;
             $proyecto->codSedePrincipal = $request->codSede;
-            $proyecto->abreviatura = $request->abreviatura;
+            $proyecto->codigoPresupuestal = $request->codigoPresupuestal;
+            $proyecto->nombreLargo = $request->nombreLargo;
+            
             $proyecto->save();
 
             DB::commit();
 
-            return redirect()->route('proyecto.asignarGerentes')->with('datos','Proyecto creado exitosamente.');
+            return redirect()->route('proyecto.index')->with('datos','Proyecto creado exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
+            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
     }
 
-    //despliega la vista de los proyectos para asignarlos a sus gerentes.
-    function listarProyectosYGerentes(){
+    function update(Request $request){
+        try {
+            DB::beginTransaction();
 
-        
+            $proyecto = Proyecto::findOrFail($request->codProyecto);
+            $proyecto->nombre = $request->nombre;
+            $proyecto->codSedePrincipal = $request->codSede;
+            $proyecto->codigoPresupuestal = $request->codigoPresupuestal;
+            $proyecto->nombreLargo = $request->nombreLargo;
+            
+            $proyecto->save();
+
+            DB::commit();
+
+            return redirect()->route('proyecto.index')->with('datos','Proyecto actualizado exitosamente.');
+        } catch (\Throwable $th) {
+           
+            Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
+            DB::rollBack();
+            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
+        }
+
+
+    }
+
+
+    function darDeBaja($codProyecto){
+        try {
+            DB::beginTransaction();
+
+            $proyecto = Proyecto::findOrFail($codProyecto);
+            $proyecto->activo = 0;
+            $proyecto->save();
+
+            DB::commit();
+
+            return redirect()->route('proyecto.index')->with('datos','Proyecto Dado de baja exitosamente.');
+        } catch (\Throwable $th) {
+           
+            Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
+            DB::rollBack();
+            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
+        }
+
+
+    }
+    //VISTA INDEX de proyectos
+    function index(){
         $listaProyectos = Proyecto::getProyectosActivos();
         $listaGerentes = Empleado::getListaGerentesActivos();
         $listaContadores = Empleado::getListaContadoresActivos();
 
-        return view('asignarGerentes',compact('listaProyectos','listaGerentes','listaContadores'));
+        return view('vigo.proyecto.listarProyectos',
+            compact('listaProyectos','listaGerentes','listaContadores'));
+
+
     }
+
 
     function listarContadores($id){
         $proyecto=Proyecto::findOrFail($id);

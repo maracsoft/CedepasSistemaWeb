@@ -19,14 +19,24 @@
                 alert("Ingrese el nombre del proyecto");
                 $("#nombre").focus();
             }
-            else if (document.getElementById("abreviatura").value == ""){
-                alert("Ingrese la abreviatura del proyecto");
-                $("#abreviatura").focus();
-            }
+            
             else if (document.getElementById("codSede").value == "-1"){
                 alert("Ingrese la sede principal del proyecto");
                 $("#codSede").focus();
             }
+            
+            else if (document.getElementById("codigoPresupuestal").value == "-1"){
+                alert("Ingrese el codigo presupuestal del proyecto");
+                $("#codigoPresupuestal").focus();
+            }
+            
+            else if (document.getElementById("nombreLargo").value == "-1"){
+                alert("Ingrese el nombreLargo del proyecto");
+                $("#nombreLargo").focus();
+            }
+            
+
+
             
             else{
                 document.frmempresa.submit(); // enviamos el formulario	
@@ -35,47 +45,103 @@
     
 </script>
 
-    
-    <div class="well"><H3 style="text-align: center;">CREAR PROYECTO</H3></div>
-    <br>
-    <form id="frmempresa" name="frmempresa" role="form" action="{{route('proyecto.store')}}" class="form-horizontal form-groups-bordered" 
-        method="post" enctype="multipart/form-data">
-        @csrf 
+<form id="frmempresa" name="frmempresa" role="form" action="{{route('proyecto.store')}}" 
+class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
 
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Nombre del Proyecto:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre..." >
-                </div>
-            </div>
+@csrf 
 
 
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Abreviatura del proyecto:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="abreviatura" name="abreviatura" placeholder="..." >
-                </div>
-            </div>
-
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Sede Principal:</label>
-                <div class="col-sm-4">
-                    <select class="form-control" name="codSede" id="codSede">
-                        <option value="-1">-- Seleccionar --</option>
-                        @foreach($listaSedes as $itemsede)
-                        <option value="{{$itemsede->codSede}}">{{$itemsede->nombre}}</option>    
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-
-                
+<div class="well"><H3 style="text-align: center;">CREAR PROYECTO</H3></div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-2" style="">
             
-            <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
-            <a href="{{route('proyecto.asignarGerentes')}}" class="btn btn-info">Regresar</a>
-    </form>
+        
+        </div>
+        
+
+        <div class="col" style="">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col">
+
+                        
+                        <label class="" style="">Nombre del Proyecto:</label>
+                        
+                        
+                        <div class="">
+                            <input type="text" class="form-control" id="nombre" name="nombre" 
+                                value="" placeholder="Nombre..." >
+                        </div>
+                    </div>
+
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <label class="" style="">Codigo presupuestal:</label>
+                        <div class="">
+                            <input type="text" class="form-control" id="codigoPresupuestal" name="codigoPresupuestal"
+                            value=""  placeholder="..." >
+                        </div>
+                    </div>
+
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <label class="" style="">Nombre Largo:</label>
+                        <div class="">
+                            <textarea class="form-control" name="nombreLargo" id="nombreLargo" cols="30" rows="2"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <label class="" style="">Sede Principal:</label>
+                        <div class="">
+                            <select class="form-control" name="codSede" id="codSede">
+                                <option value="-1">-- Seleccionar --</option>
+                                @foreach($listaSedes as $itemsede)
+                                <option value="{{$itemsede->codSede}}">
+                                    {{$itemsede->nombre}}
+                                </option>    
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="w-100"></div>
+                    <div class="col" style=" text-align:center">
+                    
+                        <button class="btn btn-primary"  style="" onclick="validarregistro()"> 
+                            <i class="far fa-save"></i>
+                            Guardar
+                        </button>
+                    
+                        
+                        
+    
+                    </div>
+
+                </div>
+
+            </div>
+                <a href="{{route('proyecto.index')}}" class="btn btn-info">
+                    Regresar al Menú
+                </a>
+        </div>
+        <div class="col-2" >
+         
+        
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</form>
 @endsection
 
 

@@ -403,16 +403,20 @@ class SolicitudFondosController extends Controller
 
     //Despliega la vista de rendir esta solciitud. ES LO MISMO QUE UN CREATE EN EL RendicionFondosController
     public function rendir($id){ //le pasamos id de la sol fondos
+
         $solicitud = SolicitudFondos::findOrFail($id);
+
+        $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         $listaBancos = Banco::All();
         $listaProyectos = Proyecto::All();
         $listaSedes = Sede::All();
         $listaCDP = CDP::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
-
+  
         $listaEmpleadosDeSede  = Empleado::All();
         return view ('vigo.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
-        ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP'));
+        
+                    ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP','detallesSolicitud'));
     }
 
 

@@ -56,7 +56,7 @@
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
     <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
-    <input type="hidden" name="codRendicionGastos" id="codRendicionGastos" value="{{ $rend->codRendicionGastos }}">
+    <input type="hidden" name="codRendicionGastos" id="codRendicionGastos" value="{{ $rendicion->codRendicionGastos }}">
     
 
     @csrf
@@ -139,7 +139,7 @@
                         <div class="col">
                             <label for="fecha">Resumen de la actividad:</label>
                             <textarea class="form-control" name="resumen" id="resumen" readonly aria-label="With textarea"
-                             style="resize:none; height:100px;">{{$rend->resumenDeActividad}}</textarea>
+                             style="resize:none; height:100px;">{{$rendicion->resumenDeActividad}}</textarea>
             
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                                 <label for="fecha">Cod Rendicion:</label>
                             </div>
                             <div class="col">
-                                 <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rend->codigoCedepas}}">     
+                                 <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codigoCedepas}}">     
                             </div>
 
 
@@ -267,7 +267,7 @@
                     <div class="col-md-2">
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rend->totalImporteRendido),2)}}">                              
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
                     </div>   
                     <div class="col-md-8">
                     </div>   
@@ -277,14 +277,14 @@
 
                     <div class="col">
                        
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rend->totalImporteRecibido,2)}}">                              
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
                     </div>   
                     <div class="col-md-8">
                     </div>   
                     <div class="col">                        
                         <label for="">
 
-                            @if($rend->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                            @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
                                 Saldo a favor del Empl: 
                             @else
                                 Saldo a favor de Cedepas: 
@@ -295,7 +295,7 @@
                     <div class="col">
                      
                         <input type="text" class="form-control text-right" name="total" id="total" 
-                        readonly value="{{number_format(abs($rend->saldoAFavorDeEmpleado),2)}}">                              
+                        readonly value="{{number_format(abs($rendicion->saldoAFavorDeEmpleado),2)}}">                              
                     </div>   
                     
 

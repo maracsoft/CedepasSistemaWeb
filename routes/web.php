@@ -479,8 +479,7 @@ Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');*/
 
 /* MODULO PROYECTOS  */
 
-Route::get('/asignarGerentes','ProyectoController@listarProyectosYGerentes')
-    ->name('proyecto.asignarGerentes');
+
 Route::get('/asignarGerentesContadores/actualizar/{id}','ProyectoController@actualizarProyectosYGerentesContadores');
 Route::get('/contadores/{id}','ProyectoController@listarContadores')->name('proyecto.listarContadores');
 Route::post('/contadores/save','ProyectoController@agregarContador')->name('proyecto.agregarContador');
@@ -489,3 +488,9 @@ Route::get('/contadores/delete/{id}','ProyectoController@eliminarContador')->nam
 Route::get('/proyecto/crear','ProyectoController@crear')->name('proyecto.crear');
 Route::post('/proyecto/store','ProyectoController@store')->name('proyecto.store');
 
+Route::get('/proyecto/index','ProyectoController@index')->name('proyecto.index');
+Route::get('/proyecto/editar/{id}','ProyectoController@editar')->name('proyecto.editar');
+Route::post('/proyecto/update','ProyectoController@update')->name('proyecto.update');
+
+
+Route::get('proyecto/darDeBaja/{id}','ProyectoController@darDeBaja')->name('proyecto.darDeBaja');

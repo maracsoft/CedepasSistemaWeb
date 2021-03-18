@@ -29,6 +29,10 @@ class SolicitudFondos extends Model
     }
     
 
+    public function getDetalles(){
+        return DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();
+
+    }
     public function getNombreProyecto(){
         $proyecto = Proyecto::findOrFail($this->codProyecto);
         return $proyecto->nombre;
@@ -192,7 +196,19 @@ class SolicitudFondos extends Model
 
     /**ESCRIBIR NUMEROSSSSS */
     function escribirTotalSolicitado(){
-        return $this->convertir($this->totalSolicitado);
+        $n = $this->totalSolicitado;
+        $arr=explode('.', $n);
+
+        if(sizeof($arr)==1){
+            $stringDecimal='00';
+        }else if(strlen($arr[1])==1){
+            $stringDecimal=$arr[1].'0';
+        }else{
+            $stringDecimal=$arr[1];
+        }
+
+        return $this->convertir($n).' Con '.$stringDecimal.'/100';
+        //return $this->convertir($this->totalSolicitado);
     }
 
     function basico($numero) {
@@ -261,18 +277,20 @@ class SolicitudFondos extends Model
         }
     }
     function convertir($n) {
+        $sinMayusculas='';
         switch (true) {
             case ( $n >= 1 && $n <= 29) : 
-                return $this->basico($n); break;
+                $sinMayusculas=$this->basico($n); break;
             case ( $n >= 30 && $n < 100) : 
-                return $this->decenas($n); break;
+                $sinMayusculas=$this->decenas($n); break;
             case ( $n >= 100 && $n < 1000) : 
-                return $this->centenas($n); break;
+                $sinMayusculas=$this->centenas($n); break;
             case ($n >= 1000 && $n <= 999999): 
-                return $this->miles($n); break;
+                $sinMayusculas=$this->miles($n); break;
             case ($n >= 1000000): 
-                return $this->millones($n); break;
+                $sinMayusculas=$this->millones($n); break;
         }
+        return ucfirst($sinMayusculas);
     }
 
 }
