@@ -88,7 +88,7 @@ class EliController extends Controller
                 $nombreImagen = "lengua.PNG";
                 break;
             case 18:
-                $mensaje = "Cuídate mucho, sino con quién me wa casar u.u";
+                $mensaje = "Cuídate mucho, sino con quién me wa casar u.u    HAZ CLICK PARA EL SAPITO";
                 $nombreImagen="";
                 break;                                              
             case 19:
