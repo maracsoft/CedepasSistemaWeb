@@ -32,7 +32,7 @@ class PeriodoEmpleadoController extends Controller
         }
         //echo($cont);
         
-        return view('felix.GestionarEmpleados.indexContrato',compact('empleado','contratos','cont'));
+        return view('Empleados.indexContrato',compact('empleado','contratos','cont'));
     }
 
     public function crearContrato($id){
@@ -43,7 +43,7 @@ class PeriodoEmpleadoController extends Controller
         $areas=Area::all();
         $AFPS=AFP::all();
         $proyectos = Proyecto::getProyectosActivos();
-        return view('felix.GestionarEmpleados.createContrato',
+        return view('Empleados.createContrato',
         compact('empleado','tipoContrato','areas','AFPS','proyectos'));
         
     }
@@ -192,7 +192,7 @@ class PeriodoEmpleadoController extends Controller
         $puesto=$contrato->puesto;
         $area=$contrato->puesto->area;
         $puestos=Puesto::where('codArea','=',$area->codArea)->get();
-        return view('felix.GestionarEmpleados.editContrato',compact('contrato','areas','AFPS','puestos'));
+        return view('Empleados.editContrato',compact('contrato','areas','AFPS','puestos'));
     }
 
 
@@ -269,7 +269,7 @@ class PeriodoEmpleadoController extends Controller
     public function crearHorario($id){
         $contrato=PeriodoEmpleado::find($id);
         $tiposTurno=TipoTurno::all();
-        return view('felix.GestionarEmpleados.createHorario',compact('tiposTurno','contrato'));
+        return view('Empleados.createHorario',compact('tiposTurno','contrato'));
     }
 
 
@@ -313,7 +313,7 @@ class PeriodoEmpleadoController extends Controller
         $contrato=PeriodoEmpleado::find($id);
         $turno=$contrato->turno;
         $tiposTurno=TipoTurno::all();
-        return view('felix.GestionarEmpleados.editHorario',compact('turno','tiposTurno'));
+        return view('Empleados.editHorario',compact('turno','tiposTurno'));
     }
 
     public function guardarEditarHorario(Request $request){
@@ -350,9 +350,9 @@ class PeriodoEmpleadoController extends Controller
         $contrato=PeriodoEmpleado::find($id);
 
         if($contrato->codTipoContrato==1){
-            $pdf = \PDF::loadview('felix.GestionarEmpleados.contratoPlazoPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
+            $pdf = \PDF::loadview('Empleados.contratoPlazoPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
         }else{
-            $pdf = \PDF::loadview('felix.GestionarEmpleados.contratoLocacionPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
+            $pdf = \PDF::loadview('Empleados.contratoLocacionPDF',array('contrato'=>$contrato))->setPaper('a4', 'portrait');
         }
 
         

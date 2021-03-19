@@ -80,7 +80,7 @@ class RendicionGastos extends Model
         $listaItems = DetalleRendicionGastos::where('codRendicionGastos','=',$this->codRendicionGastos)->get();
         
         
-        $pdf = \PDF::loadview('vigo.pdfRendicionGastos',
+        $pdf = \PDF::loadview('ProvisionFondos.pdfRendicionGastos',
             array('rendicion'=>$this,'listaItems'=>$listaItems)
                             )->setPaper('a4', 'portrait');
         return $pdf;

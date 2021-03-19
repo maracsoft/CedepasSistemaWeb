@@ -78,7 +78,7 @@ class RendicionGastosController extends Controller
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
         $listaRendiciones=$listaRendiciones->paginate($this::PAGINATION);
         $buscarpor = '';
-        return view('vigo.contador.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        return view('ProvisionFondos.contador.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
         
 
 
@@ -93,7 +93,7 @@ class RendicionGastosController extends Controller
 
         $buscarpor = '';
         $empleado = Empleado::getEmpleadoLogeado();
-        return view('vigo.jefe.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        return view('ProvisionFondos.jefe.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
         
     }
 
@@ -114,7 +114,7 @@ class RendicionGastosController extends Controller
         
         $buscarpor = '';
 
-        return view('vigo.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        return view('ProvisionFondos.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
         
     }
 
@@ -143,7 +143,7 @@ class RendicionGastosController extends Controller
 
         $buscarpor = '';
         //return $listaRendiciones;
-        return view('vigo.empleado.listarRendiciones',
+        return view('ProvisionFondos.empleado.listarRendiciones',
             compact('listaRendiciones','empleado','buscarpor'));
         
     }
@@ -163,7 +163,7 @@ class RendicionGastosController extends Controller
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         
-        return view('vigo.empleado.verRend',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
+        return view('ProvisionFondos.empleado.verRend',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
     }
     
     //despliuega vista de  rendicion, del admiin
@@ -174,7 +174,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.jefe.verRend',compact('rendicion','solicitud','empleado','detallesRend'));     
+        return view('ProvisionFondos.jefe.verRend',compact('rendicion','solicitud','empleado','detallesRend'));     
     }
 
 
@@ -188,7 +188,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));        
+        return view('ProvisionFondos.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));        
     }
 
     //despliuega vista de  contabilizar rendicion,
@@ -198,7 +198,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
 
-        return view('vigo.contador.contabilizarRend',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('ProvisionFondos.contador.contabilizarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
     public function contabilizar($cadena ){
@@ -239,7 +239,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.jefe.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('ProvisionFondos.jefe.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -249,7 +249,7 @@ class RendicionGastosController extends Controller
         $rendicion = RendicionGastos::findOrFail($idRendicion);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $listaCDP = CDP::All();
-        return view('vigo.empleado.editRendFondos',compact('rendicion','solicitud','listaCDP'));
+        return view('ProvisionFondos.empleado.editRendFondos',compact('rendicion','solicitud','listaCDP'));
 
     }
 
@@ -261,7 +261,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('vigo.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('ProvisionFondos.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -810,7 +810,7 @@ class RendicionGastosController extends Controller
                     //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
-                    return view('vigo.jefe.reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
+                    return view('ProvisionFondos.jefe.reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
                     
 
 
@@ -820,12 +820,12 @@ class RendicionGastosController extends Controller
 
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
-                    return view('vigo.jefe.reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
+                    return view('ProvisionFondos.jefe.reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
                     break;
                 case '3':
 
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
-                    return view('vigo.jefe.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
+                    return view('ProvisionFondos.jefe.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
                 
                     break;
                 
@@ -833,7 +833,7 @@ class RendicionGastosController extends Controller
                     $sede  = Sede::findOrFail($request->ComboBoxSede);
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$sede->codSede);
 
-                return view('vigo.jefe.reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
+                return view('ProvisionFondos.jefe.reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
                     break;
 
                             
@@ -882,7 +882,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
                 // return  $listaX;
-                $nombreVista = 'vigo.jefe.reportes.reporteSedes';
+                $nombreVista = 'ProvisionFondos.jefe.reportes.reporteSedes';
                 $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
 
 
@@ -893,7 +893,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'vigo.jefe.reportes.reporteEmpleado';
+                    $nombreVista = 'ProvisionFondos.jefe.reportes.reporteEmpleado';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     break;
@@ -902,7 +902,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'vigo.jefe.reportes.reporteProyectos';
+                    $nombreVista = 'ProvisionFondos.jefe.reportes.reporteProyectos';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     
@@ -912,7 +912,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$codSede);
 
 
-                    $nombreVista = 'vigo.jefe.reportes.reporteEmpleadoXSede';
+                    $nombreVista = 'ProvisionFondos.jefe.reportes.reporteEmpleadoXSede';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
                             
                     

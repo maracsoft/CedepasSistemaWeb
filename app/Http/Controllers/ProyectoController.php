@@ -18,14 +18,14 @@ class ProyectoController extends Controller
     function crear(){
         $listaSedes = Sede::All();
 
-        return view('vigo.proyecto.create',compact('listaSedes'));
+        return view('Proyectos.create',compact('listaSedes'));
     }
 
     function editar($codProyecto){
         $proyecto = Proyecto::findOrFail($codProyecto);
         $listaSedes = Sede::All();
 
-        return view('vigo.proyecto.edit',compact('listaSedes','proyecto'));
+        return view('Proyectos.edit',compact('listaSedes','proyecto'));
     }
 
     
@@ -113,7 +113,7 @@ class ProyectoController extends Controller
         $listaGerentes = Empleado::getListaGerentesActivos();
         $listaContadores = Empleado::getListaContadoresActivos();
 
-        return view('vigo.proyecto.listarProyectos',
+        return view('Proyectos.listarProyectos',
             compact('listaProyectos','listaGerentes','listaContadores'));
 
 

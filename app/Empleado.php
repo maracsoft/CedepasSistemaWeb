@@ -48,7 +48,7 @@ class Empleado extends Model
 
     
     /* REFACTORIZAR ESTO PARA LA NUEVA CONFIGURACION DEL A BASE DE DATOOOOOOOOOOOOOOOOOOOOOOOOOS */
-    //para modulo vigo. 
+    //para modulo ProvisionFondos. 
     public function esJefeAdmin(){
         $puesto = Puesto::findOrFail($this->codPuesto);
         if($puesto->nombre=='Jefe de Administración')

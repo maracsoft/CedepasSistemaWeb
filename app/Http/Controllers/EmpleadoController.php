@@ -21,14 +21,14 @@ class EmpleadoController extends Controller
     public function listarEmpleados(Request $request){
         $dniBuscar=$request->dniBuscar;
         $empleados = Empleado::where('activo','=',1)->where('dni','like',$dniBuscar.'%')->orderBy('fechaRegistro','desc')->paginate($this::PAGINATION);
-        return view('felix.GestionarEmpleados.index',compact('empleados','dniBuscar'));
+        return view('Empleados.index',compact('empleados','dniBuscar'));
     }
     public function crearEmpleado(){
         //$areas=Area::all();
         //$proyectos = Proyecto::All();
         $puestos=Puesto::where('estado','!=',0)->get();
         $sedes=Sede::all();
-        return view('felix.GestionarEmpleados.create',compact('puestos','sedes'));
+        return view('Empleados.create',compact('puestos','sedes'));
     }
     /*
     public function listarPuestos(Request $request,$id){
@@ -90,7 +90,7 @@ class EmpleadoController extends Controller
         $empleado=Empleado::find($id);
         //$areas=Area::all();
         //$puestos=Puesto::all();
-        return view('felix.GestionarEmpleados.edit',compact('empleado','puestos','sedes'));
+        return view('Empleados.edit',compact('empleado','puestos','sedes'));
     }
 
     public function guardarEditarEmpleado(Request $request){

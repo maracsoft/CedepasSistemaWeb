@@ -29,7 +29,7 @@ class ReposicionGastos extends Model
     public function getPDF(){
         $reposicion = $this;
         $detalles=$this->detalles();
-        $pdf = \PDF::loadview('felix.GestionarReposicionGastos.pdfReposicion',
+        $pdf = \PDF::loadview('ReposicionGastos.pdfReposicion',
             compact('reposicion','detalles'))
             ->setPaper('a4', 'portrait');
         return $pdf;

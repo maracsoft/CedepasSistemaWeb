@@ -88,7 +88,7 @@ class ReposicionGastosController extends Controller
                 ->paginate($this::PAGINATION);
         $proyectos=Proyecto::all();
     //return $reposiciones;
-        return view('felix.GestionarReposicionGastos.Empleado.listarEmp',
+        return view('ReposicionGastos.Empleado.listarEmp',
             compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
 
@@ -106,7 +106,7 @@ class ReposicionGastosController extends Controller
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('felix.GestionarReposicionGastos.Empleado.verEmp',compact('reposicion','empleadoLogeado','detalles'));
+        return view('ReposicionGastos.Empleado.verEmp',compact('reposicion','empleadoLogeado','detalles'));
     }
     public function create(){
         $listaCDP = CDP::All();
@@ -116,7 +116,7 @@ class ReposicionGastosController extends Controller
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionREP();
-        return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos',
+        return view('ReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos',
             'objNumeracion','empleadosEvaluadores','monedas','bancos'));
     }
 
@@ -130,7 +130,7 @@ class ReposicionGastosController extends Controller
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('felix.GestionarReposicionGastos.Empleado.editRepo',compact('empleadoLogeado','listaCDP','proyectos',
+        return view('ReposicionGastos.Empleado.editRepo',compact('empleadoLogeado','listaCDP','proyectos',
             'empleadosEvaluadores','monedas','bancos','reposicion'));
 
 
@@ -381,7 +381,7 @@ class ReposicionGastosController extends Controller
         
         $proyectos=Proyecto::whereIn('codProyecto',$arr)->get();
 
-        return view('felix.GestionarReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
 
 
@@ -394,7 +394,7 @@ class ReposicionGastosController extends Controller
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('felix.GestionarReposicionGastos.Gerente.verGeren',compact('reposicion','empleadoLogeado','detalles'));
+        return view('ReposicionGastos.Gerente.verGeren',compact('reposicion','empleadoLogeado','detalles'));
     }
 
 
@@ -441,7 +441,7 @@ class ReposicionGastosController extends Controller
         $proyectos=Proyecto::all();
 
 
-        return view('felix.GestionarReposicionGastos.Jefe.listarJefe',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Jefe.listarJefe',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
     public function viewJefe($id){
         /*
@@ -455,7 +455,7 @@ class ReposicionGastosController extends Controller
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
-        return view('felix.GestionarReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
+        return view('ReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
     }
 
     /**CONTADOR */
@@ -478,14 +478,14 @@ class ReposicionGastosController extends Controller
         
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
 
-        return view('felix.GestionarReposicionGastos.Contador.listarCont',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Contador.listarCont',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
     public function viewConta($id){
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('felix.GestionarReposicionGastos.Contador.verCont',compact('reposicion','empleadoLogeado','detalles'));
+        return view('ReposicionGastos.Contador.verCont',compact('reposicion','empleadoLogeado','detalles'));
     }
 
 

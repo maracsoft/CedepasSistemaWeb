@@ -9,11 +9,11 @@ class AreaController extends Controller
 {
     public function listarAreas(){
         $areas=Area::where('estado','=',1)->get();
-        return view('felix.GestionarAreasPuestos.index',compact('areas'));
+        return view('Puestos.index',compact('areas'));
     }
 
     public function crearArea(){
-        return view('felix.GestionarAreasPuestos.create');
+        return view('Puestos.create');
     }
 
     public function guardarCrearArea(Request $request){
@@ -28,7 +28,7 @@ class AreaController extends Controller
 
     public function editarArea($id){
         $area=Area::find($id);    
-        return view('felix.GestionarAreasPuestos.edit',compact('area'));
+        return view('Puestos.edit',compact('area'));
     }
 
     public function guardarEditarArea(Request $request){

@@ -13,11 +13,11 @@ class PuestoController extends Controller
     public function listarPuestos(Request $request){
         $nombreBuscar=$request->nombreBuscar;
         $puestos=Puesto::where('estado','=',1)->where('nombre','like','%'.$nombreBuscar.'%')->paginate($this::PAGINATION);
-        return view('felix.GestionarAreasPuestos.indexPuesto',compact('puestos','nombreBuscar'));
+        return view('Puestos.indexPuesto',compact('puestos','nombreBuscar'));
     }
 
     public function crearPuesto(){
-        return view('felix.GestionarAreasPuestos.createPuesto');
+        return view('Puestos.createPuesto');
     }
 
     public function guardarCrearPuesto(Request $request){
@@ -32,7 +32,7 @@ class PuestoController extends Controller
 
     public function editarPuesto($id){
         $puesto=Puesto::find($id);
-        return view('felix.GestionarAreasPuestos.editPuesto',compact('puesto'));
+        return view('Puestos.editPuesto',compact('puesto'));
     }
 
     public function guardarEditarPuesto(Request $request){
