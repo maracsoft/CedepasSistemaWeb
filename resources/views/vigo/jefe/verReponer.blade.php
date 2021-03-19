@@ -238,7 +238,7 @@
                                 
                                 </td>               
                                 <td  style="text-align:right;">               
-                                    S/. {{  number_format($itemDetalle->importe,2)  }}
+                                    {{$rendicion->getMoneda()->simbolo}} {{  number_format($itemDetalle->importe,2)  }}
                                 </td>               
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->codigoPresupuestal  }}

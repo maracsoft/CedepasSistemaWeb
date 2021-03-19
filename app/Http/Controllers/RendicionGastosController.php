@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Storage;
 
 
 use App\Debug;
-
+use App\Numeracion;
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Style\Font;
@@ -483,7 +483,7 @@ class RendicionGastosController extends Controller
 
             $rendicion = new RendicionGastos();
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
-            $rendicion-> codigoCedepas = $request->codRendicion; 
+           
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
@@ -491,6 +491,11 @@ class RendicionGastosController extends Controller
             $rendicion-> fechaRendicion = Carbon::now();
             $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Creada');
             $rendicion->codMoneda = $solicitud->codMoneda;
+
+            $rendicion->codigoCedepas = RendicionGastos::calcularCodigoCedepas(Numeracion::getNumeracionREN());
+            Numeracion::aumentarNumeracionREN();
+            
+
             $rendicion-> save();    
             $codRendRecienInsertada = (RendicionGastos::latest('codRendicionGastos')->first())->codRendicionGastos;
             
@@ -592,12 +597,16 @@ class RendicionGastosController extends Controller
 
 
     public function prueba(){
-        $rendicion = RendicionGastos::findOrFail(217);    
-       
-        if($rendicion->verificarEstado('Creada')  )
-            return "SI";
-        else
-            return "NO";
+
+        
+        $string = 'SOF ES '.Numeracion::getNumeracionSOF()->numeroLibreActual;
+
+        Numeracion::aumentarNumeracionSOF();
+        $string .= 'SOF NUEVO ES '.Numeracion::getNumeracionSOF()->numeroLibreActual;
+
+
+        
+        return $string;
 
     }  
 

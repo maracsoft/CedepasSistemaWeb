@@ -70,7 +70,10 @@
 
                       </div>
                       <div class="col"> 
-                            <input type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                          {{-- ESTE INPUT REALMENTE NO SE USARÁ PORQUE EL CODIGO cedep SE CALCULA EN EL BACKEND (pq es más actual) --}}
+                            <input type="text" class="form-control" 
+                                value="{{App\SolicitudFondos::calcularCodigoCedepas($objNumeracion)}}" 
+                                readonly>     
                       </div>
 
 
@@ -340,13 +343,8 @@
         var totalSinIGV=0;
     
         $(document).ready(function(){
-            var d = new Date();
-            codEmp = $('#codigoCedepas').val();
-            mes = (d.getMonth()+1.0).toString();
-            if(mes.length > 0) mes = '0' + mes;
-            
-            year =  d.getFullYear().toString().substr(2,2)  ;
-            $('#codSolicitud').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
+           
+
             
     
         });

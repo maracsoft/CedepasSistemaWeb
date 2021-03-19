@@ -3,10 +3,62 @@
 @section('estilos')
   
 @endsection
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
+{{-- ************************ ESTA VISTA NO SE USAAAAAAAAAAAAA ******************* --}}
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Revisar Rendición de  Gastos</p>
+    <p class="h1" style="text-align: center">Revisar Rendición de Gastos</p>
 </div>
 
 <form method = "POST" action = "{{route('rendicionGastos.reponer')}}"  enctype="multipart/form-data" >
@@ -197,8 +249,8 @@
                                 
                                 </td>               
                                 <td  style="text-align:right;">               
-                                    S/. {{  number_format($itemDetalle->importe,2)  }}
-                                </td>               
+                                    x{{$rendicion->getMoneda()->simbolo}}  {{  number_format($itemDetalle->importe,2)  }}
+                                </td>                
                                 <td style="text-align:center;">               
                                     {{$itemDetalle->codigoPresupuestal  }}
                                 </td>               

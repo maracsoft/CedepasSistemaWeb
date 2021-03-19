@@ -144,9 +144,9 @@
 
 
             <br />
-            
-            <input type="button" class="btn btn-primary" style="margin-left:600px;" value="Guardar" onclick="validarregistro()" />
-            <a href="/listarEmpleados" class="btn btn-info">Regresar</a>
+              
+            <input type="button" class="btn btn-primary float-right" value="Registrar" onclick="validarregistro()" />
+            <a href="/listarEmpleados" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     </form>
 @endsection
 

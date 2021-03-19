@@ -13,11 +13,24 @@ class SolicitudFondos extends Model
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
-    
+    const RaizCodigoCedepas = "SOF";
     // le indicamos los campos de la tabla 
     protected $fillable = ['codProyecto','codigoCedepas','codEmpleadoSolicitante','fechaHoraEmision',
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
     'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','observacion','codMoneda'];
+
+    //le pasamos un modelo numeracion y calcula la nomeclatura del cod cedepas SOF21-000001
+    public static function calcularCodigoCedepas($objNumeracion){
+        return  SolicitudFondos::RaizCodigoCedepas.
+                substr($objNumeracion->año,2,2).
+                '-'.
+                SolicitudFondos::rellernarCerosIzq($objNumeracion->numeroLibreActual,6);
+    }
+    public static function rellernarCerosIzq($numero, $nDigitos){
+        return str_pad($numero, $nDigitos, "0", STR_PAD_LEFT);
+        
+    }
+
 
     public function getPDF(){
         $listaItems = DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();

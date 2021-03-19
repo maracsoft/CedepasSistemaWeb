@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
 use PhpParser\Node\Expr\Throw_;
 use App\Moneda;
 use App\Debug;
-
+use App\Numeracion;
 class SolicitudFondosController extends Controller
 
 
@@ -412,11 +412,13 @@ class SolicitudFondosController extends Controller
         $listaSedes = Sede::All();
         $listaCDP = CDP::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
-  
+        $objNumeracion = Numeracion::getNumeracionREN();
+
         $listaEmpleadosDeSede  = Empleado::All();
-        return view ('vigo.empleado.crearRendFondos',compact('empleadoLogeado','listaBancos'
-        
-                    ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud','listaCDP','detallesSolicitud'));
+        return view ('vigo.empleado.crearRendFondos',
+                    compact('empleadoLogeado','listaBancos'
+                    ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud',
+                    'listaCDP','detallesSolicitud','objNumeracion'));
     }
 
 
@@ -449,12 +451,17 @@ class SolicitudFondosController extends Controller
         $listaSedes = Sede::All();
         $listaMonedas = Moneda::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
-
+        $objNumeracion = Numeracion::getNumeracionSOF();
         $listaEmpleadosDeSede  = Empleado::All();
         return view('vigo.empleado.crearSoliFondos',
             compact('empleadoLogeado','listaBancos','listaProyectos',
-                'listaMonedas','listaSedes','listaEmpleadosDeSede'));
+                'listaMonedas','listaSedes','listaEmpleadosDeSede','objNumeracion'));
 
+    }
+
+    //funcion servicio a ser consumida por javascript 
+    public function getNumeracionLibre(){
+        return Numeracion::getNumeracionSOF()->numeroLibreActual;
     }
 
 
@@ -465,9 +472,6 @@ class SolicitudFondosController extends Controller
                 DB::beginTransaction();   
             $solicitud = new SolicitudFondos();
             $solicitud->codProyecto = $request->ComboBoxProyecto;
-            $solicitud->codigoCedepas = $request->codSolicitud;
-
-            $usuarioLogeado = Auth::id();
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
             $solicitud->codEmpleadoSolicitante = $empleadoLogeado->codEmpleado;
@@ -483,6 +487,10 @@ class SolicitudFondosController extends Controller
             $solicitud->codMoneda = $request->ComboBoxMoneda;
 
             $vec[] = '';
+
+            $solicitud->codigoCedepas = SolicitudFondos::calcularCodigoCedepas(Numeracion::getNumeracionSOF());
+            Numeracion::aumentarNumeracionSOF();
+            
             $solicitud->save();
                 
             $i = 0;

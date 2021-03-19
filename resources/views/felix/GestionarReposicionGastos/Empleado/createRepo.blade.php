@@ -14,7 +14,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -46,7 +46,8 @@
 
                       </div>
                       <div class="col"> {{-- input de proyecto --}}
-                        <select class="form-control"  id="codProyecto" name="codProyecto" >
+                        <select class="form-control"  id="codProyecto" name="codProyecto" 
+                                onchange="actualizarCodPresupProyecto()" >
                             <option value="-1">Seleccionar</option>
                             @foreach($proyectos as $itemproyecto)
                                 <option value="{{$itemproyecto->codProyecto}}" >
@@ -107,10 +108,19 @@
                             @endforeach 
                         </select>
                       </div>
-                      
-                      
-                      
 
+
+                      <div class="w-100"></div>
+                      <div  class="col">
+                        <label for="fecha">Codigo Cedepas</label>
+
+                      </div>
+                      <div class="col">
+                            <input type="text" readonly class="form-control" value="{{App\ReposicionGastos::calcularCodigoCedepas($objNumeracion)}}
+                            ">    
+                      </div>
+                      
+                      
 
 
                     </div>
@@ -399,13 +409,32 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
+                    <!--
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Registrar
-                    </button>    
+                    </button>   -->
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                        title:'¿Seguro de crear la reposicion?',
+                        text: '',     //mas texto
+                        type: 'info',//e=[success,error,warning,info]
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        if(validarTextos()==true){
+                            document.frmrepo.submit();
+                        }
+                        
+                    });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('reposicionGastos.listar',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('reposicionGastos.listar',$empleadoLogeado->codEmpleado)}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
@@ -475,22 +504,9 @@
         //var IGV=0;
         var total=0;
         var detalleRend=[];
-        //var importes=[];
-        //var controlproducto=[];
-        //var totalSinIGV=0;
-        //var saldoFavEmpl=0;
-
-
+        
         $(document).ready(function(){
-            //GENERACION DE codigoCedepas
-            var d = new Date();
-            codEmp = $('#codigoCedepasEmpleado').val();
-            mes = (d.getMonth()+1.0).toString();
-            if(mes.length > 0) mes = '0' + mes;
-
-            year =  d.getFullYear().toString().substr(2,2)  ;
-            $('#codigoCedepas').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-            //alert($('#codigoCedepas').val());
+          
 
         });
         var listaArchivos = '';
@@ -529,11 +545,8 @@
             if($('#resumen').val()=='' ) msj='Debe ingresar el resumen';
             if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
 
-            //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
-            for (let index = 0; index < detalleRend.length; index++) {
-                nombre = $('#nombreImg'+index).val();
-                if(nombre=='') msj='Debe subir el comprobante del Item N°'+index;
-            }
+            if($('#nombresArchivos').val()=="" ) msj='Debe subir archivos';
+
             
             if(msj!=''){
                 alert(msj);
@@ -578,6 +591,7 @@
     
         }
     
+        
     
         function actualizarTabla(){
             //funcion para poner el contenido de detallesVenta en la tabla
@@ -640,134 +654,105 @@
 
             $('#total').val(number_format(total,2));
             $('#cantElementos').val(cont);
-            /*
-            $('#totalRendido').val(total); //el que se va a leer
-            
-
-            var totalGastado= parseFloat(total)    ;
-            var totalRecibido= parseFloat(1000); 
-            console.log(' total= '+total +'       tot2= ' +1000);
-
-            saldoFavEmpl = (totalGastado)-(totalRecibido);
-            
-
-            
-            
-            console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-        
-            
-            
-            
-
-
-            if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
-                $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-            
-                document.getElementById("divEnteroArchivo").style.display="none";
-            
-
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
-            }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
-                $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-                document.getElementById("divEnteroArchivo").style.display="block";
-            
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
-            }
-
-            //alert('se termino de actualizar la tabla con cont='+cont);
-            */
+           
         }
     
     
-    
+        var codPresupProyecto = -1;
+        function actualizarCodPresupProyecto(){
+            codProyecto = $('#codProyecto').val();
+            $.get('/obtenerCodigoPresupuestalDeProyecto/'+codProyecto, 
+                function(data)
+                {   
+                    codPresupProyecto = data;
+                    console.log('Se ha actualizado el codPresupuestal del proyecto:' +codPresupProyecto )
+                }
+                );
+
+        }
     
         function agregarDetalle(){
 
 
             // VALIDAMOS
-
+            msjError = "";
             fecha = $("#fechaComprobante").val();    
             if (fecha=='') 
-            {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
-            }   
+                msjError="Por favor ingrese la fecha del comprobante del gasto.";    
+                
+               
             tipo = $("#ComboBoxCDP").val();    
             if (tipo==-1) 
-            {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
-            }
-            ncbte= $("#ncbte").val();   
+                msjError="Por favor ingrese el tipo de comprobante del gasto.";    
                 
+            
+            ncbte= $("#ncbte").val();   
             if (ncbte=='') 
-            {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
-            }
+                msjError="Por favor ingrese el numero del comprobante del gasto.";    
+                
+            
                 
             concepto=$("#concepto").val();    
             if (concepto=='') 
-            {
-                alert("Por favor ingrese el concepto");    
-                return false;
-            }    
+                msjError="Por favor ingrese el concepto";    
                 
-            
+                
+                
+            codProyecto = $('#codProyecto').val();
+            if( codProyecto == undefined  )
+                msjError="Por favor seleccione un proyecto antes de añadir Items.";    
+                
 
             importe=$("#importe").val();    
             if (!(importe>0)) 
-            {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
-            }    
-            
+                msjError="Por favor ingrese un importe válido.";    
+                
 
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
+            codigoPresupuestal=$("#codigoPresupuestal").val();     //el que agregó el user
             if (codigoPresupuestal=='') 
-            {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
-            }    
-
+                msjError="Por favor ingrese el codigo presupuestal";    
+                
+               
             if (importe==0)
-            {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
-            }  
+                msjError="Por favor ingrese importe";    
             
+            
+            
+            codigoPresupuestal = String(codigoPresupuestal);
+
+            console.log('codigoPresupuestal='+ codigoPresupuestal +' codPresupProyecto='+codPresupProyecto);
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
+            
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+            console.log('El cod presup del proyecto seleccionado es:' +  codPresupProyecto)
+            
+            if(msjError!=""){
+                alert(msjError);
+                return false;
+            }
+       
             // FIN DE VALIDACIONES
 
-                //item = cont+1;   
-                detalleRend.push({
-                    fecha:fecha,
-                    tipo:tipo,
-                    ncbte,ncbte,
-                    concepto:concepto,
-                    importe:importe,            
-                    codigoPresupuestal:codigoPresupuestal
-                });        
-                cont++;
+            detalleRend.push({
+                fecha:fecha,
+                tipo:tipo,
+                ncbte,ncbte,
+                concepto:concepto,
+                importe:importe,            
+                codigoPresupuestal:codigoPresupuestal
+            });        
+            cont++;
             actualizarTabla();
-            //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
-            //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
-            /* $('#fechaComprobante').val(''); */
+    
             $('#ComboBoxCDP').val(0);
             $('#ncbte').val('');
             
             $('#concepto').val('');
             $('#importe').val('');
             $('#codigoPresupuestal').val('');
-            
         }
-    /*
-    function limpiar(){
-        $("#cantidad").val(0);
-        //$("#precio").val(0);
-        $("#producto_id").val(0);
-    }
-    */
+ 
     
         /* Mostrar Mensajes de Error */
         function mostrarMensajeError(mensaje){

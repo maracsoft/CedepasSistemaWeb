@@ -11,13 +11,20 @@ class ReposicionGastos extends Model
 
     public $timestamps = false;  //para que no trabaje con los campos fecha 
     const raizArchivo = "RepGast-CDP-";
-
+    const RaizCodigoCedepas = "REP";
 
     // le indicamos los campos de la tabla 
     protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdmin','codEmpleadoConta',
     'codProyecto','codMoneda','totalImporte',
     'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
+
+    public static function calcularCodigoCedepas($objNumeracion){
+        return  ReposicionGastos::RaizCodigoCedepas.
+                substr($objNumeracion->año,2,2).
+                '-'.
+                ReposicionGastos::rellernarCerosIzq($objNumeracion->numeroLibreActual,6);
+    }
 
     public function getPDF(){
         $reposicion = $this;

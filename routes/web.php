@@ -32,6 +32,12 @@ Route::get('/listarDetallesDeRendicion/{id}','RendicionGastosController@listarDe
 Route::get('/listarDetallesDeReposicion/{id}','ReposicionGastosController@listarDetalles');
 
 
+Route::get('/solicitudFondos/getNumeracionActual/','SolicitudFondosController@getNumeracionLibre');
+Route::get('/rendicionGastos/getNumeracionActual/','RendicionGastosController@getNumeracionLibre');
+Route::get('/reposicionGastos/getNumeracionActual/','ReposicionGastosController@getNumeracionLibre');
+
+Route::get('/obtenerCodigoPresupuestalDeProyecto/{id}','ProyectoController@getCodigoPresupuestal');
+
 
 
 Route::get('/solicitudesFondos/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')

@@ -7,10 +7,34 @@
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<div >
-    <p class="h1" style="text-align: center">Evaluar Reposicion de Gastos</p>
-
-
+<div class="row">
+    <div class="col-md-10">
+        <p class="h1" style="margin-left:430px;">
+            @if($reposicion->verificarEstado('Creada') || 
+                $reposicion->verificarEstado('Subsanada') )
+                {{-- Estados en los que es valido Evaluar --}}
+                Evaluar
+            @else 
+                Ver
+            @endif
+            
+            
+            Reposicion de Gastos
+        </p>
+    </div>
+    <div class="col-md-2">
+        <br>
+        <a  href="{{route('reposicionGastos.PDF',$reposicion->codReposicionGastos)}}" 
+            class="btn btn-warning btn-sm btn-right" style="margin-left:60px;">
+            <i class="entypo-pencil"></i>
+            PDF
+          </a>
+        <a target="blank" href="{{route('reposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
+            class="btn btn-warning btn-sm btn-right">
+            <i class="entypo-pencil"></i>
+            verPDF
+        </a>
+    </div>
 </div>
 
 
@@ -143,9 +167,7 @@
                         <th width="14%">Tipo</th>                                 
                         <th width="11%"> N° Cbte</th>
                         <th width="26%" class="text-center">Concepto </th>
-                        <th width="11%">
-                            Archivo
-                        </th>
+                      
                         <th width="11%" class="text-center">Importe </th>
                         <th width="11%" class="text-center">Cod Presup </th>                                         
                         
@@ -162,7 +184,7 @@
                                 <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
                                 <td>{{$itemdetalle->nroComprobante}}</td>
                                 <td>{{$itemdetalle->concepto}}</td>
-                                <td></td>
+                               
                                 <td>{{$itemdetalle->importe}}</td>
                                 <?php $total+=$itemdetalle->importe;?>
                                 <td>{{$itemdetalle->codigoPresupuestal}}</td>
@@ -180,11 +202,18 @@
  
 
                 </div>
-                
+                <!--
                 <div class="col"></div>
-
+                -->
                 <div class="col-md-2">                        
                     <label for="">Total Gastado: </label>    
+                    <br><br><br>
+                    @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
+                        <label for="fecha">Observaciones</label>
+                        <textarea class="form-control" name="observacion" id="observacion" 
+                            aria-label="With textarea" style="resize:none; height:100px;"></textarea>
+                        <br>
+                    @endif
                 </div>   
                 <div class="col-md-2">
                     {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
@@ -194,38 +223,84 @@
 
                     <input type="text" class="form-control text-right" name="total"
                             id="total" readonly="readonly" value="{{number_format($total,2)}}">   
-
+                            <br><br><br>
+    
+                    @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
+                    <a href="#" class="btn btn-warning" onclick="swal({//sweetalert
+                        title:'¿Seguro de observar la reposicion?',
+                        text: '',
+                        type: 'info',  
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){
+                        observar();
+                    });"><i class="entypo-pencil"></i>Observar</a>
+                    @endif
                 </div>   
 
             </div>
-
-
-            <br>
-            <div class="row">
-                @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
-                <div class="col-md-9">
-                    <label for="fecha">Observaciones</label>
-                    <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-                    <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
-                </div>
-                <div class="col-md-3">
-                    <a href="{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}" class="btn btn-success float-right"><i class="entypo-pencil"></i>Aceptar</a>
-                    <a href="{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  
-                </div>    
-                @endif
-                
-            </div>
-                
            
         </div> 
-        
+
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfGerente',$empleadoLogeado->codEmpleado)}}" class='btn btn-info'>Regresar</a>              
+                    <a href="{{route('reposicionGastos.listarRepoOfGerente',$empleadoLogeado->codEmpleado)}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                    <!--
+                    <a href="" 
+                        class="btn btn-success float-right">
+                        <i class="entypo-pencil"></i>
+                        Marcar como Abonada
+                    </a>-->
+
+                    @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
+ 
+                    <a href="#" class="btn btn-success float-right" onclick="swal({//sweetalert
+                            title:'¿Seguro de aceptar la reposicion?',
+                            text: '',
+                            type: 'info',  
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText:  'SI',
+                            cancelButtonText:  'NO',
+                            closeOnConfirm:     true,//para mostrar el boton de confirmar
+                            html : true
+                        },
+                        function(){
+                            window.location.href='{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}';
+                        });"><i class="fas fa-check"></i> Aceptar</a>
+                    <!--<a href="" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  -->
+                    <a href="#" class="btn btn-danger float-right" style="margin-right:5px;"onclick="swal({//sweetalert
+                            title:'¿Seguro de rechazar la reposicion?',
+                            text: '',
+                            type: 'warning',  
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText:  'SI',
+                            cancelButtonText:  'NO',
+                            closeOnConfirm:     true,//para mostrar el boton de confirmar
+                            html : true
+                        },
+                        function(){//se ejecuta cuando damos a aceptar
+                            window.location.href='{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}';
+                        });"><i class="fas fa-times"></i> Rechazar</a>
+
+
+                    @endif
+
+
                 </div>    
             </div>
         </div>
+
     
 
 </form>

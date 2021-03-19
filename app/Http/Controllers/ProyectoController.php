@@ -29,7 +29,9 @@ class ProyectoController extends Controller
     }
 
     
-
+    function getCodigoPresupuestal($id){
+        return Proyecto::findOrFail($id)->codigoPresupuestal;
+    } 
 
 
     function store(Request $request){

@@ -8,7 +8,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Ver Reposicion de Gastos</p>
 
 
 </div>
@@ -80,6 +80,19 @@
                       <div class="col">
                         <input type="text" class="form-control" name="codBanco" id="codBanco" value="{{$reposicion->getBanco()->nombreBanco}}" disabled>  
                       </div>
+
+
+
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Codigo Cedepas</label>
+
+                      </div>
+
+                      <div class="col">
+                        <input type="text" class="form-control" name="" id="" value="{{$reposicion->codigoCedepas}}" disabled>  
+                      </div>
+                      
                       
                       
                       
@@ -157,9 +170,7 @@
                         <th width="14%">Tipo</th>                                 
                         <th width="11%"> N° Cbte</th>
                         <th width="26%" class="text-center">Concepto </th>
-                        <th width="11%">
-                            Archivo
-                        </th>
+                        
                         <th width="11%" class="text-center">Importe </th>
                         <th width="11%" class="text-center">Cod Presup </th>                                         
                         
@@ -176,7 +187,7 @@
                                 <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
                                 <td>{{$itemdetalle->nroComprobante}}</td>
                                 <td>{{$itemdetalle->concepto}}</td>
-                                <td></td>
+                            
                                 <td>{{$itemdetalle->importe}}</td>
                                 <?php $total+=$itemdetalle->importe;?>
                                 <td>{{$itemdetalle->codigoPresupuestal}}</td>
@@ -220,7 +231,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listar',$empleadoLogeado->codEmpleado)}}" class='btn btn-danger'>Regresar</a>              
+                    <a href="{{route('reposicionGastos.listar',$empleadoLogeado->codEmpleado)}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

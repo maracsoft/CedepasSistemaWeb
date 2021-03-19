@@ -102,9 +102,9 @@
                 <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td> 
                   <h3 style="font-size: 14pt;">
-                      S/. {{$itemSolicitud->totalSolicitado  }}
+                    {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->totalSolicitado  }}
                     @if($itemSolicitud->estaRendida())
-                      // S/. {{$itemSolicitud->getRendicion()->totalImporteRendido}}
+                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->getRendicion()->totalImporteRendido}}
                     @endif
                   </h3>
                 </td>

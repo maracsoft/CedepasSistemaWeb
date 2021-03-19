@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use App\Numeracion;
 class ReposicionGastosController extends Controller
 {
     const PAGINATION = '20';
@@ -115,8 +115,9 @@ class ReposicionGastosController extends Controller
         $bancos=Banco::All();
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
-
-        return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos','empleadosEvaluadores','monedas','bancos'));
+        $objNumeracion = Numeracion::getNumeracionREP();
+        return view('felix.GestionarReposicionGastos.Empleado.createRepo',compact('empleadoLogeado','listaCDP','proyectos',
+            'objNumeracion','empleadosEvaluadores','monedas','bancos'));
     }
 
 
@@ -155,7 +156,7 @@ class ReposicionGastosController extends Controller
             $reposicion->codMoneda=$request->codMoneda;
      
             $reposicion->fechaEmision=date('y-m-d');
-            $reposicion->codigoCedepas=$request->codigoCedepas;
+
             $reposicion->girarAOrdenDe=$request->girarAOrdenDe;
             $reposicion->numeroCuentaBanco=$request->numeroCuentaBanco;
             $reposicion->codBanco=$request->codBanco;
@@ -164,6 +165,9 @@ class ReposicionGastosController extends Controller
             $reposicion->fechaHoraRevisionAdmin=null;
             $reposicion->observacion=null;
     
+            $reposicion->codigoCedepas = ReposicionGastos::calcularCodigoCedepas(Numeracion::getNumeracionREP());
+            Numeracion::aumentarNumeracionREP();
+
             $reposicion->save();
             $codRepRecienInsertada = (ReposicionGastos::latest('codReposicionGastos')->first())->codReposicionGastos;
             

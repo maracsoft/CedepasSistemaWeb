@@ -11,7 +11,7 @@ class RendicionGastos extends Model
     protected $primaryKey ="codRendicionGastos";
 
     const raizArchivo = "RendGast-CDP-";
-
+    const RaizCodigoCedepas = "REN";
     public $timestamps = false;  //para que no trabaje con los campos fecha 
 
 
@@ -21,6 +21,13 @@ class RendicionGastos extends Model
     'resumenDeActividad','codEstadoRendicion','fechaRendicion','cantArchivos','terminacionesArchivos'];
 
 
+    public static function calcularCodigoCedepas($objNumeracion){
+        return  RendicionGastos::RaizCodigoCedepas.
+                substr($objNumeracion->año,2,2).
+                '-'.
+                RendicionGastos::rellernarCerosIzq($objNumeracion->numeroLibreActual,6);
+    }
+  
 
     public function borrarArchivosCDP(){ //borra todos los archivos que sean de esa rendicion
         

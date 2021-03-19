@@ -14,7 +14,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.update')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('reposicionGastos.update')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -106,6 +106,16 @@
                         </select>
                       </div>
                       
+                      
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Codigo Cedepas</label>
+
+                      </div>
+
+                      <div class="col">
+                        <input type="text" class="form-control" name="" id="" value="{{$reposicion->codigoCedepas}}" disabled>  
+                      </div>
                       
                       
 
@@ -330,30 +340,8 @@
 
                 <div class="row" id="divTotal" name="divTotal">     
                     <div class="col">
-                        
-                        <nav class="mt-2">
-                            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                <li class="nav-item has-treeview">
-                                    <a href="#" class="nav-link">
-                                      <i class="nav-icon fas fa-tachometer-alt"></i>
-                                      <p>
-                                        Descargar Archivos Comprobantes
-                                        <i class="right fas fa-angle-left"></i>
-                                      </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
-                                            <li class="nav-item">
-                                                <a href="{{route('reposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}" class="nav-link">
-                                                <i class="far fa-address-card nav-icon"></i>
-                                                <p>   {{App\ReposicionGastos::getFormatoNombreCDP($reposicion->codReposicionGastos,$i,$reposicion->getTerminacionNro($i)) }}</p>
-                                                </a>
-                                            </li>    
-                                        @endfor
-                                    </ul>
-                                  </li>
-                            </ul>
-                        </nav>  
+                        @include('vigo.desplegableDescargarArchivosRepo')
+
 
                     </div>
                     
@@ -429,13 +417,33 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
+                    <!--
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Registrar
-                    </button>    
+                    </button>
+                    -->
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                        title:'¿Seguro de guardar los cambios?',
+                        text: '',     //mas texto
+                        type: 'info',//e=[success,error,warning,info]
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        if(validarTextos()==true){
+                            document.frmrepo.submit();
+                        }
+                        
+                    });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('reposicionGastos.listar')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('reposicionGastos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

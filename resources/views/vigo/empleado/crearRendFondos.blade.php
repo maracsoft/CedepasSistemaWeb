@@ -109,9 +109,9 @@
                                     <label for="fecha">Cod Rendicion</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
+                                <input type="text" class="form-control" value="{{App\RendicionGastos::calcularCodigoCedepas($objNumeracion)}}" readonly>     
                             </div>
-                            <div  class="colLabel">
+                            <div  class="colLabel" style="width: 15%">
                             <label for="moneda">Moneda</label>
                             </div>
                             <div class="col"> {{-- input de moneda viene de solicitud --}}
