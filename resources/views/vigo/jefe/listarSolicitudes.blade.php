@@ -63,12 +63,12 @@
 
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
-              <tr>
-                <th width="7%" scope="col">Codigo Sol</th>
+              <tr >
+                <th width="5%" scope="col">Codigo Sol</th>
                 <th width="6%"  scope="col">Fecha emision</th>
               
                 <th width="6%"  scope="col">Empleado </th>
-                <th width="25%"  scope="col">Proyecto</th>
+                <th width="15%"  scope="col">Proyecto</th>
                 <th width="10%"  scope="col">Evaluador</th>
                 
                 <th width="4%"  scope="col">Total Solicitado</th>
@@ -76,7 +76,7 @@
                 <th width="6%"  scope="col">Fecha Revision</th>
                 <th width="10%"  scope="col">Estado</th>
                 
-                <th width="5%"  scope="col">Opciones</th>
+                <th width="10%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -86,8 +86,8 @@
         @foreach($listaSolicitudesFondos as $itemSolicitud)
 
       
-            <tr>
-              <td>{{$itemSolicitud->codigoCedepas  }}</td>
+            <tr class="filaPr">
+                <td >{{$itemSolicitud->codigoCedepas  }}</td>
                 <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
                
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
@@ -122,29 +122,54 @@
                             Abonar <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
-                            <h1>
-                              <span class="red">S</span>
-                            </h1>
-                          </a>
-                        
                           @if($itemSolicitud->estaRendida())
-                          <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                            <h1>
-                              <span class="red">R</span>
-                            </h1>
-                          </a>
+                          
+                          <div class="row">
+                            <div  style="background-color: rebeccapurple">
+                              <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                               
+                                  <span class="red">S</span>
+                              
+                              </a>
+                            </div>
+                            <div  style="background-color: rgb(188, 216, 152)">
+                              
+                              <a class='btn btn-alert'  href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}">
+                                <i class="fas fa-download"></i>
+                              </a>
+                              <a  target="blank"  href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}">
+                                <i class="fas fa-file-pdf"></i>
+                              </a>
+
+                            </div>
+                            <div class="w-100"></div>
+                            <div  style="background-color: rgb(42, 20, 138)">
+                              <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                                <h1>
+                                  <span class="red">R</span>
+                                </h1>
+                              </a>
+                            </div>
+                            <div style="background-color: rgb(182, 99, 60)">
+                              <a class='btn btn-alert'  href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                                <i class="fas fa-download"></i>
+                              </a>
+                              <a  target="blank"  href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                                <i class="fas fa-file-pdf"></i>
+                              </a>
+                              {{--    --}}
+                            </div>
+                          </div>
+
+
+                          
+                         
                           @endif
                           
                         
                         @endif
 
-                        <a class='btn btn-alert'  href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}">
-                          <i class="fas fa-download">Descargar</i>
-                        </a>
-                        <a  target="blank"  href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}">
-                          <i class="fas fa-file-pdf">Ver</i>
-                        </a>
+                        
                         
                     
                 </td>
@@ -244,4 +269,9 @@ span.pink {
   width: 1.6em; 
   font-size : {{$fontSize}};
 }
+
+
+
+
+
    </style>

@@ -202,7 +202,9 @@
               
 
                 <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="">
+                        @include('vigo.desplegableDescargarArchivosRepo')
+
                     </div>   
                     <div class="col-md-2">                        
                         <label for="">Total Gastado: </label>    

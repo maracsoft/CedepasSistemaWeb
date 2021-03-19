@@ -1,5 +1,8 @@
 @extends ('layout.plantilla')
-
+@section('estilos')
+<link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
+<link rel="stylesheet" href="/select2/bootstrap-select.min.css">
+@endsection
 @section('contenido')
 
 <style>
@@ -51,7 +54,29 @@
     </div>
   </div>
 
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <form class="form-inline float-right">
+      <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
+        <option value="0">- Seleccione Empleado -</option>          
+        @foreach($empleados as $itemempleado)
+          <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
+        @endforeach
+      </select> 
 
+      <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+        <option value="0">--Seleccionar Proyecto--</option>
+        @foreach($proyectos as $itemproyecto)
+            <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                {{$itemproyecto->nombre}}
+            </option>                                 
+        @endforeach 
+      </select>
+      <button class="btn btn-success " type="submit">Buscar</button>
+    </form>
+  </div>
+</div>
 
 
 
@@ -253,3 +278,8 @@ span.pink {
   font-size : {{$fontSize}};
 }
    </style>
+@section('script')  
+<script src="/select2/bootstrap-select.min.js"></script>     
+ <script src="/calendario/js/bootstrap-datepicker.min.js"></script>
+ <script src="/calendario/locales/bootstrap-datepicker.es.min.js"></script>
+@endsection

@@ -125,7 +125,7 @@
                             <div class="w-100"></div> {{-- SALTO LINEA --}}
 
                             <div  class="col">
-                                    <label for="estado">Estado de <br> la Solicitud
+                                    <label for="estado">Estado de <br> la Rendición
                                         @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
                             </div>
                             <div class="col"> {{-- Combo box de estado --}}
@@ -157,16 +157,8 @@
       </div>
     
       
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
+      <br>
+        @include('vigo.empleado.listadoDesplegableSolicitud')  
 
 
         {{-- LISTADO DE DETALLES  --}}
@@ -255,7 +247,7 @@
                         
                     </thead>
                     <tfoot>
-
+                        
                                                                                         
                     </tfoot>
                     <tbody>
@@ -467,6 +459,7 @@
         var controlproducto=[];
         var totalSinIGV=0;
         var saldoFavEmpl=0;
+        var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
 
     
         $(document).ready(function(){
@@ -552,12 +545,7 @@
     
         /* Eliminar productos */
         function eliminardetalle(index){
-            //total=total-importes[index]; 
-            //tam=detalleRend.length;
-    
-         
-    
-            //removemos 1 elemento desde la posicion index
+            
             detalleRend.splice(index,1);
            
             console.log('BORRANDO LA FILA' + index);
@@ -684,34 +672,44 @@
         function agregarDetalle()
         {
 
-
+            msjError="";
             // VALIDAMOS
+            codigoPresupuestal=$("#codigoPresupuestal").val();    
 
+
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
+            
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+
+           
+            
             fecha = $("#fechaComprobante").val();    
             if (fecha=='') 
             {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese la fecha del comprobante del gasto.");    
+                
             }   
             tipo = $("#ComboBoxCDP").val();    
             if (tipo==-1) 
             {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese el tipo de comprobante del gasto.");    
+                
             }
             ncbte= $("#ncbte").val();   
              
             if (ncbte=='') 
             {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese el numero del comprobante del gasto.");    
+                
             }
              
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
-                return false;
+                msjError=("Por favor ingrese el concepto");    
+                
             }    
               
             
@@ -719,23 +717,29 @@
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
+                msjError=("Por favor ingrese un importe válido.");    
+                
             }    
             
-    
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
+            
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
+                msjError=("Por favor ingrese el codigo presupuestal");    
+                
             }    
     
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
+                msjError=("Por favor ingrese precio de venta del producto");    
+                
             }  
+
+
+            
+            if(msjError!=""){
+                alert(msjError);
+                return false;
+            }
             
             // FIN DE VALIDACIONES
     

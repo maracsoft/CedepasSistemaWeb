@@ -18,7 +18,8 @@ class RendicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codSolicitud','codigoCedepas','totalImporteRecibido',
     'totalImporteRendido','saldoAFavorDeEmpleado',
-    'resumenDeActividad','codEstadoRendicion','fechaRendicion','cantArchivos','terminacionesArchivos'];
+    'resumenDeActividad','codEstadoRendicion','fechaRendicion',
+    'cantArchivos','terminacionesArchivos','codEmpleadoEvaluador'];
 
 
     public static function calcularCodigoCedepas($objNumeracion){
@@ -83,6 +84,14 @@ class RendicionGastos extends Model
             array('rendicion'=>$this,'listaItems'=>$listaItems)
                             )->setPaper('a4', 'portrait');
         return $pdf;
+    }
+
+    public function getNombreEvaluador(){
+        if($this->codEmpleadoEvaluador == null)
+            return "";
+        
+        $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
+        return $ev->getNombreCompleto();
     }
 
 

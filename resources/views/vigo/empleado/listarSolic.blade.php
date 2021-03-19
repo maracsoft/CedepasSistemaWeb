@@ -54,10 +54,28 @@ margin-top: 18px;
 
 
   <br>
-    <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
-        <i class="fas fa-plus"> </i> 
-          Nueva Solicitud
-    </a>
+    
+    <div class="row">
+      <div class="col-md-2">
+        <a href="{{route('solicitudFondos.create')}}" class = "btn btn-primary" style="margin-bottom: 5px;"> 
+          <i class="fas fa-plus"> </i> 
+            Nueva Solicitud
+        </a>
+      </div>
+      <div class="col-md-10">
+        <form class="form-inline float-right">
+          <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+            <option value="0">--Seleccionar--</option>
+            @foreach($proyectos as $itemproyecto)
+                <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                    {{$itemproyecto->nombre}}
+                </option>                                 
+            @endforeach 
+          </select>
+          <button class="btn btn-success " type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
     
 
   {{--   <nav class = "navbar float-right"> 

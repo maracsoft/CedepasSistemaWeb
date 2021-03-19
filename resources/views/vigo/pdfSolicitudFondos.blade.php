@@ -138,19 +138,22 @@
         <!--FIRMAS-->
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
+                {{$solicitud->getEmpleadoSolicitante()->getNombreCompleto()}}
                 _________________________<br>
                 SOLICITADO POR<br>
-                {{$solicitud->getEmpleadoSolicitante()->getNombreCompleto()}}
+                
             </b></p>
         </div>
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
+                {{$solicitud->getNombreEvaluador()}}
                 ___________________________<br>
                 V°B° GERENTE DE PROYECTO
             </b></p>
         </div>
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
+                <br>
                 _________________________<br>
                 V°B° DIRECCIÓN
             </b></p>

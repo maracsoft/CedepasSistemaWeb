@@ -37,7 +37,8 @@
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="girarAOrden" id="girarAOrden">    
+                            <input type="text" class="form-control" name="girarAOrden" 
+                            id="girarAOrden" value="{{App\Empleado::getEmpleadoLogeado()->getNombreCompleto()}}">    
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}

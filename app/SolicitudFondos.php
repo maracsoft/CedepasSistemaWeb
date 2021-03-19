@@ -50,6 +50,10 @@ class SolicitudFondos extends Model
         $proyecto = Proyecto::findOrFail($this->codProyecto);
         return $proyecto->nombre;
     } 
+    public function getProyecto(){
+        $proyecto = Proyecto::findOrFail($this->codProyecto);
+        return $proyecto;
+    } 
 
     public function getNombreEstado(){
         $estado = EstadoSolicitudFondos::findOrFail($this->codEstadoSolicitud);
@@ -151,10 +155,14 @@ class SolicitudFondos extends Model
 
     //retorna el objeto empleado del que lo revisó (su director / gerente)
     public function getEvaluador(){
+        
+        if($this->codEmpleadoEvaluador==null)
+            return "";
         $e = Empleado::findOrFail($this->codEmpleadoEvaluador);
         return $e;
     }
 
+    
     public function getColorEstado(){ //BACKGROUND
         $color = '';
         switch($this->codEstadoSolicitud){
@@ -201,6 +209,9 @@ class SolicitudFondos extends Model
         return $color;
     }
     public function getNombreEvaluador(){
+        if($this->codEmpleadoEvaluador == null)
+            return "";
+        
         $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
         return $ev->getNombreCompleto();
     }

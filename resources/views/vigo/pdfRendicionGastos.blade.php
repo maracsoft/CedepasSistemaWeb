@@ -165,7 +165,7 @@
                 </tr>
                 <tr>
                     <td>Revisado por:</td>
-                    <td>AQUI VA EL NOMBRE DEL GERENTE</td>
+                    <td>{{$rendicion->getNombreEvaluador()  }}</td>
                     <td><br><br><p style="text-align: center; font-size: 13px;">
                         FIRMA: ___________________
                     </p></td>

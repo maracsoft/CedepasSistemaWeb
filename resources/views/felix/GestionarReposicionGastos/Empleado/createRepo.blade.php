@@ -498,12 +498,9 @@
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
 
-
         var cont=0;
-        
-        //var IGV=0;
         var total=0;
-        var detalleRend=[];
+        var detalleRepo=[];
         
         $(document).ready(function(){
           
@@ -545,7 +542,20 @@
             if($('#resumen').val()=='' ) msj='Debe ingresar el resumen';
             if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
 
-            if($('#nombresArchivos').val()=="" ) msj='Debe subir archivos';
+            if($('#nombresArchivos').val()=="" ) msj='Debe subir los archivos comprobantes de pago.';
+
+            //validamos que todos los items tengan el cod presupuestal correspondiente a su proyecto
+            for (let index = 0; index < detalleRepo.length; index++) {
+                console.log('Comparando ' + index + " starst:" +detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                if(!detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                {
+                    msj="Error: el Código presupuestal del Item N°" 
+                    + (index+1) + 
+                    ": "+detalleRepo[index].codigoPresupuestal+" debe coincidir con el codigo del proyecto ("
+                    +codPresupProyecto+
+                    ") ";
+                }
+            }
 
             
             if(msj!=''){
@@ -577,20 +587,16 @@
     
         /* Eliminar productos */
         function eliminardetalle(index){
-            //total=total-importes[index]; 
-            //tam=detalleRend.length;
+        
     
-         
-    
-            //removemos 1 elemento desde la posicion index
-            detalleRend.splice(index,1);
+            detalleRepo.splice(index,1);
            
             console.log('BORRANDO LA FILA' + index);
-            //cont--;
+           
             actualizarTabla();
     
         }
-    
+        
         
     
         function actualizarTabla(){
@@ -605,8 +611,8 @@
             }
             
             //insertamos en la tabla los nuevos elementos
-            for (let item = 0; item < detalleRend.length; item++) {
-                element = detalleRend[item];
+            for (let item = 0; item < detalleRepo.length; item++) {
+                element = detalleRepo[item];
                 cont = item+1;
 
                 total=total +parseFloat(element.importe); 
@@ -636,7 +642,7 @@
                             '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
+                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly>' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
@@ -664,8 +670,10 @@
             $.get('/obtenerCodigoPresupuestalDeProyecto/'+codProyecto, 
                 function(data)
                 {   
-                    codPresupProyecto = data;
-                    console.log('Se ha actualizado el codPresupuestal del proyecto:' +codPresupProyecto )
+                    codPresupProyecto = data.substring(0,2); //Pa agarrarle solo los 2 digitos
+                    console.log('Se ha actualizado el codPresupuestal del proyecto:[' +codPresupProyecto+"]" );
+
+
                 }
                 );
 
@@ -696,12 +704,9 @@
             if (concepto=='') 
                 msjError="Por favor ingrese el concepto";    
                 
-                
-                
-            codProyecto = $('#codProyecto').val();
-            if( codProyecto == undefined  )
-                msjError="Por favor seleccione un proyecto antes de añadir Items.";    
-                
+            
+            codProyecto = $('#codProyecto').val().innerHTML;
+            
 
             importe=$("#importe").val();    
             if (!(importe>0)) 
@@ -716,17 +721,18 @@
             if (importe==0)
                 msjError="Por favor ingrese importe";    
             
-            
-            
-            codigoPresupuestal = String(codigoPresupuestal);
-
-            console.log('codigoPresupuestal='+ codigoPresupuestal +' codPresupProyecto='+codPresupProyecto);
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
             console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
             
             if(!codigoPresupuestal.startsWith(codPresupProyecto) )
                 msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
-            console.log('El cod presup del proyecto seleccionado es:' +  codPresupProyecto)
+
+
             
+            if( codPresupProyecto == -1  )
+                msjError="Por favor seleccione un proyecto antes de añadir Items.";    
+               
+
             if(msjError!=""){
                 alert(msjError);
                 return false;
@@ -734,7 +740,7 @@
        
             // FIN DE VALIDACIONES
 
-            detalleRend.push({
+            detalleRepo.push({
                 fecha:fecha,
                 tipo:tipo,
                 ncbte,ncbte,

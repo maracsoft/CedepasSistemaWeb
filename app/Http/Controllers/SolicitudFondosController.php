@@ -68,20 +68,39 @@ class SolicitudFondosController extends Controller
 
 
     public function listarSolicitudesDeEmpleado(Request $request){
-        
+        $codProyectoBuscar=$request->codProyectoBuscar;
         $empleado = Empleado::getEmpleadoLogeado();
+
+        if($codProyectoBuscar==0){
+            $listaSolicitudesFondos = SolicitudFondos::
+            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            ->orderBy('codEstadoSolicitud','ASC')
+            ->orderBy('fechaHoraEmision','DESC')
+            ->paginate($this::PAGINATION);
+        }else
+            $listaSolicitudesFondos = SolicitudFondos::
+            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+            ->orderBy('codEstadoSolicitud','ASC')
+            ->orderBy('fechaHoraEmision','DESC')->where('codProyecto','=',$codProyectoBuscar)
+            ->paginate($this::PAGINATION);
+        $proyectos=Proyecto::all();
+
+
+
+
         
+        /*
         $listaSolicitudesFondos = SolicitudFondos::
         where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
         ->orderBy('codEstadoSolicitud','ASC')
         ->orderBy('fechaHoraEmision','DESC')
         ->paginate($this::PAGINATION);
 
-        $buscarpor = "";
+        $buscarpor = "";*/
 
         $listaBancos = Banco::All();
 
-        return view('vigo.empleado.listarSolic',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('vigo.empleado.listarSolic',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
     }
 
 
@@ -95,23 +114,36 @@ class SolicitudFondosController extends Controller
 
     /* FUNCION ACTIVADA POR UN gerente */
     public function listarSolicitudesParaGerente(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
+
+
         $empleado = Empleado::getEmpleadoLogeado();
 
         
         if(count($empleado->getListaProyectos())==0)
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
-      
-        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
         
 
+        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
+        if($codProyectoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
         $listaSolicitudesFondos=$listaSolicitudesFondos->paginate($this::PAGINATION);
-        
-        $buscarpor = "";
+
+
+        $proyectos=Proyecto::all();
+        $empleados=Empleado::all();
+        //$buscarpor = "";
 
         $listaBancos = Banco::All();
 
-        return view('vigo.gerente.index',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('vigo.gerente.index',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
     }
 
 

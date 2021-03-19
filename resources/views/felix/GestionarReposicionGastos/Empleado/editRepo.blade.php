@@ -525,7 +525,7 @@
 
         $(document).ready(function(){
             cargarDetallesReposicion();
-    
+            actualizarCodPresupProyecto();
 
         });
 
@@ -595,12 +595,21 @@
             if($('#resumen').val()=='' ) msj='Debe ingresar el resumen';
             if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
 
-            //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
+            //validamos que todos los items tengan el cod presupuestal correspondiente a su proyecto
             for (let index = 0; index < detalleRepo.length; index++) {
-                nombre = $('#nombreImg'+index).val();
-                if(nombre=='') msj='Debe subir el comprobante del Item N°'+index;
+                console.log('Comparando ' + index + " starst:" +detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                if(!detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                {
+                    msj="Error: el Código presupuestal del Item N°" 
+                    + (index+1) + 
+                    ": "+detalleRepo[index].codigoPresupuestal+" debe coincidir con el codigo del proyecto ("
+                    +codPresupProyecto+
+                    ") ";
+                }
             }
-            
+
+
+
             if(msj!=''){
                 alert(msj);
                 return false;
@@ -706,78 +715,57 @@
 
             $('#total').val(number_format(total,2));
             $('#cantElementos').val(cont);
-            /*
-            $('#totalRendido').val(total); //el que se va a leer
             
-
-            var totalGastado= parseFloat(total)    ;
-            var totalRecibido= parseFloat(1000); 
-            console.log(' total= '+total +'       tot2= ' +1000);
-
-            saldoFavEmpl = (totalGastado)-(totalRecibido);
-            
-
-            
-            
-            console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-        
-            
-            
-            
-
-
-            if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
-                $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-            
-                document.getElementById("divEnteroArchivo").style.display="none";
-            
-
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
-            }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
-                $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-                document.getElementById("divEnteroArchivo").style.display="block";
-            
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
-            }
-
-            //alert('se termino de actualizar la tabla con cont='+cont);
-            */
         }
     
     
+        var codPresupProyecto = -1;
+        function actualizarCodPresupProyecto(){
+            codProyecto = $('#codProyecto').val();
+            $.get('/obtenerCodigoPresupuestalDeProyecto/'+codProyecto, 
+                function(data)
+                {   
+                    codPresupProyecto = data.substring(0,2); //Pa agarrarle solo los 2 digitos
+                    console.log('Se ha actualizado el codPresupuestal del proyecto:[' +codPresupProyecto+"]" );
+
+
+                }
+                );
+
+        }
     
     
         function agregarDetalle(){
 
 
             // VALIDAMOS
+            msjError="";
+
 
             fecha = $("#fechaComprobante").val();    
             if (fecha=='') 
             {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
+                msjError = ("Por favor ingrese la fecha del comprobante del gasto.");    
             }   
             tipo = $("#ComboBoxCDP").val();    
             if (tipo==-1) 
             {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
+                msjError = ("Por favor ingrese el tipo de comprobante del gasto.");    
+                
             }
             ncbte= $("#ncbte").val();   
                 
             if (ncbte=='') 
             {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
+                msjError = ("Por favor ingrese el numero del comprobante del gasto.");    
+                
             }
                 
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
-                return false;
+                msjError = ("Por favor ingrese el concepto");    
+                
             }    
                 
             
@@ -785,24 +773,41 @@
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
+                msjError = ("Por favor ingrese un importe válido.");    
+                
             }    
             
 
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
+                msjError = ("Por favor ingrese el codigo presupuestal");    
+                
             }    
 
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
+                msjError = ("Por favor ingrese precio de venta del producto");    
+                
             }  
+
+
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
             
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+                
+
+
+            if(msjError!="")
+            {
+                alert(msjError);
+                return false;
+            }
+
+
+
             // FIN DE VALIDACIONES
 
                 //item = cont+1;   

@@ -117,7 +117,6 @@
                             <div class="col"> {{-- input de moneda viene de solicitud --}}
                                 <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
                                     readonly value="{{$solicitud->getMoneda()->nombre}}">     
-                                        
                             </div>
 
                             <div class="w-100"></div> {{-- SALTO LINEA --}}
@@ -420,7 +419,9 @@
         var controlproducto=[];
         var totalSinIGV=0;
         var saldoFavEmpl=0;
-    
+        var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
+
+
         $(document).ready(function(){
             var d = new Date();
             codEmp = $('#codigoCedepas').val();
@@ -467,23 +468,10 @@
             if( $('#cantElementos').val()<=0 )
                 msj='Debe ingresar Items';
 
+            if($('#nombresArchivos').val()=="" ) 
+                msj='Debe subir los archivos comprobantes de pago.';
 
-           
-
-            //VERIFICAMOS SI TODOS LOS CPD TIENEN SUS IMAGEN
-            for (let index = 0; index < detalleRend.length; index++) {
-                nombre = $('#nombreImg'+index).val();
-                if(nombre=='')
-                    msj='Debe subir el comprobante del Item N°'+index;
-
-            }
-
-            //si el saldo es a favor de cedepas, el empl debe adjuntar 
-                //el comprobante de deposito devolucion de los fondos sobrantes
             
-           /*  if(saldoFavEmpl<0 && $('#nombreImgImagenEnvio').val()==''){
-                msj='Tiene saldo a favor de Cedepas, debe adjuntar el comprobante de depósito con el monto sobrante.';
-            } */
 
             if(msj!='')
             {
@@ -599,14 +587,14 @@
 
             var totalGastado= parseFloat(total)    ;
             var totalRecibido= parseFloat( {{$solicitud->totalSolicitado}}  ); 
-            console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
+            //console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
 
             saldoFavEmpl = (totalGastado)-(totalRecibido);
             
 
             
             
-            console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
+            //console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
             $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
         
             
@@ -631,34 +619,43 @@
         function agregarDetalle()
         {
 
-
+            msjError="";
             // VALIDAMOS
+            codigoPresupuestal=$("#codigoPresupuestal").val();    
+
+
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
+            
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+
 
             fecha = $("#fechaComprobante").val();    
             if (fecha=='') 
             {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese la fecha del comprobante del gasto.");    
+                
             }   
             tipo = $("#ComboBoxCDP").val();    
             if (tipo==-1) 
             {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese el tipo de comprobante del gasto.");    
+                
             }
             ncbte= $("#ncbte").val();   
              
             if (ncbte=='') 
             {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
+                msjError=("Por favor ingrese el numero del comprobante del gasto.");    
+                
             }
              
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
-                return false;
+                msjError=("Por favor ingrese el concepto");    
+                
             }    
               
             
@@ -666,23 +663,34 @@
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
+                msjError=("Por favor ingrese un importe válido.");    
+                
             }    
             
+            
+
+
     
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
+
+            
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
+                msjError=("Por favor ingrese el codigo presupuestal");    
+                
             }    
     
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
+                msjError=("Por favor ingrese precio de venta del producto");    
+                
             }  
+
+
+            if(msjError!=""){
+                alert(msjError);
+                return false;
+            }
+            
             
             // FIN DE VALIDACIONES
     

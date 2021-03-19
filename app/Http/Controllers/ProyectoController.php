@@ -30,6 +30,7 @@ class ProyectoController extends Controller
 
     
     function getCodigoPresupuestal($id){
+        error_log('['.Proyecto::findOrFail($id)->codigoPresupuestal.']');
         return Proyecto::findOrFail($id)->codigoPresupuestal;
     } 
 
