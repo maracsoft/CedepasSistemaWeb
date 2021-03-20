@@ -92,7 +92,7 @@ class EliController extends Controller
                 $nombreImagen="";
                 break;                                              
             case 19:
-                $mensaje = "";
+                $mensaje = "NOS COMPRÉ ENTRADAS PARA EL CONCIERTO DE ALEJANDRO Y MARIALAURA MAÑAN 8PM";
                 $nombreImagen="quesesiente.PNG";
                 break;
             case 20: //clase ingles
