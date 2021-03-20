@@ -198,7 +198,7 @@
             <div class="row" id="divTotal" name="divTotal">      
                 <div class="col"> 
                         <br>
-                        @include('ProvisionFondos.desplegableDescargarArchivosRepo')
+                        @include('ReposicionGastos.desplegableDescargarArchivosRepo')
  
 
                 </div>

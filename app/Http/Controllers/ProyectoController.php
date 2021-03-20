@@ -130,7 +130,7 @@ class ProyectoController extends Controller
         $contadores=Empleado::where('codPuesto','=',Puesto::getCodigo('Contador'))->whereNotIn('codEmpleado',$arr)->get();
         
 
-        return view('contadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
+        return view('Proyectos.contadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
     }
 
     function agregarContador(Request $request){

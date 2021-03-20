@@ -203,7 +203,7 @@
 
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col-md-8" style="">
-                        @include('ProvisionFondos.desplegableDescargarArchivosRepo')
+                        @include('ReposicionGastos.desplegableDescargarArchivosRepo')
 
                     </div>   
                     <div class="col-md-2">                        

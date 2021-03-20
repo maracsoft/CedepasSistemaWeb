@@ -100,7 +100,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('ProvisionFondos.empleado.listarSolic',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
+        return view('SolicitudFondos.empleado.listarSolic',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
     }
 
 
@@ -143,7 +143,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('ProvisionFondos.gerente.index',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
+        return view('SolicitudFondos.gerente.index',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
     }
 
 
@@ -178,7 +178,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('ProvisionFondos.jefe.listarSolicitudes',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('SolicitudFondos.administracion.listarSolicitudes',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
     public function listarSolicitudesParaContador(){
@@ -200,7 +200,7 @@ class SolicitudFondosController extends Controller
         $buscarpor = "";
         $listaBancos = Banco::All();
 
-        return view('ProvisionFondos.contador.listarSolicitudes',
+        return view('SolicitudFondos.contador.listarSolicitudes',
             compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
     
     }
@@ -217,7 +217,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('ProvisionFondos.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('SolicitudFondos.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
 
@@ -237,7 +237,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('ProvisionFondos.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('SolicitudFondos.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
     public function aprobar( $id){
@@ -300,7 +300,7 @@ class SolicitudFondosController extends Controller
     public function vistaAbonar($id){ 
         $solicitud = SolicitudFondos::findOrFail($id);
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
-        return view('ProvisionFondos.jefe.vistaAbonar',compact('solicitud','detallesSolicitud'));
+        return view('SolicitudFondos.administracion.vistaAbonar',compact('solicitud','detallesSolicitud'));
 
     }
 
@@ -447,7 +447,7 @@ class SolicitudFondosController extends Controller
         $objNumeracion = Numeracion::getNumeracionREN();
 
         $listaEmpleadosDeSede  = Empleado::All();
-        return view ('ProvisionFondos.empleado.crearRendFondos',
+        return view ('RendicionGastos.empleado.crearRendFondos',
                     compact('empleadoLogeado','listaBancos'
                     ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud',
                     'listaCDP','detallesSolicitud','objNumeracion'));
@@ -469,7 +469,7 @@ class SolicitudFondosController extends Controller
         
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('ProvisionFondos.empleado.editSoliFondos',
+        return view('SolicitudFondos.empleado.editSoliFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos',
                 'listaMonedas','listaProyectos','listaSedes'));
     }
@@ -485,7 +485,7 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionSOF();
         $listaEmpleadosDeSede  = Empleado::All();
-        return view('ProvisionFondos.empleado.crearSoliFondos',
+        return view('SolicitudFondos.empleado.crearSoliFondos',
             compact('empleadoLogeado','listaBancos','listaProyectos',
                 'listaMonedas','listaSedes','listaEmpleadosDeSede','objNumeracion'));
 
@@ -570,7 +570,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('ProvisionFondos.contador.contabilizarSoliFondos',
+        return view('SolicitudFondos.contador.contabilizarSoliFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado',
                     'listaBancos','listaProyectos','listaSedes'));
     }
@@ -670,7 +670,7 @@ class SolicitudFondosController extends Controller
         $listaEmpleados = Empleado::All();
         $listaEstados = EstadoSolicitudFondos::All();
 
-        return view('ProvisionFondos.jefe.reportes.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
+        return view('RendicionGastos.administracion.reportes.reportesIndex',compact('buscarpor','listaSolicitudesFondos'
         ,'listaBancos','listaSedes','listaProyectos','listaEmpleados','listaEstados'));
 
     }
