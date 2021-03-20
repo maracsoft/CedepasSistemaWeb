@@ -8,7 +8,7 @@
   <div class="well"><H3 style="text-align: center;"><strong>EMPLEADOS</strong></H3></div>
   <div class="row">
     <div class="col-md-2">
-      <a href="/crearEmpleado" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+      <a href="{{route('GestionUsuarios.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
     </div>
     <div class="col-md-10">
       <form class="form-inline float-right">
@@ -38,10 +38,7 @@
                 <td>{{$itemempleado->nombres}}, {{$itemempleado->apellidos}}</td>
                 <td>{{$itemempleado->getPuestoActual()->nombre}}</td>
                 <td>
-                    <a href="/editarEmpleado/{{$itemempleado->codEmpleado}}" class="btn btn-warning btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>
-                    <!--
-                    <a href="/listarEmpleados/listarContratos/{{$itemempleado->codEmpleado}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Contrato</a>
-                    -->
+                    <a href="{{route('GestionUsuarios.edit',$itemempleado->codEmpleado)}}" class="btn btn-warning btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a>
 
                     <!--Boton eliminar -->
                     <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert
@@ -58,7 +55,7 @@
                             html : true
                         },
                         function(){//se ejecuta cuando damos a aceptar
-                            window.location.href='/cesarEmpleado/{{$itemempleado->codEmpleado}}';
+                            window.location.href='{{route('GestionUsuarios.cesar',$itemempleado->codEmpleado)}}';
 
                         });"><i class="entypo-cancel"></i>Cesar</a>
 

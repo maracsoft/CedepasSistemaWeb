@@ -441,7 +441,8 @@
 
         function guardarContabilizar (){
             codReposicion = {{$reposicion->codReposicionGastos}};
-            location.href = '/Conta/Reposiciones/contabilizar/'+ codReposicion +'*' +listaItems;
+            //location.href = '/Conta/Reposiciones/contabilizar/'+ codReposicion +'*' +listaItems;
+            location.href = '/ReposicionGastos/'+ codReposicion +'*' +listaItems+'/Contabilizar';
         }
 
         function cadAleatoria(length) {

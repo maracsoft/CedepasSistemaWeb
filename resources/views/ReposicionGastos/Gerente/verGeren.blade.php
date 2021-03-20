@@ -251,7 +251,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfGerente',$empleadoLogeado->codEmpleado)}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                    <a href="{{route('reposicionGastos.listarRepoOfGerente')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                     <!--
                     <a href="" 
                         class="btn btn-success float-right">
@@ -459,7 +459,8 @@
             texto=$('#observacion').val();
             if(texto!=''){
                 reposicion=$('#codReposicionGastos').val();
-                window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
+                //window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar'; 
+                window.location.href='/ReposicionGastos/'+reposicion+'*'+texto+'/Observar'; 
             }
             else{ 
                 alert('Ingrese observacion');

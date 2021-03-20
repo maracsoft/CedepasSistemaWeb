@@ -326,13 +326,7 @@
           </li>
         </ul>
       </li>
-      <li class="nav-header">---------</li>
-      <li class="nav-item">
-        <a href="{{route('proyecto.index')}}" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Proyectos</p>
-        </a>
-      </li>
+      <li class="nav-header">--------- Admin</li>
 
    
       @if(Auth::user()->isAdmin == 1)
@@ -346,20 +340,38 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/listarEmpleados" class="nav-link">
+              <a href="{{route('GestionUsuarios.listarEmpleados')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Empleados</p>
               </a>
             </li>
           
             <li class="nav-item">
-              <a href="/listarPuestos" class="nav-link">
+              <a href="{{route('GestiónPuestos.listarPuestos')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Puestos</p>
               </a>
             </li>
            
             
+          </ul>
+        </li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+
+            <p>
+              SERVICIOS
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{route('proyecto.index')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Proyectos</p>
+              </a>
+            </li>
+              
           </ul>
         </li>
       @endif

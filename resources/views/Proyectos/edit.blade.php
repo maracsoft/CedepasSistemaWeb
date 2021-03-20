@@ -134,29 +134,41 @@
                         </div>
 
                         <div class="w-100"></div>
+                        <br>
                         <div class="col" style=" text-align:center">
-                        
+                            <!--
                             <button class="btn btn-primary"  style="" onclick="validarregistro()"> 
                                 <i class="far fa-save"></i>
                                 Guardar
                             </button>
-                        
+                            -->
                             
+                            <button type="button" class="btn btn-primary float-right" style="margin-left: 6px" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                                title:'¿Seguro de editar el proyecto?',
+                                text: '',     //mas texto
+                                type: 'info',//e=[success,error,warning,info]
+                                showCancelButton: true,//para que se muestre el boton de cancelar
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText:  'SI',
+                                cancelButtonText:  'NO',
+                                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                                html : true
+                            },
+                            function(){//se ejecuta cuando damos a aceptar
+                                validarregistro();
+                            });"><i class='fas fa-save'></i> Registrar</button> 
                             
+                            <a href="#" class='btn btn-danger float-right' onclick="confirmarEliminacion()"><i class="fas fa-trash-alt"></i> Dar de Baja</a>
         
-                            <a href="#" class="btn btn-danger btn-icon icon-left" title="Eliminar registro" 
-                                onclick="confirmarEliminacion()">
-                                <i class="fas fa-trash-alt"></i>
-                            Dar de Baja
-                            </a>
+
+                            <a href="{{route('proyecto.index')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                            
                         </div>
 
                     </div>
 
                 </div>
-                    <a href="{{route('proyecto.index')}}" class="btn btn-info">
-                        Regresar al Menú
-                    </a>
             </div>
             <div class="col-2" >
              

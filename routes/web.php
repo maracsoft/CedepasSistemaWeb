@@ -32,16 +32,16 @@ Route::get('/obtenerCodigoPresupuestalDeProyecto/{id}','ProyectoController@getCo
 
 
 
-Route::get('/SolicitudFondos/listarDeEmpleado','SolicitudFondosController@listarSolicitudesDeEmpleado')
+Route::get('/SolicitudFondos/Empleado/listar/','SolicitudFondosController@listarSolicitudesDeEmpleado')
     ->name('solicitudFondos.listarEmp');
 
-Route::get('/SolicitudFondos/listarDeGerente','SolicitudFondosController@listarSolicitudesParaGerente')
+Route::get('/SolicitudFondos/Gerente/listar','SolicitudFondosController@listarSolicitudesParaGerente')
     ->name('solicitudFondos.listarGerente');
 
-Route::get('/SolicitudFondos/listarDeJefeAdmin','SolicitudFondosController@listarSolicitudesParaJefe')
+Route::get('/SolicitudFondos/Administración/listar','SolicitudFondosController@listarSolicitudesParaJefe')
     ->name('solicitudFondos.listarJefeAdmin');
 
-Route::get('/SolicitudFondos/listarDeContador','SolicitudFondosController@listarSolicitudesParaContador')
+Route::get('/SolicitudFondos/Contador/listar','SolicitudFondosController@listarSolicitudesParaContador')
     ->name('solicitudFondos.listarContador');
 
 //ruta para regresar al index de solicitudes del actor que esté logeado
@@ -50,23 +50,23 @@ Route::get('/irAIndex','SolicitudFondosController@listarSolicitudes')
 
 
 
-Route::get('/SolicitudFondos/Revisar/{id}','SolicitudFondosController@revisar')
+Route::get('/SolicitudFondos/{id}/Gerente/Revisar/','SolicitudFondosController@revisar')
     ->name('solicitudFondos.revisar');
 
 
 //vista para ver namas (empleado)
-Route::get('/Emp/SolicitudFondos/ver/{id}','SolicitudFondosController@ver')
+Route::get('/SolicitudFondos/{id}/Empleado/ver/','SolicitudFondosController@ver')
     ->name('solicitudFondos.ver');
     
 
-Route::get('/SolicitudFondos/vistaAbonar/{id}','SolicitudFondosController@vistaAbonar')
+Route::get('/SolicitudFondos/{id}/Administracion/vistaAbonar/','SolicitudFondosController@vistaAbonar')
     ->name('solicitudFondos.vistaAbonar');
 
 
-Route::get('/SolicitudFondos/verContabilizar/{id}','SolicitudFondosController@verContabilizar')
+Route::get('/SolicitudFondos/{id}/Contador/verContabilizar/','SolicitudFondosController@verContabilizar')
     ->name('solicitudFondos.verContabilizar');
 
-Route::post('/SolicitudFondos/Abonar/','SolicitudFondosController@abonar')
+Route::post('/SolicitudFondos/Administracion/Abonar/','SolicitudFondosController@abonar')
     ->name('solicitudFondos.abonar');
 
 
@@ -75,39 +75,39 @@ Route::get('/SolicitudFondos/descargarComprobanteAbono/{id}','SolicitudFondosCon
     
 
 
-Route::get('/SolicitudFondos/Aprobar/{id}','SolicitudFondosController@aprobar')
+Route::get('/SolicitudFondos/Gerente/Aprobar/{id}','SolicitudFondosController@aprobar')
     ->name('solicitudFondos.aprobar');
     
-Route::get('/SolicitudFondos/Contabilizar/{id}','SolicitudFondosController@contabilizar')
+Route::get('/SolicitudFondos/Contador/Contabilizar/{id}','SolicitudFondosController@contabilizar')
     ->name('solicitudFondos.contabilizar');
 
 
-Route::get('/SolicitudFondos/Rendir/{id}','SolicitudFondosController@rendir')
+Route::get('/SolicitudFondos/Empleado/Rendir/{id}','SolicitudFondosController@rendir')
 ->name('solicitudFondos.rendir');
 
 
 Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
 ->name('solicitudFondos.observar');
 
-Route::get('/SolicitudFondos/rechazar/{id}','SolicitudFondosController@rechazar')
+Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
 ->name('solicitudFondos.rechazar');
 
 
-Route::get('/crearSolicitudFondos','SolicitudFondosController@create')
+Route::get('/SolicitudFondos/Empleado/Crear','SolicitudFondosController@create')
 ->name('solicitudFondos.create');
 
-Route::get('/editarSolicitudFondos/{id}','SolicitudFondosController@edit')
+Route::get('/SolicitudFondos/Empleado/editar/{id}','SolicitudFondosController@edit')
 ->name('solicitudFondos.edit');
 
 
-Route::get('/solicitudes/delete/{id}','SolicitudFondosController@delete')
+Route::get('/SolicitudFondos/Empleado/delete/{id}','SolicitudFondosController@delete')
 ->name('solicitudFondos.delete');
 
-Route::get('/solicitudes/reportes/','SolicitudFondosController@reportes')
+Route::get('/SolicitudFondos/Administracion/reportes/','SolicitudFondosController@reportes')
 ->name('solicitudFondos.reportes');
 
 
-Route::post('/updateSolicitud/{id}','SolicitudFondosController@update')
+Route::post('/SolicitudFondos/Empleado/{id}','SolicitudFondosController@update')
     ->name('solicitudFondos.update');
 
 Route::get('/SolicitudFondos/descargar/{id}','SolicitudFondosController@descargarPDF')
@@ -118,38 +118,39 @@ Route::get('/SolicitudFondos/verPDF/{id}','SolicitudFondosController@verPDF')
 
 
 
-Route::post('/guardarSolicitud', 'SolicitudFondosController@store')->name('solicitudFondos.store');
+Route::post('/SolicitudFondos/Empleado/guardar', 'SolicitudFondosController@store')
+->name('solicitudFondos.store');
 
 /* ----------------------------------------------        MODULO RENDICIONES           ------------------------------------------ */
 
-Route::post('/guardarRendicion', 'RendicionGastosController@store')->name('rendicionGastos.store');
+Route::post('/RendicionGastos/Empleado/guardar', 'RendicionGastosController@store')->name('rendicionGastos.store');
 
-Route::get('/verRendicion/emp/{id}', 'RendicionGastosController@ver')->name('rendicionGastos.ver');
+Route::get('/RendicionGastos/{id}/Empleado/ver/', 'RendicionGastosController@ver')->name('rendicionGastos.ver');
 
-Route::get('/verRendicion/admin/{id}', 'RendicionGastosController@verAdmin')->name('rendicionGastos.verAdmin');
+Route::get('/RendicionGastos/{id}/Adminsitracion/ver', 'RendicionGastosController@verAdmin')->name('rendicionGastos.verAdmin');
 
-Route::get('/verRendicion/gerente/{id}', 'RendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
+Route::get('/RendicionGastos/{id}/Gerente/ver', 'RendicionGastosController@verGerente')->name('rendicionGastos.verGerente');
 
-Route::get('/rendiciones/editar/{idRend}','RendicionGastosController@editar')->name('rendicionGastos.editar');
+Route::get('RendicionGastos/{id}/Empleado/editar','RendicionGastosController@editar')->name('rendicionGastos.editar');
 
-Route::Post('/rendiciones/update/','RendicionGastosController@update')->name('rendicionGastos.update');
+Route::Post('/RendicionGastos/Empleado/update/','RendicionGastosController@update')->name('rendicionGastos.update');
 
 
-Route::get('/rendiciones/revisar/{id}','RendicionGastosController@revisar')->name('rendicionGastos.revisar');
-Route::get('/rendiciones/aprobar/{id}','RendicionGastosController@aprobar')->name('rendicionGastos.aprobar');
-Route::get('/rendiciones/rechazar/{id}','RendicionGastosController@rechazar')->name('rendicionGastos.rechazar');
+Route::get('/RendicionGastos/{id}/revisar','RendicionGastosController@revisar')->name('rendicionGastos.revisar');
+Route::get('/RendicionGastos/{id}/aprobar','RendicionGastosController@aprobar')->name('rendicionGastos.aprobar');
+Route::get('/RendicionGastos/{id}/rechazar','RendicionGastosController@rechazar')->name('rendicionGastos.rechazar');
 Route::get('/rendiciones/observar/{string}','RendicionGastosController@observar')->name('rendicionGastos.observar');
 
 
 //RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
-Route::get('/rendiciones/listar','RendicionGastosController@listarRendiciones')->name('rendicionGastos.listarRendiciones');
+Route::get('/RendicionGastos/MAESTRA/listar','RendicionGastosController@listarRendiciones')->name('rendicionGastos.listarRendiciones');
 
 
 Route::get('/verReponer/{id}', 'RendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
 Route::post('/rendicion/reponer/','RendicionGastosController@reponer')
     ->name('rendicionGastos.reponer');
 
-Route::get('/rendicion/verContabilizar/{id}','RendicionGastosController@verContabilizar')
+Route::get('/RendicionGastos/Contador/verContabilizar/{id}','RendicionGastosController@verContabilizar')
         ->name('rendicionGastos.verContabilizar');   
 
 Route::get( '/rendicion/contabilizar/{cad}','RendicionGastosController@contabilizar')
@@ -169,43 +170,127 @@ Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descarg
 
 
 //esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
-Route::get('/rendicion/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
+Route::get('/RendicionGastos/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')->name('rendicion.descargarArchivoRendicion');
 
 
-Route::get('/rendicion/listarContador/','RendicionGastosController@listarContador')->name('rendicionGastos.listarContador');
+Route::get('/RendicionGastos/Contador/listar/','RendicionGastosController@listarContador')->name('rendicionGastos.listarContador');
 
-Route::get('/rendicion/listarJefeAdmin/','RendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
-Route::get('/rendicion/listarGerente/','RendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
+Route::get('/RendicionGastos/Administracion/listar/','RendicionGastosController@listarJefeAdmin')->name('rendicionGastos.listarJefeAdmin');
+Route::get('/RendicionGastos/Gerente/listar/','RendicionGastosController@listarDelGerente')->name('rendicionGastos.listarGerente');
 
-Route::get('/rendicion/listarEmpleado/','RendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
+Route::get('/RendicionGastos/Empleado/Listar/','RendicionGastosController@listarEmpleado')->name('rendicionGastos.listarEmpleado');
 
-Route::get('/rendicion/descargarPDF/{id}','RendicionGastosController@descargarPDF')->name('rendicionGastos.descargarPDF');
-Route::get('/rendicion/verPDF/{id}','RendicionGastosController@verPDF')->name('rendicionGastos.verPDF');
+Route::get('/RendicionGastos//descargarPDF/{id}','RendicionGastosController@descargarPDF')->name('rendicionGastos.descargarPDF');
+Route::get('/RendicionGastos/verPDF/{id}','RendicionGastosController@verPDF')->name('rendicionGastos.verPDF');
 
 
 
-/* ----------------------------------------------        MODULO EMPLEADOS           ------------------------------------------ */
-Route::get('/listarEmpleados','EmpleadoController@listarEmpleados');
-Route::post('/listarPuestos/{id}','EmpleadoController@listarPuestos');
+/* ----------------------------------------------        MODULO GESTIÓN DE USUARIOS ---------------------------- */
+Route::get('/GestiónUsuarios/listar','EmpleadoController@listarEmpleados')->name('GestionUsuarios.listarEmpleados');
 
-Route::get('/crearEmpleado','EmpleadoController@crearEmpleado');
-Route::post('/crearEmpleado/save','EmpleadoController@guardarCrearEmpleado');
+Route::get('/GestiónUsuarios/crear','EmpleadoController@crearEmpleado')->name('GestionUsuarios.create');
+Route::post('/GestiónUsuarios/save','EmpleadoController@guardarCrearEmpleado')->name('GestionUsuarios.store');
 
-Route::get('/editarEmpleado/{id}','EmpleadoController@editarEmpleado');
-Route::post('/editarEmpleado/save','EmpleadoController@guardarEditarEmpleado');
+Route::get('/GestiónUsuarios/{id}/editar','EmpleadoController@editarEmpleado')->name('GestionUsuarios.edit');
+Route::post('/GestiónUsuarios/update','EmpleadoController@guardarEditarEmpleado')->name('GestionUsuarios.update');
 
-Route::get('/cesarEmpleado/{id}','EmpleadoController@cesarEmpleado');
+Route::get('/GestiónUsuarios/{id}/cesar','EmpleadoController@cesarEmpleado')->name('GestionUsuarios.cesar');
 
 /* ----------------------------------------------        MODULO PUESTOS           ------------------------------------------ */
-Route::get('/listarPuestos','PuestoController@listarPuestos');
+Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.listarPuestos');
 
-Route::get('/crearPuesto','PuestoController@crearPuesto');
-Route::post('/crearPuesto/save','PuestoController@guardarCrearPuesto');
+Route::get('/GestiónPuestos/crear','PuestoController@crearPuesto')->name('GestiónPuestos.create');
+Route::post('/GestiónPuestos/save','PuestoController@guardarCrearPuesto')->name('GestiónPuestos.store');
 
-Route::get('/editarPuesto/{id}','PuestoController@editarPuesto');
-Route::post('/editarPuesto/save','PuestoController@guardarEditarPuesto');
+Route::get('/GestiónPuestos/{id}/editar','PuestoController@editarPuesto')->name('GestiónPuestos.edit');
+Route::post('/GestiónPuestos/update','PuestoController@guardarEditarPuesto')->name('GestiónPuestos.update');
 
-Route::get('/eliminarPuesto/{id}','PuestoController@eliminarPuesto');
+Route::get('/GestiónPuestos/{id}/eliminar','PuestoController@eliminarPuesto')->name('GestiónPuestos.delete');
+
+/* ---------------------------------------------- MODULO REPOSICIONES -------------------------------------------- */
+/**RUTA MAESTRA PARA REPOSICION */
+Route::get('/indexReposicion','ReposicionGastosController@listarReposiciones')->name('reposicionGastos.listarReposiciones');
+/**RUTA MAESTRA PARA DESCARGAR CDP */
+Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');
+
+
+
+/**EMPLEADO*/
+Route::get('/ReposicionGastos/Empleado/listar','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
+Route::get('/ReposicionGastos/Empleado/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
+Route::post('/ReposicionGastos/Empleado/store','ReposicionGastosController@store')->name('reposicionGastos.store');
+
+Route::post('/ReposicionGastos/Empleado/update','ReposicionGastosController@update')->name('reposicionGastos.update');
+Route::get('/ReposicionGastos/{id}/Empleado/editar','ReposicionGastosController@editar')->name('reposicionGastos.editar');
+
+Route::get('/ReposicionGastos/{id}/Empleado/view','ReposicionGastosController@view')->name('reposicionGastos.view');
+
+/**GERENTE*/
+Route::get('/ReposicionGastos/Gerente/listar','ReposicionGastosController@listarOfGerente')->name('reposicionGastos.listarRepoOfGerente');
+Route::get('/ReposicionGastos/{id}/Gerente/view','ReposicionGastosController@viewGeren')->name('reposicionGastos.verReposicionOfGerente');
+
+/**ADMINISTRACION*/
+Route::get('/ReposicionGastos/Administracion/listar','ReposicionGastosController@listarOfJefe')->name('reposicionGastos.listarRepoOfJefe');
+Route::get('/ReposicionGastos/{id}/Administracion/view','ReposicionGastosController@viewJefe')->name('reposicionGastos.verReposicionOfJefe');
+
+/**CONTADOR*/
+Route::get('/ReposicionGastos/Contador/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.listarRepoOfContador');
+Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@viewConta')->name('reposicionGastos.verReposicionOfContador');
+
+
+
+/**RUTA MAESTRA PARA ESTADOS */
+Route::get('/ReposicionGastos/{id}/Aprobar','ReposicionGastosController@aprobar')->name('reposicionGastos.aprobar');
+Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')->name('reposicionGastos.rechazar');
+Route::get('/ReposicionGastos/{id}/Observar','ReposicionGastosController@observar')->name('reposicionGastos.observar');
+Route::get('/ReposicionGastos/{id}/Abonar','ReposicionGastosController@abonar')->name('reposicionGastos.abonar');
+Route::get('/ReposicionGastos/{id}/Contabilizar','ReposicionGastosController@contabilizar')->name('reposicionGastos.contabilizar');
+
+/**RUTA MAESTRA PARA DESCARGAR FORMULARIOS PDF */
+Route::get('/ReposicionGastos/{id}/PDF','ReposicionGastosController@descargarPDF')->name('reposicionGastos.PDF');
+Route::get('/ReposicionGastos/{id}/verPDF','ReposicionGastosController@verPDF')->name('reposicionGastos.verPDF');
+
+
+/* ---------------------------------------------- MODULO PROYECTOS -------------------------------------------- */
+Route::get('/GestiónProyectos/listar','ProyectoController@index')->name('proyecto.index');
+
+Route::get('/GestiónProyectos/crear','ProyectoController@crear')->name('proyecto.crear');
+Route::post('/GestiónProyectos/store','ProyectoController@store')->name('proyecto.store');
+
+Route::get('/GestiónProyectos/{id}/editar','ProyectoController@editar')->name('proyecto.editar');
+Route::post('/GestiónProyectos/update','ProyectoController@update')->name('proyecto.update');
+
+Route::get('/GestiónProyectos/{id}/darDeBaja','ProyectoController@darDeBaja')->name('proyecto.darDeBaja');
+
+
+/**GERENTES-CONTADORES */
+Route::get('/GestiónProyectos/{id}/asignarGerente','ProyectoController@actualizarProyectosYGerentesContadores');
+
+Route::get('/GestiónProyectos/{id}/asignarContador','ProyectoController@listarContadores')->name('proyecto.listarContadores');
+Route::post('/GestiónProyectos/asignarContadores/save','ProyectoController@agregarContador')->name('proyecto.agregarContador');
+
+Route::get('/GestiónProyectos/{id}/eliminarContador','ProyectoController@eliminarContador')->name('proyecto.eliminarContador');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ------------------------------ ---------------- MODULO JORGE -------------- ------------------------------ */
@@ -218,61 +303,3 @@ Route::group(['prefix' => 'categoria'], function () {
     Route::post('/delete', ['as' => 'categoria.delete', 'uses' => 'CategoriaController@destroy']);
 });
 
-
-/* ---------------------------------------------- MODULO REPOSICIONES -------------------------------------------- */
-//RUTA MAESTAR PARA REPOSICION
-Route::get('/reposiciones/listar','ReposicionGastosController@listarReposiciones')->name('reposicionGastos.listarReposiciones');
-
-
-/**MODULO  "Reposiciones de Fondos a empleados"*/
-Route::get('/Emp/Reposiciones/listar/','ReposicionGastosController@listarOfEmpleado')->name('reposicionGastos.listar');
-Route::get('/Emp/Reposiciones/crear','ReposicionGastosController@create')->name('reposicionGastos.create');
-Route::post('/Emp/Reposiciones/store','ReposicionGastosController@store')->name('reposicionGastos.store');
-
-Route::post('/Emp/Reposiciones/update','ReposicionGastosController@update')->name('reposicionGastos.update');
-Route::get('/Emp/Reposiciones/editar/{id}','ReposicionGastosController@editar')->name('reposicionGastos.editar');
-
-Route::get('/Emp/Reposiciones/view/{id}','ReposicionGastosController@view')->name('reposicionGastos.view');
-
-
-
-
-
-Route::get('/Geren/Reposiciones/listar','ReposicionGastosController@listarOfGerente')->name('reposicionGastos.listarRepoOfGerente');
-Route::get('/Geren/Reposiciones/view/{id}','ReposicionGastosController@viewGeren')->name('reposicionGastos.verReposicionOfGerente');
-
-Route::get('/Jefe/Reposiciones/listar','ReposicionGastosController@listarOfJefe')->name('reposicionGastos.listarRepoOfJefe');
-Route::get('/Jefe/Reposiciones/view/{id}','ReposicionGastosController@viewJefe')->name('reposicionGastos.verReposicionOfJefe');
-
-Route::get('/Conta/Reposiciones/listar','ReposicionGastosController@listarOfConta')->name('reposicionGastos.listarRepoOfContador');
-Route::get('/Conta/Reposiciones/view/{id}','ReposicionGastosController@viewConta')->name('reposicionGastos.verReposicionOfContador');
-
-Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('reposicionGastos.descargarCDP');
-
-//estados
-Route::get('/Reposicion/{id}/aprobar','ReposicionGastosController@aprobar')->name('reposicionGastos.aprobar');
-Route::get('/Reposicion/{id}/rechazar','ReposicionGastosController@rechazar')->name('reposicionGastos.rechazar');
-Route::get('/Reposicion/{id}/observar','ReposicionGastosController@observar')->name('reposicionGastos.observar');
-Route::get('/Reposicion/{id}/abonar','ReposicionGastosController@abonar')->name('reposicionGastos.abonar');
-Route::get('/Conta/Reposiciones/contabilizar/{id}','ReposicionGastosController@contabilizar')->name('reposicionGastos.contabilizar');
-
-//probando manito
-Route::get('/Reposicion/{id}/PDF','ReposicionGastosController@descargarPDF')->name('reposicionGastos.PDF');
-Route::get('/Reposicion/{id}/verPDF','ReposicionGastosController@verPDF')->name('reposicionGastos.verPDF');
-
-
-/* ---------------------------------------------- MODULO PROYECTOS -------------------------------------------- */
-Route::get('/asignarGerentesContadores/actualizar/{id}','ProyectoController@actualizarProyectosYGerentesContadores');
-Route::get('/contadores/{id}','ProyectoController@listarContadores')->name('proyecto.listarContadores');
-Route::post('/contadores/save','ProyectoController@agregarContador')->name('proyecto.agregarContador');
-Route::get('/contadores/delete/{id}','ProyectoController@eliminarContador')->name('proyecto.eliminarContador');
-
-Route::get('/proyecto/crear','ProyectoController@crear')->name('proyecto.crear');
-Route::post('/proyecto/store','ProyectoController@store')->name('proyecto.store');
-
-Route::get('/proyecto/index','ProyectoController@index')->name('proyecto.index');
-Route::get('/proyecto/editar/{id}','ProyectoController@editar')->name('proyecto.editar');
-Route::post('/proyecto/update','ProyectoController@update')->name('proyecto.update');
-
-
-Route::get('proyecto/darDeBaja/{id}','ProyectoController@darDeBaja')->name('proyecto.darDeBaja');

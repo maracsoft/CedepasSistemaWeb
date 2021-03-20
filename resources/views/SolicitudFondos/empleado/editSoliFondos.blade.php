@@ -377,7 +377,7 @@
 
 
 @section('script')
-     <script src="/public/select2/bootstrap-select.min.js"></script>     
+      
      <script>
         var cont=0;
         
@@ -387,7 +387,7 @@
         var importes=[];
         var controlproducto=[];
         var totalSinIGV=0;
-        //var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
+        var codPresupProyecto = 0;
         
         $(document).ready(function(){
 
@@ -397,7 +397,17 @@
             actualizarCodPresupProyecto();
         });
         
-        
+        function actualizarCodPresupProyecto(){
+            codProyecto = $('#ComboBoxProyecto').val();
+            $.get('/obtenerCodigoPresupuestalDeProyecto/'+codProyecto, 
+                function(data)
+                {   
+                    codPresupProyecto = data.substring(0,2); //Pa agarrarle solo los 2 digitos
+                    console.log('Se ha actualizado el codPresupuestal del proyecto:[' +codPresupProyecto+"]" );
+                }
+                );
+
+        }
 
         function cargarADetallesSol(){
             
@@ -406,7 +416,7 @@
             {      
                     listaDetalles = data;
                     for (let index = 0; index < listaDetalles.length; index++) {
-                        console.log('SI'+index);
+                        console.log('Cargando detalle de solicitud:'+index);
                         
                         detalleSol.push({
                             item:               listaDetalles[index].nroItem,
@@ -502,7 +512,6 @@
             }
             $('#total').val(total);
             $('#totalMostrado').val(number_format(total,2));
-            console.log('aaaaaaaaaaa' + total)
             
             
             $('#cantElementos').val(cont);
@@ -518,37 +527,64 @@
         function agregarDetalle()
         {
             
-    
+            msjError="";
             // VALIDAMOS 
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
-                return false;
+                msjError=("Por favor ingrese el concepto");    
+                
             }    
     
     
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
+                msjError=("Por favor ingrese un importe válido.");    
+                
             }    
             
-    /* 
+    
+            codigoPresupuestal=$("#codigoPresupuestal").val();   
+
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
+            
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+
+
+
+
+
+
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
+                msjError=("Por favor ingrese el codigo presupuestal");    
+                
             }    
-     */
+            
+
+
+
+
+
+
+
+
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
+                msjError=("Por favor ingrese precio de venta del producto");    
+                
             }  
-            
+
+
+
+            if(msjError!=""){
+                alert(msjError);
+                return false;
+            }
             // FIN DE VALIDACIONES
     
                 item = cont+1;   
@@ -590,7 +626,7 @@
             if($('#nroCuenta').val()=='' )
                 msj='Debe ingresar el nro de cuenta';
             
-            if( $('#cantElementos').val()<=0   detalleSol.length == 0)
+            if( $('#cantElementos').val()<=0  || detalleSol.length == 0)
                 msj='Debe ingresar Items';
 
 

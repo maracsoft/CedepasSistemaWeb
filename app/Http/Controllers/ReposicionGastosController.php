@@ -530,8 +530,8 @@ class ReposicionGastosController extends Controller
     }
 
     public function observar($id){//gerente-jefe-contador (codReposicion-observacion)
-        try{
-            DB::beginTransaction();
+        //try{
+        //    DB::beginTransaction();
             $empleado = Empleado::getEmpleadoLogeado();
 
             date_default_timezone_set('America/Lima');
@@ -552,7 +552,7 @@ class ReposicionGastosController extends Controller
             $reposicion->observacion=$arr[1];
             
             $reposicion->save();
-            DB::commit();
+        //    DB::commit();
             /*
             if($empleado->esJefeAdmin()){
                 return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
@@ -564,8 +564,8 @@ class ReposicionGastosController extends Controller
             */
             return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
             
-        }catch(\Throwable $th){
-            DB::rollBack();
+        //}catch(\Throwable $th){
+        //    DB::rollBack();
             /*
             if($empleado->esJefeAdmin()){
                 return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Ha ocurrido un error');
@@ -575,8 +575,8 @@ class ReposicionGastosController extends Controller
                 return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Ha ocurrido un error');
             }
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
-        }
+        //    return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
+        //}
     }
     public function rechazar($id){//gerente-jefe (codReposicion)
         try{

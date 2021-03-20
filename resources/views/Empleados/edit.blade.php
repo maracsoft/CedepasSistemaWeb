@@ -66,7 +66,7 @@
     
     <div class="well"><H3 style="text-align: center;">EDITAR EMPLEADO</H3></div>
     <br>
-    <form id="frmempresa" name="frmempresa" role="form" action="/editarEmpleado/save" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
+    <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.update')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
             <input type="text" class="form-control" id="codEmpleado" name="codEmpleado" placeholder="Codigo" value="{{ $empleado->codEmpleado}}" hidden>
             <div class="form-group row">
@@ -146,7 +146,7 @@
             <br />
               
             <input type="button" class="btn btn-primary float-right" value="Registrar" onclick="validarregistro()" />
-            <a href="/listarEmpleados" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+            <a href="{{route('GestionUsuarios.listarEmpleados')}}" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     </form>
 @endsection
 

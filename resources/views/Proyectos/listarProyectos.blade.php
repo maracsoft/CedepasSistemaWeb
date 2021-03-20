@@ -8,8 +8,6 @@
 @section('contenido')
 <br>
 
-
-
 @if (session('datos'))
 <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
     {{session('datos')}}
@@ -20,19 +18,17 @@
 </div>
 @endif
 
-
-
-<div class="col" style="text-align:center;">
-  <a href="{{route('proyecto.crear')}}" class="btn btn-primary">
-    <i class="fas fa-plus"></i>
-    Nuevo Proyecto
-  </a>
-</div>
-<br>
-
 <div class="card">
     <div class="card-header" style=" ">
       <h3 class="card-title">PROYECTOS Y GERENTES</h3>
+      <div class="card-tools">
+        <ul class="nav nav-pills ml-auto">
+          <li class="nav-item">
+            <a href="{{route('proyecto.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
+          </li>
+        </ul>
+      </div>
+      
     </div>
 
 
@@ -124,7 +120,8 @@
   function guardar(codProyecto){
     var codGerente=$('#Proyecto'+codProyecto).val();
     if(codGerente!=0){
-      $.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codGerente+'*1', function(data){
+      //$.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codGerente+'*1', function(data){
+      $.get('/GestiónProyectos/'+codProyecto+'*'+codGerente+'*1'+'/asignarGerente', function(data){
         if(data) alert('Se actualizo el gerente');
         else alert('No se pudo actualizar el gerente');
       });

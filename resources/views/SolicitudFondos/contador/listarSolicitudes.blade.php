@@ -127,12 +127,14 @@
                               <span class="red">S</span>
                             </h1>
                           </a>
-                        
+                          @if($itemSolicitud->verificarEstado('Rendida'))
                           <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>
                           </a>
+                          @endif
+                          
                         
                         @endif
 

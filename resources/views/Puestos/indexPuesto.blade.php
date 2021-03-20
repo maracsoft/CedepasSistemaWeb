@@ -8,7 +8,7 @@
   <div class="well"><H3 style="text-align: center;">PUESTOS</H3></div>
   <div class="row">
     <div class="col-md-2">
-      <a href="/crearPuesto" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+      <a href="{{route('GestiónPuestos.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
     </div>
     <div class="col-md-10">
       <form class="form-inline float-right">
@@ -34,7 +34,7 @@
                 <td>{{$itempuesto->nombre}}</td>
                 
                 <td>
-                    <a href="/editarPuesto/{{$itempuesto->codPuesto}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a> 
+                    <a href="{{route('GestiónPuestos.edit',$itempuesto->codPuesto)}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a> 
                     <!-- <a href="" class="btn btn-danger btn-sm btn-icon icon-left"><i class="entypo-cancel"></i>Eliminar</a> -->
 
                     <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert
@@ -51,7 +51,7 @@
                         html : true
                     },
                     function(){//se ejecuta cuando damos a aceptar
-                        window.location.href='/eliminarPuesto/{{$itempuesto->codPuesto}}';
+                        window.location.href='{{route('GestiónPuestos.delete',$itempuesto->codPuesto)}}';
 
                     });"><i class="entypo-cancel"></i>Eliminar</a>
 

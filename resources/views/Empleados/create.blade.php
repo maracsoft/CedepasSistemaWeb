@@ -66,7 +66,7 @@
     
     <div class="well"><H3 style="text-align: center;">CREAR EMPLEADO</H3></div>
     <br>
-    <form id="frmempresa" name="frmempresa" role="form" action="/crearEmpleado/save" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
+    <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.store')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
 
             <div class="form-group row">
@@ -219,7 +219,7 @@
                 
             
             <input type="button" class="btn btn-primary float-right" value="Registrar" onclick="validarregistro()" />
-            <a href="/listarEmpleados" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+            <a href="{{route('GestionUsuarios.listarEmpleados')}}" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     </form>
 @endsection
 
