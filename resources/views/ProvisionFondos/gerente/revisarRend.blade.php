@@ -289,19 +289,31 @@
                                     <label for="">Observación:</label>
                                     <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
                                 
-                                    <button type="button" onclick="observarRendicion()"
-                                        class='btn btn-danger'   style="float:right;">
-                                        <i class="fas fa-eye-slash"></i>
-                                        Observar
-                                    </button> 
-                                    <br>
+                                    
+                                    
                                 </div>    
                                 <div class="col">
-                                    <a href="{{route('rendicionGastos.aprobar',$rendicion->codRendicionGastos)}}" 
-                                        class='btn btn-success'  style="float:right;">
-                                        <i class="fas fa-check"></i>
-                                        Aprobar
-                                    </a>    
+                                    <br><!--
+                                    <button type="button" onclick="observarRendicion()"
+                                        class='btn btn-danger' >
+                                        <i class="fas fa-eye-slash"></i>
+                                        Observar
+                                    </button>--> 
+                                    <a href="#" class="btn btn-warning" onclick="swal({//sweetalert
+                                        title:'¿Seguro de observar la rendicion?',
+                                        text: '',
+                                        type: 'info',  
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText:  'SI',
+                                        cancelButtonText:  'NO',
+                                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                                        html : true
+                                    },
+                                    function(){
+                                        observarRendicion();
+                                    });"><i class="entypo-pencil"></i>Observar</a>
                                 </div>
                     
                     
@@ -319,13 +331,34 @@
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
-                <div class="form-group">
+                <div class="form-group"><!--
                     <a href="{{route('rendicionGastos.listarRendiciones')}}" 
                         class='btn btn-primary' style="float:left;">
                         <i class="fas fa-undo"></i>
                         Regresar al menú
-                    </a>    
-                               
+                    </a> -->
+                    <a href="{{route('rendicionGastos.listarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                    <!--  
+                    <a href="{{route('rendicionGastos.aprobar',$rendicion->codRendicionGastos)}}" 
+                        class='btn btn-success'  style="float:right;">
+                        <i class="fas fa-check"></i>
+                        Aprobar
+                    </a>-->
+                    <a href="#" class="btn btn-success float-right" onclick="swal({//sweetalert
+                        title:'¿Seguro de aceptar la rendicion?',
+                        text: '',
+                        type: 'info',  
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){
+                        window.location.href='{{route('rendicionGastos.aprobar',$rendicion->codRendicionGastos)}}';
+                    });"><i class="fas fa-check"></i> Aceptar</a>        
                 </div>    
             </div>
         </div>

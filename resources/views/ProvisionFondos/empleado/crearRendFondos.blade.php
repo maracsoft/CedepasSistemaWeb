@@ -13,7 +13,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('rendicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('rendicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data" id="frmrend" name="frmrend">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -344,14 +344,33 @@
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
-                <div class="form-group">
+                <div class="form-group"><!--
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Registrar
-                    </button>    
+                    </button>-->
+                    
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                        title:'¿Seguro de crear la rendicion?',
+                        text: '',     //mas texto
+                        type: 'info',//e=[success,error,warning,info]
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        if(validarTextos()==true){
+                            document.frmsoli.submit();
+                        }
+                        
+                    });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
@@ -423,13 +442,6 @@
 
 
         $(document).ready(function(){
-            var d = new Date();
-            codEmp = $('#codigoCedepas').val();
-            mes = (d.getMonth()+1.0).toString();
-            if(mes.length > 0) mes = '0' + mes;
-            
-            year =  d.getFullYear().toString().substr(2,2)  ;
-            $('#codRendicion').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
             
     
         });

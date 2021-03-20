@@ -40,43 +40,40 @@
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
       </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-      <div class="colLabel">
-        <label for="">Proyecto:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="" readonly>
-      </div>
       
 
       
     </div>
   </div>
 
-<br>
-<div class="row">
-  <div class="col-md-12">
-    <form class="form-inline float-right">
-      <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
-        <option value="0">- Seleccione Empleado -</option>          
-        @foreach($empleados as $itemempleado)
-          <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
-        @endforeach
-      </select> 
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <label for="">Empleado: </label>
+        <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
+          <option value="0">- Seleccione Empleado -</option>          
+          @foreach($empleados as $itemempleado)
+            <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
+          @endforeach
+        </select> 
 
-      <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
-        <option value="0">--Seleccionar Proyecto--</option>
-        @foreach($proyectos as $itemproyecto)
-            <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
-                {{$itemproyecto->nombre}}
-            </option>                                 
-        @endforeach 
-      </select>
-      <button class="btn btn-success " type="submit">Buscar</button>
-    </form>
+      
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+          <option value="0">--Seleccionar Proyecto--</option>
+          @foreach($proyectos as $itemproyecto)
+              <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
+                  {{$itemproyecto->nombre}}
+              </option>                                 
+          @endforeach 
+        </select>
+        <button class="btn btn-success " type="submit">Buscar</button>
+       
+
+
+      </form>
+    </div>
   </div>
-</div>
 
 
 

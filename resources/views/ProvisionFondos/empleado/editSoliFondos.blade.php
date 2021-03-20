@@ -17,7 +17,7 @@
     
 
 </h1>
-<form method = "POST" action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}"  >
+<form method = "POST" onsubmit="return validarTextos()"  action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}" id="frmsoli" name="frmsoli" >
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -139,7 +139,7 @@
                         </div>
                         <div class="col"> {{-- Combo box de monedas --}}
                                 <select class="form-control"  id="ComboBoxMoneda" name="ComboBoxMoneda" >
-                                    <option value="-1">-- Seleccionar --</option>
+                                   
                                     @foreach($listaMonedas as $itemMoneda)
                                         <option value="{{$itemMoneda->codMoneda}}" 
                                             @if($solicitud->codMoneda== $itemMoneda->codMoneda)
@@ -306,13 +306,32 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
+                    
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Actualizar
-                    </button>    
+                    </button>   <!-- 
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                        title:'¿Seguro de editar la solicitud?',
+                        text: '',     //mas texto
+                        type: 'info',//e=[success,error,warning,info]
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        if(validarTextos()==true){
+                            document.frmsoli.submit();
+                        }
+                        
+                    });"><i class='fas fa-save'></i> Actualizar</button>-->
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
@@ -368,15 +387,18 @@
         var importes=[];
         var controlproducto=[];
         var totalSinIGV=0;
-    
+        //var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
+        
         $(document).ready(function(){
 
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             cargarADetallesSol();
             
-            
+            actualizarCodPresupProyecto();
         });
         
+        
+
         function cargarADetallesSol(){
             
             //obtenemos los detalles de una ruta GET 
@@ -513,14 +535,14 @@
                 return false;
             }    
             
-    
+    /* 
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
                 alert("Por favor ingrese el codigo presupuestal");    
                 return false;
             }    
-    
+     */
             if (importe==0)
             {
                 alert("Por favor ingrese precio de venta del producto");    
@@ -544,8 +566,46 @@
             $('#importe').val('');
             $('#codigoPresupuestal').val('');
             
-    }
+        }
     
+    function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+            msj='';
+            
+             if($('#justificacion').val()=='' )
+                msj='Debe ingresar la justificacion';
+            
+
+            if($('#ComboBoxProyecto').val()=='-1' )
+                msj='Debe seleccionar el proyecto';
+            
+            if( $('#ComboBoxMoneda').val()=='-1' )
+                msj="Debe ingresar una moneda";
+
+            if($('#ComboBoxBanco').val()=='-1' )
+                msj='Debe seleccionar el banco.';
+            
+            if($('#girarAOrden').val()=='' )
+                msj='Debe ingresar la persona dueña de la cuenta.';
+            
+            if($('#nroCuenta').val()=='' )
+                msj='Debe ingresar el nro de cuenta';
+            
+            if( $('#cantElementos').val()<=0   detalleSol.length == 0)
+                msj='Debe ingresar Items';
+
+
+            if(msj!='')
+            {
+                alert(msj)
+                return false;
+            }
+
+            return true;
+        }
+
+
+
+
     function limpiar(){
         $("#cantidad").val(0);
         //$("#precio").val(0);

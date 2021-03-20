@@ -9,7 +9,7 @@
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
 </div>
 
-<form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" >
+<form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" id="frmsoli" name="frmsoli">
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -103,7 +103,7 @@
 
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
-                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" >
+                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" onchange="actualizarCodPresupProyecto()" >
                                     <option value="-1">-- Seleccionar -- </option>
                                     @foreach($listaProyectos as $itemProyecto)
                                         <option value="{{$itemProyecto['codProyecto']}}" >
@@ -281,13 +281,33 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
+                    <!--
                     <button class="btn btn-primary" type="submit" 
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
                         Registrar
-                    </button>    
+                    </button>
+                    -->
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
+                        title:'¿Seguro de crear la solicitud?',
+                        text: '',     //mas texto
+                        type: 'info',//e=[success,error,warning,info]
+                        showCancelButton: true,//para que se muestre el boton de cancelar
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText:  'SI',
+                        cancelButtonText:  'NO',
+                        closeOnConfirm:     true,//para mostrar el boton de confirmar
+                        html : true
+                    },
+                    function(){//se ejecuta cuando damos a aceptar
+                        if(validarTextos()==true){
+                            document.frmsoli.submit();
+                        }
+                        
+                    });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-danger'><i class='fas fa-ban'></i> Cancelar</a>              
+                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
@@ -394,8 +414,8 @@
             if($('#ComboBoxProyecto').val()=='-1' )
                 msj='Debe seleccionar el proyecto';
             
-           
-           
+            if( $('#ComboBoxMoneda').val()=='-1' )
+                msj="Debe ingresar una moneda";
 
             if($('#ComboBoxBanco').val()=='-1' )
                 msj='Debe seleccionar el banco.';
@@ -474,41 +494,72 @@
             //alert('se termino de actualizar la tabla con cont='+cont);
         }
     
-    
+        var codPresupProyecto = -1;
+        function actualizarCodPresupProyecto(){
+            codProyecto = $('#ComboBoxProyecto').val();
+            $.get('/obtenerCodigoPresupuestalDeProyecto/'+codProyecto, 
+                function(data)
+                {   
+                    codPresupProyecto = data.substring(0,2); //Pa agarrarle solo los 2 digitos
+                    console.log('Se ha actualizado el codPresupuestal del proyecto:[' +codPresupProyecto+"]" );
+                }
+                );
+
+        }
+
+
         function agregarDetalle()
         {
             
-    
+            msjError="";
             // VALIDAMOS 
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
-                return false;
+                msjError=("Por favor ingrese el concepto");    
+                
             }    
-    
-    
+
+
+            codigoPresupuestal=$("#codigoPresupuestal").val();   
+
+            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
+            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
+            
+            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
+                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
+
+
+
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
-                return false;
+                msjError=("Por favor ingrese un importe válido.");    
+                
             }    
             
     
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
+             
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
-                return false;
+                msjError=("Por favor ingrese el codigo presupuestal");    
+                
             }    
     
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
-                return false;
+                msjError=("Por favor ingrese precio de venta del producto");    
+                
             }  
-            
+
+
+
+            if(msjError!=""){
+                alert(msjError);
+                return false;
+            }
+
+
             // FIN DE VALIDACIONES
     
                 item = cont+1;   

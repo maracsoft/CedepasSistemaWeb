@@ -334,12 +334,14 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
+                    <!--
                     <a href="{{route('rendicionGastos.listarJefeAdmin')}}" 
                         class='btn btn-primary' style="float:left;">
                         <i class="fas fa-undo"></i>
                         Regresar al menú
-                    </a>    
-                               
+                    </a>
+                    -->    
+                    <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>           
                 </div>    
             </div>
         </div>

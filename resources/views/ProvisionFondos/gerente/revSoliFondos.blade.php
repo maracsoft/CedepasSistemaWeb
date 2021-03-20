@@ -235,15 +235,15 @@
                 <div class="form-group">
                     
                     
-                    <div class="container">
+                    <div class="">
                         <div class="row">
-                            <div class="col">
+                            <div class="col"><!--
                                 <a href="{{route('solicitudFondos.listarGerente')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú
-                                </a>
-
+                                </a>-->
+                                <a href="{{route('solicitudFondos.listarGerente')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                             </div>
                             <div class="col"></div>
                        
