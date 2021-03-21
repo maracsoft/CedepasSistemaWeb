@@ -3,17 +3,13 @@
 @section('contenido')
 
 <style>
-
   .col{
     margin-top: 15px;
   
     }
-  
   .colLabel{
   width: 13%;
   margin-top: 18px;
-  
-  
   }
   
   
@@ -40,8 +36,25 @@
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
 
       
+      <label class="colLabel">Sol. Fondos:</label>
 
-      
+      <div class="col" style="">
+        <select class="form-control mr-sm-2" onclick="actualizarCodSolicitud()" 
+          id="codSolicitudSeleccionada" name="codSolicitudSeleccionada" style="">
+          <option value="-1">--Seleccionar--</option>
+          @foreach($listaSolicitudesPorRendir as $itemSolicitud)
+              <option value="{{$itemSolicitud->codSolicitud}}" 
+                {{$itemSolicitud->codSolicitud}}>
+                  {{$itemSolicitud->codigoCedepas}} por {{$itemSolicitud->getMoneda()->simbolo}} {{number_format($itemSolicitud->totalSolicitado,2)}}
+              </option>                                 
+          @endforeach 
+        </select>
+      </div>
+
+      <div class="col">
+        <button class="btn btn-success " onclick="crearRendicion()">Crear Rendicion</button>
+      </div>
+
     </div>
   </div>
   
@@ -81,7 +94,7 @@
       
             <tr>
               <td>{{$itemRendicion->codigoCedepas  }}</td>
-              <td>{{$itemRendicion->fechaRendicion  }}</td>
+              <td>{{$itemRendicion->fechaHoraRendicion  }}</td>
              
               <td>{{$itemRendicion->getNombreProyecto()  }}</td>
               <td>{{$itemRendicion->totalImporteRecibido  }}</td>
@@ -104,7 +117,7 @@
                   @if($itemRendicion->verificarEstado('Creada') || 
                     $itemRendicion->verificarEstado('Subsanada') ||
                      $itemRendicion->verificarEstado('Observada') )
-                    <a href="{{route('RendicionGastos.Empleado.Ver',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning">
+                    <a href="{{route('RendicionGastos.Empleado.Editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning">
                       <i class="fas fa-edit"></i>
                     </a>
                             
@@ -225,3 +238,29 @@ span.pink {
   font-size : {{$fontSize}};
 }
    </style>
+
+<script>
+var codigoSolicitudSeleccionada = -1; 
+
+function actualizarCodSolicitud(){
+
+  codigoSolicitudSeleccionada = document.getElementById('codSolicitudSeleccionada').value;
+
+}
+
+
+function crearRendicion(){
+  console.log('hola');
+
+  if(codigoSolicitudSeleccionada == '-1'){ 
+    alerta('Debe seleccionar una solicitud para rendirla.');
+    return;
+  }
+  
+  window.location.href = "/SolicitudFondos/Empleado/Rendir/"+codigoSolicitudSeleccionada;
+  
+}
+
+
+
+</script>

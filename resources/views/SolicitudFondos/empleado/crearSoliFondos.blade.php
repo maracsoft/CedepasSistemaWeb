@@ -9,7 +9,7 @@
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
 </div>
 
-<form method = "POST" action = "{{ route('SolicitudFondos.Empleado.Guardar') }}" onsubmit="return validarTextos()" id="frmsoli" name="frmsoli">
+<form method = "POST" action = "{{route('SolicitudFondos.Empleado.Guardar')}}" onsubmit="" id="frmsoli" name="frmsoli">
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -99,7 +99,7 @@
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
-                                <label for="ComboBoxProyecto">Proyecto:</label>
+                                <label for="ComboBoxProyecto">Proyecto y cod:</label>
 
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
@@ -107,7 +107,7 @@
                                     <option value="-1">-- Seleccionar -- </option>
                                     @foreach($listaProyectos as $itemProyecto)
                                         <option value="{{$itemProyecto['codProyecto']}}" >
-                                            {{$itemProyecto->nombre}}
+                                            {{$itemProyecto->nombre}} [{{$itemProyecto->codigoPresupuestal}}]
                                         </option>                                 
                                     @endforeach 
                                 </select>      
@@ -288,24 +288,13 @@
                         Registrar
                     </button>
                     -->
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
-                        title:'¿Seguro de crear la solicitud?',
-                        text: '',     //mas texto
-                        type: 'info',//e=[success,error,warning,info]
-                        showCancelButton: true,//para que se muestre el boton de cancelar
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText:  'SI',
-                        cancelButtonText:  'NO',
-                        closeOnConfirm:     true,//para mostrar el boton de confirmar
-                        html : true
-                    },
-                    function(){//se ejecuta cuando damos a aceptar
-                        if(validarTextos()==true){
-                            document.frmsoli.submit();
-                        }
-                        
-                    });"><i class='fas fa-save'></i> Registrar</button> 
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" 
+                        data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                            onclick="registrar()">
+                    
+                    <i class='fas fa-save'></i> 
+                    Registrar
+                    </button> 
                    
                     <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
@@ -369,7 +358,20 @@
             
     
         });
-        
+
+
+        function registrar(){
+            msj=validarFormulario();
+            if(msj!=''){
+                alerta(msj);
+                return false;
+            }
+
+            confirmar('¿Seguro de crear la reposicion?','info','frmsoli');//[success,error,warning,info]
+        }
+
+
+
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi. Siempre tiene que empezar por una letra
         function cadAleatoria(length) {
             var result           = '';
@@ -404,7 +406,7 @@
             actualizarTabla();
     
         }
-        function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+        function validarFormulario(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
             
              if($('#justificacion').val()=='' )
@@ -430,13 +432,20 @@
                 msj='Debe ingresar Items';
 
 
-            if(msj!='')
-            {
-                alert(msj)
-                return false;
+            if( $('#ComboBoxMoneda').val()==-1 )
+                msj='Debe seleccionar la moneda';
+
+            for (let index = 0; index < detalleSol.length; index++) {
+                console.log('Comparando  ' +codPresupProyecto+' empiezaCon ' + codPresupProyecto.startsWith( detalleSol[index].codigoPresupuestal) )
+                if(! detalleSol[index].codigoPresupuestal.startsWith( codPresupProyecto) )
+                    msj = "El codigo presupuestal del item " + (index+1) + " no coincide con el del proyecto. ["+codPresupProyecto+ "]";
             }
 
-            return true;
+
+
+
+
+            return msj;
         }
     
         function actualizarTabla(){
@@ -457,27 +466,30 @@
     
                 total=total +parseFloat(element.importe); 
                 itemMasUno = item+1;
-                //importes.push(importe);
-                //item = getUltimoIndex();
-                var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMasUno+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            '    <td> '+
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td  style="text-align:right;">               '+
-                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ element.importe+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
-                            '</tr>                 ';
+                
+
+                var fila=   `<tr class="selected" id="fila`+item+`" name="fila` +item+`">               
+                                <td style="text-align:center;">              
+                                   <input type="text" class="form-control" name="colItem`+item+`" id="colItem`+item+`" value="`+itemMasUno+`" readonly>
+                                </td>             
+                                <td> 
+                                   <input type="text" class="form-control" name="colConcepto`+item+`" id="colConcepto`+item+`" value="`+element.concepto+`" readonly>
+                                </td>               
+                                <td  style="text-align:right;">               
+                                   <input type="text" style="text-align:right;" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+ element.importe+`" readonly>
+                                </td>               
+                                <td style="text-align:center;">              
+                                <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal`+item+`" id="colCodigoPresupuestal`+item+`" value="`+element.codigoPresupuestal+`" readonly>
+                                </td>              
+                                <td style="text-align:center;">              
+                                    <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle(`+item+`);">
+                                        <i class="fa fa-times" ></i>               
+                                    </button>       
+                                    <button type="button" class="btn btn-xs" onclick="editarDetalle(`+item+`);">
+                                        <i class="fas fa-pen"></i>            
+                                    </button>        
+                                </td>               
+                            </tr>         `;
     
     
                 $('#detalles').append(fila); 
@@ -491,7 +503,7 @@
             $('#item').val(cont+1);
             
           
-            //alert('se termino de actualizar la tabla con cont='+cont);
+            //alerta('se termino de actualizar la tabla con cont='+cont);
         }
     
         var codPresupProyecto = -1;
@@ -507,7 +519,14 @@
 
         }
 
-
+        function editarDetalle(index){
+            $('#concepto').val( detalleSol[index].concepto );
+            $('#importe').val( detalleSol[index].importe );
+            $('#codigoPresupuestal').val( detalleSol[index].codigoPresupuestal );
+            
+            eliminardetalle(index);
+        }
+        
         function agregarDetalle()
         {
             
@@ -548,14 +567,15 @@
     
             if (importe==0)
             {
-                msjError=("Por favor ingrese precio de venta del producto");    
+                msjError=("Por favor ingrese importe");    
                 
             }  
 
-
+            if( $('#ComboBoxProyecto').val()=='-1' )
+                msjError="Debe seleccionar un proyecto antes de añadir items.";
 
             if(msjError!=""){
-                alert(msjError);
+                alerta(msjError);
                 return false;
             }
 

@@ -112,11 +112,11 @@
                     <div class="row">
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
-                                <label for="ComboBoxProyecto">Proyecto</label>
+                                <label for="ComboBoxProyecto">Proyecto y Cod</label>
 
                         </div>
                         <div class="col"> {{-- Combo box de proyecto --}}
-                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" >
+                                <select class="form-control"  id="ComboBoxProyecto" name="ComboBoxProyecto" onchange="actualizarCodPresupProyecto()">
                                     {{-- <option value="0">-- Seleccionar -- </option> --}}
                                     @foreach($listaProyectos as $itemProyecto)
                                         <option value="{{$itemProyecto['codProyecto']}}" 
@@ -124,7 +124,7 @@
                                             selected
                                         @endif
                                         >
-                                            {{$itemProyecto->nombre}}
+                                            {{$itemProyecto->nombre}} [{{$itemProyecto->codigoPresupuestal}}]
                                         </option>                                 
                                     @endforeach 
                                 </select>      
@@ -247,7 +247,7 @@
                         <th > Importe</th>
                         <th  class="text-center">Codigo Presupuestal</th>
                         <th  class="text-center">Opciones</th>                                            
-                     
+                        
                     </thead>
                     <tfoot>
 
@@ -451,11 +451,7 @@
     
         /* Eliminar productos */
         function eliminardetalle(index){
-            //total=total-importes[index]; 
-            //tam=detalleSol.length;
-    
-         
-    
+           
             //removemos 1 elemento desde la posicion index
             detalleSol.splice(index,1);
            
@@ -464,7 +460,15 @@
             actualizarTabla();
     
         }
-    
+
+
+        function editarDetalle(index){
+            $('#concepto').val( detalleSol[index].concepto );
+            $('#importe').val( detalleSol[index].importe );
+            $('#codigoPresupuestal').val( detalleSol[index].codigoPresupuestal );
+            
+            eliminardetalle(index);
+        }
     
         function actualizarTabla(){
             //funcion para poner el contenido de detallesVenta en la tabla
@@ -487,25 +491,35 @@
                 //importes.push(importe);
                 //item = getUltimoIndex();
                 itemMasUno = item+1;
-                var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colItem'+item+'" id="colItem'+item+'" value="'+itemMasUno+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            '    <td> '+
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td  style="text-align:right;">               '+
-                            '       <input type="text" style="text-align:right;" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+ (element.importe)+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
-                            '</tr>                 ';
+
+                
+                var fila=   
+                            `
+                            <tr class="selected" id="fila`+item+`" name="fila` +item+`">             
+                                <td style="text-align:center;">           
+                                   <input type="text" class="form-control" name="colItem`+item+`" id="colItem`+item+`" value="`+itemMasUno+`" readonly="readonly">
+                                </td>               
+                                <td>
+                                   <input type="text" class="form-control" name="colConcepto`+item+`" id="colConcepto`+item+`" value="`+element.concepto+`" readonly="readonly">
+                                </td>              
+                                <td  style="text-align:right;">              
+                                   <input type="text" style="text-align:right;" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+ (element.importe)+`" readonly="readonly">
+                                </td>              
+                                <td style="text-align:center;">               
+                                <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal`+item+`" id="colCodigoPresupuestal`+item+`" value="`+element.codigoPresupuestal+`" readonly="readonly">
+                                </td>             
+                                <td style="text-align:center;">              
+                                    <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle(`+item+`);">
+                                        <i class="fa fa-times" ></i>             
+                                    </button>    
+                                    <button type="button" class="btn btn-xs" onclick="editarDetalle(`+item+`);">
+                                        <i class="fas fa-pen"></i>            
+                                    </button>    
+                                        
+                                    
+                                </td>             
+                            </tr>                 
+                            `;
     
     
                 $('#detalles').append(fila); 
@@ -518,7 +532,7 @@
             $('#item').val(cont+1);
             
             console.log('Se actualizó la tabla.');
-            //alert('se termino de actualizar la tabla con cont='+cont);
+            //alerta('se termino de actualizar la tabla con cont='+cont);
         }
     
     
@@ -567,22 +581,16 @@
             
 
 
-
-
-
-
-
-
             if (importe==0)
             {
-                msjError=("Por favor ingrese precio de venta del producto");    
+                msjError=("Por favor ingrese importe");    
                 
             }  
 
 
 
             if(msjError!=""){
-                alert(msjError);
+                alerta(msjError);
                 return false;
             }
             // FIN DE VALIDACIONES
@@ -629,10 +637,16 @@
             if( $('#cantElementos').val()<=0  || detalleSol.length == 0)
                 msj='Debe ingresar Items';
 
+            for (let index = 0; index < detalleSol.length; index++) {
+                console.log('Comparando  ' +codPresupProyecto+' empiezaCon ' + codPresupProyecto.startsWith( detalleSol[index].codigoPresupuestal) )
+                if(! detalleSol[index].codigoPresupuestal.startsWith( codPresupProyecto) )
+                    msj = "El codigo presupuestal del item " + (index+1) + " no coincide con el del proyecto. ["+codPresupProyecto+ "]";
+            }
+
 
             if(msj!='')
             {
-                alert(msj)
+                alerta(msj)
                 return false;
             }
 

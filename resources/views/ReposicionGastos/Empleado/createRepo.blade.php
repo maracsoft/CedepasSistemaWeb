@@ -14,7 +14,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" id="frmrepo" name="frmrepo"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -474,50 +474,21 @@
 @section('script')
 
 <script type="application/javascript">
+
+    //SE EJECUTA CUANDO CLICKEAMOS EL BOTON REG
     function registrar(){
-        if(validarTextosBoolean()!=''){
-            temp=validarTextos();
-        }else{
-            swal({//sweetalert
-                    title:'¿Seguro de crear la reposicion?',
-                    text: '',     //mas texto
-                    type: 'info',//e=[success,error,warning,info]
-                    showCancelButton: true,//para que se muestre el boton de cancelar
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText:  'SI',
-                    cancelButtonText:  'NO',
-                    closeOnConfirm:     true,//para mostrar el boton de confirmar
-                    html : true
-                },
-                function(){//se ejecuta cuando damos a aceptar
-                    if(validarTextosBoolean()==''){
-                        document.frmrepo.submit();
-                    }     
-                }
-            );
-        }
         
+        msj=validarFormulario();
+
+        if(msj!=''){
+            alerta(msj);
+            return false;
+        }
+        confirmar('¿Seguro de crear la reposicion?','info','frmrepo');//[success,error,warning,info]
+
     }
-    function alerta(msj){
-        swal(//sweetalert
-            {
-                title: 'Error',
-                text: msj,     //mas texto
-                type: 'warning',//e=[success,error,warning,info]
-                showCancelButton: false,//para que se muestre el boton de cancelar
-                confirmButtonColor: '#3085d6',
-                //cancelButtonColor: '#d33',
-                confirmButtonText:  'OK',
-                //cancelButtonText:  'NO',
-                closeOnConfirm:     true,//para mostrar el boton de confirmar
-                html : true
-            },
-            function(){
-                //alert('tmr');
-            }
-        );
-    }
+
+    
 </script>
 
        {{-- PARA EL FILE  --}}
@@ -551,11 +522,11 @@
         }
 
         function alertaArchivo(){
-            //alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
+            //alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
             alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
         }
 
-        function validarTextosBoolean(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+        function validarFormulario(){
             msj='';
             
             if($('#codProyecto').val()==-1 ) msj='Debe seleccionar un proyecto';
@@ -585,15 +556,7 @@
             return msj;
         }
 
-        function validarTextos(){
-            msj=validarTextosBoolean();
-            if(msj!=''){
-                //alert(msj);
-                alerta(msj);
-                return false;
-            }
-            return true;
-        }
+        
         
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi. Siempre tiene que empezar por una letra
         
@@ -763,7 +726,7 @@
                
 
             if(msjError!=""){
-                //alert(msjError);
+                //alerta(msjError);
                 alerta(msjError);
                 return false;
             }

@@ -126,4 +126,32 @@ class EmpleadoController extends Controller
         return redirect()->route('GestionUsuarios.listarEmpleados');
     }
 
+
+    /**PUEDE HACER EL EMPLEADO NORMAL */
+    public function verPerfil(){
+        $empleado=Empleado::getEmpleadoLogeado();
+
+        return view('Empleados.verPerfil',compact('empleado'));
+    }
+
+    public function guardarContrasena(Request $request){
+        $empleado=Empleado::find($request->codEmpleado);
+        $usuario=$empleado->usuario();
+        $usuario->password=hash::make($request->contraseña);
+        $usuario->save();
+
+        return redirect()->route('GestionUsuarios.verPerfil');
+    }
+    public function guardarDPersonales(Request $request){
+
+        $empleado=Empleado::find($request->codEmpleado);
+        $empleado->nombres=$request->nombres;
+        $empleado->apellidos=$request->apellidos;
+        $empleado->dni=$request->DNI;
+
+        $empleado->save();
+
+        return redirect()->route('GestionUsuarios.verPerfil');
+    }
+
 }

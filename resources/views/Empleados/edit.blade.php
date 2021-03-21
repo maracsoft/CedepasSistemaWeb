@@ -16,44 +16,44 @@
             var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
             /*
             if(expreg2.test(document.getElementById("usuario").value))
-                alert("La matrícula es correcta");
+                alerta("La matrícula es correcta");
             else
-                alert("La matrícula NO es correcta");
+                alerta("La matrícula NO es correcta");
             */
             if (document.getElementById("usuario").value == ""){
-                alert("Ingrese el usuario");
+                alerta("Ingrese el usuario");
                 $("#nombre").focus();
             }
             else if (document.getElementById("contraseña").value == ""){
-                alert("Ingrese contraseña del usuario");
+                alerta("Ingrese contraseña del usuario");
                 $("#contraseña").focus();
             }
             else if (document.getElementById("contraseña").value != document.getElementById("contraseña2").value){
-                alert("Las contraseñas no coinciden");
+                alerta("Las contraseñas no coinciden");
                 $("#contraseña").focus();
             }
             else if (document.getElementById("nombres").value == ""){
-                alert("Ingrese nombres del usuario");
+                alerta("Ingrese nombres del usuario");
                 $("#nombres").focus();
             }
             else if (!expreg.test(document.getElementById("nombres").value)){
-                alert("Ingrese nombres correctos");
+                alerta("Ingrese nombres correctos");
                 $("#nombres").focus();
             }
             else if (document.getElementById("apellidos").value == ""){
-                alert("Ingrese apellidos del usuario");
+                alerta("Ingrese apellidos del usuario");
                 $("#apellidos").focus();
             }
             else if (!expreg.test(document.getElementById("apellidos").value)){
-                alert("Ingrese apellidos correctos");
+                alerta("Ingrese apellidos correctos");
                 $("#apellidos").focus();
             }
             else if (document.getElementById("DNI").value == ""){
-                alert("Ingrese DNI de la usuario");
+                alerta("Ingrese DNI de la usuario");
                 $("#DNI").focus();
             }
             else if (document.getElementById("DNI").value.length != 8){
-                alert("Ingrese DNI de 8 caracteres");
+                alerta("Ingrese DNI de 8 caracteres");
                 $("#DNI").focus();
             }
             else{

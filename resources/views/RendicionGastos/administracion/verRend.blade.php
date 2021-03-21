@@ -321,24 +321,7 @@
 
 
 <style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
+  
     .hovered:hover{
         background-color:rgb(97, 170, 170);
     }

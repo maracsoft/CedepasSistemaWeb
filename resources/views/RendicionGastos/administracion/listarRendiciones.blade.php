@@ -82,7 +82,7 @@
       
             <tr>
               <td>{{$itemRendicion->codigoCedepas  }}</td>
-              <td>{{$itemRendicion->fechaRendicion  }}</td>
+              <td>{{$itemRendicion->fechaHoraRendicion  }}</td>
              
               <td>{{$itemRendicion->getNombreSolicitante()  }}</td>
               <td>{{$itemRendicion->getNombreProyecto()  }}</td>

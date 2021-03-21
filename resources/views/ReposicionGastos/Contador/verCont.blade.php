@@ -20,6 +20,7 @@
             Reposicion de Gastos</p>
         </p>
     </div>
+
     <div class="col-md-2">
         <br>
         <a  href="{{route('ReposicionGastos.exportarPDF',$reposicion->codReposicionGastos)}}" 
@@ -27,13 +28,36 @@
             <i class="entypo-pencil"></i>
             PDF
             </a>
-        <a target="blank" href="{{route('ReposicionGastos.VerPDF',$reposicion->codReposicionGastos)}}" 
+        <a target="blank" href="{{route('ReposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right">
             <i class="entypo-pencil"></i>
             verPDF
         </a>
     </div>
 </div>
+<style>
+    
+    .col{
+        /* background-color: orange; */
+        margin-top: 15px;
+        
+    }
+    .colLabel{
+        width: 30%;
+        /* background-color: aqua; */
+        margin-top: 20px;    
+        text-align: left;
+    }
+    
+    .colLabel2{
+        width: 30%;
+        /* background-color: #3c8dbc; */
+        margin-top: 20px;
+        text-align: left;
+    }
+
+
+</style>
 
 
 <form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
@@ -44,89 +68,69 @@
     <input type="hidden" name="codReposicionGastos" id="codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
     
     @csrf
+   
+    
     <div class="container" >
         <div class="row">           
             <div class="col-md"> {{-- COLUMNA IZQUIERDA 1 --}}
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  class="col">
-                            <label for="fecha">Fecha</label>
-                      </div>
-                      <div class="col">
-                                               
-                                <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{$reposicion->fechaEmision}}" >     
-                                </div>
-                           
-                      </div>
+                        <div  class="colLabel">
+                                <label for="fecha">Fescha</label>
+                        </div>
+                        <div class="col">
+                                                
+                                    <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                        <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
+                                            value="{{$reposicion->fechaEmision}}" >     
+                                    </div>
+                            
+                        </div>
 
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                              <label for="ComboBoxProyecto">Proyecto</label>
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="ComboBoxProyecto">Proyecto</label>
 
-                      </div>
-                      <div class="col"> {{-- input de proyecto --}}
-                        <input type="text" class="form-control" name="codProyecto" id="codProyecto" value="{{$reposicion->getProyecto()->nombre}}" disabled>
-                      </div>
-                      <!--
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Evaluador</label>
+                        </div>
+                        <div class="col"> {{-- input de proyecto --}}
+                            <input type="text" class="form-control" name="codProyecto" id="codProyecto" value="{{$reposicion->getProyecto()->nombre}}" disabled>
+                        </div>
+                    
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="fecha">Moneda</label>
 
-                      </div>
-                      <div class="col">
-                        <select class="form-control"  id="codEmpleadoEvaluador" name="codEmpleadoEvaluador" >
-                            <option value="-1">Seleccionar</option>
+                        </div>
 
-                        </select> 
-                      </div>
-                        -->
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Moneda</label>
+                        <div class="col">
+                            <input type="text" class="form-control" name="codMoneda" id="codMoneda" value="{{$reposicion->getMoneda()->nombre}}" disabled>
+                        </div>
+                        
 
-                      </div>
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="fecha">Banco</label>
 
-                      <div class="col">
-                        <input type="text" class="form-control" name="codMoneda" id="codMoneda" value="{{$reposicion->getMoneda()->nombre}}" disabled>
-                      </div>
-                      
+                        </div>
 
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Banco</label>
-
-                      </div>
-
-                      <div class="col">
-                        <input type="text" class="form-control" name="codBanco" id="codBanco" value="{{$reposicion->getBanco()->nombreBanco}}" disabled>  
-                      </div>
-                      
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="">Codigo cedepas</label>
-
-                      </div>
-
-                      <div class="col">
-                        <input type="text" class="form-control" name="" id="" value="{{$reposicion->codigoCedepas}}" disabled>  
-                      </div>
-                      
-                      
-                      
+                        <div class="col">
+                            <input type="text" class="form-control" name="codBanco" id="codBanco" value="{{$reposicion->getBanco()->nombreBanco}}" disabled>  
+                        </div>
 
 
 
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="fecha">Codigo Cedepas</label>
+
+                        </div>
+
+                        <div class="col">
+                            <input type="text" class="form-control" name="" id="" value="{{$reposicion->codigoCedepas}}" disabled>  
+                        </div>
                     </div>
-
-
                 </div>
-                
-                
-                
-                
             </div>
 
 
@@ -135,28 +139,50 @@
                     <div class="row">
                         <div class="col">
                             <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;" disabled>{{$reposicion->resumen}}</textarea>
+                            <textarea class="form-control" name="resumen" id="resumen" 
+                                aria-label="With textarea" style="resize:none; height:50px;" disabled
+                                >{{$reposicion->resumen}}</textarea>
             
                         </div>
                     </div>
 
                     <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
-                      <div  class="col">
+                    <div  class="colLabel2">
                             <label for="fecha">CuentaBancaria</label>
 
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}" disabled>  
-                      </div>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" 
+                        value="{{$reposicion->numeroCuentaBanco}}" readonly>  
+                    </div>
 
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                    <div class="w-100"></div> {{-- SALTO LINEA --}}
+                    <div  class="colLabel2">
                             <label for="fecha">Girar a Orden de </label>
 
-                      </div>
-                      <div class="col">
-                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}" disabled>  
-                      </div>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" 
+                        value="{{$reposicion->girarAOrdenDe}}" readonly>  
+                    </div>
+
+                    <div class="w-100"></div>
+                    <div class="colLabel2">
+                        <label for="">Estado:</label>
+                    </div>
+
+                    <div class="col">
+                        <input type="text" value="{{$reposicion->getNombreEstado()}}" class="form-control" readonly 
+                            style="background-color: {{$reposicion->getColorEstado()}};
+                                    width:95%;
+                                    color: {{$reposicion->getColorLetrasEstado()}} ;
+                            ">
+                    </div>
+
+
+
+
+
                     </div>
 
                 </div>
@@ -165,161 +191,126 @@
                 
             </div>
         </div>
-      </div>
-    
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
-
-        {{-- LISTADO DE DETALLES  --}}
-        <div class="col-md-12 pt-3">     
-            <div class="table-responsive">                           
-                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
-                    
-                    <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="11%" class="text-center">Fecha Cbte</th>                                        
-                        <th width="14%">Tipo</th>                                 
-                        <th width="11%"> N° Cbte</th>
-                        <th width="26%" class="text-center">Concepto </th>
-                        <th width="11%">
-                            Archivo
-                        </th>
-                        <th width="11%" class="text-center">Importe </th>
-                        <th width="11%" class="text-center">Cod Presup </th>                                         
-                        <th>Contabilizar</th>
-                    </thead>
-                    <tfoot>
-
-                                                                                        
-                    </tfoot>
-                    <tbody>
-                        <?php $total=0;?>
-                        @foreach($detalles as $itemdetalle)
-                            <tr>
-                                <td>{{$itemdetalle->fechaComprobante}}</td>
-                                <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
-                                <td>{{$itemdetalle->nroComprobante}}</td>
-                                <td>{{$itemdetalle->concepto}}</td>
-                                <td></td>
-                                <td>{{$itemdetalle->importe}}</td>
-                                <?php $total+=$itemdetalle->importe;?>
-                                <td>{{$itemdetalle->codigoPresupuestal}}</td>
-                                <td style="text-align:center;">               
-                                    <input type="checkbox"  readonly
-                                    @if($reposicion->verificarEstado('Contabilizada')) {{-- Ya está contabilizada --}}
-                                        @if($itemdetalle->contabilizado=='1')
-                                            checked
-                                        @endif    
-                                        onclick="return false;"
-                                    @else {{-- Caso normal cuando se está contabilizando --}}
-                                        onclick="contabilizarItem({{$itemdetalle->codDetalleReposicion}})"
-                                    @endif
-                                    
-                                    >
-                                </td>    
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div> 
-
-
-         
-              
-            <input type="text" id="listaContabilizados" 
-            name = "listaContabilizados" value="">
-
-                <div class="row" id="divTotal" name="divTotal">     
-                    <div class="col">
-                        @include('ReposicionGastos.desplegableDescargarArchivosRepo')
-
-                    </div>
-                    
-                    <div class="col">
-                        <div class="row">
-                            
-                            <div class="col">                        
-                                <label for="">Total Gastado: </label>    
-                            </div>   
-                            <div class="col">
-                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                                <input type="hidden" name="cantElementos" id="cantElementos">
-                                <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
-                                <input type="hidden" name="totalRendido" id="totalRendido">
-        
-                                <input type="text" class="form-control text-right" 
-                                    name="total" id="total" readonly="readonly" value="{{number_format($total,2)}}">   
-        
-                            </div>   
-                            <div class="w-100"></div>
-                            <div class="col"></div>
-                            <div class="col">
-                                @if($reposicion->codEstadoReposicion==3)
-                                <button type="button" class='btn btn-success float-right'  style="float:right;" onclick="swal({//sweetalert
-                                    title:'¿Seguro de contabilizar?',
-                                    text: '',     //mas texto
-                                    type: 'info',//e=[success,error,warning,info]
-                                    showCancelButton: true,//para que se muestre el boton de cancelar
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText:  'SI',
-                                    cancelButtonText:  'NO',
-                                    closeOnConfirm:     true,//para mostrar el boton de confirmar
-                                    html : true
-                                },
-                                function(){//se ejecuta cuando damos a aceptar
-                                    guardarContabilizar();
-                                });"><i class="fas fa-check"></i> Guardar como Contabilizado</button>
-                                <!--
-                                <button type="button" onclick="guardarContabilizar()"
-                                        class='btn btn-success'  style="float:right;">
-                                        <i class="fas fa-check"></i>
-                                        Guardar como Contabilizado
-                                    </button>    
-                                -->
-                                @endif
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    
-
-                
-                </div>
-                <br>
-                {{-- <div class="row">
-                    @if($reposicion->verificarEstado('Abonada'))
-                    <div class="col-md-9">
-                        <label for="fecha">Observaciones</label>
-                        <textarea class="form-control" name="observacion" id="observacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-                        <a href="#" class="btn btn-warning" onclick="observar()">Observar</a>
-                    </div> 
-                    @endif
-                </div> --}}
-        
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group">
-                    <a href="{{route('ReposicionGastos.Contador.listar',$empleadoLogeado->codEmpleado)}}" 
-                        class='btn btn-info float-left float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
-                </div>    
-            </div>
-        </div>
-
-
-
     </div>
+    <br>
+         
+    <div class="table-responsive">                           
+        <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
+            
+            <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
+                <th width="11%" class="text-center">Fecha Cbte</th>                                        
+                <th width="14%">Tipo</th>                                 
+                <th width="11%"> N° Cbte</th>
+                <th width="26%" class="text-center">Concepto </th>
+                <th width="11%">
+                    Archivo
+                </th>
+                <th width="11%" class="text-center">Importe </th>
+                <th width="11%" class="text-center">Cod Presup </th>                                         
+                <th>Contabilizar</th>
+            </thead>
+            <tfoot>
+
+                                                                                
+            </tfoot>
+            <tbody>
+                <?php $total=0;?>
+                @foreach($detalles as $itemdetalle)
+                    <tr>
+                        <td>{{$itemdetalle->fechaComprobante}}</td>
+                        <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
+                        <td>{{$itemdetalle->nroComprobante}}</td>
+                        <td>{{$itemdetalle->concepto}}</td>
+                        <td></td>
+                        <td>{{$itemdetalle->importe}}</td>
+                        <?php $total+=$itemdetalle->importe;?>
+                        <td>{{$itemdetalle->codigoPresupuestal}}</td>
+                        <td style="text-align:center;">               
+                            <input type="checkbox"  readonly
+                            @if($reposicion->verificarEstado('Contabilizada')) {{-- Ya está contabilizada --}}
+                                @if($itemdetalle->contabilizado=='1')
+                                    checked
+                                @endif    
+                                onclick="return false;"
+                            @else {{-- Caso normal cuando se está contabilizando --}}
+                                onclick="contabilizarItem({{$itemdetalle->codDetalleReposicion}})"
+                            @endif
+                            
+                            >
+                        </td>    
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div> 
+    
+            
+              
+    <input type="text" id="listaContabilizados" 
+    name = "listaContabilizados" value="">
+
+    <div class="row" id="divTotal" name="divTotal">     
+        <div class="col">
+            @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+
+        </div>
+        
+        <div class="col">
+            <div class="row">
+                
+                <div class="col">                        
+                    <label for="">Total Gastado: </label>    
+                </div>   
+                <div class="col">
+                    {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                    <input type="hidden" name="cantElementos" id="cantElementos">
+                    <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
+                    <input type="hidden" name="totalRendido" id="totalRendido">
+
+                    <input type="text" class="form-control text-right" 
+                        name="total" id="total" readonly="readonly" value="{{number_format($reposicion->importeTotal,2)}}">   
+
+                </div>   
+                <div class="w-100"></div>
+                <div class="col"></div>
+                <div class="col">
+                    @if($reposicion->codEstadoReposicion==3)
+                    <button type="button" class='btn btn-success float-right'  style="float:right;" onclick="actualizarEstado('¿Seguro de contabilizar la reposicion?', 'Contabilizar')">
+                        <i class="fas fa-check"></i> Guardar como Contabilizado</button>
+                    <!--
+                    <button type="button" onclick="guardarContabilizar()"
+                            class='btn btn-success'  style="float:right;">
+                            <i class="fas fa-check"></i>
+                            Guardar como Contabilizado
+                        </button>    
+                    -->
+                    @endif
+                </div>
+
+
+            </div>
+        </div>
+
+        
+
+    
+    </div>
+
+    
+    <br>
+        
+    
+    <div class="col-md-12 text-center">  
+        <div id="guardar">
+            <div class="form-group">
+                <a href="{{route('ReposicionGastos.Contador.listar',$empleadoLogeado->codEmpleado)}}" 
+                    class='btn btn-info float-left float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+            </div>    
+        </div>
+    </div>
+
+
+
 
 </form>
 
@@ -342,24 +333,6 @@
 <style>
 
 
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
     .hovered:hover{
     background-color:rgb(97, 170, 170);
     
@@ -393,11 +366,35 @@
             window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
         }
         else{ 
-            alert('Ingrese observacion');
+            alerta('Ingrese observacion');
         }
     } */
 
+    function actualizarEstado(msj, action){
+        swal({//sweetalert
+            title: msj,
+            text: '',
+            type: 'warning',  
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText:  'SI',
+            cancelButtonText:  'NO',
+            closeOnConfirm:     true,//para mostrar el boton de confirmar
+            html : true
+        },
+        function(){//se ejecuta cuando damos a aceptar
+            switch (action) {
+                case 'Observar':
 
+                    break;
+                case 'Contabilizar':
+                    guardarContabilizar();
+                    break;
+            }
+            
+        });
+    }
 
     
 
@@ -417,7 +414,7 @@
 
 
         function alertaArchivo(){
-            alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
+            alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
 
         }
 

@@ -18,7 +18,7 @@ class RendicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codSolicitud','codigoCedepas','totalImporteRecibido',
     'totalImporteRendido','saldoAFavorDeEmpleado',
-    'resumenDeActividad','codEstadoRendicion','fechaRendicion',
+    'resumenDeActividad','codEstadoRendicion','fechaHoraRendicion',
     'cantArchivos','terminacionesArchivos','codEmpleadoEvaluador'];
 
 
@@ -149,8 +149,8 @@ class RendicionGastos extends Model
         return $this->getSOlicitud()->getNombreProyecto();
     }
 
-    public function getFechaRendicion(){
-        return $this->fechaRendicion;
+    public function getfechaHoraRendicion(){
+        return $this->fechaHoraRendicion;
 
     }
 
@@ -231,7 +231,7 @@ class RendicionGastos extends Model
         from rendicion_gastos RG
             inner join solicitud_fondos USING(codSolicitud)
             inner join sede USING(codSede)
-            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+            where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
             GROUP BY sede.nombre;
         ');
         return $listaX;
@@ -246,7 +246,7 @@ class RendicionGastos extends Model
                         from rendicion_gastos RG
                             inner join solicitud_fondos SF USING(codSolicitud)
                             inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                            where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
                             GROUP BY E.nombres;
                             ');
         return $listaX;
@@ -260,7 +260,7 @@ class RendicionGastos extends Model
         from rendicion_gastos RG
             inner join solicitud_fondos SF USING(codSolicitud)
             inner join proyecto P on P.codProyecto = SF.codProyecto 
-            where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+            where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
             GROUP BY P.nombre;
             ');
 
@@ -276,7 +276,7 @@ class RendicionGastos extends Model
             from rendicion_gastos RG
                 inner join solicitud_fondos SF USING(codSolicitud)
                 inner join empleado E on E.codEmpleado = SF.codEmpleadoSolicitante 
-                where RG.fechaRendicion > "'.$fechaI.'" and RG.fechaRendicion < "'.$fechaF.'" 
+                where RG.fechaHoraRendicion > "'.$fechaI.'" and RG.fechaHoraRendicion < "'.$fechaF.'" 
                 and SF.codSede = "'.$sede->codSede.'"
                 GROUP BY E.nombres;
                 ');     

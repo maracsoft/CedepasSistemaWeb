@@ -125,26 +125,17 @@ class RendicionGastosController extends Controller
         $listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
             ->get();
 
-        //ahora agarramos de cada solicitud, su rendicion (si la tiene)
-        $listaRendiciones= new Collection();
-        for ($i=0; $i < count($listaSolicitudes); $i++) { //recorremos cada solicitud
-            $itemSol = $listaSolicitudes[$i];
-            if(!is_null($itemSol->codSolicitud)){ 
-                $itemRend = RendicionGastos::
-                    where('codSolicitud','=',$itemSol->codSolicitud)
-                    ->first();
-                if(!is_null($itemRend))
-                    $listaRendiciones->push($itemRend);
-            }
-        }
-
-        //ordena la coleccion ascendentemente
-        $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
-
+        
+        $listaSolicitudesPorRendir = $empleado->getSolicitudesPorRendir();
+        $listaRendiciones = RendicionGastos::
+            where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
+            ->orderBy('codEstadoRendicion')    
+            ->get();
+        
         $buscarpor = '';
         //return $listaRendiciones;
         return view('RendicionGastos.empleado.listarRendiciones',
-            compact('listaRendiciones','empleado','buscarpor'));
+            compact('listaRendiciones','empleado','buscarpor','listaSolicitudesPorRendir'));
         
     }
 
@@ -483,12 +474,12 @@ class RendicionGastosController extends Controller
 
             $rendicion = new RendicionGastos();
             $rendicion-> codSolicitud = $solicitud->codSolicitud;
-           
+            $rendicion->codEmpleadoSolicitante = Empleado::getEmpleadoLogeado()->codEmpleado;
             $rendicion-> totalImporteRecibido = $solicitud->totalSolicitado; //ESTE ES EL DE LA SOLICITUD
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
             $rendicion-> resumenDeActividad = $request->resumen;
-            $rendicion-> fechaRendicion = Carbon::now();
+            $rendicion-> fechaHoraRendicion = Carbon::now();
             $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Creada');
             $rendicion->codMoneda = $solicitud->codMoneda;
 

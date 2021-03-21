@@ -185,7 +185,7 @@
         /* function validar(){
             if($('#nombreImgImagenEnvio').val() == '')
                 {
-                    alert('Debe subir el comprobante del deposito.')
+                    alerta('Debe subir el comprobante del deposito.')
                     return false;
                 }
 
@@ -304,7 +304,7 @@
             $('#cantElementos').val(cont);
             
             console.log('Se actualizó la tabla.');
-            //alert('se termino de actualizar la tabla con cont='+cont);
+            //alerta('se termino de actualizar la tabla con cont='+cont);
         }
     
     
@@ -318,7 +318,7 @@
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
+                alerta("Por favor ingrese el concepto");    
                 return false;
             }    
     
@@ -326,7 +326,7 @@
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
+                alerta("Por favor ingrese un importe válido.");    
                 return false;
             }    
             
@@ -334,13 +334,13 @@
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
+                alerta("Por favor ingrese el codigo presupuestal");    
                 return false;
             }    
     
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
+                alerta("Por favor ingrese importe");    
                 return false;
             }  
             

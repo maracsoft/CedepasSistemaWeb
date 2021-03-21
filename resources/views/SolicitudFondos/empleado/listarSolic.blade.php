@@ -230,22 +230,12 @@ margin-top: 18px;
                     @endswitch
 
 
-                    @if(!$itemSolicitud->estaRendida())
-                      @if($itemSolicitud->verificarEstado('Abonada') || $itemSolicitud->verificarEstado('Contabilizada') )
-                      
-                        <a href="{{route('SolicitudFondos.Empleado.Rendir',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning">
-                          Rendir 
-                          <i class="fas fa-list"></i>
-                        </a>
-                      @endif
-
-                    @else {{-- Está rendida --}}
+                    @if($itemSolicitud->estaRendida())
                     <a href="{{route('RendicionGastos.Empleado.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                       <h1>
                         <span class="red">R</span>
                       </h1>
                     </a> 
-                    
                     @endif
                     
              

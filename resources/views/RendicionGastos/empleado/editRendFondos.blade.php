@@ -13,7 +13,8 @@
 </div>
 
 
-<form method = "POST" action = "{{route('RendicionGastos.Empleado.Update')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data" id="frmrend" name="frmrend">
+<form method = "POST" action = "{{route('RendicionGastos.Empleado.Update')}}"   
+enctype="multipart/form-data" id="frmrend" name="frmrend">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $solicitud->getEmpleadoSolicitante()->codigoCedepas }}">
@@ -34,7 +35,7 @@
                                                
                                 <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{$rendicion->fechaRendicion}}" >     
+                                        value="{{$rendicion->fechaHoraRendicion}}" >     
                                 </div>
                            
                       </div>
@@ -399,13 +400,19 @@
                         html : true
                     },
                     function(){//se ejecuta cuando damos a aceptar
-                        if(validarTextos()==true){
+                        if(validarFormEdit()==true){
                             document.frmrend.submit();
                         }
                         
-                    });"><i class='fas fa-save'></i> Actualizar</button>
+                    });">
+                    <i class='fas fa-save'></i> 
+                    Actualizar
+                    </button>
                    
-                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'>
+                        <i class='fas fa-arrow-left'></i> 
+                        Regresar al Menu
+                    </a>              
                 </div>    
             </div>
         </div>
@@ -464,10 +471,6 @@
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
    
-    
-    
-    
-
         var cont=0;
         
         var IGV=0;
@@ -486,20 +489,7 @@
         });
         
         var listaArchivos = '';  
-        function cambio(){
-            cantidadArchivos = document.getElementById('filenames').files.length;
-            console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
-            for (let index = 0; index < cantidadArchivos; index++) {
-                nombreAr = document.getElementById('filenames').files[index].name;
-                console.log('Archivo ' + index + ': '+ nombreAr);
-                listaArchivos = listaArchivos +', '+  nombreAr; 
-            }
-            listaArchivos = listaArchivos.slice(1, listaArchivos.length);
-            document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
-            
-            $('#nombresArchivos').val(listaArchivos);
-
-        }
+        
 
         function cargarDetallesRendicion(){
 
@@ -528,311 +518,11 @@
 
             });
         }
-
-
-
-
-        function alertaArchivo(){
-            alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
-
-        }
-
-        function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
-            msj='';
-            
-            if($('#resumen').val()=='' )
-                msj='Debe ingresar el resumen';
-            
-            if( $('#cantElementos').val()<=0 )
-                msj='Debe ingresar Items';
-
-
-           
-
-            if(msj!='')
-            {
-                alert(msj)
-                return false;
-            }
-
-            return true;
-        }
-
-    
-        
-    
-        /* Eliminar productos */
-        function eliminardetalle(index){
-            
-            detalleRend.splice(index,1);
-           
-            console.log('BORRANDO LA FILA' + index);
-            //cont--;
-            actualizarTabla();
-    
-        }
-        
-    
-        function getNombreImagen(index){
-            string = detalleRend[index].nombreImagen;
-            //console.log('el nobmre de la imagen es:'+string);
-            if(string==undefined)
-                return "Subir Archivo"
-            return string;            
-        }
-
-
-
-        function actualizarTabla(){
-            //funcion para poner el contenido de detallesVenta en la tabla
-            //tambien actualiza el total
-            //$('#detalles')
-            total=0;
-            //vaciamos la tabla
-            for (let index = 100; index >=0; index--) {
-                $('#fila'+index).remove();
-                //console.log('borrando index='+index);
-            }
-            
-            //insertamos en la tabla los nuevos elementos
-            for (let item = 0; item < detalleRend.length; item++) {
-                element = detalleRend[item];
-                cont = item+1;
-    
-                total=total +parseFloat(element.importe); 
-    
-                //importes.push(importe);
-                //item = getUltimoIndex();
-                var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
-
-
-                            '    <td style="text-align:center;">               '+
-                            '                               '+
-                            '       <input type="text" class="form-control" name="nroEnRendicion'+item+'" id="nroEnRendicion'+item+'" value="'+element.nroEnRendicion+'" readonly="readonly">'   +
-                            '    </td>               '+
-
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly" style="font-size:10pt;"  >'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            '    <td> '+
- 
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
-                            '    </td>               '+
-                           
-
-                            '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+(element.importe)+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
-                            
-
-
-                            '</tr>                 ';
-    
-    
-                $('#detalles').append(fila); 
-            }
-
-            $('#total').val(number_format(total,2));
-            $('#totalRendido').val(total); //el que se va a leer
-            
-
-            var totalGastado= parseFloat(total)    ;
-            var totalRecibido= parseFloat( {{$solicitud->totalSolicitado}}  ); 
-            //console.log(' total= '+total +'       tot2= ' +{{$solicitud->totalSolicitado}});
-
-            saldoFavEmpl = (totalGastado)-(totalRecibido);
-            
-
-            
-            
-            //console.log("{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-            $('#fechaComprobante').val( "{{Carbon\Carbon::now()->format('d/m/Y')}}" );
-        
-            
-            $('#cantElementos').val(cont);
-            
-
-
-            if(saldoFavEmpl>0){ //recibido < gastado -> el empleado debe recibir dinero de cedepas para reponer
-                $('#saldoAFavor').val(  saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-           
-              
-
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor del empleado";
-            }else{ //recibido > gastado el empleado debe enviar el dinero que no uso
-                $('#saldoAFavor').val(  -saldoFavEmpl  ); //puedo hacer esto sin que haya el error pq el input esta disabled
-               
-                document.getElementById("labelAFavorDe").innerHTML= "Saldo a Favor de Cedepas";
-            }
-
-            //alert('se termino de actualizar la tabla con cont='+cont);
-        }
-    
-    
-    
-    
-        function agregarDetalle()
-        {
-
-            msjError="";
-            // VALIDAMOS
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
-
-
-            console.log('codigoPresupuestal=/'+ codigoPresupuestal +'/ codPresupProyecto=/'+codPresupProyecto + "/");
-            console.log('startsWith : ' + codigoPresupuestal.startsWith(codPresupProyecto))
-            
-            if(!codigoPresupuestal.startsWith(codPresupProyecto) )
-                msjError="El código presupuestal debe coincidir con el código del proyecto [" +  codPresupProyecto + "]";
-
-           
-            
-            fecha = $("#fechaComprobante").val();    
-            if (fecha=='') 
-            {
-                msjError=("Por favor ingrese la fecha del comprobante del gasto.");    
-                
-            }   
-            tipo = $("#ComboBoxCDP").val();    
-            if (tipo==-1) 
-            {
-                msjError=("Por favor ingrese el tipo de comprobante del gasto.");    
-                
-            }
-            ncbte= $("#ncbte").val();   
-             
-            if (ncbte=='') 
-            {
-                msjError=("Por favor ingrese el numero del comprobante del gasto.");    
-                
-            }
-             
-            concepto=$("#concepto").val();    
-            if (concepto=='') 
-            {
-                msjError=("Por favor ingrese el concepto");    
-                
-            }    
-              
-            
-    
-            importe=$("#importe").val();    
-            if (!(importe>0)) 
-            {
-                msjError=("Por favor ingrese un importe válido.");    
-                
-            }    
-            
-            
-            if (codigoPresupuestal=='') 
-            {
-                msjError=("Por favor ingrese el codigo presupuestal");    
-                
-            }    
-    
-            if (importe==0)
-            {
-                msjError=("Por favor ingrese precio de venta del producto");    
-                
-            }  
-
-
-            
-            if(msjError!=""){
-                alert(msjError);
-                return false;
-            }
-            
-            // FIN DE VALIDACIONES
-    
-                item = cont+1;   
-                
-                maximo = calcularNroEnRendicionMayor()+1;
-                detalleRend.push({
-                    nroEnRendicion: maximo,
-                    fecha:fecha,
-                    tipo:tipo,
-                    ncbte,ncbte,
-                    concepto:concepto,
-                    importe:importe,            
-                    codigoPresupuestal:codigoPresupuestal
-                });        
-                cont++;
-            actualizarTabla();
-            //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
-            //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
-            /* $('#fechaComprobante').val(''); */
-            $('#ComboBoxCDP').val(0);
-            $('#ncbte').val('');
-            
-            $('#concepto').val('');
-            $('#importe').val('');
-            $('#codigoPresupuestal').val('');
-            
-    }
-    
-    function calcularNroEnRendicionMayor(){
-        mayor = 0;
-        for (let index = 0; index < detalleRend.length; index++) {
-            if(mayor < detalleRend[index].nroEnRendicion)
-                mayor = detalleRend[index].nroEnRendicion;
-        }
-        return mayor;
-    }
-
-    function limpiar(){
-        $("#cantidad").val(0);
-        //$("#precio").val(0);
-        $("#producto_id").val(0);
-    }
-    
-    /* Mostrar Mensajes de Error */
-    function mostrarMensajeError(mensaje){
-        $(".alert").css('display', 'block');
-        $(".alert").removeClass("hidden");
-        $(".alert").addClass("alert-danger");
-        $(".alert").html("<button type='button' class='close' data-close='alert'>×</button>"+
-                            "<span><b>Error!</b> " + mensaje + ".</span>");
-        $('.alert').delay(5000).hide(400);
-    }
-    
-    
-    function number_format(amount, decimals) {
-        amount += ''; // por si pasan un numero en vez de un string
-        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-        decimals = decimals || 0; // por si la variable no fue fue pasada
-        // si no es un numero o es igual a cero retorno el mismo cero
-        if (isNaN(amount) || amount === 0) 
-            return parseFloat(0).toFixed(decimals);
-        // si es mayor o menor que cero retorno el valor formateado como numero
-        amount = '' + amount.toFixed(decimals);
-        var amount_parts = amount.split('.'),
-            regexp = /(\d+)(\d{3})/;
-        while (regexp.test(amount_parts[0]))
-            amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-        return amount_parts.join('.');
-    }
-    
     
     </script>
      
 
+     @include('RendicionGastos.empleado.plantillasUsables.crearEditarRendJS');
 
 
 

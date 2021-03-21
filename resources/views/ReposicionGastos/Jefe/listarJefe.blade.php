@@ -37,16 +37,7 @@
       <div class="col"> 
         <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
       </div>
-      <!--
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-      <div class="colLabel">
-        <label for="">Proyecto:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="" readonly>
-      </div>
-      -->
+      
 
       
     </div>

@@ -2,13 +2,13 @@
 <style>
 
     .col{
-        background-color: orange;
+        /* background-color: orange; */
         margin-top: 20px;
 
     }
     .colLabel{
-        width: 30%;
-        background-color: aqua;
+        width: 25%;
+        /* background-color: aqua; */
         margin-top: 20px;    
         text-align: left;
     }
@@ -56,11 +56,12 @@
 
                     </div>
                     <div class="col">
-                            <input readonly  type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
+                            <input readonly  type="text" class="form-control" name="nroCuenta" 
+                                id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
                     </div>
-                    <div class="w-100"></div> {{-- SALTO LINEA --}}
-                    <div  class="colLabel">
-                            <label for="fecha">Banco</label>
+                    
+                    <div  class="colLabel" style="width: 10%">
+                            <label for="fecha">Banco:</label>
 
                     </div>
                     <div class="col"> {{-- Combo box de banco --}}
@@ -76,6 +77,27 @@
                     <div class="col"> {{-- Combo box de empleado --}}
                             <input readonly  type="text" class="form-control" name="" id="" readonly value="{{$solicitud->codigoCedepas}}">     
                     </div>
+
+                    <div  class="colLabel" style="width: 10%">
+                        <label for="moneda">Moneda</label>
+                    </div>
+                    <div class="col"> {{-- Combo box de moneda --}}
+                        <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
+                            readonly value="{{$solicitud->getMoneda()->nombre}}">     
+                                
+                    </div>
+
+
+                    <div class="w-100"></div> {{-- SALTO LINEA --}}
+                    <div  class="colLabel">
+                            <label for="ComboBoxProyecto">Proyecto</label>
+
+                    </div>
+                    <div class="col"> {{-- Combo box de proyecto --}}
+                            <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly value="{{$solicitud->getNombreProyecto()}}">     
+                        
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -89,28 +111,11 @@
             <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                 <div class="row">
-                    <div class="w-100"></div> {{-- SALTO LINEA --}}
-                    <div  class="colLabel">
-                            <label for="ComboBoxProyecto">Proyecto</label>
-
-                    </div>
-                    <div class="col"> {{-- Combo box de proyecto --}}
-                            <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly value="{{$solicitud->getNombreProyecto()}}">     
-                        
-                    </div>
+                    
 
 
 
-                    <div class="w-100"></div> {{-- SALTO LINEA --}}
-                
-                    <div  class="colLabel">
-                        <label for="moneda">Moneda</label>
-                    </div>
-                    <div class="col"> {{-- Combo box de moneda --}}
-                        <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
-                            readonly value="{{$solicitud->getMoneda()->nombre}}">     
-                                
-                    </div>
+                    
 
                     <div class="w-100"></div> {{-- SALTO LINEA --}}
                     <div  class="colLabel">
@@ -171,10 +176,15 @@
                     </td>               
                     <td> 
                        <input type="text" class="form-control" name="colConcepto{{$itemDetalle->nroItem}}" id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly="readonly"> 
-                    </td>               
-                    <td  style="text-align:right;">               
-                       <input type="text" class="form-control" name="colImporte{{$itemDetalle->nroItem}}" id="colImporte{{$itemDetalle->nroItem}}" value="{{$itemDetalle->importe}}" readonly="readonly"> 
-                    </td>               
+                    </td>           
+                    
+                    
+                    <td>               
+                       <input type="text" class="form-control" name="colImporte{{$itemDetalle->nroItem}}" 
+                       id="colImporte{{$itemDetalle->nroItem}}"  value="{{number_format($itemDetalle->importe,2)}}" 
+                        style="text-align: right;" readonly="readonly"> 
+                    </td>          
+
                     <td style="text-align:center;">               
                     <input type="text" class="form-control" name="colCodigoPresupuestal{{$itemDetalle->nroItem}}" id="colCodigoPresupuestal{{$itemDetalle->nroItem}}" value="{{$itemDetalle->codigoPresupuestal}}" readonly="readonly">
                     </td>               

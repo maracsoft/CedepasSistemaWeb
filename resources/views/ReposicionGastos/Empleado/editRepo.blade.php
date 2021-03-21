@@ -14,7 +14,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('ReposicionGastos.Empleado.update')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.update')}}" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -424,24 +424,8 @@
                         Registrar
                     </button>
                     -->
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
-                        title:'¿Seguro de guardar los cambios?',
-                        text: '',     //mas texto
-                        type: 'info',//e=[success,error,warning,info]
-                        showCancelButton: true,//para que se muestre el boton de cancelar
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText:  'SI',
-                        cancelButtonText:  'NO',
-                        closeOnConfirm:     true,//para mostrar el boton de confirmar
-                        html : true
-                    },
-                    function(){//se ejecuta cuando damos a aceptar
-                        if(validarTextos()==true){
-                            document.frmrepo.submit();
-                        }
-                        
-                    });"><i class='fas fa-save'></i> Registrar</button> 
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                        onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
                     <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
@@ -502,7 +486,20 @@
 
 @section('script')
 
+<script type="application/javascript">
+    //SE EJECUTA CUANDO CLICKEAMOS EL BOTON REG
+    function registrar(){
+        
+        msj=validarFormulario();
 
+        if(msj!=''){
+            alerta(msj);
+            return false;
+        }
+        confirmar('¿Seguro de guardar los cambios de la reposicion?','info','frmrepo');//[success,error,warning,info]
+
+    }
+</script>
 
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
@@ -578,11 +575,11 @@
         }
 
         function alertaArchivo(){
-            alert('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
+            alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
 
         }
 
-        function validarTextos(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
+        function validarFormulario(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
             
             if($('#codProyecto').val()==-1 ) msj='Debe seleccionar un proyecto';
@@ -607,14 +604,7 @@
                     ") ";
                 }
             }
-
-
-
-            if(msj!=''){
-                alert(msj);
-                return false;
-            }
-            return true;
+            return msj;
         }
 
         
@@ -787,7 +777,7 @@
 
             if (importe==0)
             {
-                msjError = ("Por favor ingrese precio de venta del producto");    
+                msjError = ("Por favor ingrese importe");    
                 
             }  
 
@@ -802,7 +792,7 @@
 
             if(msjError!="")
             {
-                alert(msjError);
+                alerta(msjError);
                 return false;
             }
 

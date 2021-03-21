@@ -19,6 +19,18 @@ class Empleado extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codUsuario','nombres','apellidos','activo','codigoCedepas','dni','codPuesto','fechaRegistro','fechaDeBaja','codSede'];
 
+    public function getSolicitudesPorRendir(){
+        $vector = [SolicitudFondos::getCodEstado('Abonada'),SolicitudFondos::getCodEstado('Contabilizada')];
+
+        return SolicitudFondos::whereIn('codEstadoSolicitud',$vector)
+        ->where('estaRendida','=',0)
+        ->get();
+
+
+    }
+
+
+
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){
@@ -39,7 +51,8 @@ class Empleado extends Model
 
     public function esContador(){
         $detalles = ProyectoContador::where('codEmpleadoContador','=',$this->codEmpleado)->get();
-        if(count($detalles)>0)//si es gerente
+        $puesto = Puesto::findOrFail($this->codPuesto);
+        if(count($detalles)>0  && $puesto->nombre=='Contador')//si es gerente
             return true;
 
         return false;

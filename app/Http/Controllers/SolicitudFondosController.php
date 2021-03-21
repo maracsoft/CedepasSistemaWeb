@@ -501,7 +501,7 @@ class SolicitudFondosController extends Controller
     public function store( Request $request){
 
         try {
-                DB::beginTransaction();   
+            DB::beginTransaction();   
             $solicitud = new SolicitudFondos();
             $solicitud->codProyecto = $request->ComboBoxProyecto;
             $empleadoLogeado = Empleado::getEmpleadoLogeado();

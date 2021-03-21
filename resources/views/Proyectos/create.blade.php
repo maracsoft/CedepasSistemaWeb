@@ -16,22 +16,22 @@
 
 
             if (document.getElementById("nombre").value == ""){
-                alert("Ingrese el nombre del proyecto");
+                alerta("Ingrese el nombre del proyecto");
                 $("#nombre").focus();
             }
             
             else if (document.getElementById("codSede").value == "-1"){
-                alert("Ingrese la sede principal del proyecto");
+                alerta("Ingrese la sede principal del proyecto");
                 $("#codSede").focus();
             }
             
             else if (document.getElementById("codigoPresupuestal").value == "-1"){
-                alert("Ingrese el codigo presupuestal del proyecto");
+                alerta("Ingrese el codigo presupuestal del proyecto");
                 $("#codigoPresupuestal").focus();
             }
             
             else if (document.getElementById("nombreLargo").value == "-1"){
-                alert("Ingrese el nombreLargo del proyecto");
+                alerta("Ingrese el nombreLargo del proyecto");
                 $("#nombreLargo").focus();
             }
             

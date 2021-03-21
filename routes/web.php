@@ -107,7 +107,7 @@ Route::get('/SolicitudFondos/Administracion/reportes/','SolicitudFondosControlle
 ->name('solicitudFondos.reportes');
 
 
-Route::post('/SolicitudFondos/Empleado/{id}','SolicitudFondosController@update')
+Route::post('/SolicitudFondos/{id}/Empleado/update/','SolicitudFondosController@update')
     ->name('SolicitudFondos.Empleado.update');
 
 Route::get('/SolicitudFondos/descargar/{id}','SolicitudFondosController@descargarPDF')
@@ -218,6 +218,11 @@ Route::get('/GestiónUsuarios/{id}/editar','EmpleadoController@editarEmpleado')-
 Route::post('/GestiónUsuarios/update','EmpleadoController@guardarEditarEmpleado')->name('GestionUsuarios.update');
 
 Route::get('/GestiónUsuarios/{id}/cesar','EmpleadoController@cesarEmpleado')->name('GestionUsuarios.cesar');
+
+/**PUEDE HACER EL EMPLEADO */
+Route::get('/GestiónUsuarios/verPerfil','EmpleadoController@verPerfil')->name('GestionUsuarios.verPerfil');
+Route::post('/GestiónUsuarios/updateContrasena','EmpleadoController@guardarContrasena')->name('GestionUsuarios.updateContrasena');
+Route::post('/GestiónUsuarios/updateDPersonales','EmpleadoController@guardarDPersonales')->name('GestionUsuarios.updateDPersonales');
 
 /* ----------------------------------------------        MODULO PUESTOS           ------------------------------------------ */
 Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.listar');

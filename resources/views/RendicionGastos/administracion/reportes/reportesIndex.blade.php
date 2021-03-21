@@ -213,7 +213,7 @@
         
         if( msj!='')
         {  
-            alert(msj); 
+            alerta(msj); 
             return false;
         }
 

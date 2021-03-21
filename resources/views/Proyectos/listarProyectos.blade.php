@@ -122,11 +122,11 @@
     if(codGerente!=0){
       //$.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codGerente+'*1', function(data){
       $.get('/GestiónProyectos/'+codProyecto+'*'+codGerente+'*1'+'/asignarGerente', function(data){
-        if(data) alert('Se actualizo el gerente');
-        else alert('No se pudo actualizar el gerente');
+        if(data) alerta('Se actualizo el gerente');
+        else alerta('No se pudo actualizar el gerente');
       });
     }else{
-      alert('seleccione un Gerente');
+      alerta('seleccione un Gerente');
     }
     
   }
@@ -135,11 +135,11 @@
     var codContador=$('#Proyecto2'+codProyecto).val();
     if(codContador!=0){
       $.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codContador+'*2', function(data){
-        if(data) alert('Se actualizo el contador');
-        else alert('No se pudo actualizar el contador');
+        if(data) alerta('Se actualizo el contador');
+        else alerta('No se pudo actualizar el contador');
       });
     }else{
-      alert('seleccione un Contador');
+      alerta('seleccione un Contador');
     }
     
   }*/

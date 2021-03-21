@@ -172,27 +172,7 @@
 
 
 
-<style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    
-    </style>
+
 
 
 @section('script')
@@ -305,7 +285,7 @@
             $('#cantElementos').val(cont);
             
           
-            //alert('se termino de actualizar la tabla con cont='+cont);
+            //alerta('se termino de actualizar la tabla con cont='+cont);
         }
     
     
@@ -320,27 +300,27 @@
             fecha = $("#fechaComprobante").val();    
             if (fecha=='') 
             {
-                alert("Por favor ingrese la fecha del comprobante del gasto.");    
+                alerta("Por favor ingrese la fecha del comprobante del gasto.");    
                 return false;
             }   
             tipo = $("#ComboBoxCDP").val();    
             if (tipo==-1) 
             {
-                alert("Por favor ingrese el tipo de comprobante del gasto.");    
+                alerta("Por favor ingrese el tipo de comprobante del gasto.");    
                 return false;
             }
             ncbte= $("#ncbte").val();   
              
             if (ncbte=='') 
             {
-                alert("Por favor ingrese el numero del comprobante del gasto.");    
+                alerta("Por favor ingrese el numero del comprobante del gasto.");    
                 return false;
             }
              
             concepto=$("#concepto").val();    
             if (concepto=='') 
             {
-                alert("Por favor ingrese el concepto");    
+                alerta("Por favor ingrese el concepto");    
                 return false;
             }    
               
@@ -349,7 +329,7 @@
             importe=$("#importe").val();    
             if (!(importe>0)) 
             {
-                alert("Por favor ingrese un importe válido.");    
+                alerta("Por favor ingrese un importe válido.");    
                 return false;
             }    
             
@@ -357,13 +337,13 @@
             codigoPresupuestal=$("#codigoPresupuestal").val();    
             if (codigoPresupuestal=='') 
             {
-                alert("Por favor ingrese el codigo presupuestal");    
+                alerta("Por favor ingrese el codigo presupuestal");    
                 return false;
             }    
     
             if (importe==0)
             {
-                alert("Por favor ingrese precio de venta del producto");    
+                alerta("Por favor ingrese importe");    
                 return false;
             }  
             

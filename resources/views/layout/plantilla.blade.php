@@ -85,7 +85,7 @@
 
       
             <div class="info">
-              <a href="#" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
+              <a href="{{route('GestionUsuarios.verPerfil')}}" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
              
                 <label for="" style="color: rgb(95, 119, 119)">
                   {{  (App\Empleado::getEmpleadoLogeado()->getPuestoActual()->nombre ) }}
@@ -174,19 +174,67 @@
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>    
 <script src="{{ asset('plugins/bootstrap-sweetalert/sweetalert.min.js') }}"></script>
 
-<script>
 
-window.onload=verificadoDeSesion();
-  function verificadoDeSesion(){
-    console.log('El auth id es {{Auth::id()}}');
-   // location.href ="{{route('user.verLogin')}}";
-
-  
-  }
-
-</script>
 <script src="{{ asset('dist/js/admin/app.js') }}"></script>
+
+<script type="application/javascript">
+  function number_format(amount, decimals) {
+          amount += ''; // por si pasan un numero en vez de un string
+          amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+          decimals = decimals || 0; // por si la variable no fue fue pasada
+          // si no es un numero o es igual a cero retorno el mismo cero
+          if (isNaN(amount) || amount === 0) 
+              return parseFloat(0).toFixed(decimals);
+          // si es mayor o menor que cero retorno el valor formateado como numero
+          amount = '' + amount.toFixed(decimals);
+          var amount_parts = amount.split('.'),
+              regexp = /(\d+)(\d{3})/;
+          while (regexp.test(amount_parts[0]))
+              amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+          return amount_parts.join('.');
+  }
+  function confirmar(msj,type,formName){
+        swal(
+            {//sweetalert
+                title: msj,
+                text: '',     //mas texto
+                type: type,//e=[success,error,warning,info]
+                showCancelButton: true,//para que se muestre el boton de cancelar
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(value){//se ejecuta cuando damos a aceptar
+                if(value) document.getElementById(formName).submit();
+            }
+        );
+        
+    }
+    function alerta(msj){
+        swal(//sweetalert
+            {
+                title: 'Error',
+                text: msj,     //mas texto
+                type: 'warning',//e=[success,error,warning,info]
+                showCancelButton: false,//para que se muestre el boton de cancelar
+                confirmButtonColor: '#3085d6',
+                //cancelButtonColor: '#d33',
+                confirmButtonText:  'OK',
+                //cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){//se ejecuta cuando damos a aceptar
+                
+            }
+        );
+    }
+</script>
 @yield('script')
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">
+
 </body>
 </html>

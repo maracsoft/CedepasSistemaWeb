@@ -529,7 +529,7 @@ class ReposicionGastosController extends Controller
         }
     }
 
-    public function observar($id){//gerente-jefe-contador (codReposicion-observacion)
+    public function observar($id){//gerente-administracion (codReposicion-observacion)
         try{
             DB::beginTransaction();
             $empleado = Empleado::getEmpleadoLogeado();
@@ -538,13 +538,16 @@ class ReposicionGastosController extends Controller
             $arr = explode('*', $id);
             $reposicion=ReposicionGastos::find($arr[0]);
             $empleado=Empleado::getEmpleadoLogeado();
+            
             if($empleado->esJefeAdmin()){
                 $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
                 $reposicion->fechaHoraRevisionAdmin=new DateTime();
-            }else if($empleado->esContador()){
+            }/*
+            if($empleado->esContador()){
                 $reposicion->codEmpleadoConta=Empleado::getEmpleadoLogeado()->codEmpleado;
                 $reposicion->fechaHoraRevisionConta=new DateTime();
-            }else{
+            }*/
+            if($empleado->esGerente()){
                 $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
                 $reposicion->fechaHoraRevisionGerente=new DateTime();
             }
@@ -583,15 +586,27 @@ class ReposicionGastosController extends Controller
             DB::beginTransaction();
             $reposicion=ReposicionGastos::find($id);
             $empleado=Empleado::getEmpleadoLogeado();
+            date_default_timezone_set('America/Lima');
 
-
+            /*
             if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
                 $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
                 $reposicion->fechaHoraRevisionAdmin=new DateTime();
             }else{
                 $reposicion->codEmpleadoEvaluador=$empleado->codEmpleado;
                 $reposicion->fechaHoraRevisionGerente=new DateTime();
+            }*/
+
+            if($empleado->esJefeAdmin()){
+                $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
+                $reposicion->fechaHoraRevisionAdmin=new DateTime();
             }
+            if($empleado->esGerente()){
+                $reposicion->codEmpleadoEvaluador=$empleado->codEmpleado;
+                $reposicion->fechaHoraRevisionGerente=new DateTime();
+            }
+
+
             $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Rechazada');
             $reposicion->save();
             DB::commit();

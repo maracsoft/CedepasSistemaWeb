@@ -9,11 +9,11 @@
     {
         var expreg = new RegExp("^(?=^.{3,300}$)^[A-ZÁÉÍÓÚñáéíóúÑ][a-zA-ZÁÉÍÓÚñáéíóúÑ0-9 \\%\\,\\(\\)]*[_]?[a-zA-ZÁÉÍÓÚñáéíóúÑ0-9 ]+[.\\ ]?$");
                 if (document.getElementById("descripcion").value == ""){
-                    alert("Ingrese descripcion del puesto");
+                    alerta("Ingrese descripcion del puesto");
                     $("#descripcion").focus();
                 }
                 else if(!expreg.test(document.getElementById("descripcion").value)){
-                    alert("Ingrese una correcta descripcion (entre 3-300 caracteres)(inicio con mayuscula)");
+                    alerta("Ingrese una correcta descripcion (entre 3-300 caracteres)(inicio con mayuscula)");
                     $("#descripcion").focus();
                 }
                 else{
