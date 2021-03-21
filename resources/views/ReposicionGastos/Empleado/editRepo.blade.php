@@ -14,7 +14,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.update')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.update')}}" onsubmit="return validarTextos()" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -443,7 +443,7 @@
                         
                     });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('reposicionGastos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

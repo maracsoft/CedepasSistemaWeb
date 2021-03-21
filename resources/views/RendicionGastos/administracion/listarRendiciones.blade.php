@@ -108,12 +108,12 @@
                             Reponer <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
                             </h1>
                           </a>
-                          <a href="{{route('rendicionGastos.verAdmin',$itemRendicion->codRendicionGastos)}}">
+                          <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

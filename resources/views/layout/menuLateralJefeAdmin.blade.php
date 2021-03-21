@@ -12,14 +12,14 @@
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Solicitudes para abonar</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
+                <a href="{{route('RendicionGastos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Rendiciones para Reponer</p>
                 </a>

@@ -108,20 +108,20 @@
                 ">
               </td>
                 <td>        
-                        <a href="{{route('solicitudFondos.ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                        <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
                           <h1>
                             <span class="red">S</span>
                           </h1>
                         </a>
                         @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
-                          <a href="{{route('rendicionGastos.revisar',$itemRendicion->codRendicionGastos)}}" 
+                          <a href="{{route('RendicionGastos.Gerente.Revisar',$itemRendicion->codRendicionGastos)}}" 
                             class='btn btn-success'  style="float:right;">
                             Revisar
                           </a>    
                         @endif
 
                         @if($itemRendicion->verificarEstado('Contabilizada')  ) {{-- Si está a espera de reponer --}}   
-                          <a href="{{route('rendicionGastos.verGerente',$itemRendicion->codRendicionGastos)}}">
+                          <a href="{{route('RendicionGastos.Gerente.Ver',$itemRendicion->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

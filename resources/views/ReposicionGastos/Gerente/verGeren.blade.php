@@ -24,12 +24,12 @@
     </div>
     <div class="col-md-2">
         <br>
-        <a  href="{{route('reposicionGastos.PDF',$reposicion->codReposicionGastos)}}" 
+        <a  href="{{route('ReposicionGastos.exportarPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right" style="margin-left:60px;">
             <i class="entypo-pencil"></i>
             PDF
           </a>
-        <a target="blank" href="{{route('reposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
+        <a target="blank" href="{{route('ReposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right">
             <i class="entypo-pencil"></i>
             verPDF
@@ -38,7 +38,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
@@ -251,7 +251,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfGerente')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                    <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                     <!--
                     <a href="" 
                         class="btn btn-success float-right">
@@ -274,7 +274,7 @@
                             html : true
                         },
                         function(){
-                            window.location.href='{{route('reposicionGastos.aprobar',$reposicion->codReposicionGastos)}}';
+                            window.location.href='{{route('ReposicionGastos.aprobar',$reposicion->codReposicionGastos)}}';
                         });"><i class="fas fa-check"></i> Aceptar</a>
                     <!--<a href="" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  -->
                     <a href="#" class="btn btn-danger float-right" style="margin-right:5px;"onclick="swal({//sweetalert
@@ -290,7 +290,7 @@
                             html : true
                         },
                         function(){//se ejecuta cuando damos a aceptar
-                            window.location.href='{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}';
+                            window.location.href='{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}';
                         });"><i class="fas fa-times"></i> Rechazar</a>
 
 

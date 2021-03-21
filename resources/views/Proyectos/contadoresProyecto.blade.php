@@ -53,7 +53,7 @@
                   html : true
               },
               function(){//se ejecuta cuando damos a aceptar
-                  window.location.href='{{route('proyecto.eliminarContador',$itemcontador->codEmpleado)}}';
+                  window.location.href='{{route('GestiónProyectos.eliminarContador',$itemcontador->codEmpleado)}}';
               });">Eliminar</a>
             </td>
           </tr>
@@ -62,7 +62,7 @@
     </table>
     <br>
     
-    <a href="{{route('proyecto.index')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
+    <a href="{{route('GestiónProyectos.listar')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
 
   </div>
 @endsection

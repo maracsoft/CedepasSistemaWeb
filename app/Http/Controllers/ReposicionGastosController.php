@@ -32,15 +32,15 @@ class ReposicionGastosController extends Controller
             $datos = 'datos';
 
         if($empleado->esGerente()){
-            return redirect()->route('reposicionGastos.listarRepoOfGerente')->with($datos,$msj);
+            return redirect()->route('ReposicionGastos.Gerente.listar')->with($datos,$msj);
         }
         if($empleado->esJefeAdmin()){
-            return redirect()->route('reposicionGastos.listarRepoOfJefe')->with($datos,$msj);
+            return redirect()->route('ReposicionGastos.Administracion.listar')->with($datos,$msj);
         }
         if($empleado->esContador()){
-            return redirect()->route('reposicionGastos.listarRepoOfContador')->with($datos,$msj);
+            return redirect()->route('ReposicionGastos.Contador.listar')->with($datos,$msj);
         }
-        return redirect()->route('reposicionGastos.listar')->with($datos,$msj);
+        return redirect()->route('ReposicionGastos.Empleado.listar')->with($datos,$msj);
 
     }
 
@@ -231,12 +231,12 @@ class ReposicionGastosController extends Controller
             $reposicion->save();
 
             DB::commit();
-            return redirect()->route('reposicionGastos.listar')->with('datos','Se ha Registrado la reposicion N°'.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Se ha Registrado la reposicion N°'.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             
             Debug::mensajeError('REPOSICION GASTOS CONTROLLER STORE', $th);
             DB::rollBack();
-            return redirect()->route('reposicionGastos.listar')->with('datos','Ha ocurrido un error.');
+            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Ha ocurrido un error.');
         }
         
     }
@@ -333,14 +333,14 @@ class ReposicionGastosController extends Controller
 
             DB::commit();  
             return redirect()
-                ->route('reposicionGastos.listar')
+                ->route('ReposicionGastos.Empleado.listar')
                 ->with('datos','Se ha Editado la reposicion N°'.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             Debug::mensajeError(' REPOSICION GASTOS CONTROLLER UPDATE' ,$th);
             
             DB::rollback();
             return redirect()
-                ->route('reposicionGastos.listar')
+                ->route('ReposicionGastos.Empleado.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -499,13 +499,13 @@ class ReposicionGastosController extends Controller
             $reposicion->fechaHoraRevisionGerente=new DateTime();
             $reposicion->save();
             DB::commit();
-            //return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
+            //return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            //return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Ha ocurrido un error');
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
+            //return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
         }
     }
     public function abonar($id){//jefe (codReposicion)
@@ -518,20 +518,20 @@ class ReposicionGastosController extends Controller
             $reposicion->fechaHoraRevisionAdmin=new DateTime();
             $reposicion->save();
             DB::commit();
-            //return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
+            //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            //return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Ha ocurrido un error');
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
+            //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
 
         }
     }
 
     public function observar($id){//gerente-jefe-contador (codReposicion-observacion)
-        //try{
-        //    DB::beginTransaction();
+        try{
+            DB::beginTransaction();
             $empleado = Empleado::getEmpleadoLogeado();
 
             date_default_timezone_set('America/Lima');
@@ -552,31 +552,31 @@ class ReposicionGastosController extends Controller
             $reposicion->observacion=$arr[1];
             
             $reposicion->save();
-        //    DB::commit();
+            DB::commit();
             /*
             if($empleado->esJefeAdmin()){
-                return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
+                return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
             }else if($empleado->esContador()){
-                return redirect()->route('reposicionGastos.listarRepoOfContador')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
+                return redirect()->route('ReposicionGastos.Contador.listar')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
             }else{
-                return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
+                return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
             }
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Se observo correctamente la Reposicion '.$reposicion->codigoCedepas);
             
-        //}catch(\Throwable $th){
-        //    DB::rollBack();
+        }catch(\Throwable $th){
+            DB::rollBack();
             /*
             if($empleado->esJefeAdmin()){
-                return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Ha ocurrido un error');
+                return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
             }else if($empleado->esContador()){
-                return redirect()->route('reposicionGastos.listarRepoOfContador')->with('datos','Ha ocurrido un error');
+                return redirect()->route('ReposicionGastos.Contador.listar')->with('datos','Ha ocurrido un error');
             }else{
-                return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Ha ocurrido un error');
+                return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Ha ocurrido un error');
             }
             */
-        //    return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
-        //}
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
+        }
     }
     public function rechazar($id){//gerente-jefe (codReposicion)
         try{
@@ -597,23 +597,23 @@ class ReposicionGastosController extends Controller
             DB::commit();
             /*
             if($empleado->esJefeAdmin()){
-                return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
+                return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
             }else{
-                return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
+                return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
             }
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Se rechazo correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
             /*
             if($empleado->esJefeAdmin()){
-                return redirect()->route('reposicionGastos.listarRepoOfJefe')->with('datos','Ha ocurrido un error');
+                return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
             }else{
-                return redirect()->route('reposicionGastos.listarRepoOfGerente')->with('datos','Ha ocurrido un error');
+                return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Ha ocurrido un error');
             }
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
         }
 
     }
@@ -641,18 +641,18 @@ class ReposicionGastosController extends Controller
             DB::commit();
             /*
             return redirect()
-                ->route('reposicionGastos.listarRepoOfContador')
+                ->route('ReposicionGastos.Contador.listar')
                 ->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
         } catch (\Throwable $th) {
             Debug::mensajeError('REPOSICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
             /*
-            return redirect()->route('reposicionGastos.listarRepoOfContador')
+            return redirect()->route('ReposicionGastos.Contador.listar')
                 ->with('datos','Ha ocurrido un error');
             */
-            return redirect()->route('reposicionGastos.listarReposiciones')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
         }
 
 

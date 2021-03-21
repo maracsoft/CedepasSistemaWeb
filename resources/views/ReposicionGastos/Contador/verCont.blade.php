@@ -22,12 +22,12 @@
     </div>
     <div class="col-md-2">
         <br>
-        <a  href="{{route('reposicionGastos.PDF',$reposicion->codReposicionGastos)}}" 
+        <a  href="{{route('ReposicionGastos.exportarPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right" style="margin-left:60px;">
             <i class="entypo-pencil"></i>
             PDF
             </a>
-        <a target="blank" href="{{route('reposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
+        <a target="blank" href="{{route('ReposicionGastos.VerPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right">
             <i class="entypo-pencil"></i>
             verPDF
@@ -36,7 +36,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
@@ -311,7 +311,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfContador',$empleadoLogeado->codEmpleado)}}" 
+                    <a href="{{route('ReposicionGastos.Contador.listar',$empleadoLogeado->codEmpleado)}}" 
                         class='btn btn-info float-left float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>

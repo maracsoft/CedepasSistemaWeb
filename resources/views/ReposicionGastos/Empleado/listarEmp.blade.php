@@ -47,7 +47,7 @@
   <br>
   <div class="row">
     <div class="col-md-2">
-      <a href="{{route('reposicionGastos.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
+      <a href="{{route('ReposicionGastos.Empleado.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
     </div>
     <div class="col-md-10">
       <form class="form-inline float-right">
@@ -120,22 +120,22 @@
               </td>
                 <td>       
 
-                  <a href="{{route('reposicionGastos.view',$itemreposicion->codReposicionGastos)}}" 
+                  <a href="{{route('ReposicionGastos.Empleado.ver',$itemreposicion->codReposicionGastos)}}" 
                       class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
                   @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
-                  <a href="{{route('reposicionGastos.editar',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm">
+                  <a href="{{route('ReposicionGastos.Empleado.editar',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm">
                       <i class="entypo-pencil"></i>
                       Editar
                   </a>
                   @endif
                   <!--
-                  <a  href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a  href="{{route('ReposicionGastos.exportarPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     PDF
                   </a>
 
-                  <a target="blank" href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     verPDF

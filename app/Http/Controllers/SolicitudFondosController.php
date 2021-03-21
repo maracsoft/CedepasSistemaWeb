@@ -50,16 +50,16 @@ class SolicitudFondosController extends Controller
 
         if($empleado->esGerente()){
             //lo enrutamos hacia su index
-            return redirect()->route('solicitudFondos.listarGerente')->with($datos,$msj);
+            return redirect()->route('SolicitudFondos.Gerente.listar')->with($datos,$msj);
         }
 
         if($empleado->esJefeAdmin())//si es jefe de administracion
         {
-            return redirect()->route('solicitudFondos.listarJefeAdmin')->with($datos,$msj);
+            return redirect()->route('SolicitudFondos.Administracion.listar')->with($datos,$msj);
 
         }
 
-        return redirect()->route('solicitudFondos.listarEmp')->with($datos,$msj);
+        return redirect()->route('SolicitudFondos.empleado.listar')->with($datos,$msj);
 
     }
 
@@ -544,7 +544,7 @@ class SolicitudFondosController extends Controller
             
             DB::commit();  
             return redirect()
-                ->route('solicitudFondos.listarEmp')
+                ->route('SolicitudFondos.empleado.listar')
                 ->with('datos','Se ha creado la solicitud '.$solicitud->codigoCedepas);
         }catch(\Throwable $th){
             
@@ -552,7 +552,7 @@ class SolicitudFondosController extends Controller
             
             DB::rollback();
             return redirect()
-                ->route('solicitudFondos.listarEmp')
+                ->route('SolicitudFondos.empleado.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -630,14 +630,14 @@ class SolicitudFondosController extends Controller
             }    
             
             DB::commit();  
-            return redirect()->route('solicitudFondos.listarEmp')
+            return redirect()->route('SolicitudFondos.empleado.listar')
                 ->with('datos','Registro '.$solicitud->codigoCedepas.' actualizado');
             
         }catch(\Throwable $th){
             Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : UPDATE',$th);
             
             DB::rollback();
-            return redirect()->route('solicitudFondos.listarEmp')
+            return redirect()->route('SolicitudFondos.empleado.listar')
                 ->with('datos','Ocurrió un error.');
         }
     }
@@ -647,7 +647,7 @@ class SolicitudFondosController extends Controller
         $cod = $sol->codigoCedepas;
         $sol->delete();
 
-        return redirect()->route('solicitudFondos.listarEmp')->with('datos','Se eliminó el registro'.$cod);
+        return redirect()->route('SolicitudFondos.empleado.listar')->with('datos','Se eliminó el registro'.$cod);
     }
 
 

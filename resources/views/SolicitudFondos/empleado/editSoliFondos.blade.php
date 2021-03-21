@@ -17,7 +17,7 @@
     
 
 </h1>
-<form method = "POST" onsubmit="return validarTextos()"  action = "{{ route('solicitudFondos.update',$solicitud->codSolicitud) }}" id="frmsoli" name="frmsoli" >
+<form method = "POST" onsubmit="return validarTextos()"  action = "{{ route('SolicitudFondos.Empleado.update',$solicitud->codSolicitud) }}" id="frmsoli" name="frmsoli" >
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -331,7 +331,7 @@
                         
                     });"><i class='fas fa-save'></i> Actualizar</button>-->
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

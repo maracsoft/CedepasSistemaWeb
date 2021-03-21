@@ -24,7 +24,7 @@
       <div class="card-tools">
         <ul class="nav nav-pills ml-auto">
           <li class="nav-item">
-            <a href="{{route('proyecto.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
+            <a href="{{route('GestiónProyectos.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
           </li>
         </ul>
       </div>
@@ -85,12 +85,12 @@
               
               </select> 
               -->
-              <a href="{{route('proyecto.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left">
+              <a href="{{route('GestiónProyectos.listarContadores',$itemProyecto->codProyecto)}}" class="btn btn-success btn-sm btn-icon icon-left">
                 <i class="entypo-pencil"></i>Contadores ({{$itemProyecto->nroContadores()}})
               </a>
             </td>
             <td>
-              <a href="{{route('proyecto.editar',$itemProyecto->codProyecto)}}" class="btn btn-alert">
+              <a href="{{route('GestiónProyectos.editar',$itemProyecto->codProyecto)}}" class="btn btn-alert">
                 <i class="fas fa-pen-square"></i>
                 Editar
               </a>

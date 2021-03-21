@@ -9,7 +9,7 @@
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
 </div>
 
-<form method = "POST" action = "{{ route('solicitudFondos.store') }}" onsubmit="return validarTextos()" id="frmsoli" name="frmsoli">
+<form method = "POST" action = "{{ route('SolicitudFondos.Empleado.Guardar') }}" onsubmit="return validarTextos()" id="frmsoli" name="frmsoli">
         
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
@@ -307,7 +307,7 @@
                         
                     });"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

@@ -151,7 +151,7 @@
                 <td>
                       {{-- Si la tenemos que evaluar --}}  
                       @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
-                          <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}" 
+                          <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" 
                             class='btn btn-success'  style="float:right;">
                             
                             Revisar
@@ -159,14 +159,14 @@
 
 
                       @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
-                            <a href="{{route('solicitudFondos.revisar',$itemSolicitud->codSolicitud)}}">
+                            <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}">
                               <h1>
                                 <span class="red">S</span> 
                               </h1>
                             </a>
                           
                           @if($itemSolicitud->estaRendida())   
-                            <a href="{{route('rendicionGastos.verGerente',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                            <a href="{{route('RendicionGastos.Gerente.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                               <h1>
                                 <span class="red">R</span>
                               </h1>

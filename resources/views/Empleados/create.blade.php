@@ -219,7 +219,7 @@
                 
             
             <input type="button" class="btn btn-primary float-right" value="Registrar" onclick="validarregistro()" />
-            <a href="{{route('GestionUsuarios.listarEmpleados')}}" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+            <a href="{{route('GestionUsuarios.listar')}}" class="btn btn-info float-left"><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     </form>
 @endsection
 

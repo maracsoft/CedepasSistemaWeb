@@ -118,7 +118,7 @@
                          
                         @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
                           <a  class='btn btn-success' 
-                          href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                          href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}">
                             Abonar <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
@@ -126,7 +126,7 @@
                           
                           <div class="row">
                             <div  style="background-color: rebeccapurple">
-                              <a href="{{route('solicitudFondos.vistaAbonar',$itemSolicitud->codSolicitud)}}">
+                              <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}">
                                
                                   <span class="red">S</span>
                               
@@ -144,7 +144,7 @@
                             </div>
                             <div class="w-100"></div>
                             <div  style="background-color: rgb(42, 20, 138)">
-                              <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                              <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                                 <h1>
                                   <span class="red">R</span>
                                 </h1>

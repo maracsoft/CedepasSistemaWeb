@@ -118,17 +118,17 @@
                         
                         @if($itemSolicitud->verificarEstado('Abonada')) {{-- Si está aprobada (pa abonar) --}}   
                           <a  class='btn btn-success' 
-                          href="{{route('solicitudFondos.verContabilizar',$itemSolicitud->codSolicitud)}}">
+                          href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}">
                             Contabilizar <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('solicitudFondos.verContabilizar',$itemSolicitud->codSolicitud)}}">
+                          <a href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}">
                             <h1>
                               <span class="red">S</span>
                             </h1>
                           </a>
                           @if($itemSolicitud->verificarEstado('Rendida'))
-                          <a href="{{route('rendicionGastos.verAdmin',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
+                          <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
                             <h1>
                               <span class="red">R</span>
                             </h1>

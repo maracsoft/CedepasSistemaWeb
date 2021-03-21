@@ -13,7 +13,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('rendicionGastos.update')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data" id="frmrend" name="frmrend">
+<form method = "POST" action = "{{route('RendicionGastos.Empleado.Update')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data" id="frmrend" name="frmrend">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $solicitud->getEmpleadoSolicitante()->codigoCedepas }}">
@@ -405,7 +405,7 @@
                         
                     });"><i class='fas fa-save'></i> Actualizar</button>
                    
-                    <a href="{{route('solicitudFondos.listarEmp')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>

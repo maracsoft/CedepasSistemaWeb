@@ -23,7 +23,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.empleado.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Mis Solicitudes</p>
                 </a>
@@ -44,7 +44,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarGerente')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.Gerente.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Listar Fondos</p>
                 </a>
@@ -66,7 +66,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarJefeAdmin')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Solicitudes para abonar</p>
                 </a>
@@ -92,7 +92,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.listarContador')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.Contador.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Solicitudes</p>
                 </a>
@@ -131,7 +131,7 @@
             <ul class="nav nav-treeview">
       
               <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarEmpleado')}}" class="nav-link">
+                <a href="{{route('RendicionGastos.Empleado.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Mis Rendiciones</p>
                 </a>
@@ -154,7 +154,7 @@
             <ul class="nav nav-treeview">
        
               <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarGerente')}}" class="nav-link">
+                <a href="{{route('RendicionGastos.Gerente.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Listar Rendic</p>
                 </a>
@@ -178,7 +178,7 @@
             <ul class="nav nav-treeview">
        
               <li class="nav-item">
-                <a href="{{route('rendicionGastos.listarJefeAdmin')}}" class="nav-link">
+                <a href="{{route('RendicionGastos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Rendiciones</p>
                 </a>
@@ -261,7 +261,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.listar')}}" class="nav-link">
+                <a href="{{route('ReposicionGastos.Empleado.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Mis Reposicion</p>
                 </a>
@@ -279,7 +279,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.listarRepoOfGerente')}}" class="nav-link">
+                <a href="{{route('ReposicionGastos.Gerente.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Evaluar Reposiciones</p>
                 </a>
@@ -299,7 +299,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.listarRepoOfJefe')}}" class="nav-link">
+                <a href="{{route('ReposicionGastos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Reposiciones para aceptar</p>
                 </a>
@@ -317,7 +317,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('reposicionGastos.listarRepoOfContador')}}" class="nav-link">
+                <a href="{{route('ReposicionGastos.Contador.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Contabilizar</p>
                 </a>
@@ -340,14 +340,14 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('GestionUsuarios.listarEmpleados')}}" class="nav-link">
+              <a href="{{route('GestionUsuarios.listar')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Empleados</p>
               </a>
             </li>
           
             <li class="nav-item">
-              <a href="{{route('GestiónPuestos.listarPuestos')}}" class="nav-link">
+              <a href="{{route('GestiónPuestos.listar')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Puestos</p>
               </a>
@@ -366,7 +366,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('proyecto.index')}}" class="nav-link">
+              <a href="{{route('GestiónProyectos.listar')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Proyectos</p>
               </a>

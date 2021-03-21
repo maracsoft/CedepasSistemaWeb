@@ -26,209 +26,23 @@
         value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
-    <div class="container">
-        <div class="row">           
-            <div class="col-md" > {{-- COLUMNA IZQUIERDA 1 --}}
-                <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
-
-                    <div class="row">
-                      <div  class="col">
-                            <label for="fecha">Fecha emisión</label>
-                      </div>
-                      <div class="col">
-                                                  
-                                <div class="input-group date form_date " style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    <input type="text"  class="form-control" name="fecha" id="fecha" disabled
-                                        value="{{$solicitud->fechaHoraEmision}}" >     
-                                </div>
-
-                      </div>
-                      
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Girar a la orden de</label>
-
-                      </div>
-                      <div class="col">
-                            <input readonly type="text" class="form-control" name="girarAOrden" id="girarAOrden" value="{{$solicitud->girarAOrdenDe}}">    
-
-                      </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">N° Cuenta</label>
-
-                      </div>
-                      <div class="col">
-                            <input readonly  type="text" class="form-control" name="nroCuenta" id="nroCuenta" value="{{$solicitud->numeroCuentaBanco}}">    
-                      </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Banco</label>
-
-                      </div>
-                      <div class="col"> {{-- Combo box de banco --}}
-                            <input type="text" class="form-control" name="banco" id="banco" readonly value="{{$solicitud->getNombreBanco()}}">     
-                                     
-                      </div>
-                      
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="codSolicitud">Código Solicitud</label>
-
-                      </div>
-                      <div class="col"> {{-- Combo box de empleado --}}
-                            <input readonly  type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly value="{{$solicitud->codigoCedepas}}">     
-                      </div>
-
-
-
-                    </div>
-
-
-                </div>
+            @include('SolicitudFondos.plantillaVerSF')
                 
-                
-                
-                
+            <div class="row" id="divTotal" name="divTotal">                       
+                <div class="col-md-8">
+                </div>   
+                <div class="col-md-2">                        
+                    <label for="">Total : </label>    
+                </div>   
+                <div class="col-md-2">
+                    {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                    <input type="hidden" name="cantElementos" id="cantElementos">                              
+                    <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
+                </div>   
             </div>
+                    
 
-
-            <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificación</label>
-                <textarea readonly  class="form-control" name="justificacion" id="justificacion"
-                 aria-label="With textarea" style="resize:none; height:100px;">{{$solicitud->justificacion}}</textarea>
-
-                <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
-
-                    <div class="row">
-                        <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  class="colLabel">
-                                <label for="ComboBoxProyecto">Proyecto</label>
-
-                        </div>
-                        <div class="col"> {{-- Combo box de proyecto --}}
-                                <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly value="{{$solicitud->getNombreProyecto()}}">     
-                               
-                        </div>
-                        <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      
-                        <div  class="colLabel">
-                            <label for="moneda">Moneda</label>
-                        </div>
-                        <div class="col"> {{-- input de moneda --}}
-                            <input readonly  type="text" class="form-control" name="moneda" id="moneda" 
-                                readonly value="{{$solicitud->getMoneda()->nombre}}">     
-                                    
-                        </div>
-
-                         <div class="w-100"></div> {{-- SALTO LINEA --}}
-                        <div  class="colLabel">
-                                <label for="estado">Estado de la Solicitud 
-                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif :</label>
-                        </div>
-                        <div class="col"> {{-- Combo box de estado --}}
-                            <input readonly type="text" class="form-control" name="estado" id="estado"
-                            style="background-color: {{$solicitud->getColorEstado()}} ;
-                                color:{{$solicitud->getColorLetrasEstado()}};
-                                
-                            "
-                            readonly value="{{$solicitud->getNombreEstado()}} {{$solicitud->observacion}}">     
-                           
-                            
-                                    
-                        </div>
-
-
-
-
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
     
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
-
-        {{-- LISTADO DE DETALLES  --}}
-        <div class="col-md-12 pt-3">     
-            <div class="table-responsive">                           
-                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
-                    
-                    {{--  --}}
-                    
-                    
-                    
-                    <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Ítem</th>                                        
-                        <th width="40%">Concepto</th>                                 
-                        <th width="10%"> Importe</th>
-                        <th width="15%" class="text-center">Código Presupuestal</th>
-                        {{-- <th width="20%" class="text-center">Opciones</th>                                            
-                      --}}
-                    </thead>
-                    <tfoot>
-
-                                                                                        
-                    </tfoot>
-                    <tbody>
-                        @foreach($detallesSolicitud as $itemDetalle)
-                            <tr class="selected" id="fila{{$itemDetalle->nroItem}}" name="fila{{$itemDetalle->nroItem}}">
-                                <td style="text-align:center;">               
-                                   <input type="text" class="form-control" name="colItem{{$itemDetalle->nroItem}}" 
-                                        id="colItem{{$itemDetalle->nroItem}}" value="{{$itemDetalle->nroItem}}" readonly="readonly">   
-                                </td>               
-                                <td> 
-                                   <input type="text" class="form-control" name="colConcepto{{$itemDetalle->nroItem}}" id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly="readonly"> 
-                                </td>               
-                                <td  style="text-align:right;">               
-                                   <input type="text" class="form-control" name="colImporte{{$itemDetalle->nroItem}}" id="colImporte{{$itemDetalle->nroItem}}" value="{{$itemDetalle->importe}}" readonly="readonly"> 
-                                </td>               
-                                <td style="text-align:center;">               
-                                <input type="text" class="form-control" name="colCodigoPresupuestal{{$itemDetalle->nroItem}}" id="colCodigoPresupuestal{{$itemDetalle->nroItem}}" value="{{$itemDetalle->codigoPresupuestal}}" readonly="readonly">
-                                </td>               
-                                {{-- <td style="text-align:center;">               
-                                    <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle({{$itemDetalle->nroItem - 1}});">
-                                        <i class="fa fa-times" ></i>               
-                                    </button>               
-                                </td>   --}}             
-                            </tr>                
-                        
-                        @endforeach    
-
-
-
-                    </tbody>
-                </table>
-            </div> 
-                
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total : </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
-                    </div>   
-                </div>
-                    
-
-                
-        </div> 
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
@@ -238,12 +52,12 @@
                     <div class="">
                         <div class="row">
                             <div class="col"><!--
-                                <a href="{{route('solicitudFondos.listarGerente')}}" 
+                                <a href="{{route('SolicitudFondos.Gerente.listar')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú
                                 </a>-->
-                                <a href="{{route('solicitudFondos.listarGerente')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                                <a href="{{route('SolicitudFondos.Gerente.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                             </div>
                             <div class="col"></div>
                        
@@ -278,7 +92,7 @@
                                 </div>
                         
                                 <div class="col">
-                                    <a href="{{route('solicitudFondos.aprobar',$solicitud->codSolicitud)}}" 
+                                    <a href="{{route('SolicitudFondos.Gerente.Aprobar',$solicitud->codSolicitud)}}" 
                                         class='btn btn-success'  style="float:right;">
                                         <i class="fas fa-check"></i>
                                         Aprobar
@@ -289,14 +103,6 @@
                         @endif
                         </div>
                     </div>
-                   
-                        
-                          
-                    
-                               
-                    
-                    
-                
                 </div>    
             </div>
         </div>

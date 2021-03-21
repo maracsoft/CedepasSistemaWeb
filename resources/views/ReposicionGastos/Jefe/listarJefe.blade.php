@@ -129,17 +129,17 @@
                 <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionAdmin==null ? 'No revisado':$itemreposicion->fechaHoraRevisionAdmin}}</td>
                 <td>
                   @if($itemreposicion->codEstadoReposicion==2)
-                  <a href="{{route('reposicionGastos.verReposicionOfJefe',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
                   @else
-                  <a href="{{route('reposicionGastos.verReposicionOfJefe',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
                   @endif
-                  <a  href="{{route('reposicionGastos.PDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a  href="{{route('ReposicionGastos.exportarPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     PDF
                   </a>
 
-                  <a target="blank" href="{{route('reposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-warning btn-sm">
                     <i class="entypo-pencil"></i>
                     verPDF

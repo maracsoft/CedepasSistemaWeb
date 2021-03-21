@@ -16,14 +16,14 @@
           
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('solicitudFondos.listarEmp')}}" class="nav-link">
+              <a href="{{route('SolicitudFondos.empleado.listar')}}" class="nav-link">
                 <i class="far fa-address-card nav-icon"></i>
                 <p>Mis Solicitudes</p>
               </a>
             </li>
 
             <li class="nav-item">
-              <a href="{{route('rendicionGastos.listarEmpleado')}}" class="nav-link">
+              <a href="{{route('RendicionGastos.Empleado.listar')}}" class="nav-link">
                 <i class="far fa-address-card nav-icon"></i>
                 <p>Mis Rendiciones</p>
               </a>

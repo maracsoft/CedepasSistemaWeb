@@ -49,14 +49,14 @@ class RendicionGastosController extends Controller
 
         if($empleado->esGerente()){
             //lo enrutamos hacia su index
-            return redirect()->route('rendicionGastos.listarGerente')->with($datos,$msj);
+            return redirect()->route('RendicionGastos.Gerente.listar')->with($datos,$msj);
         }
 
         if($empleado->esJefeAdmin())//si es jefe de administracion
         {
-            return redirect()->route('rendicionGastos.listarJefeAdmin')->with($datos,$msj);
+            return redirect()->route('RendicionGastos.Administracion.listar')->with($datos,$msj);
         }
-        return redirect()->route('rendicionGastos.listarEmpleado')->with($datos,$msj);
+        return redirect()->route('RendicionGastos.Empleado.listar')->with($datos,$msj);
 
 
     }

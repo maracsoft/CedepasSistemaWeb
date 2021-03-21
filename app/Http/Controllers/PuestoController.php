@@ -27,7 +27,7 @@ class PuestoController extends Controller
         $puesto->estado=1;
         $puesto->save();
 
-        return redirect()->route('GestiónPuestos.listarPuestos');
+        return redirect()->route('GestiónPuestos.listar');
     }
 
     public function editarPuesto($id){
@@ -41,7 +41,7 @@ class PuestoController extends Controller
         $puesto->nombre=$request->descripcion;
         $puesto->save();
 
-        return redirect()->route('GestiónPuestos.listarPuestos');
+        return redirect()->route('GestiónPuestos.listar');
     }
 
     public function eliminarPuesto($id){
@@ -49,7 +49,7 @@ class PuestoController extends Controller
         $puesto->estado=0;
         $puesto->save();
 
-        return redirect()->route('GestiónPuestos.listarPuestos');
+        return redirect()->route('GestiónPuestos.listar');
         //return response()->json();
     }
 }

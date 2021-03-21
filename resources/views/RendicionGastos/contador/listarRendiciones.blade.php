@@ -110,12 +110,12 @@
                 <td>        
                       
                         @if($itemRendicion->verificarEstado('Aprobada') )
-                          <a href="{{route('rendicionGastos.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
+                          <a href="{{route('RendicionGastos.Contador.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
                             class='btn btn-success'  style="float:right;">
                             Contabilizar
                           </a>   
                         @else {{-- Ya está contabilizada --}}
-                          <a href="{{route('rendicionGastos.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
+                          <a href="{{route('RendicionGastos.Contador.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
                             class='btn btn-success'  style="float:right;">
                             Ver
                           </a>   

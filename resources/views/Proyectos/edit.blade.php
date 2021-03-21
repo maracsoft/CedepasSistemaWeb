@@ -65,7 +65,7 @@
         }
     
 </script>
-<form id="frmempresa" name="frmempresa" role="form" action="{{route('proyecto.update')}}" 
+<form id="frmempresa" name="frmempresa" role="form" action="{{route('GestiónProyectos.update')}}" 
     class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
     <input type="hidden" name="codProyecto" id="codProyecto" value="{{$proyecto->codProyecto}}">
 
@@ -162,7 +162,7 @@
                             <a href="#" class='btn btn-danger float-right' onclick="confirmarEliminacion()"><i class="fas fa-trash-alt"></i> Dar de Baja</a>
         
 
-                            <a href="{{route('proyecto.index')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                            <a href="{{route('GestiónProyectos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                             
                         </div>
 
@@ -209,7 +209,7 @@
                 html : true
             },
             function(){//se ejecuta cuando damos a aceptar
-                window.location.href="{{route('proyecto.darDeBaja',$proyecto->codProyecto)}}";
+                window.location.href="{{route('GestiónProyectos.darDeBaja',$proyecto->codProyecto)}}";
             });
         }
 

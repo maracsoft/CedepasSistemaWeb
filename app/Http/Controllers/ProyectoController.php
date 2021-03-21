@@ -50,12 +50,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('proyecto.index')->with('datos','Proyecto creado exitosamente.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto creado exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -75,12 +75,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('proyecto.index')->with('datos','Proyecto actualizado exitosamente.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto actualizado exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -97,12 +97,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('proyecto.index')->with('datos','Proyecto Dado de baja exitosamente.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto Dado de baja exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('proyecto.index')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -139,7 +139,7 @@ class ProyectoController extends Controller
         $detalle->codEmpleadoContador=$request->codEmpleadoConta;
         $detalle->save();
 
-        return redirect()->route('proyecto.listarContadores',$request->codProyecto);
+        return redirect()->route('GestiónProyectos.listarContadores',$request->codProyecto);
     }
 
     function eliminarContador($id){

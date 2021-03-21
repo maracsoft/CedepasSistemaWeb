@@ -81,7 +81,7 @@ class EmpleadoController extends Controller
         
         $empleado->save();
 
-        return redirect()->route('GestionUsuarios.listarEmpleados');
+        return redirect()->route('GestionUsuarios.listar');
     }
 
     public function editarEmpleado($id){
@@ -112,7 +112,7 @@ class EmpleadoController extends Controller
 
         $empleado->save();
 
-        return redirect()->route('GestionUsuarios.listarEmpleados');
+        return redirect()->route('GestionUsuarios.listar');
     }
 
     public function cesarEmpleado($id){

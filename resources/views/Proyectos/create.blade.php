@@ -45,7 +45,7 @@
     
 </script>
 
-<form id="frmempresa" name="frmempresa" role="form" action="{{route('proyecto.store')}}" 
+<form id="frmempresa" name="frmempresa" role="form" action="{{route('GestiónProyectos.store')}}" 
 class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
 
 @csrf 
@@ -135,7 +135,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
                             validarregistro();
                         });"><i class='fas fa-save'></i> Registrar</button> 
                         
-                        <a href="{{route('proyecto.index')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                        <a href="{{route('GestiónProyectos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     
                     </div>
 

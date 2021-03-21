@@ -21,12 +21,12 @@
     </div>
     <div class="col-md-2">
         <br>
-        <a  href="{{route('reposicionGastos.PDF',$reposicion->codReposicionGastos)}}" 
+        <a  href="{{route('ReposicionGastos.exportarPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right" style="margin-left:60px;">
             <i class="entypo-pencil"></i>
             PDF
           </a>
-        <a target="blank" href="{{route('reposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
+        <a target="blank" href="{{route('ReposicionGastos.verPDF',$reposicion->codReposicionGastos)}}" 
             class="btn btn-warning btn-sm btn-right">
             <i class="entypo-pencil"></i>
             verPDF
@@ -35,7 +35,7 @@
 </div>
 
 
-<form method = "POST" action = "{{route('reposicionGastos.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
@@ -291,7 +291,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('reposicionGastos.listarRepoOfJefe')}}" class='btn btn-info float-left'>
+                    <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> Regresar al Menú
                     </a>  
                     <!--
@@ -318,7 +318,7 @@
                         html : true
                     },
                     function(){
-                        window.location.href='{{route('reposicionGastos.abonar',$reposicion->codReposicionGastos)}}';
+                        window.location.href='{{route('ReposicionGastos.abonar',$reposicion->codReposicionGastos)}}';
                     });"><i class="fas fa-check"></i> Marcar como Abonada</a>
                     <!--<a href="" class="btn btn-danger float-right">
                         <i class="entypo-pencil"></i>
@@ -337,7 +337,7 @@
                         html : true
                     },
                     function(){//se ejecuta cuando damos a aceptar
-                        window.location.href='{{route('reposicionGastos.rechazar',$reposicion->codReposicionGastos)}}';
+                        window.location.href='{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}';
                     });"><i class="fas fa-times"></i> Rechazar</a> 
 
 
