@@ -365,7 +365,11 @@ class ReposicionGastosController extends Controller
 
     /**GERENTE DE PROYECTOS */
     public function listarOfGerente(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+
+
         $empleado=Empleado::getEmpleadoLogeado();
         $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
         $arr=[];
@@ -375,13 +379,20 @@ class ReposicionGastosController extends Controller
         
 
         if($codProyectoBuscar==0){
-            $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr)->paginate($this::PAGINATION);
-        }else
-            $reposiciones=ReposicionGastos::where('codProyecto','=',$codProyectoBuscar)->paginate($this::PAGINATION);
-        
+            $reposiciones=ReposicionGastos::whereIn('codProyecto',$arr);
+        }else{
+            $reposiciones=ReposicionGastos::where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar!=0){
+            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $reposiciones=$reposiciones->paginate($this::PAGINATION);
+
+
+        $empleados=Empleado::all();
         $proyectos=Proyecto::whereIn('codProyecto',$arr)->get();
 
-        return view('ReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
     }
 
 
@@ -421,9 +432,13 @@ class ReposicionGastosController extends Controller
     
     /**JEFE DE ADMINISTRACION */
     public function listarOfJefe(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+
         $empleado=Empleado::getEmpleadoLogeado();
        
+        //solo considera reposiciones hechas por empleados de su misma sede
         $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
         $arr2=[];
         foreach ($empleados as $itemempleado) {
@@ -434,14 +449,21 @@ class ReposicionGastosController extends Controller
 
 
         if($codProyectoBuscar==0){
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codEmpleadoSolicitante',$arr2)->paginate($this::PAGINATION);
-        }else
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codEmpleadoSolicitante',$arr2)->where('codProyecto','=',$codProyectoBuscar)->paginate($this::PAGINATION);
+            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr);
+        }else{
+            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar==0){
+            $reposiciones=$reposiciones->whereIn('codEmpleadoSolicitante',$arr2);
+        }else{
+            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $reposiciones=$reposiciones->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::all();
 
 
-        return view('ReposicionGastos.Jefe.listarJefe',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Jefe.listarJefe',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','codEmpleadoBuscar'));
     }
     public function viewJefe($id){
         /*
@@ -460,7 +482,10 @@ class ReposicionGastosController extends Controller
 
     /**CONTADOR */
     public function listarOfConta(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+
         $empleado=Empleado::getEmpleadoLogeado();
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
         //$proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
@@ -472,13 +497,20 @@ class ReposicionGastosController extends Controller
         
 
         if($codProyectoBuscar==0 || $codProyectoBuscar==null){
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codProyecto',$arr2)->paginate($this::PAGINATION);
-        }else
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->where('codProyecto','=',$codProyectoBuscar)->paginate($this::PAGINATION);
+            //solo proyectos en el que esta participando
+            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->whereIn('codProyecto',$arr2);
+        }else{
+            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar!=0){
+            $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $reposiciones=$reposiciones->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
+        $empleados=Empleado::all();
 
-        return view('ReposicionGastos.Contador.listarCont',compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+        return view('ReposicionGastos.Contador.listarCont',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
     }
     public function viewConta($id){
         $reposicion=ReposicionGastos::find($id);

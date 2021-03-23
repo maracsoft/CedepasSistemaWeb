@@ -100,8 +100,8 @@ Route::get('/SolicitudFondos/Empleado/editar/{id}','SolicitudFondosController@ed
 ->name('SolicitudFondos.Empleado.Edit');
 
 
-Route::get('/SolicitudFondos/Empleado/delete/{id}','SolicitudFondosController@delete')
-->name('SolicitudFondos.Empleado.Delete');
+Route::get('/SolicitudFondos/Empleado/delete/{id}','SolicitudFondosController@cancelar')
+->name('SolicitudFondos.Empleado.cancelar');
 
 Route::get('/SolicitudFondos/Administracion/reportes/','SolicitudFondosController@reportes')
 ->name('solicitudFondos.reportes');

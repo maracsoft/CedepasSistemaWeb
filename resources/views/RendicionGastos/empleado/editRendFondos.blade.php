@@ -485,7 +485,7 @@ enctype="multipart/form-data" id="frmrend" name="frmrend">
     
         $(document).ready(function(){
             cargarDetallesRendicion();
-    
+            document.getElementById('codigoPresupuestal').placeholder = codPresupProyecto + "...";
         });
         
         var listaArchivos = '';  

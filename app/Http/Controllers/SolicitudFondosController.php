@@ -642,10 +642,28 @@ class SolicitudFondosController extends Controller
         }
     }
 
-    public function delete($id){ //para borrar una solicitud desde el index
-        $sol = SolicitudFondos::findOrFail($id);
-        $cod = $sol->codigoCedepas;
-        $sol->delete();
+    public function cancelar($id){ //para borrar una solicitud desde el index
+
+        try {
+            DB::beginTransaction();
+            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Cancelada');
+            $solicitud->save();
+            DB::commit();
+
+            return redirect()->route('SolicitudFondos.empleado.listar')
+                ->with('datos','Se ha cancelado la solicitud '.$solicitud->codigoCedepas);
+            
+        } catch (\Throwable $th) {
+            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER DELETE',$th);
+
+            return redirect()->route('SolicitudFondos.empleado.listar')
+                ->with('datos','Ha ocurrido un error: ');
+            
+        }
+
+
+        
 
         return redirect()->route('SolicitudFondos.empleado.listar')->with('datos','Se eliminó el registro'.$cod);
     }

@@ -126,9 +126,9 @@ margin-top: 18px;
 
                   
                   <h3 style="font-size: 14pt;">
-                    {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->totalSolicitado  }}
+                    {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}
                     @if($itemSolicitud->estaRendida())
-                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->getRendicion()->totalImporteRendido}}
+                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format( $itemSolicitud->getRendicion()->totalImporteRendido,2 )}}
                     @endif
                   </h3>
                 </td>
@@ -172,14 +172,11 @@ margin-top: 18px;
                         @case(App\SolicitudFondos::getCodEstado('Subsanada')) {{-- Si ya subsano las observaciones --}}
                                 {{-- MODIFICAR RUTAS DE Delete y Edit --}}
                             <a href="{{route('SolicitudFondos.Empleado.Edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <!--
-                            <a href="" class = "btn btn-danger"> 
-                                <i class="fas fa-trash-alt"> </i> 
-                                  Eliminar
-                            </a>
-                            -->
+                            
+
+
                             <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
-                                  title:'¿Está seguro de eliminar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
+                                  title:'¿Está seguro de cancelar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
                                   //type: 'warning',  
                                   type: 'warning',
                                   showCancelButton: true,//para que se muestre el boton de cancelar
@@ -191,7 +188,7 @@ margin-top: 18px;
                                   html : true
                               },
                               function(){//se ejecuta cuando damos a aceptar
-                                window.location.href='/solicitudes/delete/{{$itemSolicitud->codSolicitud}}';
+                                window.location.href='{{route('SolicitudFondos.Empleado.cancelar',$itemSolicitud->codSolicitud)}}';
                               });"><i class="fas fa-trash-alt"> </i></a>
                               
                             @break

@@ -415,22 +415,15 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
 
-
         var cont=0;
-        
-        var IGV=0;
         var total=0;
         var detalleRend=[];
-        var importes=[];
-        var controlproducto=[];
-        var totalSinIGV=0;
-        var saldoFavEmpl=0;
         var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
 
 
         $(document).ready(function(){
             
-    
+            document.getElementById('codigoPresupuestal').placeholder = codPresupProyecto + "...";
         });
 
         function registrar(){

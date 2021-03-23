@@ -43,11 +43,19 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-10">
-      <form class="form-inline float-right">
+    <div class="col-md-12">
+      <form class="form-inline">
+        <label for="">Empleado: </label>
+        <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
+          <option value="0">- Seleccione Empleado -</option>          
+          @foreach($empleados as $itemempleado)
+            <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
+          @endforeach
+        </select> 
+
+      
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
-          <option value="0">--Seleccionar--</option>
+          <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
               <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
                   {{$itemproyecto->nombre}}
@@ -55,6 +63,9 @@
           @endforeach 
         </select>
         <button class="btn btn-success " type="submit">Buscar</button>
+       
+
+
       </form>
     </div>
   </div>
@@ -84,7 +95,7 @@
                 <th scope="col">Fecha emision</th>
                 <th scope="col">Fecha Gerente</th>
                 <th scope="col">Banco</th>
-                <th scope="col">Empleado Evaluador</th>
+                <th scope="col">Empleado Solicitante</th>
                 <th scope="col">Proyecto</th>
                 <th scope="col">Total Solicitado</th>
                 <th scope="col">Estado</th>
@@ -106,7 +117,7 @@
                 <td>{{$itemreposicion->fechaEmision  }}</td>
                 <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente}}</td>
                 <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-                <td>{{$itemreposicion->evaluador()->apellidos}}, {{$itemreposicion->evaluador()->nombres}}</td>
+                <td>{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
                 <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
                 <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
                 <td style="text-align: center">
