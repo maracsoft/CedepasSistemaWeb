@@ -95,7 +95,7 @@
                         <label for="fecha">Cod Rendicion:</label>
                     </div>
                     <div class="col">
-                         <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codigoCedepas}}">     
+                         <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     
                     </div>
 
 

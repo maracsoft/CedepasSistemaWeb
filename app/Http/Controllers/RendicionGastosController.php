@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Debug;
 use App\Numeracion;
+use App\ProyectoContador;
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Style\Font;
@@ -61,81 +62,180 @@ class RendicionGastosController extends Controller
 
     }
 
-    public function listarContador(){
+    public function listarContador(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
+
         $empleado = Empleado::getEmpleadoLogeado();
-        
-        //AQUI FALTA PREGUNTAR EL FILTRO POR EL QUE SE ORDENARAN Y APARECERAN PARA CADA CONTADOR
-        
-        //solo ver las que estan aprobadas (pa contabilizar)
-        $listaRendiciones = RendicionGastos::
-            where('codEstadoRendicion','=',RendicionGastos::getCodEstado('Aprobada') )
-            ->orwhere('codEstadoRendicion','=',RendicionGastos::getCodEstado('Contabilizada'))
-            ->get();
-        
-        //ordena la coleccion ascendentemente
-        $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
 
-        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
-        $listaRendiciones=$listaRendiciones->paginate($this::PAGINATION);
-        $buscarpor = '';
-        return view('RendicionGastos.contador.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        //solicitudes de un proyecto (filtro)
+        $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();
+        $arr1=[];
+        foreach ($solicitudesDeProyecto as $item) {
+            $arr1[]=$item->codSolicitud;
+        }
+
+        //proyectos del contador
+        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $arr2=[];
+        foreach ($detalles as $itemproyecto) {
+            $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$itemproyecto->codProyecto)->get();
+            foreach ($solicitudesDeProyecto as $item) {
+                $arr2[]=$item->codSolicitud;
+            }
+        }
+
+        $estados =[];
+        array_push($estados,SolicitudFondos::getCodEstado('Aprobada') );
+        array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
+
+        $listaRendiciones = RendicionGastos::whereIn('codEstadoRendicion',$estados);
+        if($codProyectoBuscar==0){
+            $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr2);
+        }else{
+            $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr1);
+        }
+        if($codEmpleadoBuscar!=0){
+            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion','ASC')->paginate($this::PAGINATION);
         
+        //proyectos disponibles
+        $arr2=[];
+        foreach ($detalles as $itemproyecto) {
+            $arr2[]=$itemproyecto->codProyecto;
+        }
+        $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
+        $empleados=Empleado::all();
 
 
+
+
+
+        return view('RendicionGastos.contador.listarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
     }
 
 
     //retorna todas las rendiciones, tienen prioridad de ordenamiento las que están esperando reposicion
-    public function listarJefeAdmin(){
-        $listaRendiciones = RendicionGastos::where('codEstadoRendicion','>','0')
-            ->orderby('codEstadoRendicion','ASC')
-            ->get();
+    public function listarJefeAdmin(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
 
-        $buscarpor = '';
         $empleado = Empleado::getEmpleadoLogeado();
-        return view('RendicionGastos.administracion.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+        //solo considera reposiciones hechas por empleados de su misma sede
+        $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
+        $arr2=[];
+        foreach ($empleados as $itemempleado) {
+            $arr2[]=$itemempleado->codEmpleado;
+        }
+
+        //solicitudes de un proyecto (filtro)
+        $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();
+        $arr1=[];
+        foreach ($solicitudesDeProyecto as $item) {
+            $arr1[]=$item->codSolicitud;
+        }
+
+        $listaRendiciones = RendicionGastos::where('codEstadoRendicion','>','0');
+        if($codProyectoBuscar!=0){
+            $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr1);
+        }
+        if($codEmpleadoBuscar==0){
+            $listaRendiciones=$listaRendiciones->whereIn('codEmpleadoSolicitante',$arr2);
+        }else{
+            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $listaRendiciones=$listaRendiciones->orderby('codEstadoRendicion','ASC')->paginate($this::PAGINATION);
+        
+        $proyectos=Proyecto::all();
+
+        
+        return view('RendicionGastos.administracion.listarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
 
     //lista todas las rendiciones del gerente (pertenecientes a los  proyectos que este lidera)
-    public function listarDelGerente(){
+    public function listarDelGerente(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
         
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
         
-        $listaRendiciones = $empleado->getListaRendicionesGerente();
-        //ordena la coleccion ascendentemente
-        $listaRendiciones=$listaRendiciones->sortBy('codEstadoRendicion');
+        //solicitudes de un proyecto (filtro)
+        $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();
+        $arr1=[];
+        foreach ($solicitudesDeProyecto as $item) {
+            $arr1[]=$item->codSolicitud;
+        }
+        //proyectos del gerente
+        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
+        $arr2=[];
+        foreach ($proyectos as $itemproyecto) {
+            $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$itemproyecto->codProyecto)->get();
+            foreach ($solicitudesDeProyecto as $item) {
+                $arr2[]=$item->codSolicitud;
+            }
+        }
 
-        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        if($codProyectoBuscar==0){
+            $listaRendiciones=RendicionGastos::whereIn('codSolicitud',$arr2);
+        }else{
+            $listaRendiciones=RendicionGastos::whereIn('codSolicitud',$arr1);
+        }
+        if($codEmpleadoBuscar!=0){
+            $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
         $listaRendiciones=$listaRendiciones->paginate($this::PAGINATION);
-        
-        $buscarpor = '';
+        $empleados=Empleado::all();
 
-        return view('RendicionGastos.gerente.listarRendiciones',compact('listaRendiciones','empleado','buscarpor'));
+
+        return view('RendicionGastos.gerente.listarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
     //retorna las rendiciones del emp logeado, tienen prioridad de ordenamiento las que están esperando reposicion
-    public function listarEmpleado(){
+    public function listarEmpleado(Request $request){
+        $codProyectoBuscar=$request->codProyectoBuscar;
         $empleado = Empleado::getEmpleadoLogeado();
         //primero agarramos las solicitudes del empleado logeado
-        $listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-            ->get();
+        //$listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)->get();
 
         
         $listaSolicitudesPorRendir = $empleado->getSolicitudesPorRendir();
+        //solicitudes de un proyecto
+        $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();
+        $arr=[];
+        foreach ($solicitudesDeProyecto as $item) {
+            $arr[]=$item->codSolicitud;
+        }
+
         $listaRendiciones = RendicionGastos::
             where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
             ->orderBy('codEstadoRendicion')    
             ->get();
+
+        if($codProyectoBuscar==0){
+            $listaRendiciones= RendicionGastos::
+                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
+                ->orderBy('codEstadoRendicion')
+                ->paginate($this::PAGINATION);
+        }else
+            $listaRendiciones= RendicionGastos::
+                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
+                ->whereIn('codSolicitud',$arr)
+                ->orderBy('codEstadoRendicion')
+                ->paginate($this::PAGINATION);
+        $proyectos=Proyecto::all();
+
         
-        $buscarpor = '';
-        //return $listaRendiciones;
         return view('RendicionGastos.empleado.listarRendiciones',
-            compact('listaRendiciones','empleado','buscarpor','listaSolicitudesPorRendir'));
+            compact('listaRendiciones','empleado','listaSolicitudesPorRendir','proyectos','codProyectoBuscar'));
         
     }
 
@@ -235,7 +335,7 @@ class RendicionGastosController extends Controller
 
 
 
-    //despliega vista de edicion
+    //despliega vista de edicion EMPLEADO de la rend
     public function editar($idRendicion){
         $rendicion = RendicionGastos::findOrFail($idRendicion);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
@@ -243,6 +343,7 @@ class RendicionGastosController extends Controller
         return view('RendicionGastos.empleado.editRendFondos',compact('rendicion','solicitud','listaCDP'));
 
     }
+
 
 
     public function revisar($id){ //le pasamos la id de la rendicion de gastos
@@ -291,19 +392,27 @@ class RendicionGastosController extends Controller
     }
 
     
-    public function aprobar($codRendicion){
+    public function aprobar(Request $request){
         try{
 
             DB::beginTransaction();
-            error_log('cod rend = '.$codRendicion);
-            $rendicion = RendicionGastos::findOrFail($codRendicion);
+           
+            $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
             
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
             $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $rendicion->fechaHoraRevisado = Carbon::now();
-
+            
+            $rendicion->resumenDeActividad = $request->resumen;
             $rendicion->save();
+
+            $listaDetalles = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
+            foreach($listaDetalles as $itemDet){
+                $itemDet->codigoPresupuestal = $request->get('CodigoPresupuestal'.$itemDet->codDetalleRendicion);
+                $itemDet->save();
+            }
+
             DB::commit();
             return redirect()->route('rendicionGastos.listarRendiciones')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Aprobada');

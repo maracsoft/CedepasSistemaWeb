@@ -17,9 +17,12 @@
             @else 
                 Ver
             @endif
-            
-            
-            Reposicion de Gastos
+                Reposicion de Gastos
+
+                <div style="text-align: center; align-items:center; font-size:20pt; float:right;">   
+                    <input type="checkbox"  onclick="desOactivarEdicion()">
+                    Activar Edición
+                </div>
         </p>
     </div>
     <div class="col-md-2">
@@ -38,7 +41,8 @@
 </div>
 
 
-<form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
+<form method = "POST" action = "{{route('ReposicionGastos.Gerente.aprobar')}}" onsubmit="return validarTextos()"   id="frmRepo"
+    enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
@@ -106,7 +110,7 @@
 
                     @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
  
-                    <a href="#" class="btn btn-success float-right" onclick="actualizarEstado('¿Seguro de aceptar la reposicion?', 'Aceptar')">
+                    <a href="#" class="btn btn-success float-right" onclick="aprobar()">
                         <i class="fas fa-check"></i> Aceptar</a>
                     <!--<a href="" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  -->
                     <a href="#" class="btn btn-danger float-right" style="margin-right:5px;"onclick="actualizarEstado('¿Seguro de rechazar la reposicion?', 'Rechazar')">
@@ -148,10 +152,6 @@
 background-color:rgb(97, 170, 170);
 }
 
-/* PARA MI MENU DESPLEGABLE NUEVO */
-
-
-
 
 
 </style>
@@ -164,6 +164,13 @@ background-color:rgb(97, 170, 170);
     <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
 
+        const textResum = document.getElementById('resumen');
+        var codPresupProyecto = "{{$reposicion->getProyecto()->codigoPresupuestal}}";
+
+        $(document).ready(function(){
+            textResum.classList.add('inputEditable');
+            
+        });
 
         function actualizarEstado(msj, action){
             swal({//sweetalert
@@ -183,9 +190,7 @@ background-color:rgb(97, 170, 170);
                     case 'Observar':
                         observar();
                         break;
-                    case 'Aceptar':
-                        window.location.href="{{route('ReposicionGastos.aprobar',$reposicion->codReposicionGastos)}}";
-                        break;
+                  
                     case 'Rechazar':
                         window.location.href="{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}";    
                         break;
@@ -210,56 +215,75 @@ background-color:rgb(97, 170, 170);
 
         
 
+ 
+     
 
-        var cont=0;
-        
-        //var IGV=0;
-        var total=0;
-        var detalleRend=[];
-        //var importes=[];
-        //var controlproducto=[];
-        //var totalSinIGV=0;
-        //var saldoFavEmpl=0;
-
+    
         
 
-        function alertaArchivo(){
-            alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
+        function validarEdicion(){
+            msj="";
+            
+            if(textResum.value=='')
+                msj= "Debe ingresar el resumen de la actividad";
+            
+            
+            i=1;
+            @foreach ($detalles as $itemDetalle)
+                
+                inputt = document.getElementById('CodigoPresupuestal{{$itemDetalle->codDetalleReposicion}}');
+                if(!inputt.value.startsWith(codPresupProyecto) )
+                    msj= "El codigo presupuestal del item " + i + " no coincide con el del proyecto ["+ codPresupProyecto +"] .";
+                i++;
+            @endforeach
+
+
+            return msj;
+        }
+
+        function aprobar(){
+            msje = validarEdicion();
+            if(msje!="")
+                {
+                    alerta(msje);
+                    return false;
+                }
+            console.log('TODO OK');
+            confirmar('¿Está seguro de Aceptar la Reposicion?','info','frmRepo');
+            
 
         }
 
-        function cadAleatoria(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var abecedario = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            var charactersLength = characters.length;
-            var abecedarioLength = abecedario.length;
-            for ( var i = 0; i < length; i++ ) {
-                if(i==0)//primer caracter fijo letra
-                    result += abecedario.charAt(Math.floor(Math.random() * abecedarioLength));
-                else//los demas da igual que sean numeros
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
 
-            }
-            return result;
+
+
+
+        var edicionActiva = false;
+        function desOactivarEdicion(){
+            
+            console.log('Se activó/desactivó la edición : ' + edicionActiva);
+            
+            
+
+            @foreach ($detalles as $itemDetalle)
+                inputt = document.getElementById('CodigoPresupuestal{{$itemDetalle->codDetalleReposicion}}');
+                
+                if(edicionActiva){
+                    inputt.classList.add('inputEditable');
+                    inputt.setAttribute("readonly","readonly",false);
+                    textResum.setAttribute("readonly","readonly",false);
+                }else{
+                    inputt.classList.remove('inputEditable');
+                    inputt.removeAttribute("readonly"  , false);
+                    textResum.removeAttribute("readonly"  , false);
+                    
+                }
+            @endforeach
+            edicionActiva = !edicionActiva;
+            
+            
         }
-    
-        function number_format(amount, decimals) {
-            amount += ''; // por si pasan un numero en vez de un string
-            amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-            decimals = decimals || 0; // por si la variable no fue fue pasada
-            // si no es un numero o es igual a cero retorno el mismo cero
-            if (isNaN(amount) || amount === 0) 
-                return parseFloat(0).toFixed(decimals);
-            // si es mayor o menor que cero retorno el valor formateado como numero
-            amount = '' + amount.toFixed(decimals);
-            var amount_parts = amount.split('.'),
-                regexp = /(\d+)(\d{3})/;
-            while (regexp.test(amount_parts[0]))
-                amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-            return amount_parts.join('.');
-        }
-    
+
     
     </script>
      

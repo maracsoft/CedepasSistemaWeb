@@ -75,7 +75,7 @@ Route::get('/SolicitudFondos/descargarComprobanteAbono/{id}','SolicitudFondosCon
     
 
 
-Route::get('/SolicitudFondos/Gerente/Aprobar/{id}','SolicitudFondosController@aprobar')
+Route::Post('/SolicitudFondos/Gerente/Aprobar/','SolicitudFondosController@aprobar')
     ->name('SolicitudFondos.Gerente.Aprobar');
     
 Route::get('/SolicitudFondos/Contador/Contabilizar/{id}','SolicitudFondosController@contabilizar')
@@ -142,10 +142,12 @@ Route::Post('/RendicionGastos/Empleado/update/','RendicionGastosController@updat
 ->name('RendicionGastos.Empleado.Update');
 
 
-Route::get('/RendicionGastos/{id}/revisar','RendicionGastosController@revisar')
+Route::get('/RendicionGastos/{id}/Gerente/revisar','RendicionGastosController@revisar')
 ->name('RendicionGastos.Gerente.Revisar');
 
-Route::get('/RendicionGastos/{id}/aprobar','RendicionGastosController@aprobar')
+
+
+Route::Post('/RendicionGastos/Gerente/aprobar','RendicionGastosController@aprobar')
 ->name('RendicionGastos.Gerente.Aprobar');
 
 Route::get('/RendicionGastos/{id}/rechazar','RendicionGastosController@rechazar')
@@ -268,7 +270,7 @@ Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@vi
 
 
 /**RUTA MAESTRA PARA ESTADOS */
-Route::get('/ReposicionGastos/{id}/Aprobar','ReposicionGastosController@aprobar')->name('ReposicionGastos.aprobar');
+Route::Post('/ReposicionGastos/Gerente/Aprobar','ReposicionGastosController@aprobar')->name('ReposicionGastos.Gerente.aprobar');
 Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')->name('ReposicionGastos.rechazar');
 Route::get('/ReposicionGastos/{id}/Observar','ReposicionGastosController@observar')->name('ReposicionGastos.observar');//usa la ruta no el name
 Route::get('/ReposicionGastos/{id}/Abonar','ReposicionGastosController@abonar')->name('ReposicionGastos.abonar');

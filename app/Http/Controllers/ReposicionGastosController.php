@@ -522,15 +522,31 @@ class ReposicionGastosController extends Controller
 
 
 
-    public function aprobar($id){//gerente
+    public function aprobar(Request $request){//gerente
+        //return $request;
         try{
             DB::beginTransaction();
-            $reposicion=ReposicionGastos::find($id);
+            $reposicion=ReposicionGastos::find($request->codReposicionGastos);
             $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Aprobada');
             $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
+            $reposicion->resumen = $request->resumen;
             $reposicion->fechaHoraRevisionGerente=new DateTime();
             $reposicion->save();
+
+            
+            $listaDetalles = DetalleReposicionGastos::where('codReposicionGastos','=',$reposicion->codReposicionGastos)->get();
+            foreach($listaDetalles as $itemDetalle ){
+                $itemDetalle->codigoPresupuestal = $request->get('CodigoPresupuestal'.$itemDetalle->codDetalleReposicion);
+                $itemDetalle->save();
+            }
+
+
             DB::commit();
+            
+            
+            
+            
+            
             //return redirect()->route('ReposicionGastos.Gerente.listar')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
             return redirect()->route('ReposicionGastos.listar')->with('datos','Se aprobo correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){

@@ -24,6 +24,8 @@ use PhpParser\Node\Expr\Throw_;
 use App\Moneda;
 use App\Debug;
 use App\Numeracion;
+use App\ProyectoContador;
+
 class SolicitudFondosController extends Controller
 
 
@@ -153,7 +155,9 @@ class SolicitudFondosController extends Controller
     Las que están rendidas (para que las registre)
 */
     public function listarSolicitudesParaJefe(Request $request){
-        
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
         
         $empleado = Empleado::getEmpleadoLogeado();
         /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
@@ -165,43 +169,64 @@ class SolicitudFondosController extends Controller
         array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
         
       
-        //error_log($array);
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codEstadoSolicitud',$estados);
+        if($codProyectoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('fechaHoraEmision','DESC')->paginate($this::PAGINATION);
 
-        $listaSolicitudesFondos = SolicitudFondos::
-            whereIn('codEstadoSolicitud',$estados)
-            ->orderBy('fechaHoraEmision','DESC')
-            ->paginate()
-            ;
 
-
-        $buscarpor = "";
+        $proyectos=Proyecto::all();
+        $empleados=Empleado::all();
 
         $listaBancos = Banco::All();
 
-        return view('SolicitudFondos.administracion.listarSolicitudes',compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('SolicitudFondos.administracion.listarSolicitudes',compact('empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado'));
     }
 
-    public function listarSolicitudesParaContador(){
-        
+    public function listarSolicitudesParaContador(Request $request){
+        //filtros
+        $codEmpleadoBuscar=$request->codEmpleadoBuscar;
+        $codProyectoBuscar=$request->codProyectoBuscar;
+
         $empleado = Empleado::getEmpleadoLogeado();
 
         $estados =[];
         array_push($estados,SolicitudFondos::getCodEstado('Abonada') );
         array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
-     
 
-        $listaSolicitudesFondos = SolicitudFondos::
-            whereIn('codEstadoSolicitud',$estados)
-            ->orderBy('fechaHoraEmision','DESC')
-            ->paginate()
-            ;
+        //para ver que proyectos tiene el contador
+        $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        $arr2=[];
+        foreach ($detalles as $itemproyecto) {
+            $arr2[]=$itemproyecto->codProyecto;
+        }
 
 
-        $buscarpor = "";
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codEstadoSolicitud',$estados);
+        if($codProyectoBuscar==0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->whereIn('codProyecto',$arr2);
+        }else{
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
+        }
+        if($codEmpleadoBuscar!=0){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+        }
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('fechaHoraEmision','DESC')->paginate($this::PAGINATION);
+        
+
+        $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
+        $empleados=Empleado::all();
+
+        
         $listaBancos = Banco::All();
 
         return view('SolicitudFondos.contador.listarSolicitudes',
-            compact('buscarpor','listaSolicitudesFondos','listaBancos','empleado'));
+            compact('listaSolicitudesFondos','listaBancos','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
     
     }
 
@@ -240,20 +265,28 @@ class SolicitudFondosController extends Controller
         return view('SolicitudFondos.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
-    public function aprobar( $id){
+    public function aprobar(Request $request){
 
         try 
         {
             DB::beginTransaction();
-            $solicitud = SolicitudFondos::findOrFail($id);
+            $solicitud = SolicitudFondos::findOrFail($request->codSolicitud);
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Aprobada');
             $solicitud->observacion = '';
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
             $solicitud->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $solicitud->fechaHoraRevisado = Carbon::now();
-
+            $solicitud->justificacion = $request->justificacion;
             $solicitud->save();
+
+            $listaDetalles = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
+            foreach($listaDetalles as $itemDetalle){
+                $itemDetalle->codigoPresupuestal = $request->get('CodigoPresupuestal'.$itemDetalle->codDetalleSolicitud);
+                $itemDetalle->save();
+                
+            }
+
 
             DB::commit();
             return redirect()->route('solicitudFondos.listarSolicitudes')

@@ -186,7 +186,9 @@
                     </td>          
 
                     <td style="text-align:center;">               
-                    <input type="text" class="form-control" name="colCodigoPresupuestal{{$itemDetalle->nroItem}}" id="colCodigoPresupuestal{{$itemDetalle->nroItem}}" value="{{$itemDetalle->codigoPresupuestal}}" readonly="readonly">
+                    <input type="text" class="form-control" name="CodigoPresupuestal{{$itemDetalle->codDetalleSolicitud}}" 
+                        id="CodigoPresupuestal{{$itemDetalle->codDetalleSolicitud}}" value="{{$itemDetalle->codigoPresupuestal}}" 
+                        readonly>
                     </td>               
                     
                 </tr>                

@@ -93,7 +93,7 @@
                     <div class="col">
                         <label for="fecha">Resumen de la actividad</label>
                         <textarea class="form-control" name="resumen" id="resumen" 
-                            aria-label="With textarea" style="resize:none; height:50px;" disabled
+                            aria-label="With textarea" style="resize:none; height:50px;" readonly
                             >{{$reposicion->resumen}}</textarea>
         
                     </div>
@@ -169,7 +169,12 @@
                     <td>{{$itemdetalle->nroComprobante}}</td>
                     <td>{{$itemdetalle->concepto}}</td>
                     <td>{{number_format($itemdetalle->importe,2)}}</td>
-                    <td>{{$itemdetalle->codigoPresupuestal}}</td>
+                    <td>
+                        <input class="form-control" type="text" name="CodigoPresupuestal{{$itemdetalle->codDetalleReposicion}}" id="CodigoPresupuestal{{$itemdetalle->codDetalleReposicion}}" 
+                        value="{{$itemdetalle->codigoPresupuestal}}" readonly>
+                        
+
+                    </td>
                 </tr>
             @endforeach
         </tbody>
