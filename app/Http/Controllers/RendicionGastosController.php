@@ -374,7 +374,7 @@ class RendicionGastosController extends Controller
     }
 
     function descargarSapito(){
-        return Storage::download("comprobantes/rendiciones/buenas.m4v");
+        return Storage::download("comprobantes/rendiciones/Cupones.png");
     }
 
     //descarga el archivo que subió el empleado pq le sobró dinero  
