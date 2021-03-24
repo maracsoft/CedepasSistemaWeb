@@ -16,7 +16,7 @@
             @for($i = 1; $i <= $reposicion->cantArchivos; $i++)
             <tr>
                <td style = "padding: 0.50rem">
-                <a href="{{route('ReposicionGastos.descargarCDP',$reposicion->codreposicionGastos.'*'.$i)}}">
+                <a href="{{route('ReposicionGastos.descargarCDP',$reposicion->codReposicionGastos.'*'.$i)}}">
                
                       <i id="" class="far fa-address-card nav-icon"></i>
                       {{App\ReposicionGastos::getFormatoNombreCDP(

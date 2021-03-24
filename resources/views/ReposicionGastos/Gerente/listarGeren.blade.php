@@ -120,14 +120,14 @@
         {{--     varQuePasamos  nuevoNombre                        --}}
         @foreach($reposiciones as $itemreposicion)
 
-      
+            
             <tr>
               <td>{{$itemreposicion->codigoCedepas  }}</td>
                 <td>{{$itemreposicion->fechaEmision  }}</td>
                 <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
                 <td>{{$itemreposicion->getEmpleadoSolicitante()->getNombreCompleto()}}</td>
                 <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
-                <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
+                <td>{{$itemreposicion->getMoneda()->simbolo}} {{number_format($itemreposicion->monto(),2)}}</td>
                 <td style="text-align: center">
                   <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
                   style="background-color: {{$itemreposicion->getColorEstado()}};

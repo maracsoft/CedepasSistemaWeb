@@ -24,7 +24,7 @@
 		@csrf  
 		<div class="login-html">
 			<input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-				<label for="tab-1" class="tab">Iniciar Sesión</label>
+				<label for="tab-1" class="tab" style="font-size: xx-large">Iniciar Sesión</label>
 
 
 			<input id="tab-2" type="radio" name="tab" class="sign-up">
@@ -34,14 +34,24 @@
 			<div class="login-form">
 				<div class="sign-in-htm">
 					<div class="group">
-						<label for="user" class="label">Usuario</label>
-						<input type="text" class="input" placeholder="Ingrese usuario" 
+						<label for="user" class="label" style="font-size: medium">Usuario</label>
+						<input type="text" class="input @error('usuario') is-invalid @enderror" placeholder="Ingrese usuario" 
 							id="usuario" name="usuario" value="{{old('usuario')}}">
+						@error('usuario')
+						<span class="invalid-feedback" role="alert" style="font-size: small">
+							<strong>{{$message}}</strong>
+						</span>
+						@enderror
 					</div>
 					<div class="group">
-						<label for="pass" class="label">Contraseña</label>
+						<label for="pass" class="label" style="font-size: medium">Contraseña</label>
 						<input placeholder="Ingrese contraseña"  id="password" name="password"
-							type="password" class="input" data-type="password">
+							type="password" class="input @error('password') is-invalid @enderror" data-type="password">
+						@error('password')
+						<span class="invalid-feedback" role="alert" style="font-size: small">
+							<strong>{{$message}}</strong>
+						</span>
+						@enderror
 					</div>
 				
 					<div class="group">

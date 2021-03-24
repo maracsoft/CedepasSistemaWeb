@@ -124,9 +124,9 @@
                 <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td> 
                   <h3 style="font-size: 14pt;">
-                    {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->totalSolicitado  }}
+                    {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}
                     @if($itemSolicitud->estaRendida())
-                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{$itemSolicitud->getRendicion()->totalImporteRendido}}
+                      // {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->getRendicion()->totalImporteRendido,2)}}
                     @endif
                   </h3>
                 </td>

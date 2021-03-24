@@ -116,7 +116,7 @@
                 <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td> {{$itemSolicitud->getNombreProyecto()}} </td>
                 <td> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
-                <td>{{$itemSolicitud->totalSolicitado  }}</td>
+                <td>{{$itemSolicitud->getMoneda()->simbolo}} {{number_format($itemSolicitud->totalSolicitado,2)  }}</td>
                 
           
                 <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>

@@ -51,7 +51,7 @@ class UserController extends Controller
                 
                 }
                 else{
-                    return back()->withErrors(['password'=>'Contraseña no válido'])->withInput([request('password')]);
+                    return back()->withErrors(['password'=>'Contraseña no válida'])->withInput([request('password')]);
                 }                
             }
             else

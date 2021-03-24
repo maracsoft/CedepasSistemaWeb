@@ -53,10 +53,99 @@
 
     </ul>
     
-    <!-- SEARCH FORM -->
-
     
-    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
+      
+      {{-- CARRITO EN NOTIFICACIONES --}}
+      <li class="nav-item dropdown">
+        <?php 
+            $solicitudesPorRendirr = App\Empleado::getEmpleadoLogeado()->getSolicitudesPorRendir();
+            $solicitudesObservadas = App\Empleado::getEmpleadoLogeado()->getSolicitudesObservadas();
+        ?>
+
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fab fa-stripe-s"></i>
+          <span class="badge badge-danger navbar-badge">
+            {{count($solicitudesPorRendirr)}}
+          </span>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          @if(count($solicitudesPorRendirr)==0)
+            <a href="#" class="dropdown-item dropdown-footer">
+              No tiene Solicitudes por rendir.
+            </a>
+          @else
+            <a href="#" class="dropdown-item dropdown-footer">
+              Solicitudes por Rendir
+            </a>
+            @foreach($solicitudesPorRendirr as $detalleSolXRendir)
+              <div class="dropdown-divider"></div>
+              {{-- PONER COLORES INTERCALADOS AQUI --}}
+
+              <a href="" class="dropdown-item">
+                <div class="media" >
+                    <h3 class="dropdown-item-title">
+                      {{$detalleSolXRendir->codigoCedepas}}
+                      <span class="float-right text-sm text-warning"></span>
+                    </h3>
+                    
+                    <p class="text-sm">
+                      &nbsp; por {{$detalleSolXRendir->getMoneda()->simbolo}}
+                        {{number_format($detalleSolXRendir->totalSolicitado,2)}}
+                      
+                    </p>
+                </div>
+              </a>
+            @endforeach
+          @endif  
+
+
+
+          @if(count($solicitudesObservadas)>0)
+            <a href="" class="dropdown-item dropdown-footer">
+              Solicitudes Observadas
+            </a>
+            @foreach($solicitudesObservadas as $itemSolObserv)
+              <div class="dropdown-divider"></div>
+              {{-- PONER COLORES INTERCALADOS AQUI --}}
+
+              <a href="" class="dropdown-item">
+                <div class="media" >
+                    <h3 class="dropdown-item-title">
+                      {{$itemSolObserv->codigoCedepas}}
+                      <span class="float-right text-sm text-warning"></span>
+                    </h3>
+                    
+                    <p class="text-sm">
+                      &nbsp; por {{$itemSolObserv->getMoneda()->simbolo}}
+                        {{number_format($itemSolObserv->totalSolicitado,2)}}
+                      
+                    </p>
+                </div>
+              </a>
+            @endforeach
+          @endif
+
+        </div>
+
+
+      </li>  
+      {{-- finnnnnnnnnnnnnnnnnn DE CARRITO   --}}
+
+      
+
+    </ul>
+    
+
+
+
+
+
+
+
+
     
   </nav>
   <!-- /.navbar -->
@@ -141,9 +230,9 @@
  
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <!--<aside class="control-sidebar control-sidebar-dark">-->
     <!-- Control sidebar content goes here -->
-  </aside>
+  <!--</aside>-->
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
@@ -166,8 +255,8 @@
 <!-- LIBRERIAS PARA NOTIFICACION DE ELIMINACION--->
 <script src="/adminlte/dist/js/sweetalert.min.js"></script>
 
-<script src="/calendario/js/bootstrap-datepicker.min.js"></script>
-<script src="/calendario/locales/bootstrap-datepicker.es.min.js"></script>
+<script src="/calendario/js/bootstrap-datepicker.js"></script>
+
 <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>

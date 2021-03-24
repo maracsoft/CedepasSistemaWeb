@@ -19,6 +19,9 @@ class Empleado extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codUsuario','nombres','apellidos','activo','codigoCedepas','dni','codPuesto','fechaRegistro','fechaDeBaja','codSede'];
 
+
+
+
     public function getSolicitudesPorRendir(){
         $vector = [SolicitudFondos::getCodEstado('Abonada'),SolicitudFondos::getCodEstado('Contabilizada')];
 
@@ -29,8 +32,13 @@ class Empleado extends Model
 
     }
 
+    
+    public function getSolicitudesObservadas(){
+        return SolicitudFondos::
+            where('codEstadoSolicitud','=',SolicitudFondos::getCodEstado('Observada'))->get();
 
 
+    }
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){

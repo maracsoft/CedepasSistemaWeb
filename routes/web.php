@@ -180,7 +180,8 @@ Route::get('/reportes/descargar/{str}', 'RendicionGastosController@descargarRepo
     ->name('rendicionGastos.descargarReportes');
 
 
-Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descargarCDP')->name('rendiciones.descargarCDP');
+Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descargarCDP')
+->name('rendiciones.descargarCDP');
 
 
 
@@ -268,7 +269,7 @@ Route::get('/ReposicionGastos/Contador/listar','ReposicionGastosController@lista
 Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@viewConta')->name('ReposicionGastos.Contador.ver');
 
 
-
+ 
 /**RUTA MAESTRA PARA ESTADOS */
 Route::Post('/ReposicionGastos/Gerente/Aprobar','ReposicionGastosController@aprobar')->name('ReposicionGastos.Gerente.aprobar');
 Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')->name('ReposicionGastos.rechazar');
