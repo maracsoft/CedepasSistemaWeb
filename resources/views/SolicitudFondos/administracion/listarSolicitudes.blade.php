@@ -85,19 +85,20 @@
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr >
-                <th width="5%" scope="col">Codigo Sol</th>
-                <th width="6%"  scope="col">Fecha emision</th>
+                <th width="8%" scope="col">Codigo Sol</th>
+                <th width="7%"  scope="col" style="text-align: center">F. Emision</th>
               
-                <th width="6%"  scope="col">Empleado </th>
-                <th width="15%"  scope="col">Proyecto</th>
+                <th width="10%"  scope="col">Empleado </th>
+                <th scope="col">Proyecto</th>
                 <th width="10%"  scope="col">Evaluador</th>
                 
-                <th width="4%"  scope="col">Total Solicitado</th>
+                <th width="8%"  scope="col" style="text-align: center">Total Solicitado</th>
                 
-                <th width="6%"  scope="col">Fecha Revision</th>
-                <th width="10%"  scope="col">Estado</th>
+                <th width="7%"  scope="col" style="text-align: center">F. Revision</th>
+                <th width="11%"  scope="col" style="text-align: center">Estado</th>
                 
-                <th width="10%"  scope="col">Opciones</th>
+                <th width="9%"  scope="col">Opciones Solicitud</th>
+                <th width="9%"  scope="col">Opciones Rendicion</th>
                 
               </tr>
             </thead>
@@ -108,91 +109,42 @@
 
       
             <tr class="filaPr">
-                <td >{{$itemSolicitud->codigoCedepas  }}</td>
-                <td>{{$itemSolicitud->getFechaHoraEmision() }}</td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->codigoCedepas  }}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaHoraEmision() }}</td>
                
-                <td> {{$itemSolicitud->getNombreSolicitante()}} </td>
-                <td> {{$itemSolicitud->getNombreProyecto()}} </td>
-                <td> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
-                <td>{{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}</td>
+                <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreSolicitante()}} </td>
+                <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreProyecto()}} </td>
+                <td style = "padding: 0.40rem"> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
+                <td style = "padding: 0.40rem; text-align: right">{{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}</td>
                 
           
-                <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
 
-                <td style="text-align: center">
-                  
+                <td style = "padding: 0.40rem; text-align: center">
                   <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
-                  style="background-color: {{$itemSolicitud->getColorEstado()}};
-                          width:95%;
-                          text-align:center;
-                          color: {{$itemSolicitud->getColorLetrasEstado()}} ;
-                  ">
-               
-                 
-                
-
-                
-
+                    style="background-color: {{$itemSolicitud->getColorEstado()}};
+                            height: 26px;
+                            text-align:center;
+                            color: {{$itemSolicitud->getColorLetrasEstado()}} ;
+                    ">
                 </td>
-                <td>        {{-- OPCIONES --}}
-                  
-                         
-                        @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
-                          <a  class='btn btn-success' 
-                          href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}">
-                            Abonar <i class="fas fa-hand-holding-usd"></i>
-                          </a>
-                        @else{{-- si está rendida (pa verla nomas ) --}}
-                          @if($itemSolicitud->estaRendida())
-                          
-                          <div class="row">
-                            <div  style="background-color: rebeccapurple">
-                              <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}">
-                               
-                                  <span class="red">S</span>
-                              
-                              </a>
-                            </div>
-                            <div  style="background-color: rgb(188, 216, 152)">
-                              
-                              <a class='btn btn-alert'  href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}">
-                                <i class="fas fa-download"></i>
-                              </a>
-                              <a  target="blank"  href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}">
-                                <i class="fas fa-file-pdf"></i>
-                              </a>
-
-                            </div>
-                            <div class="w-100"></div>
-                            <div  style="background-color: rgb(42, 20, 138)">
-                              <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                                <h1>
-                                  <span class="red">R</span>
-                                </h1>
-                              </a>
-                            </div>
-                            <div style="background-color: rgb(182, 99, 60)">
-                              <a class='btn btn-alert'  href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                                <i class="fas fa-download"></i>
-                              </a>
-                              <a  target="blank"  href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                                <i class="fas fa-file-pdf"></i>
-                              </a>
-                              {{--    --}}
-                            </div>
-                          </div>
-
-
-                          
-                         
-                          @endif
-                          
-                        
-                        @endif
-
-                        
-                        
-                    
+                <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
+                  @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
+                    <a  class='btn btn-warning btn-sm' href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}"><i class="fas fa-hand-holding-usd"></i></a>
+                  @else{{-- si está rendida (pa verla nomas ) --}}
+                    @if($itemSolicitud->estaRendida())
+                          <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-eye"></i></a>
+                          <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-file-download"></i></a>
+                          <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-file-pdf"></i></a>
+                    @endif
+                  @endif
+                </td>
+                <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
+                  @if($itemSolicitud->estaRendida())
+                        <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-eye"></i></a>
+                        <a href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-file-download"></i></a>
+                        <a href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-file-pdf"></i></a>
+                  @endif
                 </td>
 
             </tr>

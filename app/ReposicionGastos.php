@@ -109,6 +109,46 @@ class ReposicionGastos extends Model
         
     }
 
+    public function listaParaAprobar(){
+        return $this->verificarEstado('Creada') ||
+        $this->verificarEstado('Subsanada'); 
+
+    }
+    
+
+
+    public function listaParaActualizar(){
+        return $this->verificarEstado('Creada') || 
+        $this->verificarEstado('Observada') || 
+        $this->verificarEstado('Subsanada'); 
+
+    }
+
+    
+    public function listaParaObservar(){
+        return $this->verificarEstado('Creada') || 
+        $this->verificarEstado('Aprobada'); 
+
+    }
+    public function listaParaRechazar(){
+
+        return $this->listaParaObservar();
+    }
+
+    public function listaParaAbonar(){
+        return $this->verificarEstado('Aprobada');
+
+    }
+
+
+    public function listaParaContabilizar(){
+        return $this->verificarEstado('Abonada');
+
+    }
+
+
+
+
     public function getColorEstado(){ //BACKGROUND
         $color = '';
         switch($this->codEstadoReposicion){

@@ -92,12 +92,12 @@
                 <th width="6%"  scope="col">Fecha Rendicion</th>
               
                 <th width="6%"  scope="col">Empleado </th>
-                <th width="25%"  scope="col">Proyecto</th>              
+                <th width="20%"  scope="col">Proyecto</th>              
                 <th width="4%"  scope="col">Total Recibido</th>
                 <th width="4%"  scope="col">Total Gastado</th>
                 <th width="4%"  scope="col">Saldo</th>
                 <th width="15%"  scope="col">Estado</th>
-                <th width="5%"  scope="col">Opciones</th>
+                <th width="10%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>

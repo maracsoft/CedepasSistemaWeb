@@ -231,12 +231,14 @@ class ReposicionGastosController extends Controller
             $reposicion->save();
 
             DB::commit();
-            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Se ha Registrado la reposicion N°'.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.Empleado.listar')
+                ->with('datos','Se ha Registrado la reposicion N°'.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             
             Debug::mensajeError('REPOSICION GASTOS CONTROLLER STORE', $th);
             DB::rollBack();
-            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Ha ocurrido un error.');
+            return redirect()->route('ReposicionGastos.Empleado.listar')
+                ->with('datos','Ha ocurrido un error.');
         }
         
     }
@@ -250,6 +252,24 @@ class ReposicionGastosController extends Controller
         
         try {
             $reposicion=ReposicionGastos::findOrFail($request->codReposicionGastos);
+
+
+            if($reposicion->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser actualizada por un empleado distinto al que la creó.');
+
+
+
+            if(!$reposicion->listaParaActualizar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser actualizada ahora puesto que está en otro proceso.');
+
+
+
+
+
+
+
             $reposicion->codProyecto=$request->codProyecto;
             $reposicion->codMoneda=$request->codMoneda;
      
@@ -527,6 +547,13 @@ class ReposicionGastosController extends Controller
         try{
             DB::beginTransaction();
             $reposicion=ReposicionGastos::find($request->codReposicionGastos);
+
+            
+            if(!$reposicion->listaParaAprobar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser aprobada ahora puesto que está en otro proceso.');
+
+
             $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Aprobada');
             $reposicion->codEmpleadoEvaluador=Empleado::getEmpleadoLogeado()->codEmpleado;
             $reposicion->resumen = $request->resumen;
@@ -559,8 +586,14 @@ class ReposicionGastosController extends Controller
     public function abonar($id){//jefe (codReposicion)
         try{
             DB::beginTransaction();
-            date_default_timezone_set('America/Lima');
-            $reposicion=ReposicionGastos::find($id);
+  
+            $reposicion=ReposicionGastos::findOrFail($id);
+
+            if(!$reposicion->listaParaAbonar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser abonada ahora puesto que está en otro proceso.');
+
+
             $reposicion->codEstadoReposicion=ReposicionGastos::getCodEstado('Abonada');
             $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
             $reposicion->fechaHoraRevisionAdmin=new DateTime();
@@ -582,10 +615,14 @@ class ReposicionGastosController extends Controller
             DB::beginTransaction();
             $empleado = Empleado::getEmpleadoLogeado();
 
-            date_default_timezone_set('America/Lima');
             $arr = explode('*', $id);
             $reposicion=ReposicionGastos::find($arr[0]);
-            $empleado=Empleado::getEmpleadoLogeado();
+
+            if(!$reposicion->listaParaObservar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser observada ahora puesto que está en otro proceso.');
+
+
             
             if($empleado->esJefeAdmin()){
                 $reposicion->codEmpleadoAdmin=Empleado::getEmpleadoLogeado()->codEmpleado;
@@ -632,18 +669,15 @@ class ReposicionGastosController extends Controller
     public function rechazar($id){//gerente-jefe (codReposicion)
         try{
             DB::beginTransaction();
-            $reposicion=ReposicionGastos::find($id);
-            $empleado=Empleado::getEmpleadoLogeado();
-            date_default_timezone_set('America/Lima');
+            $reposicion=ReposicionGastos::findOrFail($id);
 
-            /*
-            if($empleado->codPuesto==Puesto::getCodigo('Jefe de Administración')){
-                $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
-                $reposicion->fechaHoraRevisionAdmin=new DateTime();
-            }else{
-                $reposicion->codEmpleadoEvaluador=$empleado->codEmpleado;
-                $reposicion->fechaHoraRevisionGerente=new DateTime();
-            }*/
+            if(!$reposicion->listaParaRechazar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser rechazada ahora puesto que está en otro proceso.');
+
+
+            $empleado=Empleado::getEmpleadoLogeado();
+        
 
             if($empleado->esJefeAdmin()){
                 $reposicion->codEmpleadoAdmin=$empleado->codEmpleado;
@@ -685,12 +719,18 @@ class ReposicionGastosController extends Controller
     public function contabilizar($cadena){
         try {
             DB::beginTransaction();
-            date_default_timezone_set('America/Lima');
+     
             $vector = explode('*',$cadena);
             $codReposicion = $vector[0];
             $listaItems = explode(',',$vector[1]);
 
             $reposicion = ReposicionGastos::findOrFail($codReposicion);
+
+            if(!$reposicion->listaParaContabilizar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser contabilizada ahora puesto que está en otro proceso.');
+
+
             $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Contabilizada');
             $reposicion->codEmpleadoConta = Empleado::getEmpleadoLogeado()->codEmpleado;
             $reposicion->fechaHoraRevisionConta=new DateTime();

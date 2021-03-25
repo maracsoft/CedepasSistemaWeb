@@ -292,6 +292,9 @@ class RendicionGastosController extends Controller
         return view('RendicionGastos.contador.contabilizarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
+
+
+
     public function contabilizar($cadena ){
         
         try {
@@ -301,6 +304,11 @@ class RendicionGastosController extends Controller
             $listaItems = explode(',',$vector[1]);
 
             $rendicion = RendicionGastos::findOrFail($codRendicion);
+
+            if(!$rendicion->listaParaContabilizar())
+                return redirect()->route('rendicionGastos.listarRendiciones')
+                    ->with('datos','Error: la rendicion ya fue contabilizada o no se encuentra lsita para serlo.');
+
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
             $rendicion->codEmpleadoContador = Empleado::getEmpleadoLogeado()->codEmpleado;
             $rendicion->save();
@@ -310,11 +318,11 @@ class RendicionGastosController extends Controller
                 $detGasto->save();   
             }
             DB::commit();
-            return redirect()->route('rendicionGastos.listarContador')->with('datos','Se contabilizó correctamente la Rendicion '.$rendicion->codigoCedepas);
+            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Se contabilizó correctamente la Rendicion '.$rendicion->codigoCedepas);
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('rendicionGastos.listarContador')->with('datos','Ha ocurrido un error');
+            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Ha ocurrido un error');
         }
 
 
@@ -356,41 +364,7 @@ class RendicionGastosController extends Controller
         return view('RendicionGastos.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
-
-
-    public function rechazar($codRendicion){
-        try{
-
-            DB::beginTransaction();
-            error_log('cod rend = '.$codRendicion);
-            $rendicion = RendicionGastos::findOrFail($codRendicion);
-            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Rechazada');
-            
-            $empleadoLogeado = Empleado::getEmpleadoLogeado();
-            $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
-            $rendicion->fechaHoraRevisado = Carbon::now();
-
-            $rendicion->save();
-            DB::commit();
-            return redirect()->route('rendicionGastos.listarRendiciones')
-            ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Rechazada');
-
-        } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN RENDICION GASTOS CONTROLLER : RECHAZAR
-            
-                '.$th.'
-
-            ');
-
-            DB::rollBack();
-            return redirect()->route('rendicionGastos.listarRendiciones')
-            ->with('datos','Ha ocurrido un error');
-        }
-
-    }
-
+    /* YA NO SE RECHAZAN RENDICIONES , SOLO SE LAS OBSERVA */
     
     public function aprobar(Request $request){
         try{
@@ -398,8 +372,12 @@ class RendicionGastosController extends Controller
             DB::beginTransaction();
            
             $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
+
+            if(!$rendicion->listaParaAprobar())
+                return redirect()->route('rendicionGastos.listarRendiciones')
+                    ->with('datos','Error: la rendicion ya fue aprobada o no se encuentra lsita para serlo.');
+
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
-            
             $empleadoLogeado = Empleado::getEmpleadoLogeado();
             $rendicion->codEmpleadoEvaluador = $empleadoLogeado->codEmpleado;
             $rendicion->fechaHoraRevisado = Carbon::now();
@@ -414,7 +392,7 @@ class RendicionGastosController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('rendicionGastos.listarRendiciones')
+            return redirect()->route('RendicionGastos.Gerente.listar')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Aprobada');
 
         } catch (\Throwable $th) {
@@ -427,7 +405,7 @@ class RendicionGastosController extends Controller
             ');
 
             DB::rollBack();
-            return redirect()->route('rendicionGastos.listarRendiciones')
+            return redirect()->route('RendicionGastos.Gerente.listar')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -449,6 +427,14 @@ class RendicionGastosController extends Controller
             DB::beginTransaction();
             error_log('cod rend = '.$codRendicion);
             $rendicion = RendicionGastos::findOrFail($codRendicion);
+
+            if(!$rendicion->listaParaObservar())
+                return redirect()->route('rendicionGastos.listarRendiciones')
+                    ->with('datos','Error: la rendicion no se encuentra lista para ser observada.');
+
+
+
+
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Observada');
             $rendicion->observacion = $textoObs;
             error_log('
@@ -463,21 +449,14 @@ class RendicionGastosController extends Controller
 
             $rendicion->save();
             DB::commit();
-            return redirect()->route('rendicionGastos.listarRendiciones')
+            return redirect()->route('RendicionGastos.Gerente.listar')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
-            error_log('
-            
-                OCURRIO UN ERROR EN RENDICION GASTOS CONTROLLER : OBSERVAR
-            
-                '.$th.'
-
-
-            ');
-
+            Debug::mensajeError('RENDICION GASTOS CONTROLLER : OBSERVAR',$th);
+      
             DB::rollBack();
-            return redirect()->route('rendicionGastos.listarRendiciones')
+            return redirect()->route('RendicionGastos.Gerente.listar')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -493,71 +472,6 @@ class RendicionGastosController extends Controller
 
 
 
-
-    //en este caso el terminacionArchivo se llena con la terminacion del cbte de abono del pago de cedepas al empleado
-    // se le devuelve al empleado los gastos que hizo en exceso
-    //deprecato
-    /* public function reponer(Request $request){ //id de la rendicion
-
-        $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
-        
-        
-        try{
-            db::beginTransaction();
-        
-            //cambiamos el estado de la rendicion
-            $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Repuesta a Favor');
-            
-            //guardamos el archivo comprobante del abono
-
-
-            //ESTA WEA ES PARA SACAR LA TERMINACIONDEL ARCHIVO
-            $nombreImagen = $request->get('nombreImgImagenEnvio');  //sacamos el nombre completo
-            $vec = explode('.',$nombreImagen); //separamos con puntos en un vector 
-            $terminacion = end( $vec); //ultimo elemento del vector
-            
-            
-            $rendicion->terminacionArchivo = $terminacion; //guardamos la terminacion para poder usarla luego
-            //               RF-Repos-                           -   5   .  jpg
-            $nombreImagen =
-                 'RF-Repos-'.
-                 $this->rellernarCerosIzq($rendicion->codRendicionGastos,6)
-                 .'.'.
-                 $terminacion;
-
-            error_log('
-            AA
-            '.$nombreImagen.'
-            
-            ');
-            
-            $archivo =  $request->file('imagenEnvio');
-            $fileget = \File::get( $archivo );
-            Storage::disk('comprobantesAbono')
-            ->put($nombreImagen, $fileget );
-
-
-            $rendicion->save();
-            db::commit();
-
-            return redirect()->route('rendicionGastos.listarRendiciones')->with('datos','Gastos repuestos efectivamente');
-        }catch(Exception $e){
-
-            error_log('\\n ---------------------- RENDICION FONDOS CONTROLLER REPONER 
-            Ocurrió el error:'.$e->getMessage().'
-            
-            
-            ' );
-
-            DB::rollback();
-            return redirect()
-                ->route('rendicionGastos.listarRendiciones')
-                ->with('datos','Ha ocurrido un error.');
-        }
-
-
-    } */
-    
     
     
     
@@ -578,6 +492,15 @@ class RendicionGastosController extends Controller
            
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($request->codigoSolicitud);
+
+
+            if($solicitud->estaRendida=='1')
+                return redirect()->route('rendicionGastos.listarRendiciones')
+                    ->with('datos','Error: la solicitud ya se ha rendido.');
+
+
+
+
             $solicitud ->estaRendida = 1; //cambiamos el estaod de la solicitud a rendida
             $solicitud->save();
 
@@ -657,7 +580,7 @@ class RendicionGastosController extends Controller
 
             DB::commit();  
             return redirect()
-                ->route('rendicionGastos.listarRendiciones')
+                ->route('RendicionGastos.Empleado.listar')
                 ->with('datos','Se ha creado la rendicion N°'.$rendicion->codigoCedepas);
         }catch(Exception $e){
 
@@ -669,7 +592,7 @@ class RendicionGastosController extends Controller
 
             DB::rollback();
             return redirect()
-                ->route('rendicionGastos.listarRendiciones')
+                ->route('RendicionGastos.Empleado.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -746,6 +669,18 @@ class RendicionGastosController extends Controller
             
             DB::beginTransaction();   
             $rendicion = RendicionGastos::findOrFail($request->codRendicion);
+
+
+            if(!$rendicion->listaParaActualizar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la rendicion no puede ser actualizada ahora puesto que está en otro proceso.');
+
+
+
+
+
+
+
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
             $rendicion-> resumenDeActividad = $request->resumen;
@@ -819,14 +754,14 @@ class RendicionGastosController extends Controller
 
             DB::commit();  
             return redirect()
-                ->route('rendicionGastos.listarRendiciones')
+                ->route('RendicionGastos.Empleado.listar')
                 ->with('datos','Se ha Editado la rendicion N°'.$rendicion->codigoCedepas);
         }catch(\Throwable $th){
             Debug::mensajeError(' RENDICION GASTOS CONTROLLER UPDATE' ,$th);
             
             DB::rollback();
             return redirect()
-                ->route('rendicionGastos.listarRendiciones')
+                ->route('RendicionGastos.Empleado.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -860,31 +795,6 @@ class RendicionGastosController extends Controller
         return Storage::download("/comprobantes/rendiciones/".$nombreArchivo);
 
     }
-
-
-
-    //descarga el archivo que subió el empleado pq le sobró dinero  
-    // o tambien el archivo de reposicion de cedepas hacia el empleado
-    //DEPRECATO
-    /* function descargarArchivoRendicion($id){
-        
-        $rendicion = RendicionGastos::findOrFail($id);
-        if($rendicion->codEstadoRendicion== RendicionGastos::getCodEstado('Repuesta a Favor') )
-            $prefijo = 'Repos';
-        if($rendicion->codEstadoRendicion== RendicionGastos::getCodEstado('Rendida en contra')    )
-            $prefijo = 'Devol';
-        
-        $nombreArchivo = $this::raizArchivo.$this->rellernarCerosIzq($id,6).'.'.$rendicion->terminacionArchivo ;
-        
-        
-        return Storage::download("comprobantesAbono/".$nombreArchivo);
-
-    } */
-
-
-
-
-
 
 
 

@@ -91,21 +91,21 @@ margin-top: 18px;
         </div>
       @ENDIF
       
-    <table class="table" style="font-size: 10pt;">
+    <table class="table" style="font-size: 10pt; margin-top:10px;">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo Sol</th>
-                <th scope="col">Fecha emision</th>
+                <th width="9%" scope="col">Codigo Sol</th>
+                <th width="9%" scope="col" style="text-align: center">F. Emision</th>
                
                 <th scope="col">Proyecto</th>
-                <th scope="col">Total Solicitado & Rendido </th>
-                <th scope="col">Estado</th>
-                <th scope="col">Rendida</th>
+                <th width="9%" scope="col" style="text-align: center">Total Solicitado // Rendido </th>
+                <th width="11%" scope="col" style="text-align: center">Estado</th>
+                <th width="5%" scope="col">Rendida</th>
                 
-                <th scope="col">Fecha Revision</th>
+                <th width="9%" scope="col" style="text-align: center">F. Revision</th>
                 
 
-                <th scope="col">Opciones</th>
+                <th width="7%" scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -115,47 +115,28 @@ margin-top: 18px;
 
         {{--     varQuePasamos  nuevoNombre                        --}}
         @foreach($listaSolicitudesFondos as $itemSolicitud)
-
-      
             <tr>
-              <td>{{$itemSolicitud->codigoCedepas  }}</td>
-                <td>{{$itemSolicitud->getfechaHoraEmision()  }}</td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->codigoCedepas  }}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getfechaHoraEmision()  }}</td>
                 
-                <td>{{$itemSolicitud->getnombreProyecto()  }}</td>
-                <td> 
-
-                  
-                  <h3 style="font-size: 14pt;">
-                    {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}
+                <td style = "padding: 0.40rem">{{$itemSolicitud->getnombreProyecto()  }}</td>
+                <td style = "padding: 0.40rem; text-align: right"> 
+                    {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }} <br>
                     @if($itemSolicitud->estaRendida())
                       // {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format( $itemSolicitud->getRendicion()->totalImporteRendido,2 )}}
                     @endif
-                  </h3>
                 </td>
                 
-                <td style="text-align: center">
-                  <div class="form-control"  
+                <td style = "padding: 0.40rem; text-align: center">
+                  <input type="text" value="{{$itemSolicitud->getNombreEstado()}}" class="form-control" readonly 
                     style="background-color: {{$itemSolicitud->getColorEstado()}};
-                    width:95%; 
-                    text-align:center;
-                    color: {{$itemSolicitud->getColorLetrasEstado()}} ;
+                            height: 26px;
+                            text-align:center;
+                            color: {{$itemSolicitud->getColorLetrasEstado()}} ;
                     ">
-                      {{$itemSolicitud->getNombreEstado()}}
-                    
-                    {{-- @if($itemSolicitud->verificarEstado('Abonada') or $itemSolicitud->verificarEstado('Rendida'))
-                    <a href="{{route('solicitudFondos.descargarComprobanteAbono',$itemSolicitud->codSolicitud)}}">
-                      <i class="fas fa-download">Ver Abono</i>
-                    </a>
-                    @endif --}}
-                    
-
-                  </div>
-                
-                  
-
                 </td>
 
-                <td>
+                <td style = "padding: 0.40rem; text-align: center">
                   @if($itemSolicitud->estaRendida())
                     SÍ
                   @else
@@ -164,18 +145,18 @@ margin-top: 18px;
 
                 </td>
 
-                <td style="text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
-                <td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+                <td style = "padding: 0.40rem">
                     @switch($itemSolicitud->codEstadoSolicitud)
                         @case(App\SolicitudFondos::getCodEstado('Creada'))   {{-- Si solamente está creada --}}
                         @case(App\SolicitudFondos::getCodEstado('Observada')) {{-- O si está observada --}}
                         @case(App\SolicitudFondos::getCodEstado('Subsanada')) {{-- Si ya subsano las observaciones --}}
                                 {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                            <a href="{{route('SolicitudFondos.Empleado.Edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{route('SolicitudFondos.Empleado.Edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
                             
 
 
-                            <a href="#" class="btn btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                            <a href="#" class="btn btn-sm btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
                                   title:'¿Está seguro de cancelar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
                                   //type: 'warning',  
                                   type: 'warning',
@@ -193,45 +174,28 @@ margin-top: 18px;
                               
                             @break
                         @case(App\SolicitudFondos::getCodEstado('Aprobada')) {{-- YA FUE APROBADA --}}
-                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}">
-                            <h1>
-                              <span class="red">S</span>
-                            </h1>
+                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                              S
                           </a>   
-
-                            @break
+                        @break
                         @case(App\SolicitudFondos::getCodEstado('Abonada') || App\SolicitudFondos::getCodEstado('Contabilizada') ) {{-- ABONADA --}}
-                            <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}">
-                              <h1>
-                                <span class="red">S</span>
-                              </h1>
+                            <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                              S
                             </a>   
-
-                            
-
-
-                            @break
-                     
-                          @case(App\SolicitudFondos::getCodEstado('Rechazada')) {{-- RECHAZADA --}} 
-                            <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}">
-                              <h1>
-                                <span class="red">S</span>
-                              </h1>
-                            </a>
-                         
-                            
-                          @break
-
+                        @break
+                        @case(App\SolicitudFondos::getCodEstado('Rechazada')) {{-- RECHAZADA --}} 
+                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                            S
+                          </a>
+                        @break
                         @default
                             
                     @endswitch
 
 
                     @if($itemSolicitud->estaRendida())
-                    <a href="{{route('RendicionGastos.Empleado.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}">
-                      <h1>
-                        <span class="red">R</span>
-                      </h1>
+                    <a href="{{route('RendicionGastos.Empleado.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class = "btn btn-sm btn-info">
+                      R
                     </a> 
                     @endif
                     

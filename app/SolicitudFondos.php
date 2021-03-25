@@ -102,6 +102,33 @@ class SolicitudFondos extends Model
     }
 
 
+    public function listaParaAprobar(){
+        return $this->verificarEstado('Creada') || $this->verificarEstado('Subsanada');
+    }
+    public function listaParaAbonar(){
+        return $this->verificarEstado('Aprobada'); 
+    }
+    public function listaParaContabilizar(){
+        return $this->verificarEstado('Abonada'); 
+    }
+    public function listaParaUpdate(){
+        return $this->verificarEstado('Creada') ||
+         $this->verificarEstado('Subsanada') ||
+          $this->verificarEstado('Observada'); 
+    }
+
+
+    
+    public function listaParaCancelar(){//solo en los que no fue abonada
+        return 
+        $this->verificarEstado('Creada') ||
+        $this->verificarEstado('Aprobada') ||
+        $this->verificarEstado('Observada') ||
+        $this->verificarEstado('Subsanada'); 
+
+
+    }
+    
     
     public function getFechaRevision(){
         if($this->fechaHoraRevisado == null )
@@ -167,20 +194,23 @@ class SolicitudFondos extends Model
         $color = '';
         switch($this->codEstadoSolicitud){
             case $this::getCodEstado('Creada'): //CREADO
-                $color = 'rgb(215,208,239)';
+                $color = 'rgb(243,156,18)';
                 break;
             case $this::getCodEstado('Aprobada'): //aprobado
-                $color = 'rgb(91,79,148)';
+                $color = 'rgb(0,154,191)';
                 break;
             case $this::getCodEstado('Abonada'): //abonado
-                $color = 'rgb(195,186,230)';
+                $color = 'rgb(255,193,7)';
                 break;
             case $this::getCodEstado('Contabilizada'): //rendida
-                $color ='rgb(35,28,85)';
+                $color ='rgb(40,167,69)';
                 break;
-            case $this::getCodEstado('Observada'): //rechazada
-                $color = 'rgb(248,18,8)';
+            case $this::getCodEstado('Observada'): //observada
+                $color = 'rgb(244,246,249)';
                 break;
+            case $this::getCodEstado('Cancelada'): //rechazada
+                    $color = 'rgb(160,160,160)';
+                    break;
             
         }
         return $color;
@@ -201,9 +231,12 @@ class SolicitudFondos extends Model
             case $this::getCodEstado('Contabilizada'): //rendida
                 $color = 'white';
                 break;
-            case $this::getCodEstado('Rechazada')://rechazada
-                $color = 'white';
+            case $this::getCodEstado('Observada')://observada
+                $color = 'black';
                 break;
+            case $this::getCodEstado('Cancelada')://rechazada
+                    $color = 'white';
+                    break;
             
         }
         return $color;

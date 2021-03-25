@@ -177,7 +177,7 @@ class SolicitudFondosController extends Controller
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
-        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('fechaHoraEmision','DESC')->paginate($this::PAGINATION);
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->paginate($this::PAGINATION);
 
 
         $proyectos=Proyecto::all();
@@ -216,7 +216,7 @@ class SolicitudFondosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('fechaHoraEmision','DESC')->paginate($this::PAGINATION);
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->paginate($this::PAGINATION);
         
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
@@ -271,6 +271,12 @@ class SolicitudFondosController extends Controller
         {
             DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($request->codSolicitud);
+
+
+            if(!$solicitud->listaParaAprobar())
+                return redirect()->route('solicitudFondos.listarSolicitudes')
+                    ->with('datos','ERROR: La solicitud ya fue aprobada o no está apta para serlo.');
+
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Aprobada');
             $solicitud->observacion = '';
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
@@ -307,6 +313,16 @@ class SolicitudFondosController extends Controller
         {
             DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
+            
+            if(!$solicitud->listaParaContabilizar())
+                return redirect()->route('solicitudFondos.listarSolicitudes')
+                    ->with('datos','ERROR: La solicitud ya fue contabilizada o no está apta para serlo.');
+
+            
+            
+            
+            
+            
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Contabilizada');
             $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
@@ -314,13 +330,14 @@ class SolicitudFondosController extends Controller
             
             $solicitud->save();
             DB::commit();
-            return redirect()->route('solicitudFondos.listarSolicitudes')
+
+            return redirect()->route('SolicitudFondos.Contador.listar')
                 ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Contabilizada! ');
         } catch (\Throwable $th) {
            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : CONTABILIZAR',$th);
            DB::rollBack();
 
-           return redirect()->route('solicitudFondos.listarSolicitudes')
+           return redirect()->route('SolicitudFondos.Contador.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -343,6 +360,13 @@ class SolicitudFondosController extends Controller
         try {
            DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
+
+            if(!$solicitud->listaParaAbonar())
+                return redirect()->route('solicitudFondos.listarSolicitudes')
+                    ->with('datos','ERROR: La solicitud ya fue abonada o no está apta para serlo.');
+
+
+
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Abonada');
             $solicitud->codEmpleadoAbonador = Empleado::getEmpleadoLogeado()->codEmpleado;
 
@@ -402,6 +426,9 @@ class SolicitudFondosController extends Controller
             DB::beginTransaction();
           
             $solicitud = SolicitudFondos::findOrFail($codSolicitud);
+
+
+
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Observada');
             $solicitud->observacion = $textoObs;
            
@@ -616,6 +643,17 @@ class SolicitudFondosController extends Controller
                 DB::beginTransaction();   
             $solicitud = SolicitudFondos::findOrFail($id);
 
+
+            if(!$solicitud->listaParaUpdate())
+                return redirect()->route('solicitudFondos.listarSolicitudes')
+                    ->with('datos','ERROR: La solicitud no puede ser actualizada.');
+
+            if(Empleado::getEmpleadoLogeado()->codEmpleado != $solicitud->codEmpleadoSolicitante)
+                return redirect()->route('solicitudFondos.listarSolicitudes')
+                    ->with('datos','ERROR: La solicitud no puede ser actualizada por un empleado que no la creó.');
+
+
+
             //Si está siendo editada porque la observaron, pasa de OBSERVADA a SUBSANADA
             if ($solicitud->codEstadoSolicitud == SolicitudFondos::getCodEstado('Observada')) {
                 $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Subsanada');
@@ -675,11 +713,19 @@ class SolicitudFondosController extends Controller
         }
     }
 
-    public function cancelar($id){ //para borrar una solicitud desde el index
+
+    public function cancelar($id){ //para cancelar una solicitud desde el index
 
         try {
             DB::beginTransaction();
             $solicitud = SolicitudFondos::findOrFail($id);
+
+            if(!$solicitud->listaParaCancelar())
+            return redirect()->route('solicitudFondos.listarSolicitudes')
+                ->with('datos','ERROR: La solicitud no puede cancelada puesto que ya fue ABONADA.');
+            
+
+
             $solicitud->codEstadoSolicitud = SolicitudFondos::getCodEstado('Cancelada');
             $solicitud->save();
             DB::commit();
@@ -695,10 +741,6 @@ class SolicitudFondosController extends Controller
             
         }
 
-
-        
-
-        return redirect()->route('SolicitudFondos.empleado.listar')->with('datos','Se eliminó el registro'.$cod);
     }
 
 

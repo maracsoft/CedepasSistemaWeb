@@ -38,10 +38,33 @@ class Empleado extends Model
     
     public function getSolicitudesObservadas(){
         return SolicitudFondos::
-            where('codEstadoSolicitud','=',SolicitudFondos::getCodEstado('Observada'))->get();
+            where('codEstadoSolicitud','=',SolicitudFondos::getCodEstado('Observada'))
+            ->where('codEmpleadoSolicitante','=',$this->codEmpleado)
+            ->get();
 
 
     }
+
+
+    public function getReposicionesObservadas(){
+
+        return ReposicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)
+            ->where('codEstadoReposicion','=',ReposicionGastos::getCodEstado('Observada'))
+            ->get();
+
+
+    }
+
+    public function getRendicionesObservadas(){
+
+        return RendicionGastos::where('codEmpleadoSolicitante','=',$this->codEmpleado)
+            ->where('codEstadoRendicion','=',RendicionGastos::getCodEstado('Observada'))
+            ->get();
+
+
+    }
+
+
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){

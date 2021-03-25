@@ -1,8 +1,13 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 [class*=sidebar-dark-]
 {
-	background-color: #147a66;
+	background-color: #315175 !important;
+  font-family: 'Open Sans', sans-serif;
+  color: #FFF !important; 
 }
 [class*=sidebar-dark] .user-panel {
-  border-bottom: 1px solid #00a65a;
+  border-bottom: 1px solid #315175 !important;
+  color: #FFF; 
+ 
+ font-family: 'Open Sans', sans-serif;
 }
