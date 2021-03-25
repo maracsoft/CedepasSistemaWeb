@@ -13,8 +13,7 @@
 
  <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
  <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
- 
-  
+ <link rel="stylesheet" href="/css/siderbarstyle.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
  
@@ -154,7 +153,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('user.home') }}" class="brand-link">
-      <img src="/adminlte/dist/img/AdminLTELogo.png"
+      <img src="/img/logo cuadrado.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">

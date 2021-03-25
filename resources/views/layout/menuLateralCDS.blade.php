@@ -38,7 +38,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                gerente
+                Gerente
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -147,7 +147,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                gerente
+                Gerente
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -185,7 +185,7 @@
               </li>
               
               <li class="nav-item">
-                <a href="{{route('solicitudFondos.reportes')}}" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Reportes</p>
                 </a>

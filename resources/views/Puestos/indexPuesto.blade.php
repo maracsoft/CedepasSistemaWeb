@@ -34,7 +34,7 @@
                 <td>{{$itempuesto->nombre}}</td>
                 
                 <td>
-                    <a href="{{route('GestiónPuestos.edit',$itempuesto->codPuesto)}}" class="btn btn-primary btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a> 
+                    <a href="{{route('GestiónPuestos.edit',$itempuesto->codPuesto)}}" class="btn btn-warning btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a> 
                     <!-- <a href="" class="btn btn-danger btn-sm btn-icon icon-left"><i class="entypo-cancel"></i>Eliminar</a> -->
 
                     <a href="#" class="btn btn-danger btn-sm btn-icon icon-left" title="Eliminar registro" onclick="swal({//sweetalert

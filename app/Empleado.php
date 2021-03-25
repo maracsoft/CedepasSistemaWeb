@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Throwable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use App\User;
+
 class Empleado extends Model
 {
     protected $table = "empleado";
@@ -26,6 +28,7 @@ class Empleado extends Model
         $vector = [SolicitudFondos::getCodEstado('Abonada'),SolicitudFondos::getCodEstado('Contabilizada')];
 
         return SolicitudFondos::whereIn('codEstadoSolicitud',$vector)
+            
         ->where('estaRendida','=',0)
         ->get();
 
@@ -48,9 +51,8 @@ class Empleado extends Model
     } 
 
     public function esGerente(){
-        $listaProyectos = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
         $puesto = Puesto::findOrFail($this->codPuesto);
-        if(count($listaProyectos)>0 && $puesto->nombre=='Gerente')//si es gerente
+        if($puesto->nombre=='Gerente')//si es gerente
             return true;
 
         return false;
@@ -58,15 +60,19 @@ class Empleado extends Model
     }
 
     public function esContador(){
-        $detalles = ProyectoContador::where('codEmpleadoContador','=',$this->codEmpleado)->get();
         $puesto = Puesto::findOrFail($this->codPuesto);
-        if(count($detalles)>0  && $puesto->nombre=='Contador')//si es gerente
+        if($puesto->nombre=='Contador')//si es gerente
             return true;
 
         return false;
 
     }
 
+    public function esAdminSistema(){
+        $usuario = User::findOrFail($this->codUsuario);
+        return $usuario->isAdmin=='1';
+
+    }
     
     /* REFACTORIZAR ESTO PARA LA NUEVA CONFIGURACION DEL A BASE DE DATOOOOOOOOOOOOOOOOOOOOOOOOOS */
     //para modulo ProvisionFondos. 

@@ -78,18 +78,18 @@
         </div>
       @endif
 
-    <table class="table" style="font-size: 10pt; margin-top:10px; ">
+    <table class="table" style="font-size: 10pt; margin-top:10px;">
             <thead class="thead-dark">
               <tr>
-                <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
-                <th width="6%"  scope="col">Fecha Emision</th>
+                <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
+                <th width="9%"  scope="col" style="text-align: center">F. Emision</th>
      
-                <th width="25%"  scope="col">Proyecto</th>              
-                <th width="4%"  scope="col">Orden de</th>
-                <th width="4%"  scope="col">Banco</th>
-                <th width="4%"  scope="col">Total</th>
-                <th width="15%"  scope="col">Estado</th>
-                <th width="5%"  scope="col">Opciones</th>
+                <th  scope="col">Proyecto</th>              
+                <th width="16%"  scope="col">Orden de</th>
+                <th width="6%"  scope="col">Banco</th>
+                <th width="8%"  scope="col" style="text-align: center">Total</th>
+                <th width="11%"  scope="col" style="text-align: center">Estado</th>
+                <th width="7%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -100,49 +100,32 @@
 
       
             <tr>
-              <td>{{$itemreposicion->codigoCedepas  }}</td>
-              <td>{{$itemreposicion->fechaEmision  }}</td>
+              <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->fechaEmision  }}</td>
               
-              <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
-              <td>{{$itemreposicion->girarAOrdenDe  }}</td>
-              <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-              <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
+              <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
+              <td style = "padding: 0.40rem">{{$itemreposicion->girarAOrdenDe  }}</td>
+              <td style = "padding: 0.40rem">{{$itemreposicion->getBanco()->nombreBanco  }}</td>
+              <td style="text-align: right; padding: 0.40rem">{{$itemreposicion->getMoneda()->simbolo}} {{number_format($itemreposicion->monto(),2)}}</td>
               
         
-              <td style="text-align: center">
+              <td style="text-align: center; padding: 0.40rem">
                 
                 <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
                 style="background-color: {{$itemreposicion->getColorEstado()}};
-                        width:95%;
+                        height: 26px;
                         text-align:center;
                         color: {{$itemreposicion->getColorLetrasEstado()}} ;
                 ">
               </td>
-                <td>       
-
-                  <a href="{{route('ReposicionGastos.Empleado.ver',$itemreposicion->codReposicionGastos)}}" 
-                      class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
-                  @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
-                  <a href="{{route('ReposicionGastos.Empleado.editar',$itemreposicion->codReposicionGastos)}}" class="btn btn-success btn-sm">
-                      <i class="entypo-pencil"></i>
-                      Editar
-                  </a>
-                  @endif
-                  <!--
-                  <a  href="{{route('ReposicionGastos.exportarPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-warning btn-sm">
-                    <i class="entypo-pencil"></i>
-                    PDF
-                  </a>
-
-                  <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-warning btn-sm">
-                    <i class="entypo-pencil"></i>
-                    verPDF
-                  </a>
-                -->
-                  
-                </td>
+              <td style = "padding: 0.40rem">       
+                <a href="{{route('ReposicionGastos.Empleado.ver',$itemreposicion->codReposicionGastos)}}" 
+                    class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
+                <a href="{{route('ReposicionGastos.Empleado.editar',$itemreposicion->codReposicionGastos)}}"
+                   class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                @endif
+              </td>
 
             </tr>
         @endforeach

@@ -386,7 +386,7 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->paginate($this::PAGINATION);
+        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
 
 
         $empleados=Empleado::all();
@@ -397,7 +397,7 @@ class ReposicionGastosController extends Controller
 
 
 
-
+    
 
     public function viewGeren($id){
       
@@ -458,7 +458,7 @@ class ReposicionGastosController extends Controller
         }else{
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->paginate($this::PAGINATION);
+        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::all();
 
@@ -505,7 +505,7 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->paginate($this::PAGINATION);
+        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::all();

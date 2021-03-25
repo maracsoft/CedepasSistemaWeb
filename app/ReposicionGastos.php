@@ -112,23 +112,23 @@ class ReposicionGastos extends Model
     public function getColorEstado(){ //BACKGROUND
         $color = '';
         switch($this->codEstadoReposicion){
-            case 1: 
-                $color = 'rgb(215,208,239)';
+            case 1: //creada
+                $color = 'rgb(255,193,7)';
                 break;
-            case 2:
-                $color = 'rgb(91,79,148)';
+            case 2: //observada
+                $color = 'rgb(243,156,18)';
                 break;
-            case 3:
-                $color = 'rgb(195,186,230)';
+            case 3: //abonada
+                $color = 'rgb(0,154,191)';
                 break;
-            case 4:
-                $color ='rgb(35,28,85)';
+            case 4: //contabilizada
+                $color ='rgb(0,166,90)';
                 break;
             case 5:
-                $color ='rgb(35,28,85)';
+                $color ='rgb(255,201,7)';
                 break;
             case 6:
-                $color ='rgb(35,28,85)';
+                $color ='rgb(27,183,152)';
                 break;
             case 7:
                 $color ='red';
@@ -147,13 +147,13 @@ class ReposicionGastos extends Model
                 $color = 'white';
                 break;
             case 3:
-                $color = 'black';
+                $color = 'white';
                 break;
             case 4:
                 $color = 'white';
                 break;
             case 5:
-                $color ='white';
+                $color ='black';
                 break;
             case 6:
                 $color ='white';

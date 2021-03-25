@@ -1,0 +1,8 @@
+
+[class*=sidebar-dark-]
+{
+	background-color: #147a66;
+}
+[class*=sidebar-dark] .user-panel {
+  border-bottom: 1px solid #00a65a;
+}

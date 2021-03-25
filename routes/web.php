@@ -14,11 +14,6 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 Route::get('/prueba','RendicionGastosController@prueba');
 
-
-
-
-
-/* --------------------------------------------      MODULO SOLICITUDES       -------------------------------------------------- */
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
 Route::get('/listarDetallesDeRendicion/{id}','RendicionGastosController@listarDetalles');
@@ -27,287 +22,408 @@ Route::get('/listarDetallesDeReposicion/{id}','ReposicionGastosController@listar
 Route::get('/solicitudFondos/getNumeracionActual/','SolicitudFondosController@getNumeracionLibre');
 Route::get('/rendicionGastos/getNumeracionActual/','RendicionGastosController@getNumeracionLibre');
 Route::get('/reposicionGastos/getNumeracionActual/','ReposicionGastosController@getNumeracionLibre');
-
 Route::get('/obtenerCodigoPresupuestalDeProyecto/{id}','ProyectoController@getCodigoPresupuestal');
 
 
 
-Route::get('/SolicitudFondos/Empleado/listar/','SolicitudFondosController@listarSolicitudesDeEmpleado')
-    ->name('SolicitudFondos.empleado.listar');
+/* ESTE MIDDLEWARE VALIDA SI ES QUE ESTÁS LOGEADO, SI NO, TE MANDA AL LOGIN */
+Route::group(['middleware'=>"ValidarSesion"],function()
+{
 
-Route::get('/SolicitudFondos/Gerente/listar','SolicitudFondosController@listarSolicitudesParaGerente')
-    ->name('SolicitudFondos.Gerente.listar');
-
-Route::get('/SolicitudFondos/Administración/listar','SolicitudFondosController@listarSolicitudesParaJefe')
-    ->name('SolicitudFondos.Administracion.listar');
-
-Route::get('/SolicitudFondos/Contador/listar','SolicitudFondosController@listarSolicitudesParaContador')
-    ->name('SolicitudFondos.Contador.listar');
-
-//ruta para regresar al index de solicitudes del actor que esté logeado
-Route::get('/irAIndex','SolicitudFondosController@listarSolicitudes')
-    ->name('solicitudFondos.listarSolicitudes');
-
-
-
-Route::get('/SolicitudFondos/{id}/Gerente/Revisar/','SolicitudFondosController@revisar')
-    ->name('SolicitudFondos.Gerente.Revisar');
+    
+    
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ----------------------------------------------        MODULO SOLICITUD DE FONDOS ---------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
 
 
-//vista para ver namas (empleado)
-Route::get('/SolicitudFondos/{id}/Empleado/ver/','SolicitudFondosController@ver')
-    ->name('SolicitudFondos.Empleado.Ver');
+
+    /* AFUERA DEL MIDDLEWARE(no requieren validacion o hacerlas sería demasiado complejo xd) */
+    Route::get('/SolicitudFondos/MASTERINDEX','SolicitudFondosController@listarSolicitudes')
+        ->name('solicitudFondos.listarSolicitudes');
+
+
+    Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
+        ->name('solicitudFondos.observar');
+    Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
+        ->name('solicitudFondos.rechazar');
+    
+    Route::get('/SolicitudFondos/descargar/{id}','SolicitudFondosController@descargarPDF')
+        ->name('solicitudFondos.descargarPDF');
+    Route::get('/SolicitudFondos/verPDF/{id}','SolicitudFondosController@verPDF')
+        ->name('solicitudFondos.verPDF');
+
+    /* EMPLEADO Cualquier user logeado puede hacer, no es necesario validar*/
+    Route::get('/SolicitudFondos/Empleado/Crear','SolicitudFondosController@create')
+        ->name('SolicitudFondos.Empleado.Create');
+
+    Route::get('/SolicitudFondos/Empleado/editar/{id}','SolicitudFondosController@edit')
+        ->name('SolicitudFondos.Empleado.Edit');
+
+
+    Route::get('/SolicitudFondos/Empleado/delete/{id}','SolicitudFondosController@cancelar')
+        ->name('SolicitudFondos.Empleado.cancelar');
+
+    Route::get('/SolicitudFondos/Empleado/listar/','SolicitudFondosController@listarSolicitudesDeEmpleado')
+        ->name('SolicitudFondos.empleado.listar');
+
+    Route::get('/SolicitudFondos/{id}/Empleado/ver/','SolicitudFondosController@ver')
+        ->name('SolicitudFondos.Empleado.Ver');
+        
+    Route::post('/SolicitudFondos/Empleado/guardar', 'SolicitudFondosController@store')
+        ->name('SolicitudFondos.Empleado.Guardar');
+    
+    
+    Route::get('/SolicitudFondos/Empleado/Rendir/{id}','SolicitudFondosController@rendir')
+        ->name('SolicitudFondos.Empleado.Rendir');
+    
+    Route::post('/SolicitudFondos/{id}/Empleado/update/','SolicitudFondosController@update')
+        ->name('SolicitudFondos.Empleado.update');
+
+
+
+    /* GERENTE */
+
+
+    Route::group(['middleware'=>"ValidarSesionGerente"],function()
+    {
+
+        Route::get('/SolicitudFondos/{id}/Gerente/Revisar/','SolicitudFondosController@revisar')
+            ->name('SolicitudFondos.Gerente.Revisar');
+
+        Route::get('/SolicitudFondos/Gerente/listar','SolicitudFondosController@listarSolicitudesParaGerente')
+            ->name('SolicitudFondos.Gerente.listar');
+
+        Route::Post('/SolicitudFondos/Gerente/Aprobar/','SolicitudFondosController@aprobar')
+            ->name('SolicitudFondos.Gerente.Aprobar');
     
 
-Route::get('/SolicitudFondos/{id}/Administracion/vistaAbonar/','SolicitudFondosController@vistaAbonar')
-    ->name('SolicitudFondos.Administracion.verAbonar');
+    });
+
+    Route::group(['middleware'=>"ValidarSesionAdministracion"],function(){
+
+        /* ADMINSITRACION */
+        Route::get('/SolicitudFondos/Administración/listar','SolicitudFondosController@listarSolicitudesParaJefe')
+            ->name('SolicitudFondos.Administracion.listar');
+
+        Route::get('/SolicitudFondos/{id}/Administracion/vistaAbonar/','SolicitudFondosController@vistaAbonar')
+            ->name('SolicitudFondos.Administracion.verAbonar');
+
+        Route::post('/SolicitudFondos/Administracion/Abonar/','SolicitudFondosController@abonar')
+            ->name('SolicitudFondos.Administracion.Abonar');
+
+    });
+
+    Route::group(['middleware'=>"ValidarSesionContador"],function()
+    {
+
+        /* CONTADOR */
+
+        Route::get('/SolicitudFondos/Contador/listar','SolicitudFondosController@listarSolicitudesParaContador')
+            ->name('SolicitudFondos.Contador.listar');
+
+        Route::get('/SolicitudFondos/{id}/Contador/verContabilizar/','SolicitudFondosController@verContabilizar')
+            ->name('SolicitudFondos.Contador.verContabilizar');
 
 
-Route::get('/SolicitudFondos/{id}/Contador/verContabilizar/','SolicitudFondosController@verContabilizar')
-    ->name('SolicitudFondos.Contador.verContabilizar');
+        Route::get('/SolicitudFondos/Contador/Contabilizar/{id}','SolicitudFondosController@contabilizar')
+            ->name('SolicitudFondos.Contador.Contabilizar');
 
-Route::post('/SolicitudFondos/Administracion/Abonar/','SolicitudFondosController@abonar')
-    ->name('SolicitudFondos.Administracion.Abonar');
-
-
-Route::get('/SolicitudFondos/descargarComprobanteAbono/{id}','SolicitudFondosController@descargarComprobanteAbono')
-    ->name('solicitudFondos.descargarComprobanteAbono');
+    });
+    
     
 
 
-Route::Post('/SolicitudFondos/Gerente/Aprobar/','SolicitudFondosController@aprobar')
-    ->name('SolicitudFondos.Gerente.Aprobar');
+      
     
-Route::get('/SolicitudFondos/Contador/Contabilizar/{id}','SolicitudFondosController@contabilizar')
-    ->name('SolicitudFondos.Contador.Contabilizar');
 
 
-Route::get('/SolicitudFondos/Empleado/Rendir/{id}','SolicitudFondosController@rendir')
-->name('SolicitudFondos.Empleado.Rendir');
 
 
-Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
-->name('solicitudFondos.observar');
+    
+    
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* -----------------------------------------------------MODULO RENDICIONES--------- ---------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
 
-Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
-->name('solicitudFondos.rechazar');
 
+    Route::post('/reportes/ver', 'RendicionGastosController@reportes')
+    ->name('rendicionGastos.reportes');
 
-Route::get('/SolicitudFondos/Empleado/Crear','SolicitudFondosController@create')
-->name('SolicitudFondos.Empleado.Create');
 
-Route::get('/SolicitudFondos/Empleado/editar/{id}','SolicitudFondosController@edit')
-->name('SolicitudFondos.Empleado.Edit');
+    Route::get('/reportes/descargar/{str}', 'RendicionGastosController@descargarReportes')
+        ->name('rendicionGastos.descargarReportes');
 
 
-Route::get('/SolicitudFondos/Empleado/delete/{id}','SolicitudFondosController@cancelar')
-->name('SolicitudFondos.Empleado.cancelar');
+    Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descargarCDP')
+    ->name('rendiciones.descargarCDP');
 
-Route::get('/SolicitudFondos/Administracion/reportes/','SolicitudFondosController@reportes')
-->name('solicitudFondos.reportes');
 
 
-Route::post('/SolicitudFondos/{id}/Empleado/update/','SolicitudFondosController@update')
-    ->name('SolicitudFondos.Empleado.update');
 
-Route::get('/SolicitudFondos/descargar/{id}','SolicitudFondosController@descargarPDF')
-    ->name('solicitudFondos.descargarPDF');
+    Route::get('/RendicionGastos//descargarPDF/{id}','RendicionGastosController@descargarPDF')
+    ->name('rendicionGastos.descargarPDF');
 
-Route::get('/SolicitudFondos/verPDF/{id}','SolicitudFondosController@verPDF')
-    ->name('solicitudFondos.verPDF');
+    Route::get('/RendicionGastos/verPDF/{id}','RendicionGastosController@verPDF')
+    ->name('rendicionGastos.verPDF');
 
 
+    Route::get('/RendicionGastos/{id}/rechazar','RendicionGastosController@rechazar')
+    ->name('RendicionGastos.Gerente.Rechazar');
 
-Route::post('/SolicitudFondos/Empleado/guardar', 'SolicitudFondosController@store')
-->name('SolicitudFondos.Empleado.Guardar');
+    Route::get('/rendiciones/observar/{string}','RendicionGastosController@observar')
+    ->name('RendicionGastos.Observar');
+    /* EMPLEADO */
 
-/* ----------------------------------------------        MODULO RENDICIONES           ------------------------------------------ */
 
-Route::post('/RendicionGastos/Empleado/guardar', 'RendicionGastosController@store')
-->name('RendicionGastos.Empleado.Store');
+    
+    Route::post('/RendicionGastos/Empleado/guardar', 'RendicionGastosController@store')
+    ->name('RendicionGastos.Empleado.Store');
 
-Route::get('/RendicionGastos/{id}/Empleado/ver/', 'RendicionGastosController@ver')
-->name('RendicionGastos.Empleado.Ver');
+    Route::get('/RendicionGastos/{id}/Empleado/ver/', 'RendicionGastosController@ver')
+    ->name('RendicionGastos.Empleado.Ver');
 
-Route::get('/RendicionGastos/{id}/Adminsitracion/ver', 'RendicionGastosController@verAdmin')
-->name('RendicionGastos.Administracion.Ver');
 
-Route::get('/RendicionGastos/{id}/Gerente/ver', 'RendicionGastosController@verGerente')
-->name('RendicionGastos.Gerente.Ver');
+    Route::get('RendicionGastos/{id}/Empleado/editar','RendicionGastosController@editar')
+    ->name('RendicionGastos.Empleado.Editar');
 
-Route::get('RendicionGastos/{id}/Empleado/editar','RendicionGastosController@editar')
-->name('RendicionGastos.Empleado.Editar');
+    Route::Post('/RendicionGastos/Empleado/update/','RendicionGastosController@update')
+    ->name('RendicionGastos.Empleado.Update');
+    Route::get('/RendicionGastos/Empleado/Listar/','RendicionGastosController@listarEmpleado')
+    ->name('RendicionGastos.Empleado.listar');
+    
+    Route::group(['middleware'=>"ValidarSesionGerente"],function()
+    {
+    
+    /* GERENTE */
 
-Route::Post('/RendicionGastos/Empleado/update/','RendicionGastosController@update')
-->name('RendicionGastos.Empleado.Update');
+    Route::get('/RendicionGastos/{id}/Gerente/ver', 'RendicionGastosController@verGerente')
+        ->name('RendicionGastos.Gerente.Ver');
 
+    Route::get('/RendicionGastos/{id}/Gerente/revisar','RendicionGastosController@revisar')
+        ->name('RendicionGastos.Gerente.Revisar');
 
-Route::get('/RendicionGastos/{id}/Gerente/revisar','RendicionGastosController@revisar')
-->name('RendicionGastos.Gerente.Revisar');
+    Route::Post('/RendicionGastos/Gerente/aprobar','RendicionGastosController@aprobar')
+        ->name('RendicionGastos.Gerente.Aprobar');
 
+    Route::get('/RendicionGastos/Gerente/listar/','RendicionGastosController@listarDelGerente')
+        ->name('RendicionGastos.Gerente.listar');
+    
+    });
+    Route::group(['middleware'=>"ValidarSesionAdministracion"],function()
+    {
+        /* ADMINISTRACION */
 
+        Route::get('/RendicionGastos/Administracion/listar/','RendicionGastosController@listarJefeAdmin')
+            ->name('RendicionGastos.Administracion.listar');
 
-Route::Post('/RendicionGastos/Gerente/aprobar','RendicionGastosController@aprobar')
-->name('RendicionGastos.Gerente.Aprobar');
+        Route::get('/RendicionGastos/{id}/Administracion/ver', 'RendicionGastosController@verAdmin')
+            ->name('RendicionGastos.Administracion.Ver');
 
-Route::get('/RendicionGastos/{id}/rechazar','RendicionGastosController@rechazar')
-->name('RendicionGastos.Gerente.Rechazar');
+    });
 
-Route::get('/rendiciones/observar/{string}','RendicionGastosController@observar')
-->name('RendicionGastos.Observar');
+    Route::group(['middleware'=>"ValidarSesionContador"],function()
+    {
+        /* CONTADOR */
 
+        Route::get('/RendicionGastos/{id}/Contador/verContabilizar/','RendicionGastosController@verContabilizar')
+                ->name('RendicionGastos.Contador.verContabilizar');   
 
-//RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
-Route::get('/RendicionGastos/MAESTRA/listar','RendicionGastosController@listarRendiciones')
-->name('rendicionGastos.listarRendiciones');
+        Route::get('/rendicion/contabilizar/{cad}','RendicionGastosController@contabilizar')
+            ->name('RendicionGastos.Contador.Contabilizar');   
 
+        Route::get('/RendicionGastos/Contador/listar/','RendicionGastosController@listarContador')
+            ->name('rendicionGastos.listarContador');
 
-Route::get('/verReponer/{id}', 'RendicionGastosController@verReponer')->name('rendicionGastos.verReponer');
-Route::post('/rendicion/reponer/','RendicionGastosController@reponer')
-    ->name('rendicionGastos.reponer');
+    });
 
-Route::get('/RendicionGastos/Contador/verContabilizar/{id}','RendicionGastosController@verContabilizar')
-        ->name('RendicionGastos.Contador.verContabilizar');   
+    //RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
+    Route::get('/RendicionGastos/MAESTRA/listar','RendicionGastosController@listarRendiciones')
+    ->name('rendicionGastos.listarRendiciones');
 
-Route::get( '/rendicion/contabilizar/{cad}','RendicionGastosController@contabilizar')
-->name('RendicionGastos.Contador.Contabilizar');   
 
-Route::post('/reportes/ver', 'RendicionGastosController@reportes')
-->name('rendicionGastos.reportes');
 
 
-Route::get('/reportes/descargar/{str}', 'RendicionGastosController@descargarReportes')
-    ->name('rendicionGastos.descargarReportes');
+  
 
 
-Route::get('/rendicion/descargarCDP/{cadena}','RendicionGastosController@descargarCDP')
-->name('rendiciones.descargarCDP');
+    /**PUEDE HACER EL EMPLEADO */
+    Route::get('/GestiónUsuarios/verPerfil','EmpleadoController@verPerfil')->name('GestionUsuarios.verPerfil');
+    Route::post('/GestiónUsuarios/updateContrasena','EmpleadoController@guardarContrasena')->name('GestionUsuarios.updateContrasena');
+    Route::post('/GestiónUsuarios/updateDPersonales','EmpleadoController@guardarDPersonales')->name('GestionUsuarios.updateDPersonales');
 
+    /* FUNCIONES PROPIAS DEL ADMINISTRADOR DEL SISTEMA */
+    Route::group(['middleware'=>"ValidarSesionAdminSistema"],function()
+    {
 
+        /* ----------------------------------------------        MODULO GESTIÓN DE USUARIOS ---------------------------- */
+        Route::get('/GestiónUsuarios/listar','EmpleadoController@listarEmpleados')->name('GestionUsuarios.listar');
 
+        Route::get('/GestiónUsuarios/crear','EmpleadoController@crearEmpleado')->name('GestionUsuarios.create');
+        Route::post('/GestiónUsuarios/save','EmpleadoController@guardarCrearEmpleado')->name('GestionUsuarios.store');
+    
+        Route::get('/GestiónUsuarios/{id}/editar','EmpleadoController@editarEmpleado')->name('GestionUsuarios.edit');
+        Route::post('/GestiónUsuarios/update','EmpleadoController@guardarEditarEmpleado')->name('GestionUsuarios.update');
+    
+        Route::get('/GestiónUsuarios/{id}/cesar','EmpleadoController@cesarEmpleado')->name('GestionUsuarios.cesar');
+    
+        
+        /* ----------------------------------------------        MODULO PUESTOS           ------------------------------------------ */
+        Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.listar');
+    
+        Route::get('/GestiónPuestos/crear','PuestoController@crearPuesto')->name('GestiónPuestos.create');
+        Route::post('/GestiónPuestos/save','PuestoController@guardarCrearPuesto')->name('GestiónPuestos.store');
+    
+        Route::get('/GestiónPuestos/{id}/editar','PuestoController@editarPuesto')->name('GestiónPuestos.edit');
+        Route::post('/GestiónPuestos/update','PuestoController@guardarEditarPuesto')->name('GestiónPuestos.update');
+    
+        Route::get('/GestiónPuestos/{id}/eliminar','PuestoController@eliminarPuesto')->name('GestiónPuestos.delete');
 
 
-//esta ruta sirve tanto como para el comprobante de envio empleado->cedepas como para la reposicion de cedepas->empleado
-Route::get('/RendicionGastos/descargarArchivoRendicion/{id}','RendicionGastosController@descargarArchivoRendicion')
-->name('rendicion.descargarArchivoRendicion');
 
+            
+        /* ---------------------------------------------- MODULO PROYECTOS -------------------------------------------- */
+        Route::get('/GestiónProyectos/listar','ProyectoController@index')->name('GestiónProyectos.listar');
 
-Route::get('/RendicionGastos/Contador/listar/','RendicionGastosController@listarContador')
-->name('rendicionGastos.listarContador');
+        Route::get('/GestiónProyectos/crear','ProyectoController@crear')->name('GestiónProyectos.crear');
+        Route::post('/GestiónProyectos/store','ProyectoController@store')->name('GestiónProyectos.store');
 
-Route::get('/RendicionGastos/Administracion/listar/','RendicionGastosController@listarJefeAdmin')
-->name('RendicionGastos.Administracion.listar');
+        Route::get('/GestiónProyectos/{id}/editar','ProyectoController@editar')->name('GestiónProyectos.editar');
+        Route::post('/GestiónProyectos/update','ProyectoController@update')->name('GestiónProyectos.update');
 
-Route::get('/RendicionGastos/Gerente/listar/','RendicionGastosController@listarDelGerente')
-->name('RendicionGastos.Gerente.listar');
+        Route::get('/GestiónProyectos/{id}/darDeBaja','ProyectoController@darDeBaja')->name('GestiónProyectos.darDeBaja');
 
-Route::get('/RendicionGastos/Empleado/Listar/','RendicionGastosController@listarEmpleado')
-->name('RendicionGastos.Empleado.listar');
 
-Route::get('/RendicionGastos//descargarPDF/{id}','RendicionGastosController@descargarPDF')
-->name('rendicionGastos.descargarPDF');
-Route::get('/RendicionGastos/verPDF/{id}','RendicionGastosController@verPDF')
-->name('rendicionGastos.verPDF');
+        /**GERENTES-CONTADORES */
+        Route::get('/GestiónProyectos/{id}/asignarGerente','ProyectoController@actualizarProyectosYGerentesContadores');
 
+        Route::get('/GestiónProyectos/{id}/asignarContador','ProyectoController@listarContadores')->name('GestiónProyectos.listarContadores');
+        Route::post('/GestiónProyectos/asignarContadores/save','ProyectoController@agregarContador')->name('GestiónProyectos.agregarContador');//usa la ruta no el name
 
+        Route::get('/GestiónProyectos/{id}/eliminarContador','ProyectoController@eliminarContador')->name('GestiónProyectos.eliminarContador');
 
-/* ----------------------------------------------        MODULO GESTIÓN DE USUARIOS ---------------------------- */
-Route::get('/GestiónUsuarios/listar','EmpleadoController@listarEmpleados')->name('GestionUsuarios.listar');
 
-Route::get('/GestiónUsuarios/crear','EmpleadoController@crearEmpleado')->name('GestionUsuarios.create');
-Route::post('/GestiónUsuarios/save','EmpleadoController@guardarCrearEmpleado')->name('GestionUsuarios.store');
 
-Route::get('/GestiónUsuarios/{id}/editar','EmpleadoController@editarEmpleado')->name('GestionUsuarios.edit');
-Route::post('/GestiónUsuarios/update','EmpleadoController@guardarEditarEmpleado')->name('GestionUsuarios.update');
 
-Route::get('/GestiónUsuarios/{id}/cesar','EmpleadoController@cesarEmpleado')->name('GestionUsuarios.cesar');
 
-/**PUEDE HACER EL EMPLEADO */
-Route::get('/GestiónUsuarios/verPerfil','EmpleadoController@verPerfil')->name('GestionUsuarios.verPerfil');
-Route::post('/GestiónUsuarios/updateContrasena','EmpleadoController@guardarContrasena')->name('GestionUsuarios.updateContrasena');
-Route::post('/GestiónUsuarios/updateDPersonales','EmpleadoController@guardarDPersonales')->name('GestionUsuarios.updateDPersonales');
 
-/* ----------------------------------------------        MODULO PUESTOS           ------------------------------------------ */
-Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.listar');
 
-Route::get('/GestiónPuestos/crear','PuestoController@crearPuesto')->name('GestiónPuestos.create');
-Route::post('/GestiónPuestos/save','PuestoController@guardarCrearPuesto')->name('GestiónPuestos.store');
 
-Route::get('/GestiónPuestos/{id}/editar','PuestoController@editarPuesto')->name('GestiónPuestos.edit');
-Route::post('/GestiónPuestos/update','PuestoController@guardarEditarPuesto')->name('GestiónPuestos.update');
 
-Route::get('/GestiónPuestos/{id}/eliminar','PuestoController@eliminarPuesto')->name('GestiónPuestos.delete');
+    });
 
-/* ---------------------------------------------- MODULO REPOSICIONES -------------------------------------------- */
-/**RUTA MAESTRA PARA REPOSICION */
-Route::get('/indexReposicion','ReposicionGastosController@listarReposiciones')->name('ReposicionGastos.listar');
-/**RUTA MAESTRA PARA DESCARGAR CDP */
-Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')->name('ReposicionGastos.descargarCDP');
 
 
 
-/**EMPLEADO*/
-Route::get('/ReposicionGastos/Empleado/listar','ReposicionGastosController@listarOfEmpleado')->name('ReposicionGastos.Empleado.listar');
-Route::get('/ReposicionGastos/Empleado/crear','ReposicionGastosController@create')->name('ReposicionGastos.Empleado.create');
-Route::post('/ReposicionGastos/Empleado/store','ReposicionGastosController@store')->name('ReposicionGastos.Empleado.store');
 
-Route::post('/ReposicionGastos/Empleado/update','ReposicionGastosController@update')->name('ReposicionGastos.Empleado.update');
-Route::get('/ReposicionGastos/{id}/Empleado/editar','ReposicionGastosController@editar')->name('ReposicionGastos.Empleado.editar');
 
-Route::get('/ReposicionGastos/{id}/Empleado/view','ReposicionGastosController@view')->name('ReposicionGastos.Empleado.ver');
 
-/**GERENTE*/
-Route::get('/ReposicionGastos/Gerente/listar','ReposicionGastosController@listarOfGerente')->name('ReposicionGastos.Gerente.listar');
-Route::get('/ReposicionGastos/{id}/Gerente/view','ReposicionGastosController@viewGeren')->name('ReposicionGastos.Gerente.ver');
 
-/**ADMINISTRACION*/
-Route::get('/ReposicionGastos/Administracion/listar','ReposicionGastosController@listarOfJefe')->name('ReposicionGastos.Administracion.listar');
-Route::get('/ReposicionGastos/{id}/Administracion/view','ReposicionGastosController@viewJefe')->name('ReposicionGastos.Administracion.ver');
 
-/**CONTADOR*/
-Route::get('/ReposicionGastos/Contador/listar','ReposicionGastosController@listarOfConta')->name('ReposicionGastos.Contador.listar');
-Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@viewConta')->name('ReposicionGastos.Contador.ver');
 
 
- 
-/**RUTA MAESTRA PARA ESTADOS */
-Route::Post('/ReposicionGastos/Gerente/Aprobar','ReposicionGastosController@aprobar')->name('ReposicionGastos.Gerente.aprobar');
-Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')->name('ReposicionGastos.rechazar');
-Route::get('/ReposicionGastos/{id}/Observar','ReposicionGastosController@observar')->name('ReposicionGastos.observar');//usa la ruta no el name
-Route::get('/ReposicionGastos/{id}/Abonar','ReposicionGastosController@abonar')->name('ReposicionGastos.abonar');
-Route::get('/ReposicionGastos/{id}/Contabilizar','ReposicionGastosController@contabilizar')->name('ReposicionGastos.contabilizar');//usa la ruta no el name
 
-/**RUTA MAESTRA PARA DESCARGAR FORMULARIOS PDF */
-Route::get('/ReposicionGastos/{id}/PDF','ReposicionGastosController@descargarPDF')->name('ReposicionGastos.exportarPDF');
-Route::get('/ReposicionGastos/{id}/verPDF','ReposicionGastosController@verPDF')->name('ReposicionGastos.verPDF');
 
 
-/* ---------------------------------------------- MODULO PROYECTOS -------------------------------------------- */
-Route::get('/GestiónProyectos/listar','ProyectoController@index')->name('GestiónProyectos.listar');
 
-Route::get('/GestiónProyectos/crear','ProyectoController@crear')->name('GestiónProyectos.crear');
-Route::post('/GestiónProyectos/store','ProyectoController@store')->name('GestiónProyectos.store');
 
-Route::get('/GestiónProyectos/{id}/editar','ProyectoController@editar')->name('GestiónProyectos.editar');
-Route::post('/GestiónProyectos/update','ProyectoController@update')->name('GestiónProyectos.update');
+    /* ---------------------------------------------- MODULO REPOSICIONES -------------------------------------------- */
+    /**RUTA MAESTRA PARA REPOSICION */
+    Route::get('/indexReposicion','ReposicionGastosController@listarReposiciones')
+        ->name('ReposicionGastos.listar');
+    /**RUTA MAESTRA PARA DESCARGAR CDP */
+    Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')
+        ->name('ReposicionGastos.descargarCDP');
 
-Route::get('/GestiónProyectos/{id}/darDeBaja','ProyectoController@darDeBaja')->name('GestiónProyectos.darDeBaja');
 
+    
+    /**EMPLEADO*/
+    Route::get('/ReposicionGastos/Empleado/listar','ReposicionGastosController@listarOfEmpleado')
+        ->name('ReposicionGastos.Empleado.listar');
+    Route::get('/ReposicionGastos/Empleado/crear','ReposicionGastosController@create')
+        ->name('ReposicionGastos.Empleado.create');
+    Route::post('/ReposicionGastos/Empleado/store','ReposicionGastosController@store')
+        ->name('ReposicionGastos.Empleado.store');
 
-/**GERENTES-CONTADORES */
-Route::get('/GestiónProyectos/{id}/asignarGerente','ProyectoController@actualizarProyectosYGerentesContadores');
+    Route::post('/ReposicionGastos/Empleado/update','ReposicionGastosController@update')
+        ->name('ReposicionGastos.Empleado.update');
+    Route::get('/ReposicionGastos/{id}/Empleado/editar','ReposicionGastosController@editar')
+        ->name('ReposicionGastos.Empleado.editar');
 
-Route::get('/GestiónProyectos/{id}/asignarContador','ProyectoController@listarContadores')->name('GestiónProyectos.listarContadores');
-Route::post('/GestiónProyectos/asignarContadores/save','ProyectoController@agregarContador')->name('GestiónProyectos.agregarContador');//usa la ruta no el name
+    Route::get('/ReposicionGastos/{id}/Empleado/view','ReposicionGastosController@view')
+        ->name('ReposicionGastos.Empleado.ver');
 
-Route::get('/GestiónProyectos/{id}/eliminarContador','ProyectoController@eliminarContador')->name('GestiónProyectos.eliminarContador');
+    Route::group(['middleware'=>"ValidarSesionGerente"],function()
+    {
+        /**GERENTE*/
+        Route::get('/ReposicionGastos/Gerente/listar','ReposicionGastosController@listarOfGerente')
+            ->name('ReposicionGastos.Gerente.listar');
+        Route::get('/ReposicionGastos/{id}/Gerente/view','ReposicionGastosController@viewGeren')
+            ->name('ReposicionGastos.Gerente.ver');
+        Route::Post('/ReposicionGastos/Gerente/Aprobar','ReposicionGastosController@aprobar')
+            ->name('ReposicionGastos.Gerente.aprobar');
+    });
+    Route::group(['middleware'=>"ValidarSesionAdministracion"],function()
+    {
 
+        /**ADMINISTRACION*/
+        Route::get('/ReposicionGastos/Administracion/listar','ReposicionGastosController@listarOfJefe')
+            ->name('ReposicionGastos.Administracion.listar');
+        Route::get('/ReposicionGastos/{id}/Administracion/view','ReposicionGastosController@viewJefe')
+            ->name('ReposicionGastos.Administracion.ver');
+        Route::get('/ReposicionGastos/{id}/Abonar','ReposicionGastosController@abonar')
+            ->name('ReposicionGastos.abonar');
 
+    });
+    Route::group(['middleware'=>"ValidarSesionContador"],function()
+    {
 
 
+        Route::get('/ReposicionGastos/{id}/Contabilizar','ReposicionGastosController@contabilizar')
+        ->name('ReposicionGastos.contabilizar');//usa la ruta no el name
 
+        /**CONTADOR*/
+        Route::get('/ReposicionGastos/Contador/listar','ReposicionGastosController@listarOfConta')
+            ->name('ReposicionGastos.Contador.listar');
+        Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@viewConta')
+            ->name('ReposicionGastos.Contador.ver');
 
 
+    
+    });
+    
+   
+   
+    Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')
+        ->name('ReposicionGastos.rechazar');
+    Route::get('/ReposicionGastos/{id}/Observar','ReposicionGastosController@observar')
+        ->name('ReposicionGastos.observar');//usa la ruta no el name
+    
+    /**RUTA MAESTRA PARA DESCARGAR FORMULARIOS PDF */
+    Route::get('/ReposicionGastos/{id}/PDF','ReposicionGastosController@descargarPDF')
+        ->name('ReposicionGastos.exportarPDF');
+    Route::get('/ReposicionGastos/{id}/verPDF','ReposicionGastosController@verPDF')
+        ->name('ReposicionGastos.verPDF');
 
 
 
@@ -317,9 +433,7 @@ Route::get('/GestiónProyectos/{id}/eliminarContador','ProyectoController@elimin
 
 
 
-
-
-
+} );
 
 
 

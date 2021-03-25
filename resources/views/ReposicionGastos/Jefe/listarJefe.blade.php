@@ -91,18 +91,19 @@
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Codigo</th>
-                <th scope="col">Fecha emision</th>
-                <th scope="col">Fecha Gerente</th>
-                <th scope="col">Banco</th>
-                <th scope="col">Empleado Solicitante</th>
+                <th width="9%" scope="col">Codigo</th>
+                <th width="7%" scope="col" style = "text-align: center">F. Emision</th>
+                <th width="7%" scope="col" style = "text-align: center">F. Gerente</th>
+                
+                <th width="11%" scope="col">Solicitante</th>
                 <th scope="col">Proyecto</th>
-                <th scope="col">Total Solicitado</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Fecha Revision</th>
+                <th width="6%" scope="col">Banco</th>
+                <th width="8%" scope="col" style="text-align: center">Total</th>
+                <th width="11%" scope="col" style="text-align: center">Estado</th>
+                <th width="7%" scope="col" style = "text-align: center">F. Revision</th>
                 
 
-                <th scope="col">Opciones</th>
+                <th width="9%" scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -113,38 +114,37 @@
 
       
             <tr>
-              <td>{{$itemreposicion->codigoCedepas  }}</td>
-                <td>{{$itemreposicion->fechaEmision  }}</td>
-                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionGerente}}</td>
-                <td>{{$itemreposicion->getBanco()->nombreBanco  }}</td>
-                <td>{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
-                <td>{{$itemreposicion->getProyecto()->nombre  }}</td>
-                <td>{{$itemreposicion->getMoneda()->simbolo}} {{$itemreposicion->monto()}}</td>
-                <td style="text-align: center">
+                <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->fechaEmision  }}</td>
+                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionGerente}}</td>
+                
+                <td style = "padding: 0.40rem">{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
+                <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
+                <td style = "padding: 0.40rem">{{$itemreposicion->getBanco()->nombreBanco  }}</td>
+                <td style = "text-align: right; padding: 0.40rem">{{$itemreposicion->getMoneda()->simbolo}} {{number_format($itemreposicion->monto(),2)}}</td>
+                <td style="text-align: center; padding: 0.40rem">
                   <input type="text" value="{{$itemreposicion->getNombreEstado()}}" class="form-control" readonly 
                   style="background-color: {{$itemreposicion->getColorEstado()}};
-                          width:95%;
+                          height: 26px;
                           text-align:center;
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
                   ">
                 </td>
-                <td style="text-align: center">{{$itemreposicion->fechaHoraRevisionAdmin==null ? 'No revisado':$itemreposicion->fechaHoraRevisionAdmin}}</td>
-                <td>
+                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionAdmin==null ? 'No revisado':$itemreposicion->fechaHoraRevisionAdmin}}</td>
+                <td style = "padding: 0.40rem">
                   @if($itemreposicion->codEstadoReposicion==2)
-                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="entypo-pencil"></i>Evaluar</a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="fas fa-thumbs-up"></i></a>
                   @else
-                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="entypo-pencil"></i>Ver</a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                   @endif
                   <a  href="{{route('ReposicionGastos.exportarPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-warning btn-sm">
-                    <i class="entypo-pencil"></i>
-                    PDF
+                    class="btn btn-info btn-sm">
+                    <i class="fas fa-file-download"></i>
                   </a>
 
                   <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-warning btn-sm">
-                    <i class="entypo-pencil"></i>
-                    verPDF
+                    class="btn btn-info btn-sm">
+                    <i class="fas fa-file-pdf"></i>
                   </a>
                 </td>
 

@@ -289,12 +289,12 @@ class SolicitudFondosController extends Controller
 
 
             DB::commit();
-            return redirect()->route('solicitudFondos.listarSolicitudes')
+            return redirect()->route('SolicitudFondos.Gerente.listar')
                 ->with('datos','Solicitud '.$solicitud->codigoCedepas.' Aprobada! ');
         } catch (\Throwable $th) {
            Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : APROBAR',$th);
            DB::rollBack();
-           return redirect()->route('solicitudFondos.listarSolicitudes')
+           return redirect()->route('SolicitudFondos.Gerente.listar')
            ->with('datos','Ha ocurrido un error');
 
         }
@@ -352,14 +352,14 @@ class SolicitudFondosController extends Controller
             
 
             DB::commit();
-        return redirect()->route('solicitudFondos.listarSolicitudes')
+        return redirect()->route('SolicitudFondos.Administracion.listar')
             ->with('datos','¡Solicitud '.$solicitud->codigoCedepas.' Abonada!');
 
 
         } catch (\Throwable $th) {
             Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : ABONAR',$th);
             DB::rollBack();
-            return redirect()->route('solicitudFondos.listarSolicitudes')
+            return redirect()->route('SolicitudFondos.Administracion.listar')
             ->with('datos','Ha ocurrido un error.');
 
         }
