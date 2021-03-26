@@ -280,6 +280,10 @@
     
         });
     
+        @if (App\Configuracion::enProduccion)
+            document.getElementById('listaContabilizados').type = "hidden";
+        @endif
+
         var listaItems = [];
 
         function contabilizarItem(item){

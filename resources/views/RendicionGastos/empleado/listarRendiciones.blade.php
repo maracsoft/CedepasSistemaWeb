@@ -89,15 +89,15 @@
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="7%" scope="col">Codigo Rendicion</th> {{-- COD CEDEPAS --}}
-                <th width="6%"  scope="col">Fecha Rendicion</th>
+                <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
+                <th width="9%" scope="col" style="text-align: center">F. Rendicion</th>
             
-                <th width="20%"  scope="col">Proyecto</th>              
-                <th width="4%"  scope="col">Total Recibido</th>
-                <th width="4%"  scope="col">Total Gastado</th>
-                <th width="4%"  scope="col">Saldo</th>
-                <th width="15%"  scope="col">Estado</th>
-                <th width="10%"  scope="col">Opciones</th>
+                <th scope="col">Proyecto</th>              
+                <th width="9%" scope="col" style="text-align: center">Total Recibido</th>
+                <th width="9%" scope="col" style="text-align: center">Total Gastado</th>
+                <th width="8%" scope="col" style="text-align: center">Saldo fav Emp</th>
+                <th width="11%" scope="col" style="text-align: center">Estado</th>
+                <th width="8%" scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -108,55 +108,39 @@
 
       
             <tr>
-              <td>{{$itemRendicion->codigoCedepas  }}</td>
-              <td>{{$itemRendicion->fechaHoraRendicion  }}</td>
+              <td style = "padding: 0.40rem">{{$itemRendicion->codigoCedepas  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->getFechaHoraRendicion()  }}</td>
              
-              <td>{{$itemRendicion->getNombreProyecto()  }}</td>
-              <td>{{$itemRendicion->totalImporteRecibido  }}</td>
-              <td>{{$itemRendicion->totalImporteRendido  }}</td>
-              <td>{{$itemRendicion->saldoAFavorDeEmpleado  }}</td>
+              <td style = "padding: 0.40rem">{{$itemRendicion->getNombreProyecto()  }}</td>
+              <td style = "padding: 0.40rem; text-align: right">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRecibido,2)  }}</td>
+              <td style = "padding: 0.40rem; text-align: right;">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRendido,2)  }}</td>
+              <td style = "padding: 0.40rem; text-align: right; color: {{$itemRendicion->getColorSaldo()}}">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->saldoAFavorDeEmpleado,2)  }}</td>
               
         
-              <td style="text-align: center">
-                
-                <input type="text" value="{{$itemRendicion->getNombreEstado()}}" class="form-control" readonly 
+              <td style = "padding: 0.40rem; text-align: center">
+                <input  type="text" value="{{$itemRendicion->getNombreEstado()}}" class="form-control" readonly 
                 style="background-color: {{$itemRendicion->getColorEstado()}};
-                        width:95%;
+                        height: 26px;
                         text-align:center;
                         color: {{$itemRendicion->getColorLetrasEstado()}} ;
                 ">
               </td>
-                <td>       
-                  
-
-                  @if($itemRendicion->verificarEstado('Creada') || 
-                    $itemRendicion->verificarEstado('Subsanada') ||
-                     $itemRendicion->verificarEstado('Observada') )
-                    <a href="{{route('RendicionGastos.Empleado.Editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning">
-                      <i class="fas fa-edit"></i>
-                    </a>
-                            
-                  @endif
-                  
-
-
-                  <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}">
-                    <h1>
-                      <span class="red">S</span>
-                    </h1>
+              <td style = "padding: 0.40rem">       
+                @if($itemRendicion->verificarEstado('Creada') || 
+                  $itemRendicion->verificarEstado('Subsanada') ||
+                    $itemRendicion->verificarEstado('Observada') )
+                  <a href="{{route('RendicionGastos.Empleado.Editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i>
                   </a>
-
-
-                  <a href="{{route('RendicionGastos.Empleado.Ver',$itemRendicion->codRendicionGastos)}}">
-                    <h1>
-                      <span class="red">R</span>
-                    </h1>
-                  </a>
-                         
-                        
-
-                    
-                </td>
+                          
+                @endif
+                <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class = "btn btn-info btn-sm">
+                  S
+                </a>
+                <a href="{{route('RendicionGastos.Empleado.Ver',$itemRendicion->codRendicionGastos)}}" class = "btn btn-info btn-sm">
+                  R
+                </a>
+              </td>
 
             </tr>
         @endforeach

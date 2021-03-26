@@ -32,7 +32,7 @@
               <li class="nav-item">
                 <a href="{{route('SolicitudFondos.Administracion.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Solicitudes para abonar</p>
+                  <p>Administrador</p>
                 </a>
               </li>
 
@@ -40,7 +40,7 @@
               <li class="nav-item">
                 <a href="{{route('SolicitudFondos.Contador.listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Solicitudes</p>
+                  <p>Contador</p>
                 </a>
               </li>
            

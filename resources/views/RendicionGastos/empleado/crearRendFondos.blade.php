@@ -437,15 +437,24 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
             confirmar('¿Está seguro de crear la solicitud?','info','frmrend');
             
         }
+        function cambiarEstilo(name, clase){
+            document.getElementById(name).className = clase;
+        }
+        function limpiarEstilos(){
+            cambiarEstilo('resumen','form-control');
 
+        }
 
         var listaArchivos = '';
                     
         function validarFormCrear(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
             msj='';
             
-            if($('#resumen').val()=='' )
-                msj='Debe ingresar el resumen';
+            limpiarEstilos();
+            if($('#resumen').val()=='' ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='Debe ingresar la resumen';
+            }
             
             if( $('#cantElementos').val()<=0 )
                 msj='Debe ingresar Items';

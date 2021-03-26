@@ -378,7 +378,7 @@
                                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
                                 <label class="label" for="filenames" style="font-size: 12pt;">       
                                      <div id="divFileImagenEnvio" class="hovered">       
-                                        Subir archivos comprobantes  
+                                        Sobrescribir archivos comprobantes  
                                      <i class="fas fa-upload"></i>        
                                     </div>       
                                 </label>       
@@ -499,6 +499,17 @@
         confirmar('¿Seguro de guardar los cambios de la reposicion?','info','frmrepo');//[success,error,warning,info]
 
     }
+    function cambiarEstilo(name, clase){
+            document.getElementById(name).className = clase;
+        }
+    function limpiarEstilos(){
+        cambiarEstilo('codProyecto','form-control');
+        cambiarEstilo('codMoneda','form-control');
+        cambiarEstilo('numeroCuentaBanco','form-control');
+        cambiarEstilo('girarAOrdenDe','form-control');
+        cambiarEstilo('codBanco','form-control');
+        cambiarEstilo('resumen','form-control');
+    }
 </script>
 
        {{-- PARA EL FILE  --}}
@@ -541,7 +552,7 @@
         });
         }
 
-
+        
 
 
         
@@ -549,15 +560,33 @@
 
         function validarFormularioEdit(){ //Retorna '' si es que todo esta OK y 'msje error aqui' si no
             msj='';
-            
-            if($('#codProyecto').val()==-1 ) msj='Debe seleccionar un proyecto';
-            if($('#codEmpleadoEvaluador').val()==-1 ) msj='Debe seleccionar un evaluador';
-            if($('#codMoneda').val()==-1 ) msj='Debe seleccionar un tipo de moneda';
-            if($('#numeroCuentaBanco').val()=='' ) msj='Ingrese una cuenta bancaria';
-            if($('#girarAOrdenDe').val()=='' ) msj='Debe ingresar el propietario';
-            if($('#codBanco').val()==-1 ) msj='Debe seleccionar un banco';
 
-            if($('#resumen').val()=='' ) msj='Debe ingresar el resumen';
+            limpiarEstilos();
+            if($('#codProyecto').val()==-1 ){ 
+                cambiarEstilo('codProyecto','form-control-undefined');
+                msj='Debe seleccionar un proyecto';
+            }
+            if($('#codMoneda').val()==-1 ){ 
+                cambiarEstilo('codMoneda','form-control-undefined');
+                msj='Debe seleccionar un tipo de moneda';
+            }
+            if($('#numeroCuentaBanco').val()=='' ){ 
+                cambiarEstilo('numeroCuentaBanco','form-control-undefined');
+                msj='Ingrese una cuenta bancaria';
+            }
+            if($('#girarAOrdenDe').val()=='' ){ 
+                cambiarEstilo('girarAOrdenDe','form-control-undefined');
+                msj='Debe ingresar el propietario de la cuenta bancaria';
+            }
+            if($('#codBanco').val()==-1 ){ 
+                cambiarEstilo('codBanco','form-control-undefined');
+                msj='Debe seleccionar un banco';
+            }
+
+            if($('#resumen').val()=='' ){ 
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='Debe ingresar el resumen';
+            }
             if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
 
             //validamos que todos los items tengan el cod presupuestal correspondiente a su proyecto

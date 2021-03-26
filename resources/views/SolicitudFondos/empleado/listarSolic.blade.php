@@ -39,7 +39,7 @@ margin-top: 18px;
         <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
       </div>
       <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
+|
      
 
       

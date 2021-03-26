@@ -14,7 +14,7 @@
 
 
 <form method = "POST" action = "{{route('RendicionGastos.Empleado.Update')}}"   
-enctype="multipart/form-data" id="frmrend" name="frmrend">
+onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" name="frmrend">
     
     {{-- CODIGO DEL EMPLEADO --}}
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $solicitud->getEmpleadoSolicitante()->codigoCedepas }}">
@@ -35,7 +35,7 @@ enctype="multipart/form-data" id="frmrend" name="frmrend">
                                                
                                 <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{$rendicion->fechaHoraRendicion}}" >     
+                                        value="{{$rendicion->getFechaHoraRendicion()}}" >     
                                 </div>
                            
                       </div>
@@ -387,26 +387,9 @@ enctype="multipart/form-data" id="frmrend" name="frmrend">
                         <i class='fas fa-save'></i> 
                         Actualizar
                     </button>    -->
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" onclick="swal({//sweetalert
-                        title:'¿Seguro de editar la rendicion?',
-                        text: '',     //mas texto
-                        type: 'info',//e=[success,error,warning,info]
-                        showCancelButton: true,//para que se muestre el boton de cancelar
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText:  'SI',
-                        cancelButtonText:  'NO',
-                        closeOnConfirm:     true,//para mostrar el boton de confirmar
-                        html : true
-                    },
-                    function(){//se ejecuta cuando damos a aceptar
-                        if(validarFormEdit()==true){
-                            document.frmrend.submit();
-                        }
-                        
-                    });">
-                    <i class='fas fa-save'></i> 
-                    Actualizar
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                        onclick="registrar()">
+                    <i class='fas fa-save'></i> Actualizar
                     </button>
                    
                     <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'>
@@ -518,7 +501,24 @@ enctype="multipart/form-data" id="frmrend" name="frmrend">
 
             });
         }
-    
+        function cambiarEstilo(name, clase){
+            document.getElementById(name).className = clase;
+        }
+        function limpiarEstilos(){
+            cambiarEstilo('resumen','form-control');
+
+        }
+        function registrar(){
+            msje = validarFormEdit();
+            if(msje!="")
+                {
+                    alerta(msje);
+                    return false;
+                }
+            
+            confirmar('¿Está seguro de actualizar la rendicion?','info','frmrend');
+            
+        }
     </script>
      
 

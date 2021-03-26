@@ -361,6 +361,17 @@
 
             confirmar('¿Seguro de actualizar la solicitud?','info','frmsoli');//[success,error,warning,info]
         }
+        function cambiarEstilo(name, clase){
+            document.getElementById(name).className = clase;
+        }
+        function limpiarEstilos(){
+            cambiarEstilo('justificacion','form-control');
+            cambiarEstilo('ComboBoxProyecto','form-control');
+            cambiarEstilo('ComboBoxMoneda','form-control');
+            cambiarEstilo('ComboBoxBanco','form-control');
+            cambiarEstilo('girarAOrden','form-control');
+            cambiarEstilo('nroCuenta','form-control');
+        }
 
         function cargarADetallesSol(){
             
@@ -389,24 +400,35 @@
     function validarFormEdit(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
         msj='';
         
-            if($('#justificacion').val()=='' )
+        limpiarEstilos();
+        if($('#justificacion').val()=='' ){
+            cambiarEstilo('justificacion','form-control-undefined');
             msj='Debe ingresar la justificacion';
-        
-
-        if($('#ComboBoxProyecto').val()=='-1' )
+        }
+        if($('#ComboBoxProyecto').val()=='-1' ){
+            cambiarEstilo('ComboBoxProyecto','form-control-undefined');
             msj='Debe seleccionar el proyecto';
+        }
         
-        if( $('#ComboBoxMoneda').val()=='-1' )
+        if( $('#ComboBoxMoneda').val()=='-1' ){
+            cambiarEstilo('ComboBoxMoneda','form-control-undefined');
             msj="Debe ingresar una moneda";
+        }
 
-        if($('#ComboBoxBanco').val()=='-1' )
+        if($('#ComboBoxBanco').val()=='-1' ){
+            cambiarEstilo('ComboBoxBanco','form-control-undefined');
             msj='Debe seleccionar el banco.';
+        }
         
-        if($('#girarAOrden').val()=='' )
+        if($('#girarAOrden').val()=='' ){
+            cambiarEstilo('girarAOrden','form-control-undefined');
             msj='Debe ingresar la persona dueña de la cuenta.';
+        }
         
-        if($('#nroCuenta').val()=='' )
+        if($('#nroCuenta').val()=='' ){
+            cambiarEstilo('nroCuenta','form-control-undefined');
             msj='Debe ingresar el nro de cuenta';
+        }
         
         if( $('#cantElementos').val()<=0  || detalleSol.length == 0)
             msj='Debe ingresar Items';

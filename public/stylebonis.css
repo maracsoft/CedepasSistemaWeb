@@ -2,7 +2,7 @@
 body{
 	margin:0;
 	color:#212431;
-	background:url(https://scontent.ftru2-1.fna.fbcdn.net/v/t1.0-9/120175559_3722617681105690_2718447902087303530_o.jpg?_nc_cat=109&ccb=3&_nc_sid=730e14&_nc_eui2=AeHwMgYzEix6J4Dt3DZt_H88i9gv1NljWMGL2C_U2WNYwTg7pik7cVkC_zuHeM6glnubYhSmos8TDsYTKMg8sVup&_nc_ohc=c_IgIbtyAVkAX-s2vJz&_nc_ht=scontent.ftru2-1.fna&oh=617b19d367fa66c19f48dce01fa0997b&oe=605C5E76) no-repeat center;
+	background:url("img/FondoLogin.jpg") no-repeat center;
 	font:600 16px/18px 'Open Sans',sans-serif;
 }
 *,:after,:before{box-sizing:border-box}

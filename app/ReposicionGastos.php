@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+
+use Illuminate\Support\Collection;
 class ReposicionGastos extends Model
 {
     protected $table = "reposicion_gastos";
@@ -16,7 +18,8 @@ class ReposicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codEstadoReposicion','codEmpleadoSolicitante','codEmpleadoEvaluador','codEmpleadoAdmin','codEmpleadoConta',
     'codProyecto','codMoneda','totalImporte',
-    'fechaEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen','fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
+    'fechaHoraEmision','codigoCedepas','girarAOrdenDe','codBanco','resumen',
+    'fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
 
     public static function calcularCodigoCedepas($objNumeracion){
@@ -25,6 +28,33 @@ class ReposicionGastos extends Model
                 '-'.
                 ReposicionGastos::rellernarCerosIzq($objNumeracion->numeroLibreActual,6);
     }
+
+    public function getFechaHoraEmision(){
+        return str_replace('-','/',$this->fechaHoraEmision);
+
+    }
+
+    public function getFechaHoraRevisionGerente(){
+        return str_replace('-','/',$this->fechaHoraRevisionGerente);
+
+
+    }
+
+    public function getFechaHoraRevisionAdmin(){
+        return str_replace('-','/',$this->fechaHoraRevisionAdmin);
+
+
+    }
+
+    public function getFechaHoraRevisionConta(){
+        return str_replace('-','/',$this->fechaHoraRevisionConta);
+
+
+    }
+
+    
+
+    
 
     public function getPDF(){
         $reposicion = $this;
@@ -109,6 +139,140 @@ class ReposicionGastos extends Model
         
     }
 
+
+
+    
+
+    //ingresa una coleccion y  el codEstadoSolicitud y retorna otra coleccion  con los elementos de esa coleccion que están en ese estado
+    public static function separarDeColeccion($coleccion, $codEstadoReposicion){
+        $listaNueva = new Collection();
+        foreach ($coleccion as $item) {
+            if($item->codEstadoReposicion == $codEstadoReposicion)
+                $listaNueva->push($item);
+        }
+        return $listaNueva;
+    }
+
+    
+    
+
+    //Observadsa -> subsanadas -> Creadas -> Aprobadas -> abonadas -> rechazadas->contabilizadas -> canceladas
+    public static function ordenarParaEmpleado($coleccion){
+        
+        $observadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Observada'));
+        $subsanada = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Subsanada')); 
+        $creadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Creada')); 
+        $aprobadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Aprobada')); 
+        $abonadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Abonada')); 
+
+        $contabilizadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Contabilizada')); 
+        $canceladas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Cancelada')); 
+        $rechazadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Rechazada')); 
+
+
+        $listaOrdenada = new Collection();
+        $listaOrdenada= $listaOrdenada->concat($observadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($rechazadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        $listaOrdenada= $listaOrdenada->concat($canceladas);
+        
+        return $listaOrdenada;
+
+    }
+    
+
+    //Creadas -> Subsanadas -> Aprobadas->abonadas -> Contabilizadas
+    public static function ordenarParaGerente($coleccion){
+            
+        $observadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Observada'));
+        $subsanada = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Subsanada')); 
+        $creadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Creada')); 
+        $aprobadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Aprobada')); 
+        $abonadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Abonada')); 
+
+        $contabilizadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Contabilizada')); 
+        $canceladas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Cancelada')); 
+        $rechazadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Rechazada')); 
+
+
+        $listaOrdenada = new Collection();
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        
+        return $listaOrdenada;
+
+    }
+
+
+    //Aprobadas->abonadas -> Contabilizadas
+    public static function ordenarParaAdministrador($coleccion){
+            
+        $observadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Observada'));
+        $subsanada = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Subsanada')); 
+        $creadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Creada')); 
+        $aprobadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Aprobada')); 
+        $abonadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Abonada')); 
+
+        $contabilizadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Contabilizada')); 
+        $canceladas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Cancelada')); 
+        $rechazadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Rechazada')); 
+
+
+        $listaOrdenada = new Collection();
+ 
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        
+        return $listaOrdenada;
+
+    }
+
+
+
+
+    //Creadas -> Subsanadas -> Aprobadas->abonadas -> Contabilizadas
+    public static function ordenarParaContador($coleccion){
+                
+        $observadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Observada'));
+        $subsanada = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Subsanada')); 
+        $creadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Creada')); 
+        $aprobadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Aprobada')); 
+        $abonadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Abonada')); 
+
+        $contabilizadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Contabilizada')); 
+        $canceladas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Cancelada')); 
+        $rechazadas = ReposicionGastos::separarDeColeccion($coleccion,ReposicionGastos::getCodEstado('Rechazada')); 
+
+
+        $listaOrdenada = new Collection();
+        
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        
+        return $listaOrdenada;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
     public function listaParaAprobar(){
         return $this->verificarEstado('Creada') ||
         $this->verificarEstado('Subsanada'); 
@@ -146,6 +310,12 @@ class ReposicionGastos extends Model
 
     }
 
+    public function listaParaCancelar(){
+        return $this->verificarEstado('Creada') || 
+        $this->verificarEstado('Aprobada');
+
+    }
+
 
 
 
@@ -173,6 +343,9 @@ class ReposicionGastos extends Model
             case 7:
                 $color ='red';
                 break;
+            case 8:
+                $color ='rgb(99, 1, 1)';
+                break;
         }
         return $color;
     }
@@ -199,6 +372,9 @@ class ReposicionGastos extends Model
                 $color ='white';
                 break;
             case 7:
+                $color ='white';
+                break;
+            case 8:
                 $color ='white';
                 break;
         }

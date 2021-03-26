@@ -77,28 +77,22 @@ class SolicitudFondosController extends Controller
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
             ->orderBy('codEstadoSolicitud','ASC')
-            ->orderBy('fechaHoraEmision','DESC')
-            ->paginate($this::PAGINATION);
+            ->orderBy('fechaHoraEmision','DESC')->get();
+       
         }else
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
             ->orderBy('codEstadoSolicitud','ASC')
-            ->orderBy('fechaHoraEmision','DESC')->where('codProyecto','=',$codProyectoBuscar)
-            ->paginate($this::PAGINATION);
+            ->orderBy('fechaHoraEmision','DESC')
+            ->where('codProyecto','=',$codProyectoBuscar)->get();
+          
         $proyectos=Proyecto::all();
 
 
-
-
-        
-        /*
-        $listaSolicitudesFondos = SolicitudFondos::
-        where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-        ->orderBy('codEstadoSolicitud','ASC')
-        ->orderBy('fechaHoraEmision','DESC')
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaEmpleado($listaSolicitudesFondos)
         ->paginate($this::PAGINATION);
-
-        $buscarpor = "";*/
+        
+        //return $listaSolicitudesFondos->paginate($this::PAGINATION);
 
         $listaBancos = Banco::All();
 
@@ -130,14 +124,16 @@ class SolicitudFondosController extends Controller
 
         $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
         if($codProyectoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar)->get();
         }
         if($codEmpleadoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar)->get();
         }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
-        $listaSolicitudesFondos=$listaSolicitudesFondos->paginate($this::PAGINATION);
+        
 
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos)
+        ->paginate($this::PAGINATION);
 
         $proyectos=Proyecto::all();
         $empleados=Empleado::all();
@@ -177,8 +173,10 @@ class SolicitudFondosController extends Controller
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
-        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->paginate($this::PAGINATION);
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->get();
 
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaAdministrador($listaSolicitudesFondos)
+        ->paginate($this::PAGINATION);
 
         $proyectos=Proyecto::all();
         $empleados=Empleado::all();
@@ -216,8 +214,10 @@ class SolicitudFondosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->paginate($this::PAGINATION);
-        
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->get();
+    
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaContador($listaSolicitudesFondos)
+        ->paginate($this::PAGINATION);
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::all();
@@ -556,6 +556,14 @@ class SolicitudFondosController extends Controller
         return Numeracion::getNumeracionSOF()->numeroLibreActual;
     }
 
+
+
+    public function prueba(){
+        $lista = SolicitudFondos::All();
+        $lista = SolicitudFondos::ordenarParaEmpleado($lista);
+
+        return $lista;
+    }
 
     /* CREAR UNA SOLICITUD DE FONDOS */
     public function store( Request $request){

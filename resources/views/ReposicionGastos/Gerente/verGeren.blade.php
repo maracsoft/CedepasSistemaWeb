@@ -9,20 +9,21 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div class="row">
     <div class="col-md-10">
-        <p class="h1" style="margin-left:430px;">
+        <p class="h1" style="text-align:center">
             @if($reposicion->verificarEstado('Creada') || 
                 $reposicion->verificarEstado('Subsanada') )
                 {{-- Estados en los que es valido Evaluar --}}
-                Evaluar
+                Evaluar Reposicion de Gastos
+                <br>
+                <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edicion</button>
+        
             @else 
-                Ver
-            @endif
-                Reposicion de Gastos
+                Ver Reposicion de Gastos
 
-                <div style="text-align: center; align-items:center; font-size:20pt; float:right;">   
-                    <input type="checkbox"  onclick="desOactivarEdicion()">
-                    Activar Edición
-                </div>
+            @endif
+               
+            
+                
         </p>
     </div>
     <div class="col-md-2">

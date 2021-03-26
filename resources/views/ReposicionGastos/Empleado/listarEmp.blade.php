@@ -89,7 +89,7 @@
                 <th width="6%"  scope="col">Banco</th>
                 <th width="8%"  scope="col" style="text-align: center">Total</th>
                 <th width="11%"  scope="col" style="text-align: center">Estado</th>
-                <th width="7%"  scope="col">Opciones</th>
+                <th width="9%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -101,7 +101,7 @@
       
             <tr>
               <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
-              <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->fechaEmision  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->getFechaHoraEmision()  }}</td>
               
               <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
               <td style = "padding: 0.40rem">{{$itemreposicion->girarAOrdenDe  }}</td>
@@ -124,6 +124,23 @@
                 @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
                 <a href="{{route('ReposicionGastos.Empleado.editar',$itemreposicion->codReposicionGastos)}}"
                    class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                @endif
+                @if($itemreposicion->codEstadoReposicion<3)
+                <a href="#" class="btn btn-sm btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                    title:'¿Está seguro de cancelar la reposicion: {{$itemreposicion->codReposicionGastos}} ?',
+                    //type: 'warning',  
+                    type: 'warning',
+                    showCancelButton: true,//para que se muestre el boton de cancelar
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(){//se ejecuta cuando damos a aceptar
+                  window.location.href='{{route('ReposicionGastos.cancelar',$itemreposicion->codReposicionGastos)}}';
+                });"><i class="fas fa-trash-alt"> </i></a>
                 @endif
               </td>
 

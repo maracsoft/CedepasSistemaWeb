@@ -1,37 +1,67 @@
 {{-- CODIGO QUE SE REUTILIZA EN LAS VISTAS DE CREAR Y EDITAR --}}
 <script>
+
+    @if (App\Configuracion::enProduccion)
+        document.getElementById('nombresArchivos').type = "hidden"
+    @endif
+
     //se ejecuta cada vez que escogewmos un file
     function cambio(){
-            cantidadArchivos = document.getElementById('filenames').files.length;
-            console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
-            for (let index = 0; index < cantidadArchivos; index++) {
-                nombreAr = document.getElementById('filenames').files[index].name;
-                console.log('Archivo ' + index + ': '+ nombreAr);
-                listaArchivos = listaArchivos +', '+  nombreAr; 
-            }
-            listaArchivos = listaArchivos.slice(1, listaArchivos.length);
-            document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
-            
-            $('#nombresArchivos').val(listaArchivos);
+
+        msjError = validarPesoArchivos();
+        if(msjError!=""){
+            alerta(msjError);
+            return;
+        }
+
+
+        listaArchivos="";
+        cantidadArchivos = document.getElementById('filenames').files.length;
+        console.log('----- Cant archivos seleccionados:' + cantidadArchivos);
+        for (let index = 0; index < cantidadArchivos; index++) {
+            nombreAr = document.getElementById('filenames').files[index].name;
+            console.log('Archivo ' + index + ': '+ nombreAr);
+            listaArchivos = listaArchivos +', '+  nombreAr; 
+        }
+        listaArchivos = listaArchivos.slice(1, listaArchivos.length);
+        document.getElementById("divFileImagenEnvio").innerHTML= listaArchivos;
+        
+        $('#nombresArchivos').val(listaArchivos);
 
     }
+
+
+    function validarPesoArchivos(){
+    cantidadArchivos = document.getElementById('filenames').files.length;
+    
+    msj="";
+    for (let index = 0; index < cantidadArchivos; index++) {
+        var imgsize = document.getElementById('filenames').files[index].size;
+        nombre = document.getElementById('filenames').files[index].name;
+        if(imgsize > {{App\Configuracion::pesoMaximoArchivoMB}}*1000*1000 ){
+            msj=('El archivo '+nombre+' supera los  {{App\Configuracion::pesoMaximoArchivoMB}}Mb, porfavor ingrese uno más liviano o comprima.');
+        }
+    }
+    
+
+    return msj;
+
+    }
+
     
     function validarFormEdit(){ //Retorna TRUE si es que todo esta OK y se puede hacer el submit
         msj='';
-        
-        if($('#resumen').val()=='' )
-            msj='Debe ingresar el resumen';
-        
-        if( $('#cantElementos').val()<=0 )
-            msj='Debe ingresar Items';
+            
+            limpiarEstilos();
+            if($('#resumen').val()=='' ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='Debe ingresar la resumen';
+            }
+            
+            if( $('#cantElementos').val()<=0 )
+                msj='Debe ingresar Items';
 
-        if(msj!='')
-        {
-            alerta(msj)
-            return false;
-        }
-
-        return true;
+            return msj;
     }
     function getNombreImagen(index){
             string = detalleRend[index].nombreImagen;

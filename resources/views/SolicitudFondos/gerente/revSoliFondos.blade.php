@@ -12,11 +12,11 @@
             @if($solicitud->verificarEstado('Creada'))
                 Revisar Solicitud de Fondos
             
-            <br>
-            <div>
-                <input type="checkbox"  onclick="desOactivarEdicion()">
-                Activar Edición    
-            </div>
+                <br>
+                <button class="btn btn-success"  onclick="desOactivarEdicion()">
+                    Activar Edicion
+                </button>
+          
             
 
             @else

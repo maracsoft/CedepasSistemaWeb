@@ -17,6 +17,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Numeracion;
 class ReposicionGastosController extends Controller
@@ -79,15 +80,18 @@ class ReposicionGastosController extends Controller
         $empleado=Empleado::getEmpleadoLogeado();
 
         if($codProyectoBuscar==0){
-            $reposiciones= ReposicionGastos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-            ->orderBy('codEstadoReposicion')
-            ->paginate($this::PAGINATION);
+            $reposiciones= ReposicionGastos::
+            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+                ->orderBy('codEstadoReposicion')->get();
         }else
-            $reposiciones= ReposicionGastos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)->where('codProyecto','=',$codProyectoBuscar)
-                ->orderBy('codEstadoReposicion')
-                ->paginate($this::PAGINATION);
+            $reposiciones= ReposicionGastos::
+            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
+                ->where('codProyecto','=',$codProyectoBuscar)
+                ->orderBy('codEstadoReposicion')->get();
         $proyectos=Proyecto::all();
-    //return $reposiciones;
+
+        $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones)->paginate($this::PAGINATION);
+       
         return view('ReposicionGastos.Empleado.listarEmp',
             compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
@@ -155,7 +159,7 @@ class ReposicionGastosController extends Controller
             $reposicion->codProyecto=$request->codProyecto;
             $reposicion->codMoneda=$request->codMoneda;
      
-            $reposicion->fechaEmision=date('y-m-d');
+            $reposicion->fechaHoraEmision=Carbon::now();
 
             $reposicion->girarAOrdenDe=$request->girarAOrdenDe;
             $reposicion->numeroCuentaBanco=$request->numeroCuentaBanco;
@@ -406,8 +410,10 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
 
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
+        
 
         $empleados=Empleado::all();
         $proyectos=Proyecto::whereIn('codProyecto',$arr)->get();
@@ -478,7 +484,8 @@ class ReposicionGastosController extends Controller
         }else{
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        $reposiciones= ReposicionGastos::ordenarParaAdministrador($reposiciones)->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::all();
 
@@ -499,7 +506,7 @@ class ReposicionGastosController extends Controller
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         return view('ReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
     }
-
+    
     /**CONTADOR */
     public function listarOfConta(Request $request){
         //filtros
@@ -525,8 +532,11 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $reposiciones=$reposiciones->orderBy('codEstadoReposicion')->paginate($this::PAGINATION);
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
         
+        
+
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::all();
 
@@ -736,6 +746,7 @@ class ReposicionGastosController extends Controller
             $reposicion->fechaHoraRevisionConta=new DateTime();
             $reposicion->save();
             foreach ($listaItems as $item) { //guardamos como contabilizados los items que nos llegaron
+                Debug::mensajeSimple($item);
                 $detGasto = DetalleReposicionGastos::findOrFail($item);
                 $detGasto->contabilizado = 1;
                 $detGasto->save();   
@@ -760,7 +771,31 @@ class ReposicionGastosController extends Controller
 
 
     }
+    public function cancelar($id){
+        try {
+            DB::beginTransaction();
+    
+            $reposicion = ReposicionGastos::findOrFail($id);
 
+            if(!$reposicion->listaParaCancelar())
+            return redirect()->route('rendicionGastos.listarRendiciones')
+                ->with('datos','Error: la reposicion no puede ser cancelada ahora puesto que está en otro proceso.');
+
+
+            $reposicion->codEstadoReposicion =  ReposicionGastos::getCodEstado('Cancelada');
+            $reposicion->save();
+     
+            DB::commit();
+            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Se cancelo correctamente la Reposicion '.$reposicion->codigoCedepas);
+        } catch (\Throwable $th) {
+            Debug::mensajeError('REPOSICION GASTOS CONTROLLER CANCELADA', $th);
+            DB::rollBack();
+            
+            return redirect()->route('ReposicionGastos.Empleado.listar')->with('datos','Ha ocurrido un error');
+        }
+
+
+    }
 
     public function descargarPDF($id){
         $reposicion=ReposicionGastos::findOrFail($id);

@@ -2,8 +2,7 @@
 
 namespace App;
 
-
-
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class SolicitudFondos extends Model
@@ -248,6 +247,108 @@ class SolicitudFondos extends Model
         $ev = Empleado::findOrFail($this->codEmpleadoEvaluador);
         return $ev->getNombreCompleto();
     }
+
+
+
+
+    //ingresa una coleccion y  el codEstadoSolicitud y retorna otra coleccion  con los elementos de esa coleccion que están en ese estado
+    public static function separarDeColeccion($coleccion, $codEstadoSolicitud){
+        $listaNueva = new Collection();
+        foreach ($coleccion as $item) {
+            if($item->codEstadoSolicitud == $codEstadoSolicitud)
+                $listaNueva->push($item);
+        }
+        return $listaNueva;
+    }
+
+
+    // Observadas->subsanadas-> Creadas -> Aprobadas ->abonadas-> Contabilizadas -> canceladas->rechazadas
+    public static function ordenarParaEmpleado($coleccion){
+        
+        $observadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Observada'));
+        $subsanada = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Subsanada')); 
+        $creadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Creada')); 
+        $aprobadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Aprobada')); 
+
+        $abonadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Abonada')); 
+        $contabilizadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Contabilizada')); 
+        $canceladas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Cancelada')); 
+        $rechazadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Rechazada')); 
+
+        $listaOrdenada = new Collection();
+        $listaOrdenada= $listaOrdenada->concat($observadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        $listaOrdenada= $listaOrdenada->concat($canceladas);
+        $listaOrdenada= $listaOrdenada->concat($rechazadas);
+        
+
+        return $listaOrdenada;
+
+    }
+
+
+    //Creada->Subsanada->Aprobadas->Abonadas->Contabilizada
+    public static function ordenarParaGerente($coleccion){
+        
+        
+        $creadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Creada')); 
+        $subsanada = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Subsanada')); 
+        
+        $aprobadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Aprobada')); 
+
+        $abonadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Abonada')); 
+        $contabilizadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Contabilizada')); 
+        
+        $listaOrdenada = new Collection();
+
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+
+        return $listaOrdenada;
+
+    }
+
+    //Aprobadas->Abonadas->Contabilizadas
+    public static function ordenarParaAdministrador($coleccion){
+        
+        
+      
+        $aprobadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Aprobada')); 
+        $abonadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Abonada')); 
+        $contabilizadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Contabilizada')); 
+        
+        $listaOrdenada = new Collection();
+
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+
+        return $listaOrdenada;
+
+    }
+
+    //Aprobadas->Abonadas->Contabilizadas
+    public static function ordenarParaContador($coleccion){
+        $abonadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Abonada')); 
+        $contabilizadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Contabilizada')); 
+        
+        $listaOrdenada = new Collection();
+
+        $listaOrdenada= $listaOrdenada->concat($abonadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+
+        return $listaOrdenada;
+
+    }
+
 
 
 

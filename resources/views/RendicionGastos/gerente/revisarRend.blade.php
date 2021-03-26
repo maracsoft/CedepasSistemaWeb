@@ -12,13 +12,14 @@
         @if($rendicion->verificarEstado('Creada') || $rendicion->verificarEstado('Subsanada') )
 
         Revisar Rendición de  Gastos
+        <br>
+        <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edicion</button>
+          
         @else 
         Ver Rendicion de Gastos
         @endif
-        <div style="text-align: center; align-items:center; font-size:20pt; float:right;">   
-            <input type="checkbox"  onclick="desOactivarEdicion()">
-            Activar Edición
-        </div>
+         
+       
     </p>
     
 

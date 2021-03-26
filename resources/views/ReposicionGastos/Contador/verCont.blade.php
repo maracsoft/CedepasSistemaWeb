@@ -17,7 +17,7 @@
             @endif
             
             
-            Reposicion de Gastos</p>
+            Reposicion de xGastos</p>
         </p>
     </div>
 
@@ -77,13 +77,13 @@
 
                     <div class="row">
                         <div  class="colLabel">
-                                <label for="fecha">Fescha</label>
+                                <label for="fecha">Fecha</label>
                         </div>
                         <div class="col">
                                                 
                                     <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                         <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                            value="{{$reposicion->fechaEmision}}" >     
+                                            value="{{$reposicion->getFechaHoraEmision()}}" >     
                                     </div>
                             
                         </div>
@@ -202,9 +202,7 @@
                 <th width="14%">Tipo</th>                                 
                 <th width="11%"> N° Cbte</th>
                 <th width="26%" class="text-center">Concepto </th>
-                <th width="11%">
-                    Archivo
-                </th>
+            
                 <th width="11%" class="text-center">Importe </th>
                 <th width="11%" class="text-center">Cod Presup </th>                                         
                 <th>Contabilizar</th>
@@ -214,16 +212,16 @@
                                                                                 
             </tfoot>
             <tbody>
-                <?php $total=0;?>
+          
                 @foreach($detalles as $itemdetalle)
                     <tr>
                         <td>{{$itemdetalle->fechaComprobante}}</td>
                         <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
                         <td>{{$itemdetalle->nroComprobante}}</td>
                         <td>{{$itemdetalle->concepto}}</td>
-                        <td></td>
-                        <td>{{$itemdetalle->importe}}</td>
-                        <?php $total+=$itemdetalle->importe;?>
+                
+                        <td>{{number_format($itemdetalle->importe,2)}}</td>
+                       
                         <td>{{$itemdetalle->codigoPresupuestal}}</td>
                         <td style="text-align:center;">               
                             <input type="checkbox"  readonly
@@ -268,7 +266,7 @@
                     <input type="hidden" name="totalRendido" id="totalRendido">
 
                     <input type="text" class="form-control text-right" 
-                        name="total" id="total" readonly="readonly" value="{{number_format($reposicion->importeTotal,2)}}">   
+                        name="total" id="total" readonly="readonly" value="{{$reposicion->getMoneda()->simbolo}} {{number_format($reposicion->totalImporte,2)}}">   
 
                 </div>   
                 <div class="w-100"></div>
@@ -358,17 +356,10 @@
 
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
-    //se ejecuta cada vez que escogewmos un file
-    /* function observar(){
-        texto=$('#observacion').val();
-        if(texto!=''){
-            reposicion=$('#codReposicionGastos').val();
-            window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';  
-        }
-        else{ 
-            alerta('Ingrese observacion');
-        }
-    } */
+    @if (App\Configuracion::enProduccion)
+        document.getElementById('listaContabilizados').type = "hidden"
+    @endif
+
 
     function actualizarEstado(msj, action){
         swal({//sweetalert

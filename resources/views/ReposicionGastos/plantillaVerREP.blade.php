@@ -36,7 +36,7 @@
                                             
                                 <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{$reposicion->fechaEmision}}" >     
+                                        value="{{$reposicion->getFechaHoraEmision()}}" >     
                                 </div>
                         
                     </div>

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+
+use Illuminate\Support\Collection;
 class RendicionGastos extends Model
 {
     protected $table = "rendicion_gastos";
@@ -20,6 +22,25 @@ class RendicionGastos extends Model
     'totalImporteRendido','saldoAFavorDeEmpleado',
     'resumenDeActividad','codEstadoRendicion','fechaHoraRendicion',
     'cantArchivos','terminacionesArchivos','codEmpleadoEvaluador'];
+
+    function getFechaHoraRendicion(){
+        return str_replace('-','/',$this->fechaHoraRendicion);
+
+    }
+
+    function getFechaHoraRevisado(){
+        return str_replace('-','/',$this->fechaHoraRevisado);
+
+
+    }
+
+    /* AQUI AÑADIR CODIGOS RGB DE LA MARSKY */
+    function getColorSaldo(){
+        if($this->saldoAFavorDeEmpleado>0)
+            return "rgb(0, 167, 14)";
+        else
+            return "red";
+    }
 
 
     public static function calcularCodigoCedepas($objNumeracion){
@@ -157,10 +178,7 @@ class RendicionGastos extends Model
         return $this->getSOlicitud()->getNombreProyecto();
     }
 
-    public function getfechaHoraRendicion(){
-        return $this->fechaHoraRendicion;
 
-    }
 
     //VER EXCEL https://docs.google.com/spreadsheets/d/1eBQV5QZJ6dTlFtu-PuF3i71Cjg58DIbef2qI0ZqKfoI/edit#gid=1819929291
     public function getNombreEstado(){ 
@@ -169,7 +187,107 @@ class RendicionGastos extends Model
 
     }
 
+
+
+
+    //ingresa una coleccion y  el codEstadoSolicitud y retorna otra coleccion  con los elementos de esa coleccion que están en ese estado
+    public static function separarDeColeccion($coleccion, $codEstadoRendicion){
+        $listaNueva = new Collection();
+        foreach ($coleccion as $item) {
+            if($item->codEstadoRendicion == $codEstadoRendicion)
+                $listaNueva->push($item);
+        }
+        return $listaNueva;
+    }
+
     
+    
+
+    // Observadas -> Subsanadas-> creadas -> Aprobadas -> Contabilizadas -> rechazadas -> canceladas
+    public static function ordenarParaEmpleado($coleccion){
+        
+        $observadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Observada'));
+        $subsanada = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Subsanada')); 
+        $creadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Creada')); 
+        $aprobadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Aprobada')); 
+
+        $contabilizadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Contabilizada')); 
+        $canceladas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Cancelada')); 
+        $rechazadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Rechazada')); 
+
+        $listaOrdenada = new Collection();
+        $listaOrdenada= $listaOrdenada->concat($observadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+        $listaOrdenada= $listaOrdenada->concat($rechazadas);
+        $listaOrdenada= $listaOrdenada->concat($canceladas);
+        
+
+        return $listaOrdenada;
+
+    }
+    
+    
+    //Creadas -> Subsanadas -> Aprobadas -> Contabilizadas
+    public static function ordenarParaGerente($coleccion){
+        
+        $subsanada = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Subsanada')); 
+        $creadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Creada')); 
+        $aprobadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Aprobada')); 
+        $contabilizadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Contabilizada')); 
+        
+        $listaOrdenada = new Collection();
+
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+   
+        
+
+        return $listaOrdenada;
+
+    }
+
+    
+    public static function ordenarParaContador($coleccion){
+        
+        $aprobadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Aprobada')); 
+        $contabilizadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Contabilizada')); 
+
+        $listaOrdenada = new Collection();
+
+        $listaOrdenada= $listaOrdenada->concat($aprobadas);
+        $listaOrdenada= $listaOrdenada->concat($contabilizadas);
+   
+        
+
+        return $listaOrdenada;
+
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public function getColorEstado(){ //BACKGROUND

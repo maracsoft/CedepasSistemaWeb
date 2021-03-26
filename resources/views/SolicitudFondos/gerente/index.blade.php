@@ -145,25 +145,25 @@
                 </td>
 
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
-                  <td style = "padding: 0.40rem">
-                        {{-- Si la tenemos que evaluar --}}  
-                        @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
-                            <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" 
-                              class='btn btn-warning btn-sm'><i class="fas fa-thumbs-up"></i></a>    
+                <td style = "padding: 0.40rem">
+                      {{-- Si la tenemos que evaluar --}}  
+                      @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
+                          <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" 
+                            class='btn btn-warning btn-sm'><i class="fas fa-thumbs-up"></i></a>    
 
 
-                        @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
-                              <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>S</a>
-                            
-                            @if($itemSolicitud->estaRendida())   
-                              <a href="{{route('RendicionGastos.Gerente.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'>R</a>
-
-                            @endif
-
+                      @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
+                            <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>S</a>
                           
-                        @endif
-                      
-                  </td>
+                          @if($itemSolicitud->estaRendida())   
+                            <a href="{{route('RendicionGastos.Gerente.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'>R</a>
+
+                          @endif
+
+                        
+                      @endif
+                    
+                </td>
 
             </tr>
         @endforeach

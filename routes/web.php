@@ -12,10 +12,7 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/', 'UserController@home')->name('user.home');
 
 
-Route::get('/prueba',function(){
-    return view('ERROR');
-
-});
+Route::get('/prueba', 'SolicitudFondosController@prueba');
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
@@ -415,7 +412,8 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
     });
     
-   
+    Route::get('/ReposicionGastos/{id}/Cancelar','ReposicionGastosController@cancelar')
+    ->name('ReposicionGastos.cancelar');
    
     Route::get('/ReposicionGastos/{id}/Rechazar','ReposicionGastosController@rechazar')
         ->name('ReposicionGastos.rechazar');

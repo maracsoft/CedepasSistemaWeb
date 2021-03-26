@@ -124,7 +124,7 @@
             
             <tr>
                 <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->fechaEmision  }}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraEmision()  }}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemreposicion->getEmpleadoSolicitante()->getNombreCompleto()}}</td>
                 <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
@@ -138,7 +138,7 @@
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
                   ">
                 </td>
-                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionGerente==null ? 'No revisado':$itemreposicion->fechaHoraRevisionGerente}}</td>
+                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionGerente()==null ? 'No revisado':$itemreposicion->getFechaHoraRevisionGerente()}}</td>
                 <td style = "padding: 0.40rem">
                   @if($itemreposicion->verificarEstado('Creada') || $itemreposicion->verificarEstado('Subsanada')  )
                     <a href="{{route('ReposicionGastos.Gerente.ver',$itemreposicion->codReposicionGastos)}}" 

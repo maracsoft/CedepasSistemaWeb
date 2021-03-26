@@ -127,9 +127,9 @@
       
             <tr>
                 <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->fechaEmision  }}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionGerente}}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionAdmin}}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraEmision()  }}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionGerente()}}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionAdmin()}}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
                 <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
@@ -143,7 +143,7 @@
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
                   ">
                 </td>
-                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->fechaHoraRevisionConta==null ? 'No revisado':$itemreposicion->fechaHoraRevisionConta}}</td>
+                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionConta()==null ? 'No revisado':$itemreposicion->getFechaHoraRevisionConta()}}</td>
                 <td style = "padding: 0.40rem">
                   @if($itemreposicion->codEstadoReposicion==3)
                   <a href="{{route('ReposicionGastos.Contador.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="fas fa-thumbs-up"></i></a>

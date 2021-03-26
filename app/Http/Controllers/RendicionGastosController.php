@@ -99,8 +99,12 @@ class RendicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion','ASC')->paginate($this::PAGINATION);
+        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion','ASC')->get();
         
+        $listaRendiciones = RendicionGastos::ordenarParaContador($listaRendiciones)
+            ->paginate($this::PAGINATION);
+          
+
         //proyectos disponibles
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
@@ -147,8 +151,13 @@ class RendicionGastosController extends Controller
         }else{
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $listaRendiciones=$listaRendiciones->orderby('codEstadoRendicion','ASC')->paginate($this::PAGINATION);
-        
+        $listaRendiciones=$listaRendiciones->orderby('codEstadoRendicion','ASC')->get();
+
+        $listaRendiciones = RendicionGastos::ordenarParaGerente($listaRendiciones)
+            ->paginate($this::PAGINATION);
+          
+
+
         $proyectos=Proyecto::all();
 
         
@@ -191,7 +200,15 @@ class RendicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        $listaRendiciones=$listaRendiciones->paginate($this::PAGINATION);
+
+
+        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion')->get();
+
+        $listaRendiciones = RendicionGastos::ordenarParaGerente($listaRendiciones)
+            ->paginate($this::PAGINATION);
+          
+
+
         $empleados=Empleado::all();
 
 
@@ -224,13 +241,20 @@ class RendicionGastosController extends Controller
             $listaRendiciones= RendicionGastos::
                 where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
                 ->orderBy('codEstadoRendicion')
-                ->paginate($this::PAGINATION);
+                ->get();
         }else
             $listaRendiciones= RendicionGastos::
                 where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
                 ->whereIn('codSolicitud',$arr)
                 ->orderBy('codEstadoRendicion')
-                ->paginate($this::PAGINATION);
+                ->get();
+
+
+        
+
+        $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones)
+            ->paginate($this::PAGINATION);
+            
         $proyectos=Proyecto::all();
 
         
