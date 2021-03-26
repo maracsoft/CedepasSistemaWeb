@@ -6,20 +6,20 @@
 
 @section('contenido')
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Editar Rendición de Gastos</p>
+    <p class="h1" style="text-align: center">Editar Reposicion de Gastos</p>
 
 
 </div>
 
 
-<form method = "POST" action = "{{route('RendicionGastos.Empleado.Update')}}"   
-onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" name="frmrend">
+<form method = "POST" action = "{{route('ReposicionGastos.Empleado.update')}}" id="frmrepo" name="frmrepo" enctype="multipart/form-data">
     
     {{-- CODIGO DEL EMPLEADO --}}
-    <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $solicitud->getEmpleadoSolicitante()->codigoCedepas }}">
+    <input type="hidden" name="codigoCedepasEmpleado" id="codigoCedepasEmpleado" value="{{ $empleadoLogeado->codigoCedepas }}">
     {{-- CODIGO DE LA SOLICITUD QUE ESTAMOS RINDIENDO --}}
-    <input type="hidden" name="codigoSolicitud" id="codigoSolicitud" value="{{ $solicitud->codSolicitud }}">
+    <input type="hidden" name="codEmpleado" id="codEmpleado" value="{{$empleadoLogeado->codEmpleado}}">
     
     @csrf
     <div class="container" >
@@ -35,7 +35,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                                                
                                 <div class="input-group date form_date" style="width: 100px;" data-date-format="dd/mm/yyyy" data-provide="datepicker">
                                     <input type="text"  class="form-control" name="fechaHoy" id="fechaHoy" disabled
-                                        value="{{$rendicion->getFechaHoraRendicion()}}" >     
+                                        value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" >     
                                 </div>
                            
                       </div>
@@ -46,39 +46,76 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
                       </div>
                       <div class="col"> {{-- input de proyecto --}}
-                          <input readonly type="text" class="form-control" name="proyecto" id="proyecto" value="{{$rendicion->getSolicitud()->getNombreProyecto()}}">    
-        
+                        <select class="form-control"  id="codProyecto" name="codProyecto" onchange="actualizarCodPresupProyecto()" >
+                            <option value="-1">Seleccionar</option>
+                            @foreach($proyectos as $itemproyecto)
+                                <option value="{{$itemproyecto->codProyecto}}" 
+                                    @if($itemproyecto->codProyecto == $reposicion->codProyecto)
+                                        selected
+                                    @endif
+                                    
+                                    >
+                                    {{$itemproyecto->nombre}} [{{$itemproyecto->codigoPresupuestal}}]
+                                </option>                                 
+                            @endforeach 
+                        </select>   
                       </div>
-
+             
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="col">
-                            <label for="fecha">Colaborador</label>
-
-                      </div>
-                      <div class="col">
-                            <input  readonly type="text" class="form-control" name="colaboradorNombre" 
-                                id="colaboradorNombre" value="{{$rendicion->getSolicitud()->getEmpleadoSolicitante()->getNombreCompleto()}}">    
-
-                      </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Cod Colaborador</label>
+                            <label for="fecha">Moneda</label>
 
                       </div>
 
                       <div class="col">
-                            <input readonly  type="text" class="form-control" 
-                                name="codColaborador" id="codColaborador" value="{{$rendicion->getSolicitud()->getEmpleadoSolicitante()->getNombreCompleto()}}">    
-                      </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
-                            <label for="fecha">Importe Recibido</label>
-
-                      </div>
-                      <div class="col">
-                            <input readonly  type="text" class="form-control" name="importeRecibido" id="importeRecibido"value="{{number_format($solicitud->totalSolicitado,2)}}">    
+                        <select class="form-control"  id="codMoneda" name="codMoneda" >
+                            <option value="-1">Seleccionar</option>
+                            @foreach($monedas as $itemmoneda)
+                                <option value="{{$itemmoneda->codMoneda}}"
+                                    @if($itemmoneda->codMoneda == $reposicion->codMoneda)
+                                        selected
+                                    @endif
+                                    >
+                                    {{$itemmoneda->nombre}}
+                                </option>                                 
+                            @endforeach 
+                        </select>
                       </div>
                       
+
+                      
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Banco</label>
+
+                      </div>
+
+                      <div class="col">
+                        <select class="form-control"  id="codBanco" name="codBanco" >
+                            <option value="-1">Seleccionar</option>
+                            @foreach($bancos as $itembanco)
+                                <option value="{{$itembanco->codBanco}}" 
+                                    @if($itembanco->codBanco == $reposicion->codBanco)
+                                        selected
+                                    @endif
+                                    
+                                    >
+                                    {{$itembanco->nombreBanco}}
+                                </option>                                 
+                            @endforeach 
+                        </select>
+                      </div>
+                      
+                      
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Codigo Cedepas</label>
+
+                      </div>
+
+                      <div class="col">
+                        <input type="text" class="form-control" name="" id="" value="{{$reposicion->codigoCedepas}}" disabled>  
+                      </div>
                       
                       
 
@@ -100,53 +137,51 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     <div class="row">
                         <div class="col">
                             <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;">{{$rendicion->resumenDeActividad}}</textarea>
+                            <textarea class="form-control" name="resumen" id="resumen" 
+                                aria-label="With textarea" style="resize:none; height:100px;">{{$reposicion->resumen}}</textarea>
             
                         </div>
                     </div>
 
-                    <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
+                    <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
+                      <div  class="col">
+                            <label for="fecha">CuentaBancaria</label>
+
+                      </div>
+                      <div class="col">
+                            <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}">    
+                      </div>
+                      <div class="w-100"></div> {{-- SALTO LINEA --}}
+                      <div  class="col">
+                            <label for="fecha">Girar a Orden de </label>
+
+                      </div>
+                      <div class="col">
+                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}">    
+                      </div>
+
+                        <!--
                         <div class="row">
-                            <div  class="col">
-                                    <label for="fecha">Cod Rendicion</label>
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
-                            </div>
+                          <div  class="col">
+                                <label for="fecha">Cod Rendicion</label>
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
+                          </div>
 
 
-                            <div class="w-100"></div> {{-- SALTO LINEA --}}
-                            <div  class="col">
-                                    <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-                            </div>
-                            <div class="col">
-                                    <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                            </div>
-                            <div class="w-100"></div> {{-- SALTO LINEA --}}
-
-                            <div  class="col">
-                                    <label for="estado">Estado de <br> la Rendición
-                                        @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
-                            </div>
-                            <div class="col"> {{-- Combo box de estado --}}
-                                <input readonly type="text" class="form-control" name="estado" id="estado"
-                                style="background-color: {{$rendicion->getColorEstado()}} ;
-                                    color:{{$rendicion->getColorLetrasEstado()}};   
-                                "
-                                readonly value="{{$rendicion->getNombreEstado()}}@if($rendicion->verificarEstado('Observada')): {{$rendicion->observacion}}@endif"  >           
-                            </div>
-
-
-
-
-
-
-
-
+                          <div class="w-100"></div> {{-- SALTO LINEA --}}
+                          <div  class="col">
+                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
+                          </div>
+                          <div class="col">
+                                <input value="" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
+                          </div>
 
 
                         </div>
+                        -->
                     </div>
 
                 </div>
@@ -158,8 +193,16 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
       </div>
     
       
-      <br>
-        @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
+           
+        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
+            <div class="row">                                
+
+                      
+            </div> 
+        </div> --}}
+           
+           
+         
 
 
         {{-- LISTADO DE DETALLES  --}}
@@ -167,7 +210,6 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
             <div class="table-responsive">                           
                 <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
                     <thead >
-                        <th></th>
                         <th class="text-center">
                                                      
                                 <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
@@ -207,7 +249,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                             </div>
 
                         </th>
-              
+                   
                         <th class="text-center">
                             <div > {{-- INPUT PARA importe--}}
                                 <input type="text" class="form-control" name="importe" id="importe">     
@@ -223,9 +265,8 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                         <th  class="text-center">
                             <div >
                                 <button type="button" id="btnadddet" name="btnadddet" 
-                                    class="btn btn-success" onclick="agregarDetalle()" >
-                                    <i class="fas fa-plus"></i>
-                                     Agregar
+                                    class="btn btn-success btn-sm" onclick="agregarDetalle()" >
+                                    <i class="fas fa-plus"></i>Agregar
                                 </button>
                             </div>      
                         
@@ -235,12 +276,11 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="5%" class="text-center">#</th>                                        
                         <th width="10%" class="text-center">Fecha Cbte</th>                                        
                         <th width="13%">Tipo</th>                                 
                         <th width="10%"> N° Cbte</th>
                         <th width="25%" class="text-center">Concepto </th>
-                    
+                        
                         <th width="10%" class="text-center">Importe </th>
                         <th width="10%" class="text-center">Cod Presup </th>
                         
@@ -248,7 +288,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                         
                     </thead>
                     <tfoot>
-                        
+
                                                                                         
                     </tfoot>
                     <tbody>
@@ -298,50 +338,38 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
          
               
 
-                <div class="row" id="divTotal" name="divTotal">                       
+                <div class="row" id="divTotal" name="divTotal">     
                     <div class="col">
-                        @include('RendicionGastos.desplegableDescargarArchivosRend')
-                        
+                        @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+
+
                     </div>
-
-
+                    
                     <div class="col">
                         <div class="row">
-                          
+
+
+                            <div class="col">
+                            </div>   
                             <div class="col">                        
                                 <label for="">Total Gastado: </label>    
                             </div>   
                             <div class="col">
                                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                                <input type="hidden" name="cantElementos" id="cantElementos">                              
+                                <input type="hidden" name="cantElementos" id="cantElementos">
+                                <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
                                 <input type="hidden" name="totalRendido" id="totalRendido">                              
                                 <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
-
+        
                             </div>   
-                            
-                            <div class="w-100"></div>
-
-                            <div class="col">                        
-                                <label for="">Total Recibido: </label>    
-                            </div>   
-                            <div class="col">                       
-                                <input type="text" class="form-control text-right" name="totalRecibido" 
-                                    id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
-                            </div>   
-
-                            <div class="w-100"></div>  
-
-                            <div class="col">                        
-                                <label id="labelAFavorDe" for="">Saldo a favor del Empl: </label>    
-                            </div>   
-
-                            <div class="col">                     
-                                <input type="text" class="form-control text-right"  
-                                    name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
-                            </div>   
-
-                            <div class="w-100"></div>
-                            
+                           
+                            <div class="w-100">
+        
+                            </div>
+                            <div class="col"></div>
+        
+        
+        
                             {{-- Este es para subir todos los archivos x.x  --}}
                             <div class="col" id="divEnteroArchivo">            
                                 <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
@@ -349,24 +377,31 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                                         style="display: none" onchange="cambio()">  
                                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
                                 <label class="label" for="filenames" style="font-size: 12pt;">       
-                                    <div id="divFileImagenEnvio" class="hovered">       
-                                        Subir nuevos archivos comprobantes  
-                                    <i class="fas fa-upload"></i>        
+                                     <div id="divFileImagenEnvio" class="hovered">       
+                                        Sobrescribir archivos comprobantes  
+                                     <i class="fas fa-upload"></i>        
                                     </div>       
                                 </label>       
-                            </div>  
+                            </div>    
+        
+        
+        
+                            
+
+
+
+
+
+
 
                         </div>
                     </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
+
 
 
 
@@ -381,27 +416,30 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
         
         <div class="col-md-12 text-center">  
             <div id="guardar">
-                <div class="form-group"><!--
+                <div class="form-group">
+                    <!--
                     <button class="btn btn-primary" type="submit"
                         id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
                         <i class='fas fa-save'></i> 
-                        Actualizar
-                    </button>    -->
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
-                        onclick="registrar()">
-                    <i class='fas fa-save'></i> Actualizar
+                        Registrar
                     </button>
+                    -->
+                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                        onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'>
-                        <i class='fas fa-arrow-left'></i> 
-                        Regresar al Menu
-                    </a>              
+                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
     </div>
 
+    <input type="text" name = "codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
 </form>
+
+<script> 
+    
+</script>
+
 @endsection
 
 {{-- ************************************************************************************************************* --}}
@@ -446,83 +484,135 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
     </style>
 
+@section('tiempoEspera')
+<div class="loader" id="pantallaCarga"></div>
+@endsection
+
 @section('script')
 
+<script type="application/javascript">
+    //SE EJECUTA CUANDO CLICKEAMOS EL BOTON REG
+    function registrar(){
+        
+        msj=validarFormularioEdit();
 
+        if(msj!=''){
+            alerta(msj);
+            return false;
+        }
+        confirmar('¿Seguro de guardar los cambios de la reposicion?','info','frmrepo');//[success,error,warning,info]
+
+    }
+    function cambiarEstilo(name, clase){
+            document.getElementById(name).className = clase;
+        }
+    function limpiarEstilos(){
+        cambiarEstilo('codProyecto','form-control');
+        cambiarEstilo('codMoneda','form-control');
+        cambiarEstilo('numeroCuentaBanco','form-control');
+        cambiarEstilo('girarAOrdenDe','form-control');
+        cambiarEstilo('codBanco','form-control');
+        cambiarEstilo('resumen','form-control');
+    }
+</script>
 
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
     //se ejecuta cada vez que escogewmos un file
-   
         var cont=0;
-        
-        var IGV=0;
         var total=0;
-        var detalleRend=[];
-        var importes=[];
-        var controlproducto=[];
-        var totalSinIGV=0;
-        var saldoFavEmpl=0;
-        var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
-
-    
+        var detalleRepo=[];
+       
         $(document).ready(function(){
-            cargarDetallesRendicion();
-            document.getElementById('codigoPresupuestal').placeholder = codPresupProyecto + "...";
+            cargarDetallesReposicion();
+            actualizarCodPresupProyecto();
+            $(".loader").fadeOut("slow");
         });
+
         
-        var listaArchivos = '';  
-        
+        function cargarDetallesReposicion(){
 
-        function cargarDetallesRendicion(){
-
-            //console.log('aaaa ' + '/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}});
-            //obtenemos los detalles de una ruta GET 
-            $.get('/listarDetallesDeRendicion/'+{{$rendicion->codRendicionGastos}}, function(data)
-            {      
-                listaDetalles = data;
-                    for (let index = 0; index < listaDetalles.length; index++) {     
-                        
-                        
-                        
-                        detalleRend.push({
-                            codDetalleRendicion:    listaDetalles[index].codDetalleRendicion,
-                            nroEnRendicion:         listaDetalles[index].nroEnRendicion,
-                            fecha:                  listaDetalles[index].fechaFormateada,
-                            tipo:                   listaDetalles[index].nombreTipoCDP,
-                            ncbte:                  listaDetalles[index].nroComprobante,
-                            concepto:               listaDetalles[index].concepto,
-                            nombreImagen:           listaDetalles[index].nombreImagen,
-                            importe:                listaDetalles[index].importe,            
-                            codigoPresupuestal:     listaDetalles[index].codigoPresupuestal
-                        });        
-                    }
-                    actualizarTabla();                
-
-            });
-        }
-        function cambiarEstilo(name, clase){
-            document.getElementById(name).className = clase;
-        }
-        function limpiarEstilos(){
-            cambiarEstilo('resumen','form-control');
-
-        }
-        function registrar(){
-            msje = validarFormEdit();
-            if(msje!="")
-                {
-                    alerta(msje);
-                    return false;
+        //console.log('aaaa ' + '/listarDetallesDeRendicion/'+);
+        //obtenemos los detalles de una ruta GET 
+        $.get('/listarDetallesDeReposicion/'+{{$reposicion->codReposicionGastos}}, function(data)
+        {      
+            listaDetalles = data;
+                for (let index = 0; index < listaDetalles.length; index++) {     
+                    
+                    detalleRepo.push({
+                        codDetalleReposicion:   listaDetalles[index].codDetalleReposicion,
+                        nroEnRendicion:         listaDetalles[index].nroEnRendicion,
+                        fecha:                  listaDetalles[index].fechaFormateada,
+                        tipo:                   listaDetalles[index].nombreTipoCDP,
+                        ncbte:                  listaDetalles[index].nroComprobante,
+                        concepto:               listaDetalles[index].concepto,
+                        nombreImagen:           listaDetalles[index].nombreImagen,
+                        importe:                listaDetalles[index].importe,            
+                        codigoPresupuestal:     listaDetalles[index].codigoPresupuestal
+                    });        
                 }
-            
-            confirmar('¿Está seguro de actualizar la rendicion?','info','frmrend');
-            
-        }
-    </script>
-     
+                actualizarTabla();                
 
-     @include('RendicionGastos.empleado.plantillasUsables.crearEditarRendJS');
+        });
+        }
+
+        
+
+
+        
+        
+
+        function validarFormularioEdit(){ //Retorna '' si es que todo esta OK y 'msje error aqui' si no
+            msj='';
+
+            limpiarEstilos();
+            if($('#codProyecto').val()==-1 ){ 
+                cambiarEstilo('codProyecto','form-control-undefined');
+                msj='Debe seleccionar un proyecto';
+            }
+            if($('#codMoneda').val()==-1 ){ 
+                cambiarEstilo('codMoneda','form-control-undefined');
+                msj='Debe seleccionar un tipo de moneda';
+            }
+            if($('#numeroCuentaBanco').val()=='' ){ 
+                cambiarEstilo('numeroCuentaBanco','form-control-undefined');
+                msj='Ingrese una cuenta bancaria';
+            }
+            if($('#girarAOrdenDe').val()=='' ){ 
+                cambiarEstilo('girarAOrdenDe','form-control-undefined');
+                msj='Debe ingresar el propietario de la cuenta bancaria';
+            }
+            if($('#codBanco').val()==-1 ){ 
+                cambiarEstilo('codBanco','form-control-undefined');
+                msj='Debe seleccionar un banco';
+            }
+
+            if($('#resumen').val()=='' ){ 
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='Debe ingresar el resumen';
+            }
+            if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
+
+            //validamos que todos los items tengan el cod presupuestal correspondiente a su proyecto
+            for (let index = 0; index < detalleRepo.length; index++) {
+                console.log('Comparando ' + index + " starst:" +detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                if(!detalleRepo[index].codigoPresupuestal.startsWith(codPresupProyecto) )
+                {
+                    msj="Error: el Código presupuestal del Item N°" 
+                    + (index+1) + 
+                    ": "+detalleRepo[index].codigoPresupuestal+" debe coincidir con el codigo del proyecto ("
+                    +codPresupProyecto+
+                    ") ";
+                }
+            }
+            return msj;
+        }
+
+        
+    
+    </script>
+     @include('ReposicionGastos.plantillas.editCreateRepoJS')
+
 
 
 

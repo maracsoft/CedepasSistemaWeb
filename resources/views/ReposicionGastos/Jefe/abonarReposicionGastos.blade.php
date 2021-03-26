@@ -107,12 +107,7 @@
                 <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
                     <i class="fas fa-arrow-left"></i> Regresar al Menú
                 </a>  
-                <!--
-                <a href="" 
-                    class="btn btn-success float-right">
-                    <i class="entypo-pencil"></i>
-                    Marcar como Abonada
-                </a>-->
+                
 
                 @if($reposicion->verificarEstado('Aprobada'))
                 
@@ -120,10 +115,7 @@
 
                 <a href="#" class="btn btn-success float-right" onclick="actualizarEstado('¿Seguro de abonar la reposicion?', 'Abonar')">
                     <i class="fas fa-check"></i> Marcar como Abonada</a>
-                <!--<a href="" class="btn btn-danger float-right">
-                    <i class="entypo-pencil"></i>
-                    Rechazar
-                </a>--> 
+                
                 <a href="#" class="btn btn-danger float-right" style="margin-right:5px;" onclick="actualizarEstado('¿Seguro de rechazar la reposicion?', 'Rechazar')">
                     <i class="fas fa-times"></i> Rechazar</a> 
 
