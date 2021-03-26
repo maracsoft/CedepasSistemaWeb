@@ -33,7 +33,7 @@ class SolicitudFondos extends Model
 
     public function getPDF(){
         $listaItems = DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();
-        $pdf = \PDF::loadview('SolicitudFondos.pdfSolicitudFondos',
+        $pdf = \PDF::loadview('SolicitudFondos.plantillas.pdfSolicitudFondos',
             array('solicitud'=>$this,'listaItems'=>$listaItems)
                             )->setPaper('a4', 'portrait');
 
@@ -193,22 +193,22 @@ class SolicitudFondos extends Model
         $color = '';
         switch($this->codEstadoSolicitud){
             case $this::getCodEstado('Creada'): //CREADO
-                $color = 'rgb(243,156,18)';
+                $color = 'rgb(255,193,7)';
                 break;
             case $this::getCodEstado('Aprobada'): //aprobado
                 $color = 'rgb(0,154,191)';
                 break;
             case $this::getCodEstado('Abonada'): //abonado
-                $color = 'rgb(255,193,7)';
+                $color = 'rgb(243,141,57)';
                 break;
             case $this::getCodEstado('Contabilizada'): //rendida
                 $color ='rgb(40,167,69)';
                 break;
             case $this::getCodEstado('Observada'): //observada
-                $color = 'rgb(244,246,249)';
+                $color = 'rgb(217,217,217)';
                 break;
             case $this::getCodEstado('Cancelada'): //rechazada
-                    $color = 'rgb(160,160,160)';
+                    $color = 'rgb(149,51,203)';
                     break;
             
         }

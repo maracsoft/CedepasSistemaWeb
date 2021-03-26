@@ -143,7 +143,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
         
         
         <br>
-        @include('SolicitudFondos.listadoDesplegableSolicitud')  
+        @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
 
         {{-- LISTADO DE DETALLES  --}}
         <div class="col-md-12 pt-3">     

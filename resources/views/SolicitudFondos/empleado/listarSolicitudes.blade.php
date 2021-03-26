@@ -22,29 +22,7 @@ margin-top: 18px;
 
 <div>
   <h3> LISTA DE MIS SOLICITUDES DE FONDOS </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-|
-     
-
-      
-    </div>
-  </div>
+  
 
 
   <br>
@@ -152,11 +130,11 @@ margin-top: 18px;
                         @case(App\SolicitudFondos::getCodEstado('Observada')) {{-- O si está observada --}}
                         @case(App\SolicitudFondos::getCodEstado('Subsanada')) {{-- Si ya subsano las observaciones --}}
                                 {{-- MODIFICAR RUTAS DE Delete y Edit --}}
-                            <a href="{{route('SolicitudFondos.Empleado.Edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{route('SolicitudFondos.Empleado.Edit',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-warning" title="Editar Solicitud"><i class="fas fa-edit"></i></a>
                             
 
 
-                            <a href="#" class="btn btn-sm btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                            <a href="#" class="btn btn-sm btn-danger" title="Cancelar Solicitud" onclick="swal({//sweetalert
                                   title:'¿Está seguro de cancelar la solicitud: {{$itemSolicitud->codigoCedepas}} ?',
                                   //type: 'warning',  
                                   type: 'warning',
@@ -174,17 +152,17 @@ margin-top: 18px;
                               
                             @break
                         @case(App\SolicitudFondos::getCodEstado('Aprobada')) {{-- YA FUE APROBADA --}}
-                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info" title="Ver Solicitud">
                               S
                           </a>   
                         @break
                         @case(App\SolicitudFondos::getCodEstado('Abonada') || App\SolicitudFondos::getCodEstado('Contabilizada') ) {{-- ABONADA --}}
-                            <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                            <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info" title="Ver Solicitud">
                               S
                             </a>   
                         @break
                         @case(App\SolicitudFondos::getCodEstado('Rechazada')) {{-- RECHAZADA --}} 
-                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info">
+                          <a href="{{route('SolicitudFondos.Empleado.Ver',$itemSolicitud->codSolicitud)}}" class = "btn btn-sm btn-info" title="Ver Solicitud">
                             S
                           </a>
                         @break
@@ -194,7 +172,7 @@ margin-top: 18px;
 
 
                     @if($itemSolicitud->estaRendida())
-                    <a href="{{route('RendicionGastos.Empleado.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class = "btn btn-sm btn-info">
+                    <a href="{{route('RendicionGastos.Empleado.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class = "btn btn-sm btn-info" title="Ver Rendición">
                       R
                     </a> 
                     @endif

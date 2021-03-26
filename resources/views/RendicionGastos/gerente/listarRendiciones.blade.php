@@ -21,36 +21,7 @@
   
 <div>
   <h3> Rendiciones de Gastos a Aprobar </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-      <div class="colLabel">
-        <label for="">Nombre proyecto:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-
-      
-    </div>
-  </div>
+ 
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -134,16 +105,16 @@
               <td style = "padding: 0.40rem">
                 @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
                   <a href="{{route('RendicionGastos.Gerente.Revisar',$itemRendicion->codRendicionGastos)}}" 
-                    class='btn btn-warning btn-sm'><i class="fas fa-thumbs-up"></i>
+                    class='btn btn-warning btn-sm' title="Evaluar Rendición"><i class="fas fa-thumbs-up"></i>
                   </a>    
                 @endif
 
-                <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class='btn btn-info btn-sm'>
+                <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud">
                   S
                 </a>
                 
                 @if($itemRendicion->verificarEstado('Contabilizada')  ) {{-- Si está a espera de reponer --}}   
-                  <a href="{{route('RendicionGastos.Gerente.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm'>
+                  <a href="{{route('RendicionGastos.Gerente.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
                     R
                   </a>
                 @endif 

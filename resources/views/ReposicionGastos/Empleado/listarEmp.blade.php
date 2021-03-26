@@ -21,29 +21,7 @@
   
 <div>
   <h3> Mis Reposiciones de Gastos </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-      
-
-      
-    </div>
-  </div>
+  
   <br>
   <div class="row">
     <div class="col-md-2">
@@ -120,13 +98,13 @@
               </td>
               <td style = "padding: 0.40rem">       
                 <a href="{{route('ReposicionGastos.Empleado.ver',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                    class="btn btn-info btn-sm" title="Ver Reposición" ><i class="fas fa-eye"></i></a>
                 @if($itemreposicion->codEstadoReposicion==5 || $itemreposicion->codEstadoReposicion==1 || $itemreposicion->codEstadoReposicion==6)
                 <a href="{{route('ReposicionGastos.Empleado.editar',$itemreposicion->codReposicionGastos)}}"
-                   class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                   class="btn btn-warning btn-sm" title="Editar Reposición"><i class="fas fa-edit"></i></a>
                 @endif
                 @if($itemreposicion->codEstadoReposicion<3)
-                <a href="#" class="btn btn-sm btn-danger" title="Eliminar registro" onclick="swal({//sweetalert
+                <a href="#" class="btn btn-sm btn-danger" title="Cancelar Reposición" onclick="swal({//sweetalert
                     title:'¿Está seguro de cancelar la reposicion: {{$itemreposicion->codReposicionGastos}} ?',
                     //type: 'warning',  
                     type: 'warning',

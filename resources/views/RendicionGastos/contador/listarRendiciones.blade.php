@@ -21,36 +21,7 @@
   
 <div>
   <h3> Rendiciones de Gastos a Contabilizar </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
 
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-      <div class="colLabel">
-        <label for="">Nombre proyecto:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
-
-      
-    </div>
-  </div>
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -137,11 +108,11 @@
                     
                       @if($itemRendicion->verificarEstado('Aprobada') )
                         <a href="{{route('RendicionGastos.Contador.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
-                          class='btn btn-warning btn-sm'><i class="fas fa-hand-holding-usd"></i>
+                          class='btn btn-warning btn-sm' title="Contabilizar Rendición"><i class="fas fa-hand-holding-usd"></i>
                         </a>   
                       @else {{-- Ya está contabilizada --}}
                         <a href="{{route('RendicionGastos.Contador.verContabilizar',$itemRendicion->codRendicionGastos)}}" 
-                          class='btn btn-info btn-sm'><i class="fas fa-eye"></i>
+                          class='btn btn-info btn-sm' title="Ver Rendición"><i class="fas fa-eye"></i>
                         </a>   
                       @endif
 

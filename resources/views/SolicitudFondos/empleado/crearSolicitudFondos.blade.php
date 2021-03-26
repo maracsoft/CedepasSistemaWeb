@@ -433,7 +433,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
     </script>
      
 
-     @include('SolicitudFondos.plantillas.createEditSolJS')
+     @include('SolicitudFondos.plantillas.crearEditarSOF-JS')
     
     
 

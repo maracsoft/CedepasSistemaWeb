@@ -230,6 +230,9 @@
               amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
           return amount_parts.join('.');
   }
+
+
+  
   function confirmar(msj,type,formName){
         swal(
             {//sweetalert

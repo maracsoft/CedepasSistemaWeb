@@ -86,7 +86,7 @@ class SolicitudFondosController extends Controller
             ->orderBy('fechaHoraEmision','DESC')
             ->where('codProyecto','=',$codProyectoBuscar)->get();
           
-        $proyectos=Proyecto::all();
+        $proyectos=Proyecto::getProyectosActivos();
 
 
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaEmpleado($listaSolicitudesFondos)
@@ -96,7 +96,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('SolicitudFondos.empleado.listarSolic',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
+        return view('SolicitudFondos.empleado.listarSolicitudes',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
     }
 
 
@@ -135,13 +135,13 @@ class SolicitudFondosController extends Controller
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos)
         ->paginate($this::PAGINATION);
 
-        $proyectos=Proyecto::all();
-        $empleados=Empleado::all();
+        $proyectos=Proyecto::getProyectosActivos();
+        $empleados=Empleado::getEmpleadosActivos();
         //$buscarpor = "";
 
         $listaBancos = Banco::All();
 
-        return view('SolicitudFondos.gerente.index',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
+        return view('SolicitudFondos.gerente.listarSolicitudes',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
     }
 
 
@@ -178,8 +178,8 @@ class SolicitudFondosController extends Controller
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaAdministrador($listaSolicitudesFondos)
         ->paginate($this::PAGINATION);
 
-        $proyectos=Proyecto::all();
-        $empleados=Empleado::all();
+        $proyectos=Proyecto::getProyectosActivos();
+        $empleados=Empleado::getEmpleadosActivos();
 
         $listaBancos = Banco::All();
 
@@ -220,7 +220,7 @@ class SolicitudFondosController extends Controller
         ->paginate($this::PAGINATION);
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
-        $empleados=Empleado::all();
+        $empleados=Empleado::getEmpleadosActivos();
 
         
         $listaBancos = Banco::All();
@@ -234,7 +234,7 @@ class SolicitudFondosController extends Controller
     //DESPLIEGA LA VISTA PARA VER LA SOLICITUD (VERLA NOMASSS). ES DEL EMPLEAOD ESTA
     public function ver($id){
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         
         $solicitud = SolicitudFondos::findOrFail($id);
@@ -242,7 +242,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('SolicitudFondos.empleado.verSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('SolicitudFondos.empleado.verSolicitudFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
 
@@ -254,7 +254,7 @@ class SolicitudFondosController extends Controller
     //funcion del gerente, despliega la vista de revision. Si ya la revisó, esta tambien hace funcion de ver 
     public function revisar($id){
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         
         $solicitud = SolicitudFondos::findOrFail($id);
@@ -262,7 +262,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('SolicitudFondos.gerente.revSoliFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('SolicitudFondos.gerente.revisarSolicitudFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
     public function aprobar(Request $request){
@@ -350,7 +350,7 @@ class SolicitudFondosController extends Controller
     public function vistaAbonar($id){ 
         $solicitud = SolicitudFondos::findOrFail($id);
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$id)->get();
-        return view('SolicitudFondos.administracion.vistaAbonar',compact('solicitud','detallesSolicitud'));
+        return view('SolicitudFondos.administracion.abonarSolicitudFondos',compact('solicitud','detallesSolicitud'));
 
     }
 
@@ -500,13 +500,13 @@ class SolicitudFondosController extends Controller
 
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         $listaCDP = CDP::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionREN();
 
-        $listaEmpleadosDeSede  = Empleado::All();
+        $listaEmpleadosDeSede  = Empleado::getEmpleadosActivos();
         return view ('RendicionGastos.empleado.crearRendFondos',
                     compact('empleadoLogeado','listaBancos'
                     ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud',
@@ -520,7 +520,7 @@ class SolicitudFondosController extends Controller
     public function edit($id){ //id de la solicidu codSolicitud
 
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         $listaMonedas = Moneda::All();
         $solicitud = SolicitudFondos::findOrFail($id);
@@ -529,7 +529,7 @@ class SolicitudFondosController extends Controller
         
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('SolicitudFondos.empleado.editSoliFondos',
+        return view('SolicitudFondos.empleado.editarSolicitudFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos',
                 'listaMonedas','listaProyectos','listaSedes'));
     }
@@ -539,13 +539,13 @@ class SolicitudFondosController extends Controller
 
     public function create(){
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         $listaMonedas = Moneda::All();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionSOF();
-        $listaEmpleadosDeSede  = Empleado::All();
-        return view('SolicitudFondos.empleado.crearSoliFondos',
+        $listaEmpleadosDeSede  = Empleado::getEmpleadosActivos();
+        return view('SolicitudFondos.empleado.crearSolicitudFondos',
             compact('empleadoLogeado','listaBancos','listaProyectos',
                 'listaMonedas','listaSedes','listaEmpleadosDeSede','objNumeracion'));
 
@@ -630,7 +630,7 @@ class SolicitudFondosController extends Controller
 
     public function verContabilizar($id){
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
         
         $solicitud = SolicitudFondos::findOrFail($id);
@@ -638,7 +638,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('SolicitudFondos.contador.contabilizarSoliFondos',
+        return view('SolicitudFondos.contador.contabilizarSolicitudFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado',
                     'listaBancos','listaProyectos','listaSedes'));
     }
@@ -766,9 +766,9 @@ class SolicitudFondosController extends Controller
         $buscarpor = "";
 
         $listaBancos = Banco::All();
-        $listaProyectos = Proyecto::All();
+        $listaProyectos = Proyecto::getProyectosActivos();
         $listaSedes = Sede::All();
-        $listaEmpleados = Empleado::All();
+        $listaEmpleados = Empleado::getEmpleadosActivos();
         $listaEstados = EstadoSolicitudFondos::All();
 
         return view('RendicionGastos.administracion.reportes.reportesIndex',compact('buscarpor','listaSolicitudesFondos'

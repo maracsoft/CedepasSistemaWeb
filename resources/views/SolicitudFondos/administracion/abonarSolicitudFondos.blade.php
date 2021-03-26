@@ -24,7 +24,7 @@ enctype="multipart/form-data">
    
     @csrf
         
-        @include('SolicitudFondos.plantillaVerSF')
+        @include('SolicitudFondos.plantillas.VerSOF')
    
                 
         <div class="row" id="divTotal" name="divTotal">                       

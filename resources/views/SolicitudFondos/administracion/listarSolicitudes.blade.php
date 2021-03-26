@@ -21,26 +21,7 @@
   
 <div>
   <h3> Solicitudes de fondos para Abonar </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe de Administracion:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-
-
-    </div>
-  </div>
+  
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -130,20 +111,20 @@
                 </td>
                 <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
                   @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   
-                    <a  class='btn btn-warning btn-sm' href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}"><i class="fas fa-hand-holding-usd"></i></a>
+                    <a  class='btn btn-warning btn-sm' href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}" title="Abonar Solicitud"><i class="fas fa-hand-holding-usd"></i></a>
                   @else{{-- si está rendida (pa verla nomas ) --}}
                     @if($itemSolicitud->estaRendida())
-                          <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-eye"></i></a>
-                          <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-file-download"></i></a>
-                          <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'><i class="fas fa-file-pdf"></i></a>
+                          <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud"><i class="fas fa-eye"></i></a>
+                          <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'  title="Descargar PDF"><i class="fas fa-file-download"></i></a>
+                          <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
                     @endif
                   @endif
                 </td>
                 <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
                   @if($itemSolicitud->estaRendida())
-                        <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-eye"></i></a>
-                        <a href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-file-download"></i></a>
-                        <a href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'><i class="fas fa-file-pdf"></i></a>
+                        <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición"><i class="fas fa-eye"></i></a>
+                        <a href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Descargar PDF"><i class="fas fa-file-download"></i></a>
+                        <a href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
                   @endif
                 </td>
 

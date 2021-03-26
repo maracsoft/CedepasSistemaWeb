@@ -19,22 +19,8 @@
   <h3> Mis Rendiciones de Gastos </h3>
   <div class="container">
     <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
+     
       
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
       
       <label class="colLabel">Sol. Fondos:</label>
 
@@ -129,15 +115,15 @@
                 @if($itemRendicion->verificarEstado('Creada') || 
                   $itemRendicion->verificarEstado('Subsanada') ||
                     $itemRendicion->verificarEstado('Observada') )
-                  <a href="{{route('RendicionGastos.Empleado.Editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning btn-sm">
+                  <a href="{{route('RendicionGastos.Empleado.Editar',$itemRendicion->codRendicionGastos)}}" class = "btn btn-warning btn-sm" title="Editar Rendición">
                     <i class="fas fa-edit"></i>
                   </a>
                           
                 @endif
-                <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class = "btn btn-info btn-sm">
+                <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class = "btn btn-info btn-sm" title="Ver Solicitud">
                   S
                 </a>
-                <a href="{{route('RendicionGastos.Empleado.Ver',$itemRendicion->codRendicionGastos)}}" class = "btn btn-info btn-sm">
+                <a href="{{route('RendicionGastos.Empleado.Ver',$itemRendicion->codRendicionGastos)}}" class = "btn btn-info btn-sm" title="Ver Rendición">
                   R
                 </a>
               </td>

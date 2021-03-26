@@ -111,7 +111,7 @@ class RendicionGastosController extends Controller
             $arr2[]=$itemproyecto->codProyecto;
         }
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
-        $empleados=Empleado::all();
+        $empleados=Empleado::getEmpleadosActivos();
 
 
 
@@ -157,8 +157,8 @@ class RendicionGastosController extends Controller
             ->paginate($this::PAGINATION);
           
 
-
-        $proyectos=Proyecto::all();
+        
+        $proyectos=Proyecto::getProyectosActivos();
 
         
         return view('RendicionGastos.administracion.listarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
@@ -209,7 +209,7 @@ class RendicionGastosController extends Controller
           
 
 
-        $empleados=Empleado::all();
+        $empleados=Empleado::getEmpleadosActivos();
 
 
         return view('RendicionGastos.gerente.listarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
@@ -255,7 +255,7 @@ class RendicionGastosController extends Controller
         $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones)
             ->paginate($this::PAGINATION);
             
-        $proyectos=Proyecto::all();
+        $proyectos=Proyecto::getProyectosActivos();
 
         
         return view('RendicionGastos.empleado.listarRendiciones',
@@ -289,7 +289,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.administracion.verRend',compact('rendicion','solicitud','empleado','detallesRend'));     
+        return view('RendicionGastos.administracion.verRendicion',compact('rendicion','solicitud','empleado','detallesRend'));     
     }
 
 

@@ -23,26 +23,6 @@
   <h3> Solicitudes de fondos para Contabilizar </h3>
   
   
-
-
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-    </div>
-  </div>
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -130,28 +110,26 @@
                 <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
                         @if($itemSolicitud->verificarEstado('Abonada')) {{-- Si está aprobada (pa abonar) --}}   
                           <a  class='btn btn-warning btn-sm' 
-                          href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}">
+                          href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}" title="Contabilizar Solicitud">
                             <i class="fas fa-hand-holding-usd"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
-                          <a href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>
+                          <a href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud">
                             S
                           </a>
                           @if($itemSolicitud->verificarEstado('Rendida'))
-                          <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'>
-                            <h1>
-                              <span class="red">R</span>
-                            </h1>
+                          <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
+                            R
                           </a>
                           @endif
                           
                         
                         @endif
 
-                        <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>
+                        <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Descargar PDF">
                           <i class="fas fa-file-download"></i>
                         </a>
-                        <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>
+                        <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver PDF">
                           <i class="fas fa-file-pdf"></i>
                         </a>
                         

@@ -325,14 +325,14 @@ class ReposicionGastos extends Model
             case 1: //creada
                 $color = 'rgb(255,193,7)';
                 break;
-            case 2: //observada
-                $color = 'rgb(243,156,18)';
-                break;
-            case 3: //abonada
+            case 2: //aprobada
                 $color = 'rgb(0,154,191)';
                 break;
+            case 3: //abonada
+                $color = 'rgb(243,141,57)';
+                break;
             case 4: //contabilizada
-                $color ='rgb(0,166,90)';
+                $color ='rgb(40,167,69)';
                 break;
             case 5:
                 $color ='rgb(255,201,7)';
@@ -340,11 +340,11 @@ class ReposicionGastos extends Model
             case 6:
                 $color ='rgb(27,183,152)';
                 break;
-            case 7:
-                $color ='red';
+            case 7: //rechazada
+                $color ='rgb(192,0,0)';
                 break;
-            case 8:
-                $color ='rgb(99, 1, 1)';
+            case 8: //cancelada
+                $color ='rgb(149,51,203)';
                 break;
         }
         return $color;

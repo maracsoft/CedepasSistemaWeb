@@ -253,7 +253,9 @@ class Empleado extends Model
 
     }
 
-    
+    public static function getEmpleadosActivos(){ //FALTA METER EN PROYECTO EL int ACTIVO
+        return Empleado::where('activo','=','1')->get();
+    }
 
     public function tieneCaja(){
         if($this->getCaja()=='-1') //si no tiene caja

@@ -22,7 +22,7 @@
         value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
-        @include('SolicitudFondos.plantillaVerSF')
+        @include('SolicitudFondos.plantillas.VerSOF')
     
       
            

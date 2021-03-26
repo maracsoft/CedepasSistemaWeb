@@ -23,22 +23,8 @@
   <h3> Rendiciones de Gastos a Reponer </h3>
   <div class="container">
     <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
+    
       
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      <div class="w-100"></div> {{-- SALTO LINEA --}} 
-
       
 
       
@@ -126,22 +112,22 @@
               </td>
               <td style = "padding: 0.40rem">        
                 @if($itemRendicion->estadoDeReposicion == 1) {{-- Si está a espera de reponer --}}   
-                  <a  class='btn btn-warning btn-sm' href="{{route('rendicionGastos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}">
+                  <a  class='btn btn-warning btn-sm' href="{{route('rendicionGastos.verReponer',$itemRendicion->getSolicitud()->codSolicitud)}}" title="Abonar Rendición">
                     <i class="fas fa-thumbs-up"></i>
                   </a>
                 @else{{-- si está rendida (pa verla nomas ) --}}
-                  <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class='btn btn-info btn-sm'>
+                  <a href="{{route('SolicitudFondos.Empleado.Ver',$itemRendicion->getSolicitud()->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud">
                     S
                   </a>
-                  <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm'>
+                  <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
                     R
                   </a>
                 
                 @endif
-                <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.descargarPDF',$itemRendicion->codRendicionGastos)}}">
+                <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.descargarPDF',$itemRendicion->codRendicionGastos)}}" title="Descargar PDF">
                   <i class="fas fa-file-download"></i>
                 </a>
-                <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}">
+                <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}" title="Ver PDF">
                   <i class="fas fa-file-pdf"></i>
                 </a>
                   

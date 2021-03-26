@@ -294,7 +294,7 @@ class RendicionGastos extends Model
         $color = '';
         switch($this->codEstadoRendicion){
             case $this::getCodEstado('Creada'): 
-                $color = 'rgb(243,156,18)';
+                $color = 'rgb(255,193,7)';
                 break;
             case $this::getCodEstado('Aprobada'):
                 $color = 'rgb(0,154,191)';
@@ -306,10 +306,10 @@ class RendicionGastos extends Model
                 $color ='rgb(244,246,249)';
                 break;
             case $this::getCodEstado('Subsanada'):
-                $color ='rgb(255,193,7)';
+                $color ='rgb(68,114,196)';
                 break;
             case $this::getCodEstado('Rechazada'):
-                $color ='rgb(220,53,69)';
+                $color ='rgb(192,0,0)';
                 break;
                                     
             

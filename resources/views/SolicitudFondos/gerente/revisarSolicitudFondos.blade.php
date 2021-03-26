@@ -37,7 +37,7 @@
         <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
                                 
         @csrf
-        @include('SolicitudFondos.plantillaVerSF')
+        @include('SolicitudFondos.plantillas.VerSOF')
                 
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col-md-8">

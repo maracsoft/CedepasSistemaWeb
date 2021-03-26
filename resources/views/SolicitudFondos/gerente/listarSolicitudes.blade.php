@@ -24,28 +24,7 @@
   
 <div>
   <h3> Solicitudes de Fondos para Aprobar </h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre gerente:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      
-
-      
-    </div>
-  </div>
-
+   
   <br>
   <div class="row">
     <div class="col-md-12">
@@ -149,14 +128,14 @@
                       {{-- Si la tenemos que evaluar --}}  
                       @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )
                           <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" 
-                            class='btn btn-warning btn-sm'><i class="fas fa-thumbs-up"></i></a>    
+                            class='btn btn-warning btn-sm' title="Evaluar Solicitud"><i class="fas fa-thumbs-up"></i></a>    
 
 
                       @else {{-- Si ya la evaluamos y solo la vamos a  ver --}}
-                            <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'>S</a>
+                            <a href="{{route('SolicitudFondos.Gerente.Revisar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud">S</a>
                           
                           @if($itemSolicitud->estaRendida())   
-                            <a href="{{route('RendicionGastos.Gerente.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'>R</a>
+                            <a href="{{route('RendicionGastos.Gerente.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">R</a>
 
                           @endif
 

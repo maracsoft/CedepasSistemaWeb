@@ -159,7 +159,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
     
       
       <br>
-        @include('SolicitudFondos.listadoDesplegableSolicitud')  
+        @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
 
 
         {{-- LISTADO DE DETALLES  --}}

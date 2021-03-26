@@ -88,7 +88,7 @@ class ReposicionGastosController extends Controller
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
                 ->where('codProyecto','=',$codProyectoBuscar)
                 ->orderBy('codEstadoReposicion')->get();
-        $proyectos=Proyecto::all();
+        $proyectos=Proyecto::getProyectosActivos();
 
         $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones)->paginate($this::PAGINATION);
        
@@ -98,14 +98,7 @@ class ReposicionGastosController extends Controller
 
 
     public function view($id){
-        /*
-        $listaCDP = CDP::All();
-        $proyectos = Proyecto::All();
-        $monedas=Moneda::All();
-        $bancos=Banco::All();
-        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
-        
-        */
+         
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
@@ -114,7 +107,7 @@ class ReposicionGastosController extends Controller
     }
     public function create(){
         $listaCDP = CDP::All();
-        $proyectos = Proyecto::All();
+        $proyectos = Proyecto::getProyectosActivos();
         $monedas=Moneda::All();
         $bancos=Banco::All();
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
@@ -128,7 +121,7 @@ class ReposicionGastosController extends Controller
     public function editar($id){
         $reposicion = ReposicionGastos::findOrFail($id);
         $listaCDP = CDP::All();
-        $proyectos = Proyecto::All();
+        $proyectos = Proyecto::getProyectosActivos();
         $monedas=Moneda::All();
         $bancos=Banco::All();
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
@@ -415,7 +408,7 @@ class ReposicionGastosController extends Controller
         $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
         
 
-        $empleados=Empleado::all();
+        $empleados=Empleado::getEmpleadosActivos();
         $proyectos=Proyecto::whereIn('codProyecto',$arr)->get();
 
         return view('ReposicionGastos.Gerente.listarGeren',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
@@ -454,7 +447,7 @@ class ReposicionGastosController extends Controller
 
 
 
-
+    
     
     /**JEFE DE ADMINISTRACION */
     public function listarOfJefe(Request $request){
@@ -487,26 +480,22 @@ class ReposicionGastosController extends Controller
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
         $reposiciones= ReposicionGastos::ordenarParaAdministrador($reposiciones)->paginate($this::PAGINATION);
         
-        $proyectos=Proyecto::all();
+        $proyectos=Proyecto::getProyectosActivos();
 
 
         return view('ReposicionGastos.Jefe.listarJefe',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','codEmpleadoBuscar'));
     }
+
+
+
     public function viewJefe($id){
-        /*
-        $listaCDP = CDP::All();
-        $proyectos = Proyecto::All();
-        $monedas=Moneda::All();
-        $bancos=Banco::All();
-        $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
-        
-        */
+         
         $reposicion=ReposicionGastos::find($id);
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         return view('ReposicionGastos.Jefe.verJefe',compact('reposicion','empleadoLogeado','detalles'));
     }
-    
+
     /**CONTADOR */
     public function listarOfConta(Request $request){
         //filtros
@@ -538,7 +527,7 @@ class ReposicionGastosController extends Controller
         
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
-        $empleados=Empleado::all();
+        $empleados=Empleado::getEmpleadosActivos();
 
         return view('ReposicionGastos.Contador.listarCont',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
     }

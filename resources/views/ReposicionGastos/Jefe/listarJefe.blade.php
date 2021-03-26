@@ -20,28 +20,8 @@
   </style>
   
 <div>
-  <h3>Confirmar Reposiciones</h3>
-  <div class="container">
-    <div class="row">
-      <div class="colLabel">
-        <label for="">Nombre Jefe de Administracion:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->getNombreCompleto()}}" readonly>
-      </div>
-      
-
-      <div class="colLabel">
-        <label for="">Codigo Empleado:</label>
-      </div>
-      <div class="col"> 
-        <input type="text" class="form-control" value="{{$empleado->codigoCedepas}}" readonly>
-      </div>
-      
-
-      
-    </div>
-  </div>
+  <h3>ABONAR Reposiciones</h3>
+  
   <div class="row">
     <div class="col-md-12">
       <form class="form-inline">
@@ -133,17 +113,17 @@
                 <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionAdmin()==null ? 'No revisado':$itemreposicion->getFechaHoraRevisionAdmin()}}</td>
                 <td style = "padding: 0.40rem">
                   @if($itemreposicion->codEstadoReposicion==2)
-                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm"><i class="fas fa-thumbs-up"></i></a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm" title="Abonar Reposición"><i class="fas fa-thumbs-up"></i></a>
                   @else
-                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                  <a href="{{route('ReposicionGastos.Administracion.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-info btn-sm" title="Ver Reposición"><i class="fas fa-eye"></i></a>
                   @endif
                   <a  href="{{route('ReposicionGastos.exportarPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-info btn-sm">
+                    class="btn btn-info btn-sm" title="Descargar PDF">
                     <i class="fas fa-file-download"></i>
                   </a>
 
                   <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
-                    class="btn btn-info btn-sm">
+                    class="btn btn-info btn-sm" title="Ver PDF">
                     <i class="fas fa-file-pdf"></i>
                   </a>
                 </td>

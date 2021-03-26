@@ -26,9 +26,8 @@ class Proyecto extends Model
     }
 
     public static function getProyectosActivos(){ //FALTA METER EN PROYECTO EL int ACTIVO
-        return Proyecto::All();
-        //return Proyecto::where('activo','=','1')->get();
-
+        //return Proyecto::All();
+        return Proyecto::where('activo','=','1')->get();
     }
 
     public function getContadores(){

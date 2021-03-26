@@ -160,4 +160,4 @@
 
 
 <br>
-@include('SolicitudFondos.listadoDesplegableSolicitud')  
+@include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
