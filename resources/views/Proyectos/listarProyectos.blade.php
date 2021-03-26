@@ -122,7 +122,7 @@
     if(codGerente!=0){
       //$.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codGerente+'*1', function(data){
       $.get('/GestiónProyectos/'+codProyecto+'*'+codGerente+'*1'+'/asignarGerente', function(data){
-        if(data) alerta('Se actualizo el gerente');
+        if(data) alertaMensaje('Enbuenahora','Se actualizó el gerente','success');
         else alerta('No se pudo actualizar el gerente');
       });
     }else{

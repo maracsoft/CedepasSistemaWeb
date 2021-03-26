@@ -523,7 +523,7 @@
         var total=0;
         var detalleRepo=[];
        
-        $(document).ready(function(){
+        $(window).load(function(){
             cargarDetallesReposicion();
             actualizarCodPresupProyecto();
             $(".loader").fadeOut("slow");

@@ -127,7 +127,7 @@
                 <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.descargarPDF',$itemRendicion->codRendicionGastos)}}" title="Descargar PDF">
                   <i class="fas fa-file-download"></i>
                 </a>
-                <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}" title="Ver PDF">
+                <a target="pdf_rendicion_{{$itemRendicion->codRendicionGastos}}" class='btn btn-info btn-sm'  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}" title="Ver PDF">
                   <i class="fas fa-file-pdf"></i>
                 </a>
                   

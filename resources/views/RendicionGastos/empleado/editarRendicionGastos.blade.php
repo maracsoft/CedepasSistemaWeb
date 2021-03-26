@@ -472,7 +472,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
         var codPresupProyecto = "{{$solicitud->getProyecto()->codigoPresupuestal}}";
 
     
-        $(document).ready(function(){
+        $(window).load(function(){
             cargarDetallesRendicion();
             document.getElementById('codigoPresupuestal').placeholder = codPresupProyecto + "...";
             $(".loader").fadeOut("slow");

@@ -251,44 +251,63 @@
 
   
   function confirmar(msj,type,formName){
-        swal(
-            {//sweetalert
-                title: msj,
-                text: '',     //mas texto
-                type: type,//e=[success,error,warning,info]
-                showCancelButton: true,//para que se muestre el boton de cancelar
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText:  'SI',
-                cancelButtonText:  'NO',
-                closeOnConfirm:     true,//para mostrar el boton de confirmar
-                html : true
-            },
-            function(value){//se ejecuta cuando damos a aceptar
-                if(value) document.getElementById(formName).submit();
-            }
-        );
-        
-    }
-    function alerta(msj){
-        swal(//sweetalert
-            {
-                title: 'Error',
-                text: msj,     //mas texto
-                type: 'warning',//e=[success,error,warning,info]
-                showCancelButton: false,//para que se muestre el boton de cancelar
-                confirmButtonColor: '#3085d6',
-                //cancelButtonColor: '#d33',
-                confirmButtonText:  'OK',
-                //cancelButtonText:  'NO',
-                closeOnConfirm:     true,//para mostrar el boton de confirmar
-                html : true
-            },
-            function(){//se ejecuta cuando damos a aceptar
-                
-            }
-        );
-    }
+      swal(
+          {//sweetalert
+              title: msj,
+              text: '',     //mas texto
+              type: type,//e=[success,error,warning,info]
+              showCancelButton: true,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText:  'SI',
+              cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(value){//se ejecuta cuando damos a aceptar
+              if(value) document.getElementById(formName).submit();
+          }
+      );
+      
+  }
+  function alerta(msj){
+      swal(//sweetalert
+          {
+              title: 'Error',
+              text: msj,     //mas texto
+              type: 'warning',//e=[success,error,warning,info]
+              showCancelButton: false,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              //cancelButtonColor: '#d33',
+              confirmButtonText:  'OK',
+              //cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(){//se ejecuta cuando damos a aceptar
+              
+          }
+      );
+  }
+  function alertaMensaje(title,msj,type){
+      swal(//sweetalert
+          {
+              title: title,
+              text: msj,     //mas texto
+              type: type,//e=[success,error,warning,info]
+              showCancelButton: false,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              //cancelButtonColor: '#d33',
+              confirmButtonText:  'OK',
+              //cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(){//se ejecuta cuando damos a aceptar
+              
+          }
+      );
+  }
 </script>
 @yield('script')
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">

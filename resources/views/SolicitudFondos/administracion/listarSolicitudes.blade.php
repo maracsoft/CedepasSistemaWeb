@@ -116,7 +116,7 @@
                     @if($itemSolicitud->estaRendida())
                           <a href="{{route('SolicitudFondos.Administracion.verAbonar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud"><i class="fas fa-eye"></i></a>
                           <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'  title="Descargar PDF"><i class="fas fa-file-download"></i></a>
-                          <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
+                          <a target="pdf_solicitud_{{$itemSolicitud->codSolicitud}}" href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
                     @endif
                   @endif
                 </td>
@@ -124,7 +124,7 @@
                   @if($itemSolicitud->estaRendida())
                         <a href="{{route('RendicionGastos.Administracion.Ver',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición"><i class="fas fa-eye"></i></a>
                         <a href="{{route('rendicionGastos.descargarPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Descargar PDF"><i class="fas fa-file-download"></i></a>
-                        <a href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a target="pdf_rendicion_{{$itemSolicitud->getRendicion()->codRendicionGastos}}" href="{{route('rendicionGastos.verPDF',$itemSolicitud->getRendicion()->codRendicionGastos)}}" class='btn btn-info btn-sm'  title="Ver PDF"><i class="fas fa-file-pdf"></i></a>
                   @endif
                 </td>
 

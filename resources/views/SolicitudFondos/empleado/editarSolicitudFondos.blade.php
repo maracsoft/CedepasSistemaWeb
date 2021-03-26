@@ -335,7 +335,9 @@
     }
     
 </style>
-
+@section('tiempoEspera')
+<div class="loader" id="pantallaCarga"></div>
+@endsection
 
 @section('script')
       
@@ -343,12 +345,12 @@
         var cont=0;
         var detalleSol=[];
         
-        $(document).ready(function(){
+        $(window).load(function(){
 
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             cargarADetallesSol();
             actualizarCodPresupProyecto();
-
+            $(".loader").fadeOut("slow");
         });
         
         

@@ -129,7 +129,7 @@
                         <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Descargar PDF">
                           <i class="fas fa-file-download"></i>
                         </a>
-                        <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver PDF">
+                        <a target="pdf_solicitud_{{$itemSolicitud->codSolicitud}} href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver PDF">
                           <i class="fas fa-file-pdf"></i>
                         </a>
                         

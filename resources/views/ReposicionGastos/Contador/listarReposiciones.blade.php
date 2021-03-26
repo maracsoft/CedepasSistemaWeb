@@ -126,7 +126,7 @@
                     <i class="fas fa-file-download"></i>
                   </a>
 
-                  <a target="blank" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
+                  <a target="pdf_reposicion_{{$itemreposicion->codReposicionGastos}}" href="{{route('ReposicionGastos.verPDF',$itemreposicion->codReposicionGastos)}}" 
                     class="btn btn-info btn-sm" title="Ver PDF">
                     <i class="fas fa-file-pdf"></i>
                   </a>
