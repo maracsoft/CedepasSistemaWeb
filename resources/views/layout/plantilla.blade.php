@@ -57,11 +57,25 @@
         box-shadow: 0 0 5px 3px #dc354599;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
+
+    .loader {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background: url('/img/espera.gif') 50% 50% no-repeat rgb(249,249,249);
+      background-size: 10%;
+      opacity: .8;
+    }
   </style>
   @yield('estilos')
 
 </head>
 <body class="hold-transition sidebar-mini">
+  <!--<div class="loader"></div>-->
+  @yield('tiempoEspera')
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
@@ -199,6 +213,7 @@
 
 <!-- PARA SOLUCIONAR EL PROBLEMA DE 'funcion(){' EN js--->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
 <!-- LIBRERIAS PARA NOTIFICACION DE ELIMINACION--->
 <script src="/adminlte/dist/js/sweetalert.min.js"></script>
@@ -213,6 +228,8 @@
 
 
 <script src="{{ asset('dist/js/admin/app.js') }}"></script>
+
+
 
 <script type="application/javascript">
   function number_format(amount, decimals) {

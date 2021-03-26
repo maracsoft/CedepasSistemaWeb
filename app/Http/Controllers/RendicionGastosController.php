@@ -278,7 +278,7 @@ class RendicionGastosController extends Controller
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         
-        return view('RendicionGastos.empleado.verRend',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
+        return view('RendicionGastos.empleado.verRendicion',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
     }
     
     //despliuega vista de  rendicion, del admiin
@@ -289,7 +289,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.administracion.verRendicion',compact('rendicion','solicitud','empleado','detallesRend'));     
+        return view('RendicionGastos.administracion.verRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));     
     }
 
 
@@ -303,7 +303,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));        
+        return view('RendicionGastos.gerente.revisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));        
     }
 
     //despliuega vista de  contabilizar rendicion,
@@ -313,7 +313,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
 
-        return view('RendicionGastos.contador.contabilizarRend',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('RendicionGastos.contador.contabilizarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -372,7 +372,7 @@ class RendicionGastosController extends Controller
         $rendicion = RendicionGastos::findOrFail($idRendicion);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $listaCDP = CDP::All();
-        return view('RendicionGastos.empleado.editRendFondos',compact('rendicion','solicitud','listaCDP'));
+        return view('RendicionGastos.empleado.editarRendicionGastos',compact('rendicion','solicitud','listaCDP'));
 
     }
 
@@ -385,7 +385,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.gerente.revisarRend',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('RendicionGastos.gerente.revisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
     /* YA NO SE RECHAZAN RENDICIONES , SOLO SE LAS OBSERVA */

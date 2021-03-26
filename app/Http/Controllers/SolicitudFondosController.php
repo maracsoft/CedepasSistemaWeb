@@ -507,7 +507,7 @@ class SolicitudFondosController extends Controller
         $objNumeracion = Numeracion::getNumeracionREN();
 
         $listaEmpleadosDeSede  = Empleado::getEmpleadosActivos();
-        return view ('RendicionGastos.empleado.crearRendFondos',
+        return view ('RendicionGastos.empleado.crearRendicionGastos',
                     compact('empleadoLogeado','listaBancos'
                     ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud',
                     'listaCDP','detallesSolicitud','objNumeracion'));
