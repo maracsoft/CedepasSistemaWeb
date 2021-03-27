@@ -56,6 +56,8 @@ class SolicitudFondos extends Model
 
     public function getNombreEstado(){
         $estado = EstadoSolicitudFondos::findOrFail($this->codEstadoSolicitud);
+        if($estado->nombre=="Creada")
+            return "Por Aprobar";
         return $estado->nombre;
 
     }
@@ -188,6 +190,50 @@ class SolicitudFondos extends Model
         return $e;
     }
 
+
+
+    //si está en esos estados retorna la obs, sino retorna ""
+    public function getObservacionONull(){
+        if($this->verificarEstado('Observada') || $this->verificarEstado('Subsanada') )
+            return $this->observacion;
+        
+        return "";
+    }
+
+
+    public function getMensajeEstado(){
+        $mensaje = '';
+        switch($this->codEstadoSolicitud){
+            case $this::getCodEstado('Creada'): 
+                $mensaje = 'La solicitud está a espera de ser aprobada por el responsable del proyecto.';
+                break;
+            case $this::getCodEstado('Aprobada'):
+                $mensaje = 'La solicitud está a espera de ser abonada.';
+                break;
+            case $this::getCodEstado('Abonada'):
+                $mensaje = 'La solicitud está a espera de ser contabilizada.';
+                break;
+                                
+            case $this::getCodEstado('Contabilizada'):
+                $mensaje = 'El flujo de la solicitud ha finalizado.';
+                break;
+            case $this::getCodEstado('Observada'):
+                $mensaje ='La solicitud tiene algún error y fue observada.';
+                break;
+            case $this::getCodEstado('Subsanada'):
+                $mensaje ='La observación de la solicitud ya fue corregida por el empleado.';
+                break;
+            case $this::getCodEstado('Rechazada'):
+                $mensaje ='La solicitud fue rechazada por algún responsable, el flujo ha terminado.';
+                break;
+            case $this::getCodEstado('Cancelada'):
+                $mensaje ='La solicitud fue cancelada por el mismo empleado que la realizó.';
+                break;
+        }
+        return $mensaje;
+
+
+    }
     
     public function getColorEstado(){ //BACKGROUND
         $color = '';
@@ -225,7 +271,7 @@ class SolicitudFondos extends Model
                 $color = 'white';
                 break;
             case $this::getCodEstado('Abonada'): //abonada
-                $color = 'black';
+                $color = 'white';
                 break;
             case $this::getCodEstado('Contabilizada'): //rendida
                 $color = 'white';
@@ -249,7 +295,15 @@ class SolicitudFondos extends Model
     }
 
 
-
+    
+    public static function filtrarPorEmpleadoSolicitante($coleccion, $codEmpleado ){
+        $listaNueva = new Collection();
+        foreach ($coleccion as $item) {
+            if($item->codEmpleadoSolicitante == $codEmpleado)
+                $listaNueva->push($item);
+        }
+        return $listaNueva;
+    }
 
     //ingresa una coleccion y  el codEstadoSolicitud y retorna otra coleccion  con los elementos de esa coleccion que están en ese estado
     public static function separarDeColeccion($coleccion, $codEstadoSolicitud){

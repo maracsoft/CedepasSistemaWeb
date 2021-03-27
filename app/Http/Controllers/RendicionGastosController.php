@@ -336,17 +336,25 @@ class RendicionGastosController extends Controller
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
             $rendicion->codEmpleadoContador = Empleado::getEmpleadoLogeado()->codEmpleado;
             $rendicion->save();
-            foreach ($listaItems as $item) {
-                $detGasto = DetalleRendicionGastos::findOrFail($item);
-                $detGasto->contabilizado = 1;
-                $detGasto->save();   
-            }
+
+            if( $vector[1] != "" )
+                foreach ($listaItems as $item) {
+                    $detGasto = DetalleRendicionGastos::findOrFail($item);
+                    $detGasto->contabilizado = 1;
+                    $detGasto->save();   
+                }
+            
+            
             DB::commit();
-            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Se contabilizó correctamente la Rendicion '.$rendicion->codigoCedepas);
+            return redirect()->route('rendicionGastos.Contador.listar')
+                ->with('datos','Se contabilizó correctamente la Rendicion '.
+                    $rendicion->codigoCedepas);
+
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('rendicionGastos.Contador.listar')
+                ->with('datos','Ha ocurrido un error');
         }
 
 
@@ -644,46 +652,13 @@ class RendicionGastosController extends Controller
 
 
     public function prueba(){
-
-        
-        $string = 'SOF ES '.Numeracion::getNumeracionSOF()->numeroLibreActual;
-
-        Numeracion::aumentarNumeracionSOF();
-        $string .= 'SOF NUEVO ES '.Numeracion::getNumeracionSOF()->numeroLibreActual;
-
-
-        
-        return $string;
+        $lista = RendicionGastos::where('codRendicionGastos','>',50)->get(); 
+        $lista->push("AAAAAAAAAAAA");
+        return $lista;
 
     }  
 
-    //retorna un vector de enteros
-    public static function getCodigosDetallesDeRendicion($codRendicion){
-        $lista = DetalleRendicionGastos::Select('codDetalleRendicion')
-        ->where('codRendicionGastos','=',$codRendicion)
-        ->get()
-        ->toArray();
-        $vector = [];
-        for ($i=0; $i <count($lista); $i++) { 
-            $elemento = $lista[$i]['codDetalleRendicion'];
-            array_push($vector,$elemento);
-        }
-        return $vector;
-    }
-    //ESTAS DOS FUNCIONES SON PAREJA, LAS USO A LA VEZ
-    //retora vector de strings 
-    public static function getTerminacionesArchivoDetallesDeRendicion($codRendicion){
-        $lista = DetalleRendicionGastos::Select('codDetalleRendicion','terminacionArchivo')
-        ->where('codRendicionGastos','=',$codRendicion)
-        ->get()
-        ->toArray();
-        $vector = [];
-        for ($i=0; $i <count($lista); $i++) { 
-            $elemento= $lista[$i]['terminacionArchivo'];   
-            array_push($vector,$elemento);
-        }
-        return $vector;
-    }
+    
     
 
 
@@ -708,7 +683,7 @@ class RendicionGastosController extends Controller
             $rendicion-> totalImporteRendido = $request->totalRendido;
             $rendicion-> saldoAFavorDeEmpleado = $rendicion->totalImporteRendido - $rendicion->totalImporteRecibido;
             $rendicion-> resumenDeActividad = $request->resumen;
-            
+            $rendicion->observacion = "";
             //si estaba observada, pasa a subsanada
             if($rendicion->verificarEstado('Observada'))
                 $rendicion-> codEstadoRendicion = RendicionGastos::getCodEstado('Subsanada');
@@ -985,7 +960,7 @@ class RendicionGastosController extends Controller
             
             $itemDet = $listaDetalles[$i];
             $itemDet['nombreTipoCDP'] = $itemDet->getNombreTipoCDP(); //tengo que pasarlo aqui pq en el javascript no hay manera de calcularlo, de todas maneras no lo usaré como Modelo (objeto)
-            $itemDet['nombreImagen'] = 'RendGast-CDP-'.$this->rellernarCerosIzq($itemDet->codRendicionGastos,6).'-'.$this->rellernarCerosIzq($i+1,2).'.'.$itemDet->terminacionArchivo;
+           
                 // formato dado por sql 2021-02-11   
                 //formato requerido por mi  12/02/2020
                 $fechaDet = $itemDet->fecha;

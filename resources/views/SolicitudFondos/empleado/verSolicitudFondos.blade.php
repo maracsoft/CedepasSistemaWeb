@@ -1,6 +1,8 @@
 @extends('layout.plantilla')
 
-
+@section('titulo')
+Ver Solicitud
+@endsection
 
 {{-- ESTA VISTA LA USA EL JEFE DE ADMIN,EL EMPLEADO, PARA VER UNA SOLICITUD DE FONDOS --}}
 

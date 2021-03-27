@@ -1,24 +1,4 @@
-<style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 20%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    
-</style>
+
 
 {{-- ESTA PLANTILLA SOLO CONTIENE LOS CAMPOS Y EL DESPLEGABLE DE LOS ITEMS DE SOLICITUD
     , NO CONTIENE LA TABLA --}}
@@ -159,5 +139,6 @@
 </div>
 
 
-<br>
 @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
+
+@include('layout.estilosPegados')

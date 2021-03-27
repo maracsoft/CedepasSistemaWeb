@@ -53,7 +53,7 @@ class ReposicionGastosController extends Controller
             
             $itemDet = $listaDetalles[$i];
             $itemDet['nombreTipoCDP'] = $itemDet->getNombreTipoCDP(); //tengo que pasarlo aqui pq en el javascript no hay manera de calcularlo, de todas maneras no lo usaré como Modelo (objeto)
-            $itemDet['nombreImagen'] = ReposicionGastos::getFormatoNombreCDP($itemDet->codReposicionGastos,$i+1,$itemDet->terminacionArchivo);
+            
                 // formato dado por sql 2021-02-11   
                 //formato requerido por mi  12/02/2020
                 $fechaDet = $itemDet->fechaComprobante;
@@ -599,12 +599,12 @@ class ReposicionGastosController extends Controller
             $reposicion->save();
             DB::commit();
             //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
             //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
 
         }
     }
@@ -747,7 +747,7 @@ class ReposicionGastosController extends Controller
                 ->route('ReposicionGastos.Contador.listar')
                 ->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
             */
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.Contador.listar')->with('datos','Se contabilizó correctamente la Reposicion '.$reposicion->codigoCedepas);
         } catch (\Throwable $th) {
             Debug::mensajeError('REPOSICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
@@ -755,7 +755,7 @@ class ReposicionGastosController extends Controller
             return redirect()->route('ReposicionGastos.Contador.listar')
                 ->with('datos','Ha ocurrido un error');
             */
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.Contador.listar')->with('datos','Ha ocurrido un error');
         }
 
 

@@ -1,5 +1,7 @@
 @extends ('layout.plantilla')
-
+@section('titulo')
+Mis Solicitudes
+@endsection
 @section('contenido')
 <style>
 
@@ -74,7 +76,7 @@ margin-top: 18px;
               <tr>
                 <th width="9%" scope="col">Codigo Sol</th>
                 <th width="9%" scope="col" style="text-align: center">F. Emision</th>
-               
+                <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>
                 <th width="9%" scope="col" style="text-align: center">Total Solicitado // Rendido </th>
                 <th width="11%" scope="col" style="text-align: center">Estado</th>
@@ -96,6 +98,7 @@ margin-top: 18px;
             <tr>
                 <td style = "padding: 0.40rem">{{$itemSolicitud->codigoCedepas  }}</td>
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getfechaHoraEmision()  }}</td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td style = "padding: 0.40rem; text-align: right"> 
@@ -111,7 +114,7 @@ margin-top: 18px;
                             height: 26px;
                             text-align:center;
                             color: {{$itemSolicitud->getColorLetrasEstado()}} ;
-                    ">
+                    " title="{{$itemSolicitud->getMensajeEstado()}}">
                 </td>
 
                 <td style = "padding: 0.40rem; text-align: center">

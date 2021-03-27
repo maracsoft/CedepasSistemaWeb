@@ -1,26 +1,6 @@
 @section('estilos')
-<style>
 
-    .col{
-        /* background-color: orange; */
-        margin-top: 20px;
 
-    }
-    .colLabel{
-        width: 25%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-
-</style>
 @endsection
 
 <div class="container">
@@ -104,19 +84,18 @@
 
 
         <div class="col-md"> {{-- COLUMNA DERECHA --}}
-            <label for="fecha">Justificación</label>
-            <textarea readonly  class="form-control" name="justificacion" id="justificacion"
-            aria-label="With textarea" style="resize:none; height:50px;">{{$solicitud->justificacion}}</textarea>
+            <div style="margin-bottom: 1%">
+                <label for="fecha">Justificación</label>
+                <textarea readonly  class="form-control" name="justificacion" id="justificacion"
+                aria-label="With textarea" style="resize:none; height:50px;">{{$solicitud->justificacion}}</textarea>
+    
 
+            </div>
+            
             <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                 <div class="row">
                     
-
-
-
-                    
-
                     <div class="w-100"></div> {{-- SALTO LINEA --}}
                     <div  class="colLabel">
                             <label for="estado">Estado de la Solicitud 
@@ -128,7 +107,7 @@
                             color:{{$solicitud->getColorLetrasEstado()}};
                             
                         "
-                        readonly value="{{$solicitud->getNombreEstado()}} {{$solicitud->observacion}}">     
+                        readonly value="{{$solicitud->getNombreEstado()}}{{": ".$solicitud->getObservacionONull()}}">     
                     
                                 
                     </div>
@@ -152,7 +131,7 @@
     </div>
 </div>
 
-<br>
+
 {{-- LISTADO DE DETALLES  --}}
 
 <div class="table-responsive">                           
@@ -171,22 +150,25 @@
             @foreach($detallesSolicitud as $itemDetalle)
                 <tr class="selected" id="fila{{$itemDetalle->nroItem}}" name="fila{{$itemDetalle->nroItem}}">
                     <td style="text-align:center;">               
-                       <input type="text" class="form-control" name="colItem{{$itemDetalle->nroItem}}" 
+
+                       <input type="text" class="inputLigero form-control" name="colItem{{$itemDetalle->nroItem}}" 
                             id="colItem{{$itemDetalle->nroItem}}" value="{{$itemDetalle->nroItem}}" readonly="readonly">   
                     </td>               
+                    
                     <td> 
-                       <input type="text" class="form-control" name="colConcepto{{$itemDetalle->nroItem}}" id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly="readonly"> 
+                       <input type="text" class="inputLigero form-control" name="colConcepto{{$itemDetalle->nroItem}}" 
+                            id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly="readonly"> 
                     </td>           
                     
                     
                     <td>               
-                       <input type="text" class="form-control" name="colImporte{{$itemDetalle->nroItem}}" 
+                       <input type="text" class="inputLigero form-control" name="colImporte{{$itemDetalle->nroItem}}" 
                        id="colImporte{{$itemDetalle->nroItem}}"  value="{{number_format($itemDetalle->importe,2)}}" 
                         style="text-align: right;" readonly="readonly"> 
                     </td>          
 
                     <td style="text-align:center;">               
-                    <input type="text" class="form-control" name="CodigoPresupuestal{{$itemDetalle->codDetalleSolicitud}}" 
+                    <input type="text" class="inputLigero form-control" name="CodigoPresupuestal{{$itemDetalle->codDetalleSolicitud}}" 
                         id="CodigoPresupuestal{{$itemDetalle->codDetalleSolicitud}}" value="{{$itemDetalle->codigoPresupuestal}}" 
                         readonly>
                     </td>               
@@ -200,3 +182,4 @@
         </tbody>
     </table>
 </div> 
+@include('layout.estilosPegados')

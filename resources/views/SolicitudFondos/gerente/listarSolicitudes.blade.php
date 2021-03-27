@@ -1,4 +1,7 @@
 @extends ('layout.plantilla')
+@section('titulo')
+Listar Solicitudes
+@endsection
 @section('estilos')
 <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
 <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
@@ -78,7 +81,9 @@
                 <th width="9%" scope="col" style="text-align: center">F. Emision</th>
                 
                 <th width="13%" scope="col">Empleado</th>
+                <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>
+
                 <th width="9%" scope="col" style="text-align: center">Total Solicitado // Rendido</th>
                 <th width="11%" scope="col" style="text-align: center">Estado</th>
                 <th width="9%" scope="col">Cod Rendicion</th>
@@ -100,6 +105,8 @@
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaHoraEmision() }}</td>
               
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreSolicitante()}} </td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
+                
                 <td style = "padding: 0.40rem">{{$itemSolicitud->getnombreProyecto()  }}</td>
                 <td style = "padding: 0.40rem; text-align: right"> 
                     {{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}<br>
@@ -113,7 +120,7 @@
                             height: 26px;
                             text-align:center;
                             color: {{$itemSolicitud->getColorLetrasEstado()}} ;
-                    ">
+                    "  title="{{$itemSolicitud->getMensajeEstado()}}">
                 </td>
                 <td style = "padding: 0.40rem">  
                   @if($itemSolicitud->estaRendida())

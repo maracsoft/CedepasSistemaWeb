@@ -122,17 +122,17 @@ class SolicitudFondosController extends Controller
             return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
         
 
-        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente();
+        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente2();
         if($codProyectoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar)->get();
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
         }
         if($codEmpleadoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar)->get();
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
         //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
         
 
-        $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos)
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos->get())
         ->paginate($this::PAGINATION);
 
         $proyectos=Proyecto::getProyectosActivos();
@@ -141,10 +141,14 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('SolicitudFondos.gerente.listarSolicitudes',compact('codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
+        return view('SolicitudFondos.gerente.listarSolicitudes',compact('codEmpleadoBuscar','codProyectoBuscar',
+            'listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
     }
 
-
+/*         //$listaSolicitudesFondos = $listaSolicitudesFondos->paginate($this::PAGINATION);
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos)
+        ->paginate($this::PAGINATION);
+ */
 
 /* DEBE LISTARLE 
     LAS QUE ESTÁN APROBADAS (Para que las abone)
@@ -390,15 +394,6 @@ class SolicitudFondosController extends Controller
 
     }
 
-
-    //DEPRECADO
-    function descargarComprobanteAbono($id){
-        $solicitud = SolicitudFondos::findOrFail($id);
-        $nombreArchivo = 'SF-Abono-'.
-            $this->rellernarCerosIzq($id,6).
-            '.'.$solicitud->terminacionArchivo;
-        return Storage::download("comprobantesAbono/".$nombreArchivo);
-    }
 
 
     function rellernarCerosIzq($numero, $nDigitos){

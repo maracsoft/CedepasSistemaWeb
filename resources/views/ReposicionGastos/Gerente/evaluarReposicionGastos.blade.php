@@ -1,7 +1,15 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+    @if($reposicion->verificarEstado('Creada') || 
+        $reposicion->verificarEstado('Subsanada') )
+        {{-- Estados en los que es valido Evaluar --}}
+        Evaluar Reposicion de Gastos
+
+    @else 
+        Ver Reposicion de Gastos
+
+    @endif
 @endsection
 
 @section('contenido')
@@ -62,10 +70,13 @@
       
         <div class="row" id="divTotal" name="divTotal">      
             <div class="col"> 
-                    <br>
+                
                     @include('ReposicionGastos.desplegableDescargarArchivosRepo')
 
-
+                    <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'>
+                        <i class="fas fa-arrow-left"></i> 
+                        Regresar al Menu
+                    </a>
             </div>
             <!--
             <div class="col"></div>
@@ -79,6 +90,7 @@
                         aria-label="With textarea" style="resize:none; height:100px;"></textarea>
                     <br>
                 @endif
+                
             </div>   
             <div class="col-md-2">
                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
@@ -101,7 +113,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                    
                     <!--
                     <a href="" 
                         class="btn btn-success float-right">

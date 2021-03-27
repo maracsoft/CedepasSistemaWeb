@@ -1,5 +1,7 @@
 @extends ('layout.plantilla')
-
+@section('titulo')
+Listar Solicitudes
+@endsection
 @section('contenido')
 
 <style>
@@ -71,6 +73,7 @@
                 <th width="9%"  scope="col" style="text-align: center">F. Emision</th>
               
                 <th width="11%"  scope="col">Empleado </th>
+                <th width="3%">P.P</th>
                 <th  scope="col">Proyecto</th>
                 <th width="11%" scope="col">Evaluador</th>
                 
@@ -92,6 +95,8 @@
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaHoraEmision() }}</td>
            
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreSolicitante()}} </td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
+                
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreProyecto()}} </td>
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
                 <td style = "padding: 0.40rem; text-align: right">{{$itemSolicitud->getMoneda()->simbolo}} {{number_format($itemSolicitud->totalSolicitado,2)  }}</td>
@@ -105,13 +110,13 @@
                             height: 26px;
                             text-align:center;
                             color: {{$itemSolicitud->getColorLetrasEstado()}} ;
-                    ">
+                    "  title="{{$itemSolicitud->getMensajeEstado()}}">
                 </td>
                 <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
                         @if($itemSolicitud->verificarEstado('Abonada')) {{-- Si está aprobada (pa abonar) --}}   
                           <a  class='btn btn-warning btn-sm' 
                           href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}" title="Contabilizar Solicitud">
-                            <i class="fas fa-hand-holding-usd"></i>
+                          <i class="fas fa-sort-amount-up"></i>
                           </a>
                         @else{{-- si está rendida (pa verla nomas ) --}}
                           <a href="{{route('SolicitudFondos.Contador.verContabilizar',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver Solicitud">
@@ -129,7 +134,7 @@
                         <a href="{{route('solicitudFondos.descargarPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Descargar PDF">
                           <i class="fas fa-file-download"></i>
                         </a>
-                        <a href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver PDF">
+                        <a target="pdf_solicitud_{{$itemSolicitud->codSolicitud}}" href="{{route('solicitudFondos.verPDF',$itemSolicitud->codSolicitud)}}" class='btn btn-info btn-sm' title="Ver PDF">
                           <i class="fas fa-file-pdf"></i>
                         </a>
                         

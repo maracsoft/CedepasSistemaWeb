@@ -1,7 +1,7 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+Editar Solicitud
 @endsection
 
 @section('contenido')
@@ -160,8 +160,8 @@
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
-                                <label for="estado">Estado de <br> la Solicitud 
-                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                                <label for="estado">Estado 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Obs @endif:</label>
                         </div>
                         <div class="col"> {{-- Combo box de estado --}}
                             <input readonly type="text" class="form-control" name="estado" id="estado"
@@ -314,28 +314,10 @@
 {{-- ************************************************************************************************************* --}}
 
 
-<style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 20px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    
-</style>
-
+@include('layout.estilosPegados')
+@section('tiempoEspera')
+<div class="loader" id="pantallaCarga"></div>
+@endsection
 
 @section('script')
       
@@ -343,12 +325,12 @@
         var cont=0;
         var detalleSol=[];
         
-        $(document).ready(function(){
+        $(window).load(function(){
 
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             cargarADetallesSol();
             actualizarCodPresupProyecto();
-
+            $(".loader").fadeOut("slow");
         });
         
         
@@ -404,7 +386,11 @@
         if($('#justificacion').val()=='' ){
             cambiarEstilo('justificacion','form-control-undefined');
             msj='Debe ingresar la justificacion';
+        }else if($('#justificacion').val().length>{{App\Configuracion::tamañoMaximoJustificacion}} ){
+            cambiarEstilo('justificacion','form-control-undefined');
+            msj='La longitud de la justificacion tiene que ser maximo de {{App\Configuracion::tamañoMaximoJustificacion}} caracteres';
         }
+
         if($('#ComboBoxProyecto').val()=='-1' ){
             cambiarEstilo('ComboBoxProyecto','form-control-undefined');
             msj='Debe seleccionar el proyecto';
@@ -423,15 +409,24 @@
         if($('#girarAOrden').val()=='' ){
             cambiarEstilo('girarAOrden','form-control-undefined');
             msj='Debe ingresar la persona dueña de la cuenta.';
+        }else if($('#girarAOrden').val().length>{{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} ){
+            cambiarEstilo('girarAOrden','form-control-undefined');
+            msj='La longitud de "Girar a orden de.." tiene que ser maximo de {{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} caracteres';
         }
         
         if($('#nroCuenta').val()=='' ){
             cambiarEstilo('nroCuenta','form-control-undefined');
             msj='Debe ingresar el nro de cuenta';
+        }else if($('#nroCuenta').val().length>{{App\Configuracion::tamañoMaximoNroCuentaBanco}} ){
+            cambiarEstilo('nroCuenta','form-control-undefined');
+            msj='La longitud del numero de cuenta tiene que ser maximo de {{App\Configuracion::tamañoMaximoNroCuentaBanco}} caracteres';
         }
         
-        if( $('#cantElementos').val()<=0  || detalleSol.length == 0)
+        if( $('#cantElementos').val()<=0  || detalleSol.length == 0 ){
             msj='Debe ingresar Items';
+        }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+            msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+        }
 
         for (let index = 0; index < detalleSol.length; index++) {
             console.log('Comparando  ' +codPresupProyecto+' empiezaCon ' + codPresupProyecto.startsWith( detalleSol[index].codigoPresupuestal) )

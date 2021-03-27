@@ -1,7 +1,11 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+@if($rendicion->verificarEstado('Creada') || $rendicion->verificarEstado('Subsanada') )
+Revisar Rendición
+@else 
+Ver Rendicion
+@endif
 @endsection
 
 @section('contenido')
@@ -119,7 +123,10 @@ enctype="multipart/form-data" id="frmRend" >
                         @include('RendicionGastos.desplegableDescargarArchivosRend')
                         
 
-
+                        <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'>
+                            <i class="fas fa-arrow-left"></i>
+                            Regresar al Menu
+                        </a> 
 
 
                     </div>   
@@ -184,21 +191,7 @@ enctype="multipart/form-data" id="frmRend" >
                                 </div>    
                                 <div class="col">
                                     <br>
-                                    <a href="#" class="btn btn-warning" onclick="swal({//sweetalert
-                                        title:'¿Seguro de observar la rendicion?',
-                                        text: '',
-                                        type: 'info',  
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#3085d6',
-                                        cancelButtonColor: '#d33',
-                                        confirmButtonText:  'SI',
-                                        cancelButtonText:  'NO',
-                                        closeOnConfirm:     true,//para mostrar el boton de confirmar
-                                        html : true
-                                    },
-                                    function(){
-                                        observarRendicion();
-                                    });"><i class="entypo-pencil"></i>Observar</a>
+                                    <a href="#" class="btn btn-warning" onclick="observarRendicion()"><i class="entypo-pencil"></i>Observar</a>
                                 </div>
                     
                     
@@ -210,20 +203,24 @@ enctype="multipart/form-data" id="frmRend" >
 
                 </div>
                     
-
                 
-        </div> 
-        
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group">
-                    <a href="#" class="btn btn-success float-right" onclick="aprobar()">
-                        <i class="fas fa-check"></i> 
-                        Aceptar
-                    </a>        
-                </div>    
-            </div>
+                
         </div>
+        
+        @if($rendicion->listaParaAprobar())
+            <div class="col-md-12 text-center">  
+                <div id="guardar">
+                    <div class="form-group">
+                        <a href="#" class="btn btn-success float-right" onclick="aprobar()">
+                            <i class="fas fa-check"></i> 
+                            Aceptar
+                        </a>        
+                    </div>    
+                </div>
+            </div>
+        @endif
+
+
     </div>
 
 </form>
@@ -354,7 +351,25 @@ enctype="multipart/form-data" id="frmRend" >
             textoObs = $('#observacion').val();
             codigoSolicitud = {{$rendicion->codRendicionGastos}};
             console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la rendicion es ' +  codigoSolicitud);
-            location.href = '/rendiciones/observar/'+ codigoSolicitud +'*' +textoObs;
+            if(textoObs==''){
+                alerta('Debe ingresar la observacion');
+            }else{
+                swal({//sweetalert
+                    title:'¿Seguro de observar la rendicion?',
+                    text: '',
+                    type: 'info',  
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(){
+                    location.href = '/rendiciones/observar/'+ codigoSolicitud +'*' +textoObs;
+                });
+            }
         }
 
 

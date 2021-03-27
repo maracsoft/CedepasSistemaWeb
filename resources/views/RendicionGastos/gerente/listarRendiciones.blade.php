@@ -1,5 +1,6 @@
 @extends ('layout.plantilla')
-
+@section('titulo')
+Listar Rendiciones
 @section('contenido')
 
 <style>
@@ -70,6 +71,7 @@
                 <th width="9%"  scope="col" style="text-align: center">F. Rendicion</th>
               
                 <th width="13%"  scope="col">Empleado </th>
+                <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>              
                 <th width="9%"  scope="col" style="text-align: center">Total Recibido</th>
                 <th width="9%"  scope="col" style="text-align: center">Total Gastado</th>
@@ -88,6 +90,7 @@
               <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->getFechaHoraRendicion()  }}</td>
             
               <td style = "padding: 0.40rem">{{$itemRendicion->getNombreSolicitante()  }}</td>
+              <td style = "padding: 0.40rem">{{$itemRendicion->getProyecto()->codigoPresupuestal  }}</td>
               <td style = "padding: 0.40rem">{{$itemRendicion->getNombreProyecto()  }}</td>
               <td style = "padding: 0.40rem; text-align: right">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRecibido,2)  }}</td>
               <td style = "padding: 0.40rem; text-align: right">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRendido,2)  }}</td>
@@ -100,10 +103,10 @@
                         height: 26px;
                         text-align:center;
                         color: {{$itemRendicion->getColorLetrasEstado()}} ;
-                ">
+                " title="{{$itemRendicion->getMensajeEstado()}}">
               </td>
               <td style = "padding: 0.40rem">
-                @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada') )
+                @if($itemRendicion->verificarEstado('Creada') || $itemRendicion->verificarEstado('Subsanada')  )
                   <a href="{{route('RendicionGastos.Gerente.Revisar',$itemRendicion->codRendicionGastos)}}" 
                     class='btn btn-warning btn-sm' title="Evaluar Rendición"><i class="fas fa-thumbs-up"></i>
                   </a>    
@@ -113,7 +116,7 @@
                   S
                 </a>
                 
-                @if($itemRendicion->verificarEstado('Contabilizada')  ) {{-- Si está a espera de reponer --}}   
+                @if($itemRendicion->verificarEstado('Contabilizada')  || $itemRendicion->verificarEstado('Aprobada')   ) {{-- Si está a espera de reponer --}}   
                   <a href="{{route('RendicionGastos.Gerente.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
                     R
                   </a>

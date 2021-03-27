@@ -1,5 +1,7 @@
 @extends('layout.plantilla')
-
+@section('titulo')
+Ver Rendicion
+@endsection
 @section('estilos')
   
 @endsection

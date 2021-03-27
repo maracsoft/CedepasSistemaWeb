@@ -1,9 +1,8 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+Crear Solicitud
 @endsection
-
 @section('contenido')
 <div >
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>
@@ -33,6 +32,8 @@ onsubmit="" id="frmsoli" name="frmsoli">
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
+                    
+
                       <div  class="colLabel">
                             <label for="fecha">Girar a la orden de:</label>
 
@@ -92,9 +93,15 @@ onsubmit="" id="frmsoli" name="frmsoli">
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
-                <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-
+                
+                
+                <div style="margin-bottom: 1%">
+                    <label for="fecha">Justificacion</label>
+                    <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea"
+                         cols="3"></textarea>
+    
+                </div>
+                
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
@@ -219,43 +226,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                                                                                         
                     </tfoot>
                     <tbody>
-                        
-                        {{-- <tr class="selected" id="fila1">
-                            <td style="text-align:center;">
-                                Item
-                            </td>
-                            <td>concepto
-                            </td>
-                            <td  style="text-align:right;">
-                               importe
-                            </td>
-                            <td style="text-align:center;">
-                                codigoPresupuestal
-                            </td>
-                            
-                            <td style="text-align:center;">
-                                <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+cod_producto+','+cont+');">
-                                    <i class="fa fa-times" ></i>
-                                </button>
-                            </td>
-                        </tr>   --}}     
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                      
                     </tbody>
                 </table>
             </div> 
@@ -318,28 +289,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
-
-<style>
-.col{
-    /* background-color: orange; */
-    margin-top: 20px;
-    
-}
-.colLabel{
-    width: 30%;
-    /* background-color: aqua; */
-    margin-top: 20px;    
-    text-align: left;
-}
-
-.colLabel2{
-    width: 20%;
-    /* background-color: #3c8dbc; */
-    margin-top: 20px;
-    text-align: left;
-}
-
-</style>
+@include('layout.estilosPegados')
 
 @section('script')
      {{-- <script src="/public/select2/bootstrap-select.min.js"></script>      --}}
@@ -386,7 +336,11 @@ onsubmit="" id="frmsoli" name="frmsoli">
             if($('#justificacion').val()=='' ){
                 cambiarEstilo('justificacion','form-control-undefined');
                 msj='Debe ingresar la justificacion';
+            }else if($('#justificacion').val().length>{{App\Configuracion::tamañoMaximoJustificacion}} ){
+                cambiarEstilo('justificacion','form-control-undefined');
+                msj='La longitud de la justificacion tiene que ser maximo de {{App\Configuracion::tamañoMaximoJustificacion}} caracteres';
             }
+
             if($('#ComboBoxProyecto').val()=='-1' ){
                 cambiarEstilo('ComboBoxProyecto','form-control-undefined');
                 msj='Debe seleccionar el proyecto';
@@ -405,15 +359,24 @@ onsubmit="" id="frmsoli" name="frmsoli">
             if($('#girarAOrden').val()=='' ){
                 cambiarEstilo('girarAOrden','form-control-undefined');
                 msj='Debe ingresar la persona dueña de la cuenta.';
+            }else if($('#girarAOrden').val().length>{{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} ){
+                cambiarEstilo('girarAOrden','form-control-undefined');
+                msj='La longitud de "Girar a orden de.." tiene que ser maximo de {{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} caracteres';
             }
             
             if($('#nroCuenta').val()=='' ){
                 cambiarEstilo('nroCuenta','form-control-undefined');
                 msj='Debe ingresar el nro de cuenta';
+            }else if($('#nroCuenta').val().length>{{App\Configuracion::tamañoMaximoNroCuentaBanco}} ){
+                cambiarEstilo('nroCuenta','form-control-undefined');
+                msj='La longitud del numero de cuenta tiene que ser maximo de {{App\Configuracion::tamañoMaximoNroCuentaBanco}} caracteres';
             }
             
-            if( $('#cantElementos').val()<=0 )
+            if( $('#cantElementos').val()<=0 ){
                 msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+            }
 
 
             for (let index = 0; index < detalleSol.length; index++) {

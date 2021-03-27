@@ -1,6 +1,12 @@
 @extends('layout.plantilla')
 
-
+@section('titulo')
+@if($solicitud->verificarEstado('Aprobada'))
+    Abonar Solicitud
+@else 
+    Ver Solicitud
+@endif
+@endsection
 
 @section('contenido')
 
@@ -146,7 +152,7 @@ enctype="multipart/form-data">
 
     </style>
 
-
+@include('layout.estilosPegados')
 @section('script')
 
     

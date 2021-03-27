@@ -1,5 +1,12 @@
 @extends('layout.plantilla')
-
+@section('titulo')
+@if($solicitud->verificarEstado('Contabilizada'))
+Ver
+@else
+Contabilizar
+@endif
+Solicitud
+@endsection
 
 @section('contenido')
 
@@ -133,6 +140,8 @@
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
+
+@include('layout.estilosPegados')
 
 <style>
     

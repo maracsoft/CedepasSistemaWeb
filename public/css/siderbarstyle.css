@@ -3,9 +3,10 @@
 {
 	background-color: #315175 !important;
   font-family: 'Open Sans', sans-serif;
-  color:white;
+  color:white !important;
 }
 [class*=sidebar-dark] .user-panel {
   border-bottom: 1px solid #315175 !important;
  font-family: 'Open Sans', sans-serif;
+ color:white !important;
 }

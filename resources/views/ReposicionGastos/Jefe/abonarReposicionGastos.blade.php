@@ -1,6 +1,15 @@
 @extends('layout.plantilla')
 
-
+@section('titulo')
+    @if($reposicion->verificarEstado('Aprobada'))
+                    Abonar
+                @else 
+                    Ver
+                @endif
+            
+                
+                Reposicion de Gastos
+    @endsection
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -14,7 +23,8 @@
             @endif
         
             
-            Reposicion de Gastos</p>
+            Reposicion de Gastos
+        </p>
     </div>
     <div class="col-md-2">
         <br>
@@ -53,7 +63,9 @@
         <div class="col"  style="">
 
             @include('ReposicionGastos.desplegableDescargarArchivosRepo')
-            
+            <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
+                <i class="fas fa-arrow-left"></i> Regresar al Menú
+            </a>  
         </div>   
 
         
@@ -104,9 +116,7 @@
     <div class="col-md-12 text-center">  
         <div id="guardar">
             <div class="form-group">
-                <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
-                    <i class="fas fa-arrow-left"></i> Regresar al Menú
-                </a>  
+                
                 
 
                 @if($reposicion->verificarEstado('Aprobada'))
