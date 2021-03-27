@@ -53,7 +53,7 @@ class RendicionGastosController extends Controller
             return redirect()->route('RendicionGastos.Gerente.Listar')->with($datos,$msj);
         }
 
-        if($empleado->esJefeAdmin())//si es jefe de administracion
+        if($empleado->esJefeAdmin())//si es jefe de Administracion
         {
             return redirect()->route('RendicionGastos.Administracion.Listar')->with($datos,$msj);
         }
@@ -76,7 +76,7 @@ class RendicionGastosController extends Controller
             $arr1[]=$item->codSolicitud;
         }
 
-        //proyectos del contador
+        //proyectos del Contador
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
@@ -117,7 +117,7 @@ class RendicionGastosController extends Controller
 
 
 
-        return view('RendicionGastos.contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
+        return view('RendicionGastos.Contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
     }
 
 
@@ -161,7 +161,7 @@ class RendicionGastosController extends Controller
         $proyectos=Proyecto::getProyectosActivos();
 
         
-        return view('RendicionGastos.administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.Administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
@@ -212,7 +212,7 @@ class RendicionGastosController extends Controller
         $empleados=Empleado::getEmpleadosActivos();
 
 
-        return view('RendicionGastos.gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.Gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
@@ -278,7 +278,7 @@ class RendicionGastosController extends Controller
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         $detallesSolicitud = DetalleSolicitudFondos::where('codSolicitud','=',$solicitud->codSolicitud)->get();
         
-        return view('RendicionGastos.Empleado.verRendicion',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
+        return view('RendicionGastos.Empleado.VerRendicion',compact('rendicion','solicitud','empleado','detallesRend','detallesSolicitud'));
     }
     
     //despliuega vista de  rendicion, del admiin
@@ -289,7 +289,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.administracion.verRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));     
+        return view('RendicionGastos.Administracion.VerRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));     
     }
 
 
@@ -303,7 +303,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.gerente.revisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));        
+        return view('RendicionGastos.Gerente.RevisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));        
     }
 
     //despliuega vista de  contabilizar rendicion,
@@ -313,7 +313,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
 
-        return view('RendicionGastos.contador.contabilizarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('RendicionGastos.Contador.ContabilizarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -330,7 +330,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($codRendicion);
 
             if(!$rendicion->listaParaContabilizar())
-                return redirect()->route('rendicionGastos.ListarRendiciones')
+                return redirect()->route('RendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion ya fue contabilizada o no se encuentra lsita para serlo.');
 
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
@@ -346,14 +346,14 @@ class RendicionGastosController extends Controller
             
             
             DB::commit();
-            return redirect()->route('rendicionGastos.Contador.Listar')
+            return redirect()->route('RendicionGastos.Contador.Listar')
                 ->with('datos','Se contabilizó correctamente la Rendicion '.
                     $rendicion->codigoCedepas);
 
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('rendicionGastos.Contador.Listar')
+            return redirect()->route('RendicionGastos.Contador.Listar')
                 ->with('datos','Ha ocurrido un error');
         }
 
@@ -370,7 +370,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.administracion.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('RendicionGastos.Administracion.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
 
@@ -393,7 +393,7 @@ class RendicionGastosController extends Controller
         $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
         $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
         
-        return view('RendicionGastos.gerente.revisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
+        return view('RendicionGastos.Gerente.RevisarRendicionGastos',compact('rendicion','solicitud','empleado','detallesRend'));
     }
 
     /* YA NO SE RECHAZAN RENDICIONES , SOLO SE LAS OBSERVA */
@@ -406,7 +406,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
 
             if(!$rendicion->listaParaAprobar())
-                return redirect()->route('rendicionGastos.ListarRendiciones')
+                return redirect()->route('RendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion ya fue aprobada o no se encuentra lsita para serlo.');
 
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
@@ -461,7 +461,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($codRendicion);
 
             if(!$rendicion->listaParaObservar())
-                return redirect()->route('rendicionGastos.ListarRendiciones')
+                return redirect()->route('RendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion no se encuentra lista para ser observada.');
 
 
@@ -527,7 +527,7 @@ class RendicionGastosController extends Controller
 
 
             if($solicitud->estaRendida=='1')
-                return redirect()->route('rendicionGastos.ListarRendiciones')
+                return redirect()->route('RendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la solicitud ya se ha rendido.');
 
 
@@ -671,7 +671,7 @@ class RendicionGastosController extends Controller
 
 
             if(!$rendicion->listaParaActualizar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('RendicionGastos.ListarRendiciones')
                 ->with('datos','Error: la rendicion no puede ser actualizada ahora puesto que está en otro proceso.');
 
 
@@ -802,7 +802,7 @@ class RendicionGastosController extends Controller
 
 
 
-    public function reportes(Request $request){
+    public function Reportes(Request $request){
 
         try 
         {
@@ -819,7 +819,7 @@ class RendicionGastosController extends Controller
                     //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
-                    return view('RendicionGastos.administracion.reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
                     
 
 
@@ -829,12 +829,12 @@ class RendicionGastosController extends Controller
 
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
-                    return view('RendicionGastos.administracion.reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
                     break;
                 case '3':
 
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
-                    return view('RendicionGastos.administracion.reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
                 
                     break;
                 
@@ -842,7 +842,7 @@ class RendicionGastosController extends Controller
                     $sede  = Sede::findOrFail($request->ComboBoxSede);
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$sede->codSede);
 
-                return view('RendicionGastos.administracion.reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
+                return view('RendicionGastos.Administracion.Reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
                     break;
 
                             
@@ -891,7 +891,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
                 // return  $listaX;
-                $nombreVista = 'RendicionGastos.administracion.reportes.reporteSedes';
+                $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteSedes';
                 $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
 
 
@@ -902,7 +902,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'RendicionGastos.administracion.reportes.reporteEmpleado';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteEmpleado';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     break;
@@ -911,7 +911,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'RendicionGastos.administracion.reportes.reporteProyectos';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteProyectos';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     
@@ -921,7 +921,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$codSede);
 
 
-                    $nombreVista = 'RendicionGastos.administracion.reportes.reporteEmpleadoXSede';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteEmpleadoXSede';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
                             
                     
