@@ -353,7 +353,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                     onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.Empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
@@ -443,7 +443,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
         }
 
     </script>
-     @include('RendicionGastos.empleado.plantillasUsables.crearEditarRendJS');
+     @include('RendicionGastos.Empleado.plantillasUsables.crearEditarRendJS');
 
 
 

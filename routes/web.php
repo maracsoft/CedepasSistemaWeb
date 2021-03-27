@@ -75,7 +75,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         ->name('SolicitudFondos.Empleado.cancelar');
 
     Route::get('/SolicitudFondos/Empleado/listar/','SolicitudFondosController@listarSolicitudesDeEmpleado')
-        ->name('SolicitudFondos.empleado.listar');
+        ->name('SolicitudFondos.Empleado.listar');
 
     Route::get('/SolicitudFondos/{id}/Empleado/ver/','SolicitudFondosController@ver')
         ->name('SolicitudFondos.Empleado.Ver');

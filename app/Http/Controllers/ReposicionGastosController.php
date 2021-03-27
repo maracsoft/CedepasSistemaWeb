@@ -92,7 +92,7 @@ class ReposicionGastosController extends Controller
 
         $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones)->paginate($this::PAGINATION);
        
-        return view('ReposicionGastos.empleado.listarReposiciones',
+        return view('ReposicionGastos.Empleado.listarReposiciones',
             compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
     }
 
@@ -103,7 +103,7 @@ class ReposicionGastosController extends Controller
         $detalles=$reposicion->detalles();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('ReposicionGastos.empleado.verReposicionGastos',compact('reposicion','empleadoLogeado','detalles'));
+        return view('ReposicionGastos.Empleado.verReposicionGastos',compact('reposicion','empleadoLogeado','detalles'));
     }
     public function create(){
         $listaCDP = CDP::All();
@@ -113,7 +113,7 @@ class ReposicionGastosController extends Controller
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionREP();
-        return view('ReposicionGastos.empleado.crearReposicionGastos',compact('empleadoLogeado','listaCDP','proyectos',
+        return view('ReposicionGastos.Empleado.crearReposicionGastos',compact('empleadoLogeado','listaCDP','proyectos',
             'objNumeracion','empleadosEvaluadores','monedas','bancos'));
     }
 
@@ -127,7 +127,7 @@ class ReposicionGastosController extends Controller
         $empleadosEvaluadores=Empleado::where('activo','!=',0)->get();
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('ReposicionGastos.empleado.editarReposicionGastos',compact('empleadoLogeado','listaCDP','proyectos',
+        return view('ReposicionGastos.Empleado.editarReposicionGastos',compact('empleadoLogeado','listaCDP','proyectos',
             'empleadosEvaluadores','monedas','bancos','reposicion'));
 
 

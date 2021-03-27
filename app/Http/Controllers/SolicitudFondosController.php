@@ -61,7 +61,7 @@ class SolicitudFondosController extends Controller
 
         }
 
-        return redirect()->route('SolicitudFondos.empleado.listar')->with($datos,$msj);
+        return redirect()->route('SolicitudFondos.Empleado.listar')->with($datos,$msj);
 
     }
 
@@ -96,7 +96,7 @@ class SolicitudFondosController extends Controller
 
         $listaBancos = Banco::All();
 
-        return view('SolicitudFondos.empleado.listarSolicitudes',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
+        return view('SolicitudFondos.Empleado.listarSolicitudes',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
     }
 
 
@@ -246,7 +246,7 @@ class SolicitudFondosController extends Controller
        
         $empleadoLogeado = Empleado::getEmpleadoLogeado();  
 
-        return view('SolicitudFondos.empleado.verSolicitudFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
+        return view('SolicitudFondos.Empleado.verSolicitudFondos',compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos','listaProyectos','listaSedes'));
     }
 
 
@@ -502,7 +502,7 @@ class SolicitudFondosController extends Controller
         $objNumeracion = Numeracion::getNumeracionREN();
 
         $listaEmpleadosDeSede  = Empleado::getEmpleadosActivos();
-        return view ('RendicionGastos.empleado.crearRendicionGastos',
+        return view ('RendicionGastos.Empleado.crearRendicionGastos',
                     compact('empleadoLogeado','listaBancos'
                     ,'listaProyectos','listaSedes','listaEmpleadosDeSede','solicitud',
                     'listaCDP','detallesSolicitud','objNumeracion'));
@@ -524,7 +524,7 @@ class SolicitudFondosController extends Controller
         
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
 
-        return view('SolicitudFondos.empleado.editarSolicitudFondos',
+        return view('SolicitudFondos.Empleado.editarSolicitudFondos',
             compact('solicitud','detallesSolicitud','empleadoLogeado','listaBancos',
                 'listaMonedas','listaProyectos','listaSedes'));
     }
@@ -540,7 +540,7 @@ class SolicitudFondosController extends Controller
         $empleadoLogeado = Empleado::getEmpleadoLogeado();
         $objNumeracion = Numeracion::getNumeracionSOF();
         $listaEmpleadosDeSede  = Empleado::getEmpleadosActivos();
-        return view('SolicitudFondos.empleado.crearSolicitudFondos',
+        return view('SolicitudFondos.Empleado.crearSolicitudFondos',
             compact('empleadoLogeado','listaBancos','listaProyectos',
                 'listaMonedas','listaSedes','listaEmpleadosDeSede','objNumeracion'));
 
@@ -607,7 +607,7 @@ class SolicitudFondosController extends Controller
             
             DB::commit();  
             return redirect()
-                ->route('SolicitudFondos.empleado.listar')
+                ->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Se ha creado la solicitud '.$solicitud->codigoCedepas);
         }catch(\Throwable $th){
             
@@ -615,7 +615,7 @@ class SolicitudFondosController extends Controller
             
             DB::rollback();
             return redirect()
-                ->route('SolicitudFondos.empleado.listar')
+                ->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -704,14 +704,14 @@ class SolicitudFondosController extends Controller
             }    
             
             DB::commit();  
-            return redirect()->route('SolicitudFondos.empleado.listar')
+            return redirect()->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Registro '.$solicitud->codigoCedepas.' actualizado');
             
         }catch(\Throwable $th){
             Debug::mensajeError('SOLICITUD FONDOS CONTROLLER : UPDATE',$th);
             
             DB::rollback();
-            return redirect()->route('SolicitudFondos.empleado.listar')
+            return redirect()->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Ocurrió un error.');
         }
     }
@@ -733,13 +733,13 @@ class SolicitudFondosController extends Controller
             $solicitud->save();
             DB::commit();
 
-            return redirect()->route('SolicitudFondos.empleado.listar')
+            return redirect()->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Se ha cancelado la solicitud '.$solicitud->codigoCedepas);
             
         } catch (\Throwable $th) {
             Debug::mensajeError('SOLICITUD FONDOS CONTROLLER DELETE',$th);
 
-            return redirect()->route('SolicitudFondos.empleado.listar')
+            return redirect()->route('SolicitudFondos.Empleado.listar')
                 ->with('datos','Ha ocurrido un error: ');
             
         }

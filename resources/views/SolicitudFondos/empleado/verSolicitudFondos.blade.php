@@ -59,12 +59,12 @@ Ver Solicitud
                     <div class="">
                         <div class="row">
                             <div class="col"><!--
-                                <a href="{{route('SolicitudFondos.empleado.listar')}}" 
+                                <a href="{{route('SolicitudFondos.Empleado.listar')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al smenú
                                 </a>-->
-                                <a href="{{route('SolicitudFondos.empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                                <a href="{{route('SolicitudFondos.Empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                             </div>
                             <div class="col"></div>
                             <div class="col"></div>
