@@ -1,7 +1,12 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+    @if($reposicion->verificarEstado('Abonada'))
+        Contabilizar
+    @else 
+        Ver
+    @endif
+Reposicion
 @endsection
 
 @section('contenido')
@@ -19,7 +24,7 @@
             @endif
             
             
-            Reposicion de Gastos</p>
+            Reposicion de Gastos
         </p>
     </div>
 

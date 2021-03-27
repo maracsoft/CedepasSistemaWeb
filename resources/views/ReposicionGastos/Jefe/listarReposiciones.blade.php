@@ -1,4 +1,8 @@
 @extends ('layout.plantilla')
+@section('titulo')
+
+Listar Reposciones
+@endsection
 
 @section('contenido')
 

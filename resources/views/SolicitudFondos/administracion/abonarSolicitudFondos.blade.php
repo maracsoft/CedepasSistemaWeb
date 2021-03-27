@@ -1,6 +1,12 @@
 @extends('layout.plantilla')
 
-
+@section('titulo')
+@if($solicitud->verificarEstado('Aprobada'))
+    Abonar Solicitud
+@else 
+    Ver Solicitud
+@endif
+@endsection
 
 @section('contenido')
 

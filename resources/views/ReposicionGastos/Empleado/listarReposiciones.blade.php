@@ -1,5 +1,8 @@
 @extends ('layout.plantilla')
 
+@section('titulo')
+Listar Reposiciones
+@endsection
 @section('contenido')
 
 <style>

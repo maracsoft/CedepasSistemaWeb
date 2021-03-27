@@ -599,12 +599,12 @@ class ReposicionGastosController extends Controller
             $reposicion->save();
             DB::commit();
             //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
+            return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Se abono correctamente la Reposicion '.$reposicion->codigoCedepas);
         }catch(\Throwable $th){
             //Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
             //return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
-            return redirect()->route('ReposicionGastos.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('ReposicionGastos.Administracion.listar')->with('datos','Ha ocurrido un error');
 
         }
     }

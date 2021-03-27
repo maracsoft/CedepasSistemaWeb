@@ -1,6 +1,15 @@
 @extends('layout.plantilla')
 
-
+@section('titulo')
+    @if($reposicion->verificarEstado('Aprobada'))
+                    Abonar
+                @else 
+                    Ver
+                @endif
+            
+                
+                Reposicion de Gastos
+    @endsection
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -14,7 +23,8 @@
             @endif
         
             
-            Reposicion de Gastos</p>
+            Reposicion de Gastos
+        </p>
     </div>
     <div class="col-md-2">
         <br>

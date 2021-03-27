@@ -1,7 +1,15 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+    @if($reposicion->verificarEstado('Creada') || 
+        $reposicion->verificarEstado('Subsanada') )
+        {{-- Estados en los que es valido Evaluar --}}
+        Evaluar Reposicion de Gastos
+
+    @else 
+        Ver Reposicion de Gastos
+
+    @endif
 @endsection
 
 @section('contenido')

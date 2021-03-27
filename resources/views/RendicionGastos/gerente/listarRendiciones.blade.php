@@ -1,5 +1,6 @@
 @extends ('layout.plantilla')
-
+@section('titulo')
+Listar Rendiciones
 @section('contenido')
 
 <style>

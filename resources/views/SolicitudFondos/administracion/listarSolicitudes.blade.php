@@ -1,5 +1,7 @@
 @extends ('layout.plantilla')
-
+@section('titulo')
+Listar Solicitudes
+@endsection
 @section('contenido')
 
 <style>

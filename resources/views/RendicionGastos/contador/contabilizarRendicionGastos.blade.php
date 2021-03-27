@@ -1,7 +1,7 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+
 @endsection
 
 @section('contenido')
@@ -269,14 +269,7 @@
         var totalSinIGV=0;
     
         $(document).ready(function(){
-            var d = new Date();
-            codEmp = $('#codigoCedepas').val();
-            mes = (d.getMonth()+1.0).toString();
-            if(mes.length > 0) mes = '0' + mes;
-            
-            year =  d.getFullYear().toString().substr(2,2)  ;
-            //$('#codRendicion').val( codEmp +'-'+ d.getDate() +mes + year + cadAleatoria(2));
-            
+          
     
         });
     
@@ -306,8 +299,16 @@
 
         function guardarContabilizar (){
             codRendicion = {{$rendicion->codRendicionGastos}};
+
+            msjExtra = "";
+            if(listaItems.length==0){
+                msjExtra = "No ha marcado ningún Item... ";
+                
+            }
+
+
             swal({//sweetalert
-                title:'¿Seguro de contabilizar la rendicion?',
+                title: msjExtra+'¿Seguro de contabilizar la rendicion?',
                 text: '',
                 type: 'info',  
                 showCancelButton: true,
@@ -350,223 +351,7 @@
         }
 
 
-
-        function cambio(index){
-            var idname= 'imagenEnvio'; 
-            var filename = $('#imagenEnvio').val().split('\\').pop();
-            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-            jQuery('span.'+idname).next().find('span').html(filename);
-            document.getElementById("divFileImagenEnvio").innerHTML= filename;
-            $('#nombreImgImagenEnvio').val(filename);
-
-        }
-
-
-        //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi
-        function cadAleatoria(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var charactersLength = characters.length;
-            for ( var i = 0; i < length; i++ ) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-            return result;
-        }
     
-        /* Eliminar productos */
-        function eliminardetalle(index){
-            //total=total-importes[index]; 
-            //tam=detalleRend.length;
-    
-         
-    
-            //removemos 1 elemento desde la posicion index
-            detalleRend.splice(index,1);
-           
-            console.log('BORRANDO LA FILA' + index);
-            //cont--;
-            actualizarTabla();
-    
-        }
-    
-    
-        function actualizarTabla(){
-            //funcion para poner el contenido de detallesVenta en la tabla
-            //tambien actualiza el total
-            //$('#detalles')
-            total=0;
-            //vaciamos la tabla
-            for (let index = 100; index >=0; index--) {
-                $('#fila'+index).remove();
-                //console.log('borrando index='+index);
-            }
-            
-            //insertamos en la tabla los nuevos elementos
-            for (let item = 0; item < detalleRend.length; item++) {
-                element = detalleRend[item];
-                cont = item+1;
-    
-                total=total +parseFloat(element.importe); 
-    
-                //importes.push(importe);
-                //item = getUltimoIndex();
-                var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            
-                            '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
-                            '    </td>               '+
-                            '    <td> '+
- 
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
-                            '    </td>               '+
-                            '    <td style="text-align:center;">               '+
-                            '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+
-                            '            <i class="fa fa-times" ></i>               '+
-                            '        </button>               '+
-                            '    </td>               '+
-                            '</tr>                 ';
-    
-    
-                $('#detalles').append(fila); 
-            }
-            $('#total').val(number_format(total,2));
-            
-            
-            $('#cantElementos').val(cont);
-            
-          
-            //alerta('se termino de actualizar la tabla con cont='+cont);
-        }
-    
-    
-    
-    
-        function agregarDetalle()
-        {
-
-
-            // VALIDAMOS
-
-            fecha = $("#fechaComprobante").val();    
-            if (fecha=='') 
-            {
-                alerta("Por favor ingrese la fecha del comprobante del gasto.");    
-                return false;
-            }   
-            tipo = $("#ComboBoxCDP").val();    
-            if (tipo==-1) 
-            {
-                alerta("Por favor ingrese el tipo de comprobante del gasto.");    
-                return false;
-            }
-            ncbte= $("#ncbte").val();   
-             
-            if (ncbte=='') 
-            {
-                alerta("Por favor ingrese el numero del comprobante del gasto.");    
-                return false;
-            }
-             
-            concepto=$("#concepto").val();    
-            if (concepto=='') 
-            {
-                alerta("Por favor ingrese el concepto");    
-                return false;
-            }    
-              
-            
-    
-            importe=$("#importe").val();    
-            if (!(importe>0)) 
-            {
-                alerta("Por favor ingrese un importe válido.");    
-                return false;
-            }    
-            
-    
-            codigoPresupuestal=$("#codigoPresupuestal").val();    
-            if (codigoPresupuestal=='') 
-            {
-                alerta("Por favor ingrese el codigo presupuestal");    
-                return false;
-            }    
-    
-            if (importe==0)
-            {
-                alerta("Por favor ingrese importe");    
-                return false;
-            }  
-            
-            // FIN DE VALIDACIONES
-    
-                item = cont+1;   
-                detalleRend.push({
-                    fecha:fecha,
-                    tipo:tipo,
-                    ncbte,ncbte,
-                    concepto:concepto,
-                    importe:importe,            
-                    codigoPresupuestal:codigoPresupuestal
-                });        
-                cont++;
-            actualizarTabla();
-            //ACTUALIZAMOS LOS VALORES MOSTRADOS TOTALES    
-            //$('#total').val(number_format(total,2)); //TOTAL INCLUIDO IGV
-            $('#fechaComprobante').val('');
-            $('#ComboBoxCDP').val(0);
-            $('#ncbte').val('');
-            
-            $('#concepto').val('');
-            $('#importe').val('');
-            $('#codigoPresupuestal').val('');
-            
-    }
-    
-    function limpiar(){
-        $("#cantidad").val(0);
-        //$("#precio").val(0);
-        $("#producto_id").val(0);
-    }
-    
-    /* Mostrar Mensajes de Error */
-    function mostrarMensajeError(mensaje){
-        $(".alert").css('display', 'block');
-        $(".alert").removeClass("hidden");
-        $(".alert").addClass("alert-danger");
-        $(".alert").html("<button type='button' class='close' data-close='alert'>×</button>"+
-                            "<span><b>Error!</b> " + mensaje + ".</span>");
-        $('.alert').delay(5000).hide(400);
-    }
-    
-    
-    function number_format(amount, decimals) {
-        amount += ''; // por si pasan un numero en vez de un string
-        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-        decimals = decimals || 0; // por si la variable no fue fue pasada
-        // si no es un numero o es igual a cero retorno el mismo cero
-        if (isNaN(amount) || amount === 0) 
-            return parseFloat(0).toFixed(decimals);
-        // si es mayor o menor que cero retorno el valor formateado como numero
-        amount = '' + amount.toFixed(decimals);
-        var amount_parts = amount.split('.'),
-            regexp = /(\d+)(\d{3})/;
-        while (regexp.test(amount_parts[0]))
-            amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-        return amount_parts.join('.');
-    }
     
     
     </script>

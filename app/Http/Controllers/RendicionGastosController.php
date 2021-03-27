@@ -336,17 +336,25 @@ class RendicionGastosController extends Controller
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
             $rendicion->codEmpleadoContador = Empleado::getEmpleadoLogeado()->codEmpleado;
             $rendicion->save();
-            foreach ($listaItems as $item) {
-                $detGasto = DetalleRendicionGastos::findOrFail($item);
-                $detGasto->contabilizado = 1;
-                $detGasto->save();   
-            }
+
+            if( $vector[1] != "" )
+                foreach ($listaItems as $item) {
+                    $detGasto = DetalleRendicionGastos::findOrFail($item);
+                    $detGasto->contabilizado = 1;
+                    $detGasto->save();   
+                }
+            
+            
             DB::commit();
-            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Se contabilizó correctamente la Rendicion '.$rendicion->codigoCedepas);
+            return redirect()->route('rendicionGastos.Contador.listar')
+                ->with('datos','Se contabilizó correctamente la Rendicion '.
+                    $rendicion->codigoCedepas);
+
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('rendicionGastos.Contador.listar')->with('datos','Ha ocurrido un error');
+            return redirect()->route('rendicionGastos.Contador.listar')
+                ->with('datos','Ha ocurrido un error');
         }
 
 

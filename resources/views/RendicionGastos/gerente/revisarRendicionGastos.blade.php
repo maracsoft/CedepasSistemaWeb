@@ -1,7 +1,11 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+@if($rendicion->verificarEstado('Creada') || $rendicion->verificarEstado('Subsanada') )
+Revisar Rendición
+@else 
+Ver Rendicion
+@endif
 @endsection
 
 @section('contenido')

@@ -1,7 +1,7 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+  Registrar Reposición de Gastos
 @endsection
 
 @section('contenido')
