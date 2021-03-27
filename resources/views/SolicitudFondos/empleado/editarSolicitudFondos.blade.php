@@ -160,8 +160,8 @@
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel2">
-                                <label for="estado">Estado de <br> la Solicitud 
-                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                                <label for="estado">Estado 
+                                    @if($solicitud->verificarEstado('Observada')){{-- Si está observada --}}& Obs @endif:</label>
                         </div>
                         <div class="col"> {{-- Combo box de estado --}}
                             <input readonly type="text" class="form-control" name="estado" id="estado"
@@ -314,27 +314,7 @@
 {{-- ************************************************************************************************************* --}}
 
 
-<style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 20px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    
-</style>
+@include('layout.estilosPegados')
 @section('tiempoEspera')
 <div class="loader" id="pantallaCarga"></div>
 @endsection

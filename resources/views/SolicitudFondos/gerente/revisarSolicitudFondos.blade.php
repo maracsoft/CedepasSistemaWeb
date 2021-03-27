@@ -1,10 +1,5 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
-@endsection
-
-
 {{-- ESTA VISTA SIRVE TANTO COMO PARA REVISAR (aprobar rechazar observar)  COMO PARA VERLA NOMAS LUEGO--}}
 @section('contenido')
     <div>
@@ -135,28 +130,6 @@
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
-
-<style>
-    .col{
-        /* background-color: orange; */
-        margin-top: 20px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    
-    </style>
 
 
 @section('script')

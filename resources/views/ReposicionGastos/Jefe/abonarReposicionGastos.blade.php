@@ -53,7 +53,9 @@
         <div class="col"  style="">
 
             @include('ReposicionGastos.desplegableDescargarArchivosRepo')
-            
+            <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
+                <i class="fas fa-arrow-left"></i> Regresar al Menú
+            </a>  
         </div>   
 
         
@@ -104,9 +106,7 @@
     <div class="col-md-12 text-center">  
         <div id="guardar">
             <div class="form-group">
-                <a href="{{route('ReposicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
-                    <i class="fas fa-arrow-left"></i> Regresar al Menú
-                </a>  
+                
                 
 
                 @if($reposicion->verificarEstado('Aprobada'))

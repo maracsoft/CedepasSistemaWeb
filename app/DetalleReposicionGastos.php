@@ -32,4 +32,10 @@ class DetalleReposicionGastos extends Model
         return CDP::findOrFail($this->codTipoCDP);
 
     }
+
+    public function getFechaComprobante(){
+        return str_replace('-','/',$this->fechaComprobante);
+
+    }
+
 }

@@ -109,7 +109,12 @@
                     
                         @include('RendicionGastos.desplegableDescargarArchivosRend')
                         
-
+                        <a href="{{route('rendicionGastos.listarRendiciones')}}" 
+                            class='btn btn-primary' style="float:left;">
+                            <i class="fas fa-undo"></i>
+                            Regresar al menú
+                        </a>    
+                               
                     
                     </div>   
                     <div class="col">
@@ -208,12 +213,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('rendicionGastos.listarRendiciones')}}" 
-                        class='btn btn-primary' style="float:left;">
-                        <i class="fas fa-undo"></i>
-                        Regresar al menú
-                    </a>    
-                               
+                   
                 </div>    
             </div>
         </div>

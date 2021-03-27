@@ -1,28 +1,5 @@
-<style>
-    
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 30%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
 
-
-</style>
-
-
+@include('layout.estilosPegados')
 <div class="container" >
     <div class="row">           
         <div class="col-md"> {{-- COLUMNA IZQUIERDA 1 --}}
@@ -164,11 +141,11 @@
             
             @foreach($detalles as $itemdetalle)
                 <tr>
-                    <td>{{$itemdetalle->fechaComprobante}}</td>
+                    <td>{{$itemdetalle->getFechaComprobante()}}</td>
                     <td>{{$itemdetalle->getNombreTipoCDP()}}</td>
                     <td>{{$itemdetalle->nroComprobante}}</td>
                     <td>{{$itemdetalle->concepto}}</td>
-                    <td>{{number_format($itemdetalle->importe,2)}}</td>
+                    <td style="text-align: right;">{{number_format($itemdetalle->importe,2)}}</td>
                     <td>
                         <input class="form-control" type="text" name="CodigoPresupuestal{{$itemdetalle->codDetalleReposicion}}" id="CodigoPresupuestal{{$itemdetalle->codDetalleReposicion}}" 
                         value="{{$itemdetalle->codigoPresupuestal}}" readonly>

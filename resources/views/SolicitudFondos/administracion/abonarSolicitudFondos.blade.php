@@ -146,7 +146,7 @@ enctype="multipart/form-data">
 
     </style>
 
-
+@include('layout.estilosPegados')
 @section('script')
 
     

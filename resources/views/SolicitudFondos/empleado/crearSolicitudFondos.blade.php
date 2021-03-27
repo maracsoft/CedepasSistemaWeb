@@ -33,6 +33,8 @@ onsubmit="" id="frmsoli" name="frmsoli">
                       </div>
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
+                    
+
                       <div  class="colLabel">
                             <label for="fecha">Girar a la orden de:</label>
 
@@ -92,9 +94,15 @@ onsubmit="" id="frmsoli" name="frmsoli">
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
-                <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-
+                
+                
+                <div style="margin-bottom: 1%">
+                    <label for="fecha">Justificacion</label>
+                    <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea"
+                         cols="3"></textarea>
+    
+                </div>
+                
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
@@ -219,43 +227,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                                                                                         
                     </tfoot>
                     <tbody>
-                        
-                        {{-- <tr class="selected" id="fila1">
-                            <td style="text-align:center;">
-                                Item
-                            </td>
-                            <td>concepto
-                            </td>
-                            <td  style="text-align:right;">
-                               importe
-                            </td>
-                            <td style="text-align:center;">
-                                codigoPresupuestal
-                            </td>
-                            
-                            <td style="text-align:center;">
-                                <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+cod_producto+','+cont+');">
-                                    <i class="fa fa-times" ></i>
-                                </button>
-                            </td>
-                        </tr>   --}}     
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                      
                     </tbody>
                 </table>
             </div> 
@@ -318,28 +290,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
-
-<style>
-.col{
-    /* background-color: orange; */
-    margin-top: 20px;
-    
-}
-.colLabel{
-    width: 30%;
-    /* background-color: aqua; */
-    margin-top: 20px;    
-    text-align: left;
-}
-
-.colLabel2{
-    width: 20%;
-    /* background-color: #3c8dbc; */
-    margin-top: 20px;
-    text-align: left;
-}
-
-</style>
+@include('layout.estilosPegados')
 
 @section('script')
      {{-- <script src="/public/select2/bootstrap-select.min.js"></script>      --}}

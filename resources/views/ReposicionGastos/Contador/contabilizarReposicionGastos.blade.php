@@ -6,6 +6,8 @@
 
 @section('contenido')
 
+@include('layout.estilosPegados')
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div class="row">
     <div class="col-md-10">
@@ -35,29 +37,7 @@
         </a>
     </div>
 </div>
-<style>
-    
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 30%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
 
-
-</style>
 
 
 <form method = "POST" action = "{{route('ReposicionGastos.Empleado.store')}}" onsubmit="return validarTextos()"  enctype="multipart/form-data">
@@ -250,7 +230,11 @@
     <div class="row" id="divTotal" name="divTotal">     
         <div class="col">
             @include('ReposicionGastos.desplegableDescargarArchivosRepo')
-
+            <a href="{{route('ReposicionGastos.Contador.listar')}}" 
+                class='btn btn-info float-left float-left'>
+                <i class="fas fa-arrow-left"></i> 
+                Regresar al Menu
+            </a>    
         </div>
         
         <div class="col">
@@ -299,12 +283,12 @@
         
     
     <div class="col-md-12 text-center">  
-        <div id="guardar">
+        <div id="">
             <div class="form-group">
-                <a href="{{route('ReposicionGastos.Contador.listar')}}" 
-                    class='btn btn-info float-left float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                          
             </div>    
         </div>
+
     </div>
 
 

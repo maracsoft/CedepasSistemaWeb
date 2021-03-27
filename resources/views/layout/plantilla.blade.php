@@ -69,6 +69,9 @@
       background-size: 10%;
       opacity: .8;
     }
+
+
+    
   </style>
   @yield('estilos')
 

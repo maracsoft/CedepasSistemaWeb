@@ -28,7 +28,7 @@
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Fecha</label>
                       </div>
                       <div class="col">
@@ -41,7 +41,7 @@
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                               <label for="ComboBoxProyecto">Proyecto</label>
 
                       </div>
@@ -62,7 +62,7 @@
                       </div>
              
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Moneda</label>
 
                       </div>
@@ -85,7 +85,7 @@
 
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Banco</label>
 
                       </div>
@@ -108,7 +108,7 @@
                       
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Codigo Cedepas</label>
 
                       </div>
@@ -134,18 +134,16 @@
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
                 <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" 
-                                aria-label="With textarea" style="resize:none; height:100px;">{{$reposicion->resumen}}</textarea>
-            
-                        </div>
+                    <div style="margin-bottom: 1%">
+                        <label for="fecha">Resumen de la actividad</label>
+                        <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea"
+                             cols="3">{{$reposicion->resumen}}</textarea>
+        
                     </div>
 
                     <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">CuentaBancaria</label>
 
                       </div>
@@ -153,7 +151,7 @@
                             <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Girar a Orden de </label>
 
                       </div>
@@ -427,7 +425,10 @@
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                         onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'>
+                        <i class="fas fa-arrow-left"></i>
+                        Regresar al Menu
+                    </a>              
                 </div>    
             </div>
         </div>
@@ -436,9 +437,6 @@
     <input type="text" name = "codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
 </form>
 
-<script> 
-    
-</script>
 
 @endsection
 
@@ -456,33 +454,8 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-<style>
+@include('layout.estilosPegados')
 
-
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    .hovered:hover{
-    background-color:rgb(97, 170, 170);
-}
-
-
-    </style>
 
 @section('tiempoEspera')
 <div class="loader" id="pantallaCarga"></div>

@@ -119,7 +119,10 @@ enctype="multipart/form-data" id="frmRend" >
                         @include('RendicionGastos.desplegableDescargarArchivosRend')
                         
 
-
+                        <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'>
+                            <i class="fas fa-arrow-left"></i>
+                            Regresar al Menu
+                        </a> 
 
 
                     </div>   
@@ -196,20 +199,24 @@ enctype="multipart/form-data" id="frmRend" >
 
                 </div>
                     
-
                 
-        </div> 
-        
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group">
-                    <a href="#" class="btn btn-success float-right" onclick="aprobar()">
-                        <i class="fas fa-check"></i> 
-                        Aceptar
-                    </a>        
-                </div>    
-            </div>
+                
         </div>
+        
+        @if($rendicion->listaParaAprobar())
+            <div class="col-md-12 text-center">  
+                <div id="guardar">
+                    <div class="form-group">
+                        <a href="#" class="btn btn-success float-right" onclick="aprobar()">
+                            <i class="fas fa-check"></i> 
+                            Aceptar
+                        </a>        
+                    </div>    
+                </div>
+            </div>
+        @endif
+
+
     </div>
 
 </form>

@@ -192,6 +192,15 @@ class SolicitudFondos extends Model
 
 
 
+    //si está en esos estados retorna la obs, sino retorna ""
+    public function getObservacionONull(){
+        if($this->verificarEstado('Observada') || $this->verificarEstado('Subsanada') )
+            return $this->observacion;
+        
+        return "";
+    }
+
+
     public function getMensajeEstado(){
         $mensaje = '';
         switch($this->codEstadoSolicitud){

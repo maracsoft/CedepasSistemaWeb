@@ -28,7 +28,7 @@
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Fecha</label>
                       </div>
                       <div class="col">
@@ -41,7 +41,7 @@
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                               <label for="ComboBoxProyecto" id="lvlProyecto">Proyecto</label>
 
                       </div>
@@ -74,7 +74,7 @@
                       </div>
                         -->
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Moneda</label>
 
                       </div>
@@ -93,7 +93,7 @@
 
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Banco</label>
 
                       </div>
@@ -111,7 +111,7 @@
 
 
                       <div class="w-100"></div>
-                      <div  class="col">
+                      <div  class="colLabel">
                         <label for="fecha">Codigo Cedepas</label>
 
                       </div>
@@ -136,17 +136,16 @@
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
                 <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <label for="fecha">Resumen de la actividad</label>
-                            <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea" style="resize:none; height:100px;"></textarea>
-            
-                        </div>
+                    <div style="margin-bottom: 1%">
+                        <label for="fecha">Resumen de la actividad</label>
+                        <textarea class="form-control" name="resumen" id="resumen" aria-label="With textarea"
+                             cols="3"></textarea>
+        
                     </div>
 
                     <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">CuentaBancaria</label>
 
                       </div>
@@ -154,7 +153,7 @@
                             <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Girar a Orden de </label>
 
                       </div>
@@ -443,33 +442,7 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-<style>
-
-
-    .col{
-        /* background-color: orange; */
-        margin-top: 15px;
-        
-    }
-    .colLabel{
-        width: 30%;
-        /* background-color: aqua; */
-        margin-top: 20px;    
-        text-align: left;
-    }
-    
-    .colLabel2{
-        width: 20%;
-        /* background-color: #3c8dbc; */
-        margin-top: 20px;
-        text-align: left;
-    }
-    .hovered:hover{
-    background-color:rgb(97, 170, 170);
-    }
-    
-    
-    </style>
+@include('layout.estilosPegados')
 
 @section('script')
 
@@ -566,13 +539,13 @@
                 msj='Debe ingresar el resumen';
             }else if($('#resumen').val().length>{{App\Configuracion::tamañoMaximoResumen}} ){
                 cambiarEstilo('resumen','form-control-undefined');
-                msj='La longitud de la resumen tiene que ser maximo de 300 caracteres';
+                msj='La longitud de la resumen tiene que ser maximo de {{App\Configuracion::tamañoMaximoResumen}} caracteres';
             }
 
             if( $('#cantElementos').val()<=0 ){
                 msj='Debe ingresar Items';
             }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
-                msj='No se puede ingresar mas de 100 Items';
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
             }
 
             if($('#nombresArchivos').val()=="" ) msj='Debe subir los archivos comprobantes de pago.';
