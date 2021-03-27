@@ -1,5 +1,11 @@
 @extends('layout.plantilla')
-
+@section('titulo')
+@if($solicitud->verificarEstado('Creada'))
+    Revisar Solicitud
+@else
+    Ver Solicitud
+@endif 
+@endsection
 {{-- ESTA VISTA SIRVE TANTO COMO PARA REVISAR (aprobar rechazar observar)  COMO PARA VERLA NOMAS LUEGO--}}
 @section('contenido')
     <div>

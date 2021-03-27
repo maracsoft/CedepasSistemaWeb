@@ -1,9 +1,8 @@
 @extends('layout.plantilla')
 
-@section('estilos')
-  
+@section('titulo')
+Crear Solicitud
 @endsection
-
 @section('contenido')
 <div >
     <p class="h1" style="text-align: center">Registrar Nueva Solicitud de Fondos</p>

@@ -1,7 +1,7 @@
 @extends('layout.plantilla')
 
 @section('titulo')
-
+Contabilizar Rendición
 @endsection
 
 @section('contenido')
