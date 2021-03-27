@@ -62,7 +62,7 @@
     </table>
     <br>
     
-    <a href="{{route('GestiónProyectos.listar')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
+    <a href="{{route('GestiónProyectos.Listar')}}" class="btn btn-primary icon-left" style="margin-left:600px;"><i class="entypo-pencil"></i>Regresar</a>  
 
   </div>
 @endsection

@@ -58,7 +58,7 @@ enctype="multipart/form-data">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <a href="{{route('SolicitudFondos.Administracion.listar',$solicitud->codSolicitud)}}" 
+                                <a href="{{route('SolicitudFondos.Administracion.Listar',$solicitud->codSolicitud)}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú

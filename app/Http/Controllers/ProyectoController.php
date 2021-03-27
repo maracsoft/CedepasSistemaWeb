@@ -50,12 +50,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto creado exitosamente.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Proyecto creado exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -75,12 +75,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto actualizado exitosamente.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Proyecto actualizado exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -97,12 +97,12 @@ class ProyectoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Proyecto Dado de baja exitosamente.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Proyecto Dado de baja exitosamente.');
         } catch (\Throwable $th) {
            
             Debug::mensajeError('PROYECTO CONTROLLER STORE',$th);
             DB::rollBack();
-            return redirect()->route('GestiónProyectos.listar')->with('datos','Ha ocurrido un ERROR.');
+            return redirect()->route('GestiónProyectos.Listar')->with('datos','Ha ocurrido un ERROR.');
         }
 
 
@@ -113,7 +113,7 @@ class ProyectoController extends Controller
         $listaGerentes = Empleado::getListaGerentesActivos();
         $listaContadores = Empleado::getListaContadoresActivos();
 
-        return view('Proyectos.listarProyectos',
+        return view('Proyectos.ListarProyectos',
             compact('listaProyectos','listaGerentes','listaContadores'));
 
 
@@ -139,14 +139,14 @@ class ProyectoController extends Controller
         $detalle->codEmpleadoContador=$request->codEmpleadoConta;
         $detalle->save();
 
-        return redirect()->route('GestiónProyectos.listarContadores',$request->codProyecto);
+        return redirect()->route('GestiónProyectos.ListarContadores',$request->codProyecto);
     }
 
     function eliminarContador($id){
         $detalle=ProyectoContador::where('codEmpleadoContador','=',$id)->get();
         $detalle[0]->delete();
 
-        return redirect()->route('proyecto.listarContadores',$detalle[0]->codProyecto);
+        return redirect()->route('proyecto.ListarContadores',$detalle[0]->codProyecto);
     }
 
 

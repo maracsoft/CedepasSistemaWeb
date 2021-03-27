@@ -50,7 +50,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
     /* AFUERA DEL MIDDLEWARE(no requieren validacion o hacerlas sería demasiado complejo xd) */
     Route::get('/SolicitudFondos/MASTERINDEX','SolicitudFondosController@listarSolicitudes')
-        ->name('solicitudFondos.listarSolicitudes');
+        ->name('solicitudFondos.ListarSolicitudes');
 
 
     Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
@@ -75,7 +75,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         ->name('SolicitudFondos.Empleado.cancelar');
 
     Route::get('/SolicitudFondos/Empleado/listar/','SolicitudFondosController@listarSolicitudesDeEmpleado')
-        ->name('SolicitudFondos.Empleado.listar');
+        ->name('SolicitudFondos.Empleado.Listar');
 
     Route::get('/SolicitudFondos/{id}/Empleado/ver/','SolicitudFondosController@ver')
         ->name('SolicitudFondos.Empleado.Ver');
@@ -102,7 +102,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
             ->name('SolicitudFondos.Gerente.Revisar');
 
         Route::get('/SolicitudFondos/Gerente/listar','SolicitudFondosController@listarSolicitudesParaGerente')
-            ->name('SolicitudFondos.Gerente.listar');
+            ->name('SolicitudFondos.Gerente.Listar');
 
         Route::Post('/SolicitudFondos/Gerente/Aprobar/','SolicitudFondosController@aprobar')
             ->name('SolicitudFondos.Gerente.Aprobar');
@@ -114,7 +114,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
         /* ADMINSITRACION */
         Route::get('/SolicitudFondos/Administración/listar','SolicitudFondosController@listarSolicitudesParaJefe')
-            ->name('SolicitudFondos.Administracion.listar');
+            ->name('SolicitudFondos.Administracion.Listar');
 
         Route::get('/SolicitudFondos/{id}/Administracion/vistaAbonar/','SolicitudFondosController@vistaAbonar')
             ->name('SolicitudFondos.Administracion.verAbonar');
@@ -130,7 +130,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         /* CONTADOR */
 
         Route::get('/SolicitudFondos/Contador/listar','SolicitudFondosController@listarSolicitudesParaContador')
-            ->name('SolicitudFondos.Contador.listar');
+            ->name('SolicitudFondos.Contador.Listar');
 
         Route::get('/SolicitudFondos/{id}/Contador/verContabilizar/','SolicitudFondosController@verContabilizar')
             ->name('SolicitudFondos.Contador.verContabilizar');
@@ -210,7 +210,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::Post('/RendicionGastos/Empleado/update/','RendicionGastosController@update')
     ->name('RendicionGastos.Empleado.Update');
     Route::get('/RendicionGastos/Empleado/Listar/','RendicionGastosController@listarEmpleado')
-    ->name('RendicionGastos.Empleado.listar');
+    ->name('RendicionGastos.Empleado.Listar');
     
     Route::group(['middleware'=>"ValidarSesionGerente"],function()
     {
@@ -227,7 +227,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         ->name('RendicionGastos.Gerente.Aprobar');
 
     Route::get('/RendicionGastos/Gerente/listar/','RendicionGastosController@listarDelGerente')
-        ->name('RendicionGastos.Gerente.listar');
+        ->name('RendicionGastos.Gerente.Listar');
     
     });
     Route::group(['middleware'=>"ValidarSesionAdministracion"],function()
@@ -235,7 +235,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         /* ADMINISTRACION */
 
         Route::get('/RendicionGastos/Administracion/listar/','RendicionGastosController@listarJefeAdmin')
-            ->name('RendicionGastos.Administracion.listar');
+            ->name('RendicionGastos.Administracion.Listar');
 
         Route::get('/RendicionGastos/{id}/Administracion/ver', 'RendicionGastosController@verAdmin')
             ->name('RendicionGastos.Administracion.Ver');
@@ -253,13 +253,13 @@ Route::group(['middleware'=>"ValidarSesion"],function()
             ->name('RendicionGastos.Contador.Contabilizar');   
 
         Route::get('/RendicionGastos/Contador/listar/','RendicionGastosController@listarContador')
-            ->name('rendicionGastos.Contador.listar');
+            ->name('rendicionGastos.Contador.Listar');
 
     });
 
     //RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
     Route::get('/RendicionGastos/MAESTRA/listar','RendicionGastosController@listarRendiciones')
-    ->name('rendicionGastos.listarRendiciones');
+    ->name('rendicionGastos.ListarRendiciones');
 
 
 
@@ -277,7 +277,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     {
 
         /* ----------------------------------------------        MODULO GESTIÓN DE USUARIOS ---------------------------- */
-        Route::get('/GestiónUsuarios/listar','EmpleadoController@listarEmpleados')->name('GestionUsuarios.listar');
+        Route::get('/GestiónUsuarios/listar','EmpleadoController@listarEmpleados')->name('GestionUsuarios.Listar');
 
         Route::get('/GestiónUsuarios/crear','EmpleadoController@crearEmpleado')->name('GestionUsuarios.create');
         Route::post('/GestiónUsuarios/save','EmpleadoController@guardarCrearEmpleado')->name('GestionUsuarios.store');
@@ -289,7 +289,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
         
         /* ----------------------------------------------        MODULO PUESTOS           ------------------------------------------ */
-        Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.listar');
+        Route::get('/GestiónPuestos/listar','PuestoController@listarPuestos')->name('GestiónPuestos.Listar');
     
         Route::get('/GestiónPuestos/crear','PuestoController@crearPuesto')->name('GestiónPuestos.create');
         Route::post('/GestiónPuestos/save','PuestoController@guardarCrearPuesto')->name('GestiónPuestos.store');
@@ -303,7 +303,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
             
         /* ---------------------------------------------- MODULO PROYECTOS -------------------------------------------- */
-        Route::get('/GestiónProyectos/listar','ProyectoController@index')->name('GestiónProyectos.listar');
+        Route::get('/GestiónProyectos/listar','ProyectoController@index')->name('GestiónProyectos.Listar');
 
         Route::get('/GestiónProyectos/crear','ProyectoController@crear')->name('GestiónProyectos.crear');
         Route::post('/GestiónProyectos/store','ProyectoController@store')->name('GestiónProyectos.store');
@@ -317,7 +317,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
         /**GERENTES-CONTADORES */
         Route::get('/GestiónProyectos/{id}/asignarGerente','ProyectoController@actualizarProyectosYGerentesContadores');
 
-        Route::get('/GestiónProyectos/{id}/asignarContador','ProyectoController@listarContadores')->name('GestiónProyectos.listarContadores');
+        Route::get('/GestiónProyectos/{id}/asignarContador','ProyectoController@listarContadores')->name('GestiónProyectos.ListarContadores');
         Route::post('/GestiónProyectos/asignarContadores/save','ProyectoController@agregarContador')->name('GestiónProyectos.agregarContador');//usa la ruta no el name
 
         Route::get('/GestiónProyectos/{id}/eliminarContador','ProyectoController@eliminarContador')->name('GestiónProyectos.eliminarContador');
@@ -350,7 +350,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     /* ---------------------------------------------- MODULO REPOSICIONES -------------------------------------------- */
     /**RUTA MAESTRA PARA REPOSICION */
     Route::get('/indexReposicion','ReposicionGastosController@listarReposiciones')
-        ->name('ReposicionGastos.listar');
+        ->name('ReposicionGastos.Listar');
     /**RUTA MAESTRA PARA DESCARGAR CDP */
     Route::get('/reposicion/descargarCDP/{cadena}','ReposicionGastosController@descargarCDP')
         ->name('ReposicionGastos.descargarCDP');
@@ -359,7 +359,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     
     /**EMPLEADO*/
     Route::get('/ReposicionGastos/Empleado/listar','ReposicionGastosController@listarOfEmpleado')
-        ->name('ReposicionGastos.Empleado.listar');
+        ->name('ReposicionGastos.Empleado.Listar');
     Route::get('/ReposicionGastos/Empleado/crear','ReposicionGastosController@create')
         ->name('ReposicionGastos.Empleado.create');
     Route::post('/ReposicionGastos/Empleado/store','ReposicionGastosController@store')
@@ -377,7 +377,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     {
         /**GERENTE*/
         Route::get('/ReposicionGastos/Gerente/listar','ReposicionGastosController@listarOfGerente')
-            ->name('ReposicionGastos.Gerente.listar');
+            ->name('ReposicionGastos.Gerente.Listar');
         Route::get('/ReposicionGastos/{id}/Gerente/view','ReposicionGastosController@viewGeren')
             ->name('ReposicionGastos.Gerente.ver');
         Route::Post('/ReposicionGastos/Gerente/Aprobar','ReposicionGastosController@aprobar')
@@ -388,7 +388,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
         /**ADMINISTRACION*/
         Route::get('/ReposicionGastos/Administracion/listar','ReposicionGastosController@listarOfJefe')
-            ->name('ReposicionGastos.Administracion.listar');
+            ->name('ReposicionGastos.Administracion.Listar');
         Route::get('/ReposicionGastos/{id}/Administracion/view','ReposicionGastosController@viewJefe')
             ->name('ReposicionGastos.Administracion.ver');
         Route::get('/ReposicionGastos/{id}/Abonar','ReposicionGastosController@abonar')
@@ -404,7 +404,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
         /**CONTADOR*/
         Route::get('/ReposicionGastos/Contador/listar','ReposicionGastosController@listarOfConta')
-            ->name('ReposicionGastos.Contador.listar');
+            ->name('ReposicionGastos.Contador.Listar');
         Route::get('/ReposicionGastos/{id}/Contador/view','ReposicionGastosController@viewConta')
             ->name('ReposicionGastos.Contador.ver');
 

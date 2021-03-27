@@ -73,7 +73,7 @@
                 
                     @include('ReposicionGastos.desplegableDescargarArchivosRepo')
 
-                    <a href="{{route('ReposicionGastos.Gerente.listar')}}" class='btn btn-info float-left'>
+                    <a href="{{route('ReposicionGastos.Gerente.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> 
                         Regresar al Menu
                     </a>

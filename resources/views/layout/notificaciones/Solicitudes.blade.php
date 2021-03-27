@@ -34,7 +34,7 @@
         @foreach($solicitudesPorRendirr as $detalleSolXRendir)
           <div class="dropdown-divider"></div>
           
-          <a href="{{route('RendicionGastos.Empleado.listar')}}" class="dropdown-item notificacionXRendir">
+          <a href="{{route('RendicionGastos.Empleado.Listar')}}" class="dropdown-item notificacionXRendir">
             <div class="media" >
                 <h3 class="dropdown-item-title">
                   {{$detalleSolXRendir->codigoCedepas}}

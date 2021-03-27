@@ -50,14 +50,14 @@ class RendicionGastosController extends Controller
 
         if($empleado->esGerente()){
             //lo enrutamos hacia su index
-            return redirect()->route('RendicionGastos.Gerente.listar')->with($datos,$msj);
+            return redirect()->route('RendicionGastos.Gerente.Listar')->with($datos,$msj);
         }
 
         if($empleado->esJefeAdmin())//si es jefe de administracion
         {
-            return redirect()->route('RendicionGastos.Administracion.listar')->with($datos,$msj);
+            return redirect()->route('RendicionGastos.Administracion.Listar')->with($datos,$msj);
         }
-        return redirect()->route('RendicionGastos.Empleado.listar')->with($datos,$msj);
+        return redirect()->route('RendicionGastos.Empleado.Listar')->with($datos,$msj);
 
 
     }
@@ -117,7 +117,7 @@ class RendicionGastosController extends Controller
 
 
 
-        return view('RendicionGastos.contador.listarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
+        return view('RendicionGastos.contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
     }
 
 
@@ -161,7 +161,7 @@ class RendicionGastosController extends Controller
         $proyectos=Proyecto::getProyectosActivos();
 
         
-        return view('RendicionGastos.administracion.listarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
@@ -212,7 +212,7 @@ class RendicionGastosController extends Controller
         $empleados=Empleado::getEmpleadosActivos();
 
 
-        return view('RendicionGastos.gerente.listarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
         
     }
 
@@ -258,7 +258,7 @@ class RendicionGastosController extends Controller
         $proyectos=Proyecto::getProyectosActivos();
 
         
-        return view('RendicionGastos.Empleado.listarRendiciones',
+        return view('RendicionGastos.Empleado.ListarRendiciones',
             compact('listaRendiciones','empleado','listaSolicitudesPorRendir','proyectos','codProyectoBuscar'));
         
     }
@@ -330,7 +330,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($codRendicion);
 
             if(!$rendicion->listaParaContabilizar())
-                return redirect()->route('rendicionGastos.listarRendiciones')
+                return redirect()->route('rendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion ya fue contabilizada o no se encuentra lsita para serlo.');
 
             $rendicion->codEstadoRendicion =  RendicionGastos::getCodEstado('Contabilizada');
@@ -346,14 +346,14 @@ class RendicionGastosController extends Controller
             
             
             DB::commit();
-            return redirect()->route('rendicionGastos.Contador.listar')
+            return redirect()->route('rendicionGastos.Contador.Listar')
                 ->with('datos','Se contabilizó correctamente la Rendicion '.
                     $rendicion->codigoCedepas);
 
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER CONTABILIZAR', $th);
             DB::rollBack();
-            return redirect()->route('rendicionGastos.Contador.listar')
+            return redirect()->route('rendicionGastos.Contador.Listar')
                 ->with('datos','Ha ocurrido un error');
         }
 
@@ -406,7 +406,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($request->codRendicionGastos);
 
             if(!$rendicion->listaParaAprobar())
-                return redirect()->route('rendicionGastos.listarRendiciones')
+                return redirect()->route('rendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion ya fue aprobada o no se encuentra lsita para serlo.');
 
             $rendicion->codEstadoRendicion = RendicionGastos::getCodEstado('Aprobada');
@@ -424,7 +424,7 @@ class RendicionGastosController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('RendicionGastos.Gerente.listar')
+            return redirect()->route('RendicionGastos.Gerente.Listar')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Aprobada');
 
         } catch (\Throwable $th) {
@@ -437,7 +437,7 @@ class RendicionGastosController extends Controller
             ');
 
             DB::rollBack();
-            return redirect()->route('RendicionGastos.Gerente.listar')
+            return redirect()->route('RendicionGastos.Gerente.Listar')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -461,7 +461,7 @@ class RendicionGastosController extends Controller
             $rendicion = RendicionGastos::findOrFail($codRendicion);
 
             if(!$rendicion->listaParaObservar())
-                return redirect()->route('rendicionGastos.listarRendiciones')
+                return redirect()->route('rendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la rendicion no se encuentra lista para ser observada.');
 
 
@@ -481,14 +481,14 @@ class RendicionGastosController extends Controller
 
             $rendicion->save();
             DB::commit();
-            return redirect()->route('RendicionGastos.Gerente.listar')
+            return redirect()->route('RendicionGastos.Gerente.Listar')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER : OBSERVAR',$th);
       
             DB::rollBack();
-            return redirect()->route('RendicionGastos.Gerente.listar')
+            return redirect()->route('RendicionGastos.Gerente.Listar')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -527,7 +527,7 @@ class RendicionGastosController extends Controller
 
 
             if($solicitud->estaRendida=='1')
-                return redirect()->route('rendicionGastos.listarRendiciones')
+                return redirect()->route('rendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la solicitud ya se ha rendido.');
 
 
@@ -612,7 +612,7 @@ class RendicionGastosController extends Controller
 
             DB::commit();  
             return redirect()
-                ->route('RendicionGastos.Empleado.listar')
+                ->route('RendicionGastos.Empleado.Listar')
                 ->with('datos','Se ha creado la rendicion N°'.$rendicion->codigoCedepas);
         }catch(Exception $e){
 
@@ -624,7 +624,7 @@ class RendicionGastosController extends Controller
 
             DB::rollback();
             return redirect()
-                ->route('RendicionGastos.Empleado.listar')
+                ->route('RendicionGastos.Empleado.Listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 
@@ -671,7 +671,7 @@ class RendicionGastosController extends Controller
 
 
             if(!$rendicion->listaParaActualizar())
-            return redirect()->route('rendicionGastos.listarRendiciones')
+            return redirect()->route('rendicionGastos.ListarRendiciones')
                 ->with('datos','Error: la rendicion no puede ser actualizada ahora puesto que está en otro proceso.');
 
 
@@ -753,14 +753,14 @@ class RendicionGastosController extends Controller
 
             DB::commit();  
             return redirect()
-                ->route('RendicionGastos.Empleado.listar')
+                ->route('RendicionGastos.Empleado.Listar')
                 ->with('datos','Se ha Editado la rendicion N°'.$rendicion->codigoCedepas);
         }catch(\Throwable $th){
             Debug::mensajeError(' RENDICION GASTOS CONTROLLER UPDATE' ,$th);
             
             DB::rollback();
             return redirect()
-                ->route('RendicionGastos.Empleado.listar')
+                ->route('RendicionGastos.Empleado.Listar')
                 ->with('datos','Ha ocurrido un error.');
         }
 

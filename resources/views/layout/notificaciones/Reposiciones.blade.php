@@ -32,7 +32,7 @@
         @foreach($reposicionesObservadas as $detalleRepoObservada)
           <div class="dropdown-divider"></div>
           
-          <a href="{{route('RendicionGastos.Empleado.listar')}}" class="dropdown-item notificacionObservada">
+          <a href="{{route('RendicionGastos.Empleado.Listar')}}" class="dropdown-item notificacionObservada">
             <div class="media" >
                 <h3 class="dropdown-item-title">
                   {{$detalleRepoObservada->codigoCedepas}}

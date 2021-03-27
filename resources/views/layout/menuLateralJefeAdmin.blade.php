@@ -12,14 +12,14 @@
 
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('SolicitudFondos.Administracion.listar')}}" class="nav-link">
+                <a href="{{route('SolicitudFondos.Administracion.Listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Solicitudes para abonar</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{route('RendicionGastos.Administracion.listar')}}" class="nav-link">
+                <a href="{{route('RendicionGastos.Administracion.Listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
                   <p>Rendiciones para Reponer</p>
                 </a>
@@ -64,7 +64,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="{{route('pagoPlanilla.listar')}}" class="nav-link">
+            <a href="{{route('pagoPlanilla.Listar')}}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Planilla</p>
             </a>

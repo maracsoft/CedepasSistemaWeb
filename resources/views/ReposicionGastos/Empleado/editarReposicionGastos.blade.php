@@ -425,7 +425,7 @@ Editar Reposicion de Gastos
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                         onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'>
+                    <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i>
                         Regresar al Menu
                     </a>              

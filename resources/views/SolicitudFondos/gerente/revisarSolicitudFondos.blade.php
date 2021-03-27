@@ -64,12 +64,12 @@
                     <div class="">
                         <div class="row">
                             <div class="col"><!--
-                                <a href="{{route('SolicitudFondos.Gerente.listar')}}" 
+                                <a href="{{route('SolicitudFondos.Gerente.Listar')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú
                                 </a>-->
-                                <a href="{{route('SolicitudFondos.Gerente.listar')}}" class='btn btn-info float-left'>
+                                <a href="{{route('SolicitudFondos.Gerente.Listar')}}" class='btn btn-info float-left'>
                                     <i class="fas fa-arrow-left"></i> 
                                     Regresar al Menu
                                 </a>

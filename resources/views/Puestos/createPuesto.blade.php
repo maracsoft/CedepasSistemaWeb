@@ -56,6 +56,6 @@
             function(){//se ejecuta cuando damos a aceptar
                 validarregistro();
             });"><i class='fas fa-save'></i> Registrar</button> 
-            <a href="{{route('GestiónPuestos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+            <a href="{{route('GestiónPuestos.Listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
     </form>
 @endsection

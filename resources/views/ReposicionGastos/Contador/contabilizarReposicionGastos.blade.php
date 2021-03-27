@@ -235,7 +235,7 @@ Reposicion
     <div class="row" id="divTotal" name="divTotal">     
         <div class="col">
             @include('ReposicionGastos.desplegableDescargarArchivosRepo')
-            <a href="{{route('ReposicionGastos.Contador.listar')}}" 
+            <a href="{{route('ReposicionGastos.Contador.Listar')}}" 
                 class='btn btn-info float-left float-left'>
                 <i class="fas fa-arrow-left"></i> 
                 Regresar al Menu

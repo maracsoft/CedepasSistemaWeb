@@ -81,7 +81,7 @@ class EmpleadoController extends Controller
         
         $empleado->save();
 
-        return redirect()->route('GestionUsuarios.listar');
+        return redirect()->route('GestionUsuarios.Listar');
     }
 
     public function editarEmpleado($id){
@@ -112,7 +112,7 @@ class EmpleadoController extends Controller
 
         $empleado->save();
 
-        return redirect()->route('GestionUsuarios.listar');
+        return redirect()->route('GestionUsuarios.Listar');
     }
 
     public function cesarEmpleado($id){
@@ -123,7 +123,7 @@ class EmpleadoController extends Controller
 
         $usuario=$empleado->usuario();
         $usuario->delete();
-        return redirect()->route('GestionUsuarios.listarEmpleados');
+        return redirect()->route('GestionUsuarios.ListarEmpleados');
     }
 
 

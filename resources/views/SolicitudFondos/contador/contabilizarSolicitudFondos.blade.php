@@ -61,7 +61,7 @@ Solicitud
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <a href="{{route('SolicitudFondos.Gerente.listar')}}" 
+                                <a href="{{route('SolicitudFondos.Gerente.Listar')}}" 
                                     class='btn btn-primary' style="float:left;">
                                     <i class="fas fa-undo"></i>
                                     Regresar al menú

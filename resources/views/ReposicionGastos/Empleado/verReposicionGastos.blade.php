@@ -73,7 +73,7 @@
         <div class="col-md-12 text-center">  
             <div id="guardar">
                 <div class="form-group">
-                    <a href="{{route('ReposicionGastos.Empleado.listar')}}" class='btn btn-info float-left'>
+                    <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> 
                         Regresar al Menu
                     </a>              

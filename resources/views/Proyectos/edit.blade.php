@@ -162,7 +162,7 @@
                             <a href="#" class='btn btn-danger float-right' onclick="confirmarEliminacion()"><i class="fas fa-trash-alt"></i> Dar de Baja</a>
         
 
-                            <a href="{{route('GestiónProyectos.listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
+                            <a href="{{route('GestiónProyectos.Listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>
                             
                         </div>
 

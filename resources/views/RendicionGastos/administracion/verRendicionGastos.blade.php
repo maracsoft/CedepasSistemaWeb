@@ -97,7 +97,7 @@
                         
 
 
-                        <a href="{{route('RendicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
+                        <a href="{{route('RendicionGastos.Administracion.Listar')}}" class='btn btn-info float-left'>
                             <i class="fas fa-arrow-left"></i> 
                             Regresar al Menu
                         </a>  

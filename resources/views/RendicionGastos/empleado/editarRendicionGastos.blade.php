@@ -391,7 +391,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     <i class='fas fa-save'></i> Actualizar
                     </button>
                    
-                    <a href="{{route('SolicitudFondos.Empleado.listar')}}" class='btn btn-info float-left'>
+                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
                         <i class='fas fa-arrow-left'></i> 
                         Regresar al Menu
                     </a>              

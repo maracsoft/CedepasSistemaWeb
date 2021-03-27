@@ -292,7 +292,7 @@ Editar Solicitud
                     </button>  
                    
                    
-                    <a href="{{route('SolicitudFondos.Empleado.listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
                 </div>    
             </div>
         </div>
