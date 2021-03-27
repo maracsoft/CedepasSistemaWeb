@@ -10,10 +10,10 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Font Awesome -->
  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
-
+ <link rel="stylesheet" href="/css/siderbarstyle.css">
  <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
  <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
- <link rel="stylesheet" href="/css/siderbarstyle.css">
+ 
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
  
@@ -153,12 +153,25 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" 
           role="menu" data-accordion="false">
-         
-        
-            @include('layout.menuLateralCDS')  
+
           
-            
-        
+          @if(App\Empleado::getEmpleadoLogeado()->esAdminSistema())
+              @include('layout.menuLateral.adminSistema')  {{-- Este tiene todo --}}
+
+          @else 
+              @include('layout.menuLateral.Empleado')
+              @if(App\Empleado::getEmpleadoLogeado()->esGerente())
+                  @include('layout.menuLateral.Gerente')
+              @endif
+              @if(App\Empleado::getEmpleadoLogeado()->esJefeAdmin())
+                  @include('layout.menuLateral.Administrador')
+              @endif
+
+              @if(App\Empleado::getEmpleadoLogeado()->esContador())
+                @include('layout.menuLateral.Contador')
+              @endif
+          @endif
+
            
           <li class="nav-item">
             <a href="{{route('user.cerrarSesion')}}" class="nav-link">

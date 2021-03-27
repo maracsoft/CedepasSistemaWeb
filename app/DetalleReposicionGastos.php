@@ -15,7 +15,7 @@ class DetalleReposicionGastos extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['codReposicionGastos','fechaComprobante','nroComprobante',
     'concepto','importe',
-    'codigoPresupuestal','codTipoCDP','terminacionArchivo','nroEnRendicion'];
+    'codigoPresupuestal','codTipoCDP','nroEnRendicion'];
 
     public function setTipoCDPPorNombre($nombreCDP){
         $listacdp = CDP::where('nombreCDP','=',$nombreCDP)->get();

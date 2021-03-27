@@ -386,7 +386,11 @@ onsubmit="" id="frmsoli" name="frmsoli">
             if($('#justificacion').val()=='' ){
                 cambiarEstilo('justificacion','form-control-undefined');
                 msj='Debe ingresar la justificacion';
+            }else if($('#justificacion').val().length>{{App\Configuracion::tamañoMaximoJustificacion}} ){
+                cambiarEstilo('justificacion','form-control-undefined');
+                msj='La longitud de la justificacion tiene que ser maximo de {{App\Configuracion::tamañoMaximoJustificacion}} caracteres';
             }
+
             if($('#ComboBoxProyecto').val()=='-1' ){
                 cambiarEstilo('ComboBoxProyecto','form-control-undefined');
                 msj='Debe seleccionar el proyecto';
@@ -405,15 +409,24 @@ onsubmit="" id="frmsoli" name="frmsoli">
             if($('#girarAOrden').val()=='' ){
                 cambiarEstilo('girarAOrden','form-control-undefined');
                 msj='Debe ingresar la persona dueña de la cuenta.';
+            }else if($('#girarAOrden').val().length>{{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} ){
+                cambiarEstilo('girarAOrden','form-control-undefined');
+                msj='La longitud de "Girar a orden de.." tiene que ser maximo de {{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} caracteres';
             }
             
             if($('#nroCuenta').val()=='' ){
                 cambiarEstilo('nroCuenta','form-control-undefined');
                 msj='Debe ingresar el nro de cuenta';
+            }else if($('#nroCuenta').val().length>{{App\Configuracion::tamañoMaximoNroCuentaBanco}} ){
+                cambiarEstilo('nroCuenta','form-control-undefined');
+                msj='La longitud del numero de cuenta tiene que ser maximo de {{App\Configuracion::tamañoMaximoNroCuentaBanco}} caracteres';
             }
             
-            if( $('#cantElementos').val()<=0 )
+            if( $('#cantElementos').val()<=0 ){
                 msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+            }
 
 
             for (let index = 0; index < detalleSol.length; index++) {

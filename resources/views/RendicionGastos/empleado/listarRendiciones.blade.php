@@ -77,7 +77,7 @@
               <tr>
                 <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
                 <th width="9%" scope="col" style="text-align: center">F. Rendicion</th>
-            
+                <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>              
                 <th width="9%" scope="col" style="text-align: center">Total Recibido</th>
                 <th width="9%" scope="col" style="text-align: center">Total Gastado</th>
@@ -97,6 +97,7 @@
               <td style = "padding: 0.40rem">{{$itemRendicion->codigoCedepas  }}</td>
               <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->getFechaHoraRendicion()  }}</td>
              
+              <td style = "padding: 0.40rem">{{$itemRendicion->getProyecto()->codigoPresupuestal  }}</td>
               <td style = "padding: 0.40rem">{{$itemRendicion->getNombreProyecto()  }}</td>
               <td style = "padding: 0.40rem; text-align: right">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRecibido,2)  }}</td>
               <td style = "padding: 0.40rem; text-align: right;">{{$itemRendicion->getMoneda()->simbolo}} {{number_format($itemRendicion->totalImporteRendido,2)  }}</td>
@@ -109,7 +110,7 @@
                         height: 26px;
                         text-align:center;
                         color: {{$itemRendicion->getColorLetrasEstado()}} ;
-                ">
+                "  title="{{$itemRendicion->getMensajeEstado()}}">
               </td>
               <td style = "padding: 0.40rem">       
                 @if($itemRendicion->verificarEstado('Creada') || 

@@ -512,7 +512,7 @@
                     return false;
                 }
             
-            confirmar('¿Está seguro de crear la solicitud?','info','frmrepo');
+            confirmar('¿Está seguro de crear la reposicion?','info','frmrepo');
             
         }
         function cambiarEstilo(name, clase){
@@ -539,14 +539,23 @@
                 cambiarEstilo('codMoneda','form-control-undefined');
                 msj='Debe seleccionar un tipo de moneda';
             }
+            
             if($('#numeroCuentaBanco').val()=='' ){ 
                 cambiarEstilo('numeroCuentaBanco','form-control-undefined');
                 msj='Ingrese una cuenta bancaria';
+            }else if($('#numeroCuentaBanco').val().length>{{App\Configuracion::tamañoMaximoNroCuentaBanco}} ){
+                cambiarEstilo('numeroCuentaBanco','form-control-undefined');
+                msj='La longitud del numero de cuenta tiene que ser maximo de 50 caracteres';
             }
+
             if($('#girarAOrdenDe').val()=='' ){ 
                 cambiarEstilo('girarAOrdenDe','form-control-undefined');
                 msj='Debe ingresar el propietario de la cuenta bancaria';
+            }else if($('#girarAOrdenDe').val().length>{{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} ){
+                cambiarEstilo('girarAOrdenDe','form-control-undefined');
+                msj='La longitud de "Girar a orden de.." tiene que ser maximo de 50 caracteres';
             }
+
             if($('#codBanco').val()==-1 ){ 
                 cambiarEstilo('codBanco','form-control-undefined');
                 msj='Debe seleccionar un banco';
@@ -555,8 +564,16 @@
             if($('#resumen').val()=='' ){ 
                 cambiarEstilo('resumen','form-control-undefined');
                 msj='Debe ingresar el resumen';
+            }else if($('#resumen').val().length>{{App\Configuracion::tamañoMaximoResumen}} ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='La longitud de la resumen tiene que ser maximo de 300 caracteres';
             }
-            if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
+
+            if( $('#cantElementos').val()<=0 ){
+                msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de 100 Items';
+            }
 
             if($('#nombresArchivos').val()=="" ) msj='Debe subir los archivos comprobantes de pago.';
 

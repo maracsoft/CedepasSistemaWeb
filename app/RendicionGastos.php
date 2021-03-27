@@ -166,6 +166,11 @@ class RendicionGastos extends Model
 
     }
 
+    public function getProyecto(){
+       
+        return $this->getSolicitud()->getProyecto();
+
+    }
     
     public function getNombreSolicitante(){
         return $this->getSolicitud()->getNombreSolicitante();
@@ -183,9 +188,12 @@ class RendicionGastos extends Model
     //VER EXCEL https://docs.google.com/spreadsheets/d/1eBQV5QZJ6dTlFtu-PuF3i71Cjg58DIbef2qI0ZqKfoI/edit#gid=1819929291
     public function getNombreEstado(){ 
         $estado = EstadoRendicionGastos::findOrFail($this->codEstadoRendicion);
+        if($estado->nombre=="Creada")
+            return "Por Aprobar";
         return $estado->nombre;
 
     }
+
 
 
 
@@ -281,13 +289,35 @@ class RendicionGastos extends Model
 
 
 
+    public function getMensajeEstado(){
+        $mensaje = '';
+        switch($this->codEstadoRendicion){
+            case $this::getCodEstado('Creada'): 
+                $mensaje = 'La rendición está a espera de ser aprobada por el responsable del proyecto.';
+                break;
+            case $this::getCodEstado('Aprobada'):
+                $mensaje = 'La rendición está a espera de ser contabilizada.';
+                break;
+            case $this::getCodEstado('Contabilizada'):
+                $mensaje = 'El flujo de la Rendición ha finalizado.';
+                break;
+            case $this::getCodEstado('Observada'):
+                $mensaje ='La rendición tiene algún error y fue observada.';
+                break;
+            case $this::getCodEstado('Subsanada'):
+                $mensaje ='La observación de la rendición ya fue corregida por el empleado.';
+                break;
+            case $this::getCodEstado('Rechazada'):
+                $mensaje ='La rendición fue rechazada por algún responsable, el flujo ha terminado.';
+                break;
+            case $this::getCodEstado('Cancelada'):
+                $mensaje ='La rendición fue cancelada por el mismo empleado que la realizó.';
+                break;
+        }
+        return $mensaje;
 
 
-
-
-
-
-
+    }
 
 
     public function getColorEstado(){ //BACKGROUND

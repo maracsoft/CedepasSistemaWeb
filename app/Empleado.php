@@ -149,6 +149,7 @@ class Empleado extends Model
 
     // solo para gerente
     public function getListaSolicitudesDeGerente(){
+        /*
         //Construimos primero la busqueda de todos los proyectos que tenga este gerente
         $listaProyectos = $this->getListaProyectos();
         $vecProy=[];
@@ -159,6 +160,23 @@ class Empleado extends Model
         $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)
         ->orderBy('codEstadoSolicitud')
         ->get();
+        */
+        $listaSolicitudesFondos = $this->getListaSolicitudesDeGerente2()->get();
+        return $listaSolicitudesFondos;
+
+    }
+
+    public function getListaSolicitudesDeGerente2(){
+        //Construimos primero la busqueda de todos los proyectos que tenga este gerente
+        $listaProyectos = $this->getListaProyectos();
+        $vecProy=[];
+        foreach ($listaProyectos as $itemProyecto ) {
+           array_push($vecProy,$itemProyecto->codProyecto );
+        }
+    
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)
+        ->orderBy('codEstadoSolicitud');
+
         return $listaSolicitudesFondos;
 
     }

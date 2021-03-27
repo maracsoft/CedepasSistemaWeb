@@ -56,10 +56,16 @@
             if($('#resumen').val()=='' ){
                 cambiarEstilo('resumen','form-control-undefined');
                 msj='Debe ingresar la resumen';
+            }else if($('#resumen').val().length>{{App\Configuracion::tamañoMaximoResumen}} ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='La longitud de la resumen tiene que ser maximo de {{App\Configuracion::tamañoMaximoResumen}} caracteres';
             }
             
-            if( $('#cantElementos').val()<=0 )
+            if( $('#cantElementos').val()<=0 ){
                 msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+            }
 
             return msj;
     }
@@ -124,18 +130,20 @@
             }
             ncbte= $("#ncbte").val();   
              
-            if (ncbte=='') 
-            {
+            
+            
+            if (ncbte==''){
                 msjError=("Por favor ingrese el numero del comprobante del gasto.");    
-                
+            }else if(ncbte.length>{{App\Configuracion::tamañoMaximoNroComprobante}} ){
+                msjError=("La longitud del CPD tiene que ser maximo de {{App\Configuracion::tamañoMaximoNroComprobante}} caracteres");  
             }
              
             concepto=$("#concepto").val();    
-            if (concepto=='') 
-            {
-                msjError=("Por favor ingrese el concepto");    
-                
-            }    
+            if(concepto==''){ 
+                msjError=("Por favor ingrese el concepto");  
+            }else if(concepto.length>{{App\Configuracion::tamañoMaximoConcepto}} ){
+                msjError=("La longitud del concepto tiene que ser maximo de {{App\Configuracion::tamañoMaximoConcepto}} caracteres");  
+            }
               
             
     
@@ -147,11 +155,11 @@
             }    
             
             
-            if (codigoPresupuestal=='') 
-            {
-                msjError=("Por favor ingrese el codigo presupuestal");    
-                
-            }    
+            if(codigoPresupuestal==''){ 
+                msjError=("Por favor ingrese el codigo presupuestal");  
+            }else if(codigoPresupuestal.length>{{App\Configuracion::tamañoMaximoCodigoPresupuestal}} ){
+                msjError=("La longitud del codigo presupuestal tiene que ser maximo de {{App\Configuracion::tamañoMaximoCodigoPresupuestal}} caracteres");  
+            } 
     
             if (importe==0)
             {

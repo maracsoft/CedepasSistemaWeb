@@ -117,7 +117,7 @@
 
                             <div class="w-100"></div>
                             <div class="col">                        
-                                <label for="">Total Recibido: </label>    
+                                <label for="">Total Recibixdo: </label>    
                             </div>   
 
                             <div class="col">
@@ -143,7 +143,11 @@
                             
                             
                             <div class="w-100"></div>
-                    
+                            <label for="">Observación:</label>
+                            <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
+                            <br>
+                            <a href="#" class="btn btn-warning" onclick="observarRendicion()"><i class="entypo-pencil"></i>Observar</a>
+                       
                         </div>
                     </div>
 
@@ -163,7 +167,11 @@
                         <i class="fas fa-undo"></i>
                         Regresar al menú
                     </a>-->
-                    <a href="{{route('rendicionGastos.listarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>     
+                    <a href="{{route('RendicionGastos.Administracion.listar')}}" class='btn btn-info float-left'>
+                        <i class="fas fa-arrow-left"></i> 
+                        Regresar al Menu
+                    </a>     
+
                 </div>    
             </div>
         </div>
@@ -208,13 +216,38 @@
         var controlproducto=[];
         var totalSinIGV=0;
     
+
+
         $(document).ready(function(){
             
         });
     
         
-        
-        
+    
+    function observarRendicion(){
+        textoObs = $('#observacion').val();
+        codigoSolicitud = {{$rendicion->codRendicionGastos}};
+        console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la rendicion es ' +  codigoSolicitud);
+        if(textoObs==''){
+            alerta('Debe ingresar la observacion');
+        }else{
+            swal({//sweetalert
+                title:'¿Seguro de observar la rendicion?',
+                text: '',
+                type: 'info',  
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){
+                location.href = '/rendiciones/observar/'+ codigoSolicitud +'*' +textoObs;
+            });
+        }
+    }
 
     
     

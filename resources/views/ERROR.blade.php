@@ -4,4 +4,4 @@ Version php: {{phpversion()}}
 
 
 LA HORA ES {{Carbon\Carbon::now()}}
-
+<img src="error.svg"> 

@@ -120,6 +120,8 @@ class ReposicionGastos extends Model
     
     public function getNombreEstado(){ 
         $estado = EstadoReposicionGastos::findOrFail($this->codEstadoReposicion);
+        if($estado->nombre=="Creada")
+            return "Por Aprobar";
         return $estado->nombre;
     }
 
@@ -316,7 +318,42 @@ class ReposicionGastos extends Model
 
     }
 
+    
 
+
+    public function getMensajeEstado(){
+        $mensaje = '';
+        switch($this->codEstadoReposicion){
+            case $this::getCodEstado('Creada'): 
+                $mensaje = 'La reposición está a espera de ser aprobada por el responsable del proyecto.';
+                break;
+            case $this::getCodEstado('Aprobada'):
+                $mensaje = 'La reposición está a espera de ser abonada.';
+                break;
+            case $this::getCodEstado('Abonada'):
+                $mensaje = 'La reposición está a espera de ser contabilizada.';
+                break;
+                                
+            case $this::getCodEstado('Contabilizada'):
+                $mensaje = 'El flujo de la reposición ha finalizado.';
+                break;
+            case $this::getCodEstado('Observada'):
+                $mensaje ='La reposición tiene algún error y fue observada.';
+                break;
+            case $this::getCodEstado('Subsanada'):
+                $mensaje ='La observación de la reposición ya fue corregida por el empleado.';
+                break;
+            case $this::getCodEstado('Rechazada'):
+                $mensaje ='La reposición fue rechazada por algún responsable, el flujo ha terminado.';
+                break;
+            case $this::getCodEstado('Cancelada'):
+                $mensaje ='La reposición fue cancelada por el mismo empleado que la realizó.';
+                break;
+        }
+        return $mensaje;
+
+
+    }
 
 
     public function getColorEstado(){ //BACKGROUND

@@ -28,7 +28,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                 <div class="container"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
                     <div class="row">
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Fecha</label>
                       </div>
                       <div class="col">
@@ -41,7 +41,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                               <label for="ComboBoxProyecto">Proyecto</label>
 
                       </div>
@@ -51,7 +51,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                       </div>
 
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Colaborador</label>
 
                       </div>
@@ -61,7 +61,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Cod Colaborador</label>
 
                       </div>
@@ -71,7 +71,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                                 name="codColaborador" id="codColaborador" value="{{$rendicion->getSolicitud()->getEmpleadoSolicitante()->getNombreCompleto()}}">    
                       </div>
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="col">
+                      <div  class="colLabel">
                             <label for="fecha">Importe Recibido</label>
 
                       </div>
@@ -112,7 +112,9 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                                     <label for="fecha">Cod Rendicion</label>
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
+                                <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     
+                                <input type="hidden" class="form-control" name="codRendicion" id="codRendicion" readonly value="{{$rendicion->codRendicionGastos}}">     
+                            
                             </div>
 
 

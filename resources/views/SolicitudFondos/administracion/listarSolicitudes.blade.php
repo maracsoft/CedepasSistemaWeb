@@ -70,6 +70,7 @@
                 <th width="7%"  scope="col" style="text-align: center">F. Emision</th>
               
                 <th width="10%"  scope="col">Empleado </th>
+                <th>P.P</th>
                 <th scope="col">Proyecto</th>
                 <th width="10%"  scope="col">Evaluador</th>
                 
@@ -94,6 +95,8 @@
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaHoraEmision() }}</td>
                
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreSolicitante()}} </td>
+                <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
+                
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreProyecto()}} </td>
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getEvaluador()->getNombreCompleto()}} </td>
                 <td style = "padding: 0.40rem; text-align: right">{{$itemSolicitud->getMoneda()->simbolo}}  {{number_format($itemSolicitud->totalSolicitado,2)  }}</td>
@@ -107,7 +110,7 @@
                             height: 26px;
                             text-align:center;
                             color: {{$itemSolicitud->getColorLetrasEstado()}} ;
-                    ">
+                    "  title="{{$itemSolicitud->getMensajeEstado()}}">
                 </td>
                 <td style = "padding: 0.40rem">        {{-- OPCIONES --}}
                   @if($itemSolicitud->verificarEstado('Aprobada')) {{-- Si está aprobada (pa abonar) --}}   

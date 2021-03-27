@@ -76,6 +76,7 @@
                 <th width="7%" scope="col" style = "text-align: center">F. Gerente</th>
                 
                 <th width="11%" scope="col">Solicitante</th>
+                <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>
                 <th width="6%" scope="col">Banco</th>
                 <th width="8%" scope="col" style="text-align: center">Total</th>
@@ -99,6 +100,7 @@
                 <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionGerente()}}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
+                <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->codigoPresupuestal  }}</td>
                 <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
                 <td style = "padding: 0.40rem">{{$itemreposicion->getBanco()->nombreBanco  }}</td>
                 <td style = "text-align: right; padding: 0.40rem">{{$itemreposicion->getMoneda()->simbolo}} {{number_format($itemreposicion->monto(),2)}}</td>
@@ -108,7 +110,7 @@
                           height: 26px;
                           text-align:center;
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
-                  ">
+                  " title="{{$itemreposicion->getMensajeEstado()}}">
                 </td>
                 <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionAdmin()==null ? 'No revisado':$itemreposicion->getFechaHoraRevisionAdmin()}}</td>
                 <td style = "padding: 0.40rem">

@@ -60,7 +60,7 @@
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
           <p>
-            Rendicion de Gastos
+            Rendición de Gastos
             <i class="right fas fa-angle-left"></i>
           </p>
         </a>
@@ -82,7 +82,7 @@
             <li class="nav-item">
               <a href="{{route('RendicionGastos.Administracion.listar')}}" class="nav-link">
                 <i class="far fa-address-card nav-icon"></i>
-                <p>Adminsitracion</p>
+                <p>Adminsitración</p>
               </a>
             </li>
             <li class="nav-item">
@@ -120,7 +120,7 @@
         <a href="#" class="nav-link">
           <i class="far fa-building nav-icon"></i>
           <p>
-            Reposicion de Gastos
+            Reposición de Gastos
             <i class="right fas fa-angle-left"></i>
           </p>
         </a>
@@ -144,7 +144,7 @@
           <li class="nav-item">
             <a href="{{route('ReposicionGastos.Administracion.listar')}}" class="nav-link">
               <i class="far fa-address-card nav-icon"></i>
-              <p>Administracion</p>
+              <p>Administración</p>
             </a>
           </li>
           <li class="nav-item">

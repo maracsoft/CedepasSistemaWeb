@@ -3,7 +3,6 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
@@ -165,9 +164,10 @@
         <!--FIRMAS-->
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
+                {{$reposicion->getEmpleadoSolicitante()->getNombreCompleto()}}
                 _________________________<br>
                 SOLICITADO POR<br>
-                {{$reposicion->getEmpleadoSolicitante()->getNombreCompleto()}}
+                
             </b></p>
         </div>
         <div style="width: 33%; height: 30px; float: left;">
@@ -175,9 +175,10 @@
         </div>
         <div style="width: 33%; height: 30px; float: left;">
             <p style="text-align: center; font-size: 13px;"><b>
+                {{is_null($reposicion->codEmpleadoEvaluador) ? $reposicion->getProyecto()->evaluador()->getNombreCompleto() : $reposicion->evaluador()->getNombreCompleto()}}
                 _________________________<br>
                 AUTORIZADO POR<br>
-                {{is_null($reposicion->codEmpleadoEvaluador) ? $reposicion->getProyecto()->evaluador()->getNombreCompleto() : $reposicion->evaluador()->getNombreCompleto()}}
+                
             </b></p>
         </div>
     </div>

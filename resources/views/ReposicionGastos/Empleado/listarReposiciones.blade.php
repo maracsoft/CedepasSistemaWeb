@@ -61,7 +61,7 @@
               <tr>
                 <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
                 <th width="9%"  scope="col" style="text-align: center">F. Emision</th>
-     
+                <th with="3%">P.P</th>
                 <th  scope="col">Proyecto</th>              
                 <th width="16%"  scope="col">Orden de</th>
                 <th width="6%"  scope="col">Banco</th>
@@ -81,6 +81,7 @@
               <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
               <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->getFechaHoraEmision()  }}</td>
               
+              <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->codigoPresupuestal  }}</td>
               <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>
               <td style = "padding: 0.40rem">{{$itemreposicion->girarAOrdenDe  }}</td>
               <td style = "padding: 0.40rem">{{$itemreposicion->getBanco()->nombreBanco  }}</td>
@@ -94,7 +95,7 @@
                         height: 26px;
                         text-align:center;
                         color: {{$itemreposicion->getColorLetrasEstado()}} ;
-                ">
+                "  title="{{$itemreposicion->getMensajeEstado()}}">
               </td>
               <td style = "padding: 0.40rem">       
                 <a href="{{route('ReposicionGastos.Empleado.ver',$itemreposicion->codReposicionGastos)}}" 

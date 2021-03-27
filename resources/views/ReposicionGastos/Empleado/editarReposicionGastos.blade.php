@@ -574,14 +574,23 @@
                 cambiarEstilo('codMoneda','form-control-undefined');
                 msj='Debe seleccionar un tipo de moneda';
             }
+            
             if($('#numeroCuentaBanco').val()=='' ){ 
                 cambiarEstilo('numeroCuentaBanco','form-control-undefined');
                 msj='Ingrese una cuenta bancaria';
+            }else if($('#numeroCuentaBanco').val().length>{{App\Configuracion::tamañoMaximoNroCuentaBanco}} ){
+                cambiarEstilo('numeroCuentaBanco','form-control-undefined');
+                msj='La longitud del numero de cuenta tiene que ser maximo de {{App\Configuracion::tamañoMaximoNroCuentaBanco}} caracteres';
             }
+
             if($('#girarAOrdenDe').val()=='' ){ 
                 cambiarEstilo('girarAOrdenDe','form-control-undefined');
                 msj='Debe ingresar el propietario de la cuenta bancaria';
+            }else if($('#girarAOrdenDe').val().length>{{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} ){
+                cambiarEstilo('girarAOrdenDe','form-control-undefined');
+                msj='La longitud de "Girar a orden de.." tiene que ser maximo de {{App\Configuracion::tamañoMaximoGiraraAOrdenDe}} caracteres';
             }
+
             if($('#codBanco').val()==-1 ){ 
                 cambiarEstilo('codBanco','form-control-undefined');
                 msj='Debe seleccionar un banco';
@@ -590,8 +599,17 @@
             if($('#resumen').val()=='' ){ 
                 cambiarEstilo('resumen','form-control-undefined');
                 msj='Debe ingresar el resumen';
+            }else if($('#resumen').val().length>{{App\Configuracion::tamañoMaximoResumen}} ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='La longitud de la resumen tiene que ser maximo de {{App\Configuracion::tamañoMaximoResumen}} caracteres';
             }
-            if($('#cantElementos').val()<=0) msj='Debe ingresar Items';
+
+            if( $('#cantElementos').val()<=0 ){
+                msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+            }
+
 
             //validamos que todos los items tengan el cod presupuestal correspondiente a su proyecto
             for (let index = 0; index < detalleRepo.length; index++) {

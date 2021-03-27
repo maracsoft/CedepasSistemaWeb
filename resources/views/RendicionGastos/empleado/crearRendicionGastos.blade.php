@@ -454,10 +454,16 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
             if($('#resumen').val()=='' ){
                 cambiarEstilo('resumen','form-control-undefined');
                 msj='Debe ingresar la resumen';
+            }else if($('#resumen').val().length>{{App\Configuracion::tamañoMaximoResumen}} ){
+                cambiarEstilo('resumen','form-control-undefined');
+                msj='La longitud de la resumen tiene que ser maximo de {{App\Configuracion::tamañoMaximoResumen}} caracteres';
             }
             
-            if( $('#cantElementos').val()<=0 )
+            if( $('#cantElementos').val()<=0 ){
                 msj='Debe ingresar Items';
+            }else if( $('#cantElementos').val()>{{App\Configuracion::valorMaximoNroItem}} ){
+                msj='No se puede ingresar mas de {{App\Configuracion::valorMaximoNroItem}} Items';
+            }
 
             if($('#nombresArchivos').val()=="" ) 
                 msj='Debe subir los archivos comprobantes de pago.';

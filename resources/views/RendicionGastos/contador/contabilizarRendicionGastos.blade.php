@@ -306,7 +306,21 @@
 
         function guardarContabilizar (){
             codRendicion = {{$rendicion->codRendicionGastos}};
-            location.href = '/rendicion/contabilizar/'+ codRendicion +'*' +listaItems;
+            swal({//sweetalert
+                title:'¿Seguro de contabilizar la rendicion?',
+                text: '',
+                type: 'info',  
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){
+                location.href = '/rendicion/contabilizar/'+ codRendicion +'*' +listaItems;
+            });
         }
 
 
@@ -314,20 +328,38 @@
             textoObs = $('#observacion').val();
             codigoSolicitud = {{$rendicion->codRendicionGastos}};
             console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la rendicion es ' +  codigoSolicitud);
-            location.href = '/rendiciones/observar/'+ codigoSolicitud +'*' +textoObs;
+            if(textoObs==''){
+                alerta('Debe ingresar la observacion');
+            }else{
+                swal({//sweetalert
+                    title:'¿Seguro de observar la rendicion?',
+                    text: '',
+                    type: 'info',  
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(){
+                    location.href = '/rendiciones/observar/'+ codigoSolicitud +'*' +textoObs;
+                });
+            }
         }
 
 
 
         function cambio(index){
-                var idname= 'imagenEnvio'; 
-                var filename = $('#imagenEnvio').val().split('\\').pop();
-                console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
-                jQuery('span.'+idname).next().find('span').html(filename);
-                document.getElementById("divFileImagenEnvio").innerHTML= filename;
-                $('#nombreImgImagenEnvio').val(filename);
+            var idname= 'imagenEnvio'; 
+            var filename = $('#imagenEnvio').val().split('\\').pop();
+            console.log('filename= '+filename+'    el id es='+idname+'  el index es '+index)
+            jQuery('span.'+idname).next().find('span').html(filename);
+            document.getElementById("divFileImagenEnvio").innerHTML= filename;
+            $('#nombreImgImagenEnvio').val(filename);
 
-            }
+        }
 
 
         //retorna cadena aleatoria de tamaño length, con el abecedario que se le da ahi

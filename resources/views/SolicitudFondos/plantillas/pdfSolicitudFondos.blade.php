@@ -5,10 +5,12 @@
     <title>Solicitud de Fondos {{$solicitud->codigoCedepas}}</title>
     <meta charset="UTF-8">
     
-    <link rel="stylesheet" 
+    {{-- <link rel="stylesheet" 
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
             crossorigin="anonymous">
+     --}}
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
@@ -42,7 +44,7 @@
         <table style="width:100%">
             <thead style="width:100%">
                 <tr>
-                    <th style="height: 70px; float: left" colspan="2">
+                    <th style="height: 70px;  " colspan="2">
                         <div style="height: 5px"></div>
                         <img src="../public/img/LogoCedepas.jpg" height="100%">
                     </th>

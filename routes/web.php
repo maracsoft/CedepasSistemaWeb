@@ -12,7 +12,7 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/', 'UserController@home')->name('user.home');
 
 
-Route::get('/prueba', 'SolicitudFondosController@prueba');
+Route::get('/prueba', 'RendicionGastosController@prueba');
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');

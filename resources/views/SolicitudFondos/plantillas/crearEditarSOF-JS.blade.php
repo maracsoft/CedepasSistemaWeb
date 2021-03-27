@@ -83,11 +83,11 @@ function agregarDetalle(){
     msjError="";
     // VALIDAMOS 
     concepto=$("#concepto").val();    
-    if (concepto=='') 
-    {
-        msjError=("Por favor ingrese el concepto");    
-        
-    }    
+    if(concepto==''){ 
+        msjError=("Por favor ingrese el concepto");  
+    }else if(concepto.length>{{App\Configuracion::tamañoMaximoConcepto}} ){
+        msjError=("La longitud del concepto tiene que ser maximo de {{App\Configuracion::tamañoMaximoConcepto}} caracteres");  
+    }
 
 
     codigoPresupuestal=$("#codigoPresupuestal").val();   
@@ -107,13 +107,11 @@ function agregarDetalle(){
         
     }    
     
-
-        
-    if (codigoPresupuestal=='') 
-    {
-        msjError=("Por favor ingrese el codigo presupuestal");    
-        
-    }    
+    if(codigoPresupuestal==''){ 
+        msjError=("Por favor ingrese el codigo presupuestal");  
+    }else if(codigoPresupuestal.length>{{App\Configuracion::tamañoMaximoCodigoPresupuestal}} ){
+        msjError=("La longitud del codigo presupuestal tiene que ser maximo de {{App\Configuracion::tamañoMaximoCodigoPresupuestal}} caracteres");  
+    }
 
     if (importe==0)
     {
