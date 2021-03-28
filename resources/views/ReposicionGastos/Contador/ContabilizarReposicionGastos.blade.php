@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
     @if($reposicion->verificarEstado('Abonada'))
@@ -11,7 +11,7 @@ Reposicion
 
 @section('contenido')
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div class="row">
@@ -234,7 +234,7 @@ Reposicion
 
     <div class="row" id="divTotal" name="divTotal">     
         <div class="col">
-            @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+            @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
             <a href="{{route('ReposicionGastos.Contador.Listar')}}" 
                 class='btn btn-info float-left float-left'>
                 <i class="fas fa-arrow-left"></i> 

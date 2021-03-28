@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 @section('titulo')
 @if($solicitud->verificarEstado('Contabilizada'))
 Ver
@@ -29,7 +29,7 @@ Solicitud
         value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
-        @include('SolicitudFondos.plantillas.VerSOF')
+        @include('SolicitudFondos.Plantillas.VerSOF')
     
       
            
@@ -141,7 +141,7 @@ Solicitud
 {{-- ************************************************************************************************************* --}}
 
 
-@include('layout.estilosPegados')
+@include('Layout.estilosPegados')
 
 <style>
     

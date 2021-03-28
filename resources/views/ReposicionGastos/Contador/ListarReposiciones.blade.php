@@ -1,4 +1,4 @@
-@extends ('layout.plantilla')
+@extends ('Layout.Plantilla')
 @section('titulo')
   Listar Reposiciones
 @endsection

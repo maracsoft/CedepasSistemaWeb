@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Contabilizar Rendición
@@ -20,7 +20,7 @@ Contabilizar Rendición
     @csrf
     
     
-    @include('RendicionGastos.plantillaVerRG')
+    @include('RendicionGastos.PlantillaVerRG')
       
 
 
@@ -107,7 +107,7 @@ Contabilizar Rendición
                 <div class="row" id="divTotal" name="divTotal">       
                     <div class="col"> 
                     
-                        @include('RendicionGastos.desplegableDescargarArchivosRend')
+                        @include('RendicionGastos.DesplegableDescargarArchivosRend')
                         
                         <a href="{{route('rendicionGastos.ListarRendiciones')}}" 
                             class='btn btn-primary' style="float:left;">

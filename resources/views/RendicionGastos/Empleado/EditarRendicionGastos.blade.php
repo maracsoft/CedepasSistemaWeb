@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Editar Rendicion
@@ -159,7 +159,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
       </div>
     
    
-        @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
+        @include('SolicitudFondos.Plantillas.DesplegableDetallesSOF')  
 
 
         {{-- LISTADO DE DETALLES  --}}
@@ -300,7 +300,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col">
-                @include('RendicionGastos.desplegableDescargarArchivosRend')
+                @include('RendicionGastos.DesplegableDescargarArchivosRend')
                 
             </div>
 
@@ -417,7 +417,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 @section('tiempoEspera')
 <div class="loader" id="pantallaCarga"></div>
@@ -502,7 +502,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
     </script>
      
 
-     @include('RendicionGastos.Empleado.plantillasUsables.crearEditarRendJS');
+     @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS');
 
 
 

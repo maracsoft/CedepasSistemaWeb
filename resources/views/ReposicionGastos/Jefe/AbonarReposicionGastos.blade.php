@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
     @if($reposicion->verificarEstado('Aprobada'))
@@ -53,7 +53,7 @@
     
     
     
-    @include('ReposicionGastos.plantillaVerREP')
+    @include('ReposicionGastos.PlantillaVerREP')
 
 
 
@@ -62,7 +62,7 @@
     <div class="row" id="divTotal" name="divTotal">                       
         <div class="col"  style="">
 
-            @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+            @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
             <a href="{{route('ReposicionGastos.Administracion.Listar')}}" class='btn btn-info float-left'>
                 <i class="fas fa-arrow-left"></i> Regresar al Menú
             </a>  

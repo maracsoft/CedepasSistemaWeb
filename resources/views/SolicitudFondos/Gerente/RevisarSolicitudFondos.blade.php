@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 @section('titulo')
 @if($solicitud->verificarEstado('Creada'))
     Revisar Solicitud
@@ -38,7 +38,7 @@
         <input type="hidden" value="{{$solicitud->codSolicitud}}" name="codSolicitud" id="codSolicitud">
                                 
         @csrf
-        @include('SolicitudFondos.plantillas.VerSOF')
+        @include('SolicitudFondos.Plantillas.VerSOF')
                 
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col-md-8">

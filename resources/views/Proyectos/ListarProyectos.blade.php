@@ -1,4 +1,4 @@
-@extends('layout.plantilla') 
+@extends('Layout.Plantilla') 
 @section('estilos')
 <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
 <link rel="stylesheet" href="/select2/bootstrap-select.min.css">
@@ -24,7 +24,7 @@
       <div class="card-tools">
         <ul class="nav nav-pills ml-auto">
           <li class="nav-item">
-            <a href="{{route('GestiónProyectos.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
+            <a href="{{route('GestiónProyectos.Crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
           </li>
         </ul>
       </div>

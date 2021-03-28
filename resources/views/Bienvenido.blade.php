@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 @section('contenido')
 <h1> BIENVENIDO </h1>
 Version php: {{phpversion()}}

@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 @if($rendicion->verificarEstado('Creada') || $rendicion->verificarEstado('Subsanada') )
@@ -41,7 +41,7 @@ enctype="multipart/form-data" id="frmRend" >
     
 
     @csrf
-    @include('RendicionGastos.plantillaVerRG')
+    @include('RendicionGastos.PlantillaVerRG')
       
     
         {{-- LISTADO DE DETALLES  --}}
@@ -120,7 +120,7 @@ enctype="multipart/form-data" id="frmRend" >
 
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col">
-                        @include('RendicionGastos.desplegableDescargarArchivosRend')
+                        @include('RendicionGastos.DesplegableDescargarArchivosRend')
                         
 
                         <a href="{{route('ReposicionGastos.Gerente.Listar')}}" class='btn btn-info float-left'>

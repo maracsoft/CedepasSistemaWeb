@@ -139,6 +139,6 @@
 </div>
 
 
-@include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
+@include('SolicitudFondos.Plantillas.DesplegableDetallesSOF')  
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')

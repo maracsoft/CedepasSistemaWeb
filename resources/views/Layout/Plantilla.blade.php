@@ -100,10 +100,10 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
       
-      @include('layout.notificaciones.Solicitudes')
+      @include('Layout.Notificaciones.Solicitudes')
       
-      @include('layout.notificaciones.Reposiciones')
-      @include('layout.notificaciones.Rendiciones')
+      @include('Layout.Notificaciones.Reposiciones')
+      @include('Layout.Notificaciones.Rendiciones')
     </ul>
     
 
@@ -160,19 +160,19 @@
 
           
           @if(App\Empleado::getEmpleadoLogeado()->esAdminSistema())
-              @include('layout.menuLateral.adminSistema')  {{-- Este tiene todo --}}
+              @include('Layout.MenuLateral.AdminSistema')  {{-- Este tiene todo --}}
 
           @else 
-              @include('layout.menuLateral.Empleado')
+              @include('Layout.MenuLateral.Empleado')
               @if(App\Empleado::getEmpleadoLogeado()->esGerente())
-                  @include('layout.menuLateral.Gerente')
+                  @include('Layout.MenuLateral.Gerente')
               @endif
               @if(App\Empleado::getEmpleadoLogeado()->esJefeAdmin())
-                  @include('layout.menuLateral.Administrador')
+                  @include('Layout.MenuLateral.Administrador')
               @endif
 
               @if(App\Empleado::getEmpleadoLogeado()->esContador())
-                @include('layout.menuLateral.Contador')
+                @include('Layout.MenuLateral.Contador')
               @endif
           @endif
 

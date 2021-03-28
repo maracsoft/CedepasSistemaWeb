@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Editar Solicitud
@@ -314,7 +314,7 @@ Editar Solicitud
 {{-- ************************************************************************************************************* --}}
 
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 @section('tiempoEspera')
 <div class="loader" id="pantallaCarga"></div>
 @endsection
@@ -442,7 +442,7 @@ Editar Solicitud
 
 
     </script>
-    @include('SolicitudFondos.plantillas.crearEditarSOF-JS')     
+    @include('SolicitudFondos.Plantillas.CrearEditarSOF-JS')     
 
 
 

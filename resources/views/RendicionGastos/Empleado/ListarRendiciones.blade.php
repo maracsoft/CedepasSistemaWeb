@@ -1,4 +1,4 @@
-@extends ('layout.plantilla')
+@extends ('Layout.Plantilla')
 @section('titulo')
 Mis Rendiciones
 @endsection

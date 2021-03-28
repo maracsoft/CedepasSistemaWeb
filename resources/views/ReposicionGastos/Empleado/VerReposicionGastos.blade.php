@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('estilos')
   
@@ -25,7 +25,7 @@
     
     @csrf
    
-    @include('ReposicionGastos.plantillaVerREP')
+    @include('ReposicionGastos.PlantillaVerREP')
     
     
       
@@ -43,7 +43,7 @@
 
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col-md-8" style="">
-                @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+                @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
 
             </div>   
             <div class="col-md-2">                        

@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
     Ver Rendicion
@@ -22,7 +22,7 @@
 
     @csrf
     
-    @include('RendicionGastos.plantillaVerRG')
+    @include('RendicionGastos.PlantillaVerRG')
       
 
         {{-- LISTADO DE DETALLES  --}}
@@ -93,7 +93,7 @@
 
                 <div class="row" id="divTotal" name="divTotal">                       
                     <div class="col">
-                        @include('RendicionGastos.desplegableDescargarArchivosRend')
+                        @include('RendicionGastos.DesplegableDescargarArchivosRend')
                         
 
 

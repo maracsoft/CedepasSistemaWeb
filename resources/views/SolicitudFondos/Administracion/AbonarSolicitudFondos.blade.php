@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 @if($solicitud->verificarEstado('Aprobada'))
@@ -30,7 +30,7 @@ enctype="multipart/form-data">
    
     @csrf
         
-        @include('SolicitudFondos.plantillas.VerSOF')
+        @include('SolicitudFondos.Plantillas.VerSOF')
    
                 
         <div class="row" id="divTotal" name="divTotal">                       
@@ -152,7 +152,7 @@ enctype="multipart/form-data">
 
     </style>
 
-@include('layout.estilosPegados')
+@include('Layout.estilosPegados')
 @section('script')
 
     

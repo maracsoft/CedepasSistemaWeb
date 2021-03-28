@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Crear Rendicion
@@ -141,7 +141,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
 
         
         
-        @include('SolicitudFondos.plantillas.desplegableDetallesSOF')  
+        @include('SolicitudFondos.Plantillas.DesplegableDetallesSOF')  
 
         {{-- LISTADO DE DETALLES  --}}
          
@@ -376,7 +376,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 @section('script')
 
@@ -443,7 +443,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
         }
 
     </script>
-     @include('RendicionGastos.Empleado.plantillasUsables.crearEditarRendJS');
+     @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS');
 
 
 

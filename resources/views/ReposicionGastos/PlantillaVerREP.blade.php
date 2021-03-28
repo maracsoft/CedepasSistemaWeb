@@ -1,5 +1,5 @@
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 <div class="container" >
     <div class="row">           
         <div class="col-md"> {{-- COLUMNA IZQUIERDA 1 --}}

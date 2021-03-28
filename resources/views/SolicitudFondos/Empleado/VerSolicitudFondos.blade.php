@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Ver Solicitud
@@ -19,7 +19,7 @@ Ver Solicitud
     <input type="hidden" name="codigoCedepas" id="codigoCedepas" value="{{ $empleadoLogeado->codigoCedepas }}">
 
     @csrf
-            @include('SolicitudFondos.plantillas.VerSOF')
+            @include('SolicitudFondos.Plantillas.VerSOF')
                 
             <div class="row" id="divTotal" name="divTotal">                       
                 <div class="col-md-8">

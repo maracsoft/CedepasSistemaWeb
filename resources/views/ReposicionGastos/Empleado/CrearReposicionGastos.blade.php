@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
   Registrar Reposición de Gastos
@@ -442,7 +442,7 @@
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 @section('script')
 
@@ -571,7 +571,7 @@
      
     
 
-    @include('ReposicionGastos.plantillas.editCreateRepoJS')
+    @include('ReposicionGastos.Plantillas.EditCreateRepoJS')
 
 
 

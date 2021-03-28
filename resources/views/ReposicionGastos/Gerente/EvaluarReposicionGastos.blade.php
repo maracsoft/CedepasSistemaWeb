@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
     @if($reposicion->verificarEstado('Creada') || 
@@ -60,7 +60,7 @@
     
     @csrf
    
-        @include('ReposicionGastos.plantillaVerREP')
+        @include('ReposicionGastos.PlantillaVerREP')
       
       
          
@@ -71,7 +71,7 @@
         <div class="row" id="divTotal" name="divTotal">      
             <div class="col"> 
                 
-                    @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+                    @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
 
                     <a href="{{route('ReposicionGastos.Gerente.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> 

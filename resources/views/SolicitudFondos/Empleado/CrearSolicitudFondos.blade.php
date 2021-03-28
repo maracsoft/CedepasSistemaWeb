@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Crear Solicitud
@@ -289,7 +289,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
 {{-- ************************************************************************************************************* --}}
 {{-- ************************************************************************************************************* --}}
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 @section('script')
      {{-- <script src="/public/select2/bootstrap-select.min.js"></script>      --}}
@@ -396,7 +396,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
     </script>
      
 
-     @include('SolicitudFondos.plantillas.crearEditarSOF-JS')
+     @include('SolicitudFondos.Plantillas.CrearEditarSOF-JS')
     
     
 

@@ -1,4 +1,4 @@
-@extends('layout.plantilla')
+@extends('Layout.Plantilla')
 
 @section('titulo')
 Editar Reposicion de Gastos
@@ -338,7 +338,7 @@ Editar Reposicion de Gastos
 
                 <div class="row" id="divTotal" name="divTotal">     
                     <div class="col">
-                        @include('ReposicionGastos.desplegableDescargarArchivosRepo')
+                        @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
 
 
                     </div>
@@ -454,7 +454,7 @@ Editar Reposicion de Gastos
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
-@include('layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 
 @section('tiempoEspera')
@@ -602,7 +602,7 @@ Editar Reposicion de Gastos
         
     
     </script>
-     @include('ReposicionGastos.plantillas.editCreateRepoJS')
+     @include('ReposicionGastos.Plantillas.EditCreateRepoJS')
 
 
 
