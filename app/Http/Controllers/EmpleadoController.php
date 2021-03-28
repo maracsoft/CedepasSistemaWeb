@@ -21,14 +21,14 @@ class EmpleadoController extends Controller
     public function listarEmpleados(Request $request){
         $dniBuscar=$request->dniBuscar;
         $empleados = Empleado::where('activo','=',1)->where('dni','like',$dniBuscar.'%')->orderBy('fechaRegistro','desc')->paginate($this::PAGINATION);
-        return view('Empleados.index',compact('empleados','dniBuscar'));
+        return view('Empleados.Index',compact('empleados','dniBuscar'));
     }
     public function crearEmpleado(){
         //$areas=Area::all();
         //$proyectos = Proyecto::All();
         $puestos=Puesto::where('estado','!=',0)->get();
         $sedes=Sede::all();
-        return view('Empleados.create',compact('puestos','sedes'));
+        return view('Empleados.Create',compact('puestos','sedes'));
     }
     /*
     public function listarPuestos(Request $request,$id){
@@ -90,7 +90,7 @@ class EmpleadoController extends Controller
         $empleado=Empleado::find($id);
         //$areas=Area::all();
         //$puestos=Puesto::all();
-        return view('Empleados.edit',compact('empleado','puestos','sedes'));
+        return view('Empleados.Edit',compact('empleado','puestos','sedes'));
     }
 
     public function guardarEditarEmpleado(Request $request){
@@ -131,7 +131,7 @@ class EmpleadoController extends Controller
     public function verPerfil(){
         $empleado=Empleado::getEmpleadoLogeado();
 
-        return view('Empleados.verPerfil',compact('empleado'));
+        return view('Empleados.VerPerfil',compact('empleado'));
     }
 
     public function guardarContrasena(Request $request){

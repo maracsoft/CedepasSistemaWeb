@@ -13,11 +13,11 @@ class PuestoController extends Controller
     public function listarPuestos(Request $request){
         $nombreBuscar=$request->nombreBuscar;
         $puestos=Puesto::where('estado','=',1)->where('nombre','like','%'.$nombreBuscar.'%')->paginate($this::PAGINATION);
-        return view('Puestos.indexPuesto',compact('puestos','nombreBuscar'));
+        return view('Puestos.IndexPuesto',compact('puestos','nombreBuscar'));
     }
 
     public function crearPuesto(){
-        return view('Puestos.createPuesto');
+        return view('Puestos.CreatePuesto');
     }
 
     public function guardarCrearPuesto(Request $request){
@@ -32,7 +32,7 @@ class PuestoController extends Controller
 
     public function editarPuesto($id){
         $puesto=Puesto::find($id);
-        return view('Puestos.editPuesto',compact('puesto'));
+        return view('Puestos.EditPuesto',compact('puesto'));
     }
 
     public function guardarEditarPuesto(Request $request){

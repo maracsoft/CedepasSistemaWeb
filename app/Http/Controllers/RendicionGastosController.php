@@ -362,25 +362,13 @@ class RendicionGastosController extends Controller
 
 
 
-    public function verReponer($id){ //le pasamos la id de la solicitud de fondos a la que está enlazada
-        $listaRend = RendicionGastos::where('codSolicitud','=',$id)->get();
-        $rendicion = $listaRend[0];
-
-        $solicitud = SolicitudFondos::findOrFail($id);
-        $empleado = Empleado::findOrFail($solicitud->codEmpleadoSolicitante);
-        $detallesRend = DetalleRendicionGastos::where('codRendicionGastos','=',$rendicion->codRendicionGastos)->get();
-        
-        return view('RendicionGastos.Administracion.verReponer',compact('rendicion','solicitud','empleado','detallesRend'));
-    }
-
-
 
     //despliega vista de edicion EMPLEADO de la rend
     public function editar($idRendicion){
         $rendicion = RendicionGastos::findOrFail($idRendicion);
         $solicitud = SolicitudFondos::findOrFail($rendicion->codSolicitud);
         $listaCDP = CDP::All();
-        return view('RendicionGastos.Empleado.editarRendicionGastos',compact('rendicion','solicitud','listaCDP'));
+        return view('RendicionGastos.Empleado.EditarRendicionGastos',compact('rendicion','solicitud','listaCDP'));
 
     }
 
@@ -819,7 +807,7 @@ class RendicionGastosController extends Controller
                     //Reporte de las sumas acumuladas de los gastos de cada sede, con fecha inicio y fecha final
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
-                    return view('RendicionGastos.Administracion.Reportes.reporteSedes',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.ReporteSedes',compact('listaX','fechaI','fechaF'));
                     
 
 
@@ -829,12 +817,12 @@ class RendicionGastosController extends Controller
 
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
-                    return view('RendicionGastos.Administracion.Reportes.reporteEmpleado',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.ReporteEmpleado',compact('listaX','fechaI','fechaF'));
                     break;
                 case '3':
 
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
-                    return view('RendicionGastos.Administracion.Reportes.reporteProyectos',compact('listaX','fechaI','fechaF'));
+                    return view('RendicionGastos.Administracion.Reportes.ReporteProyectos',compact('listaX','fechaI','fechaF'));
                 
                     break;
                 
@@ -842,7 +830,7 @@ class RendicionGastosController extends Controller
                     $sede  = Sede::findOrFail($request->ComboBoxSede);
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$sede->codSede);
 
-                return view('RendicionGastos.Administracion.Reportes.reporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
+                return view('RendicionGastos.Administracion.Reportes.ReporteEmpleadoXSede',compact('listaX','fechaI','fechaF','sede'));
                     break;
 
                             
@@ -891,7 +879,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedes($fechaI,$fechaF);
                     
                 // return  $listaX;
-                $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteSedes';
+                $nombreVista = 'RendicionGastos.Administracion.Reportes.ReporteSedes';
                 $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
 
 
@@ -902,7 +890,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorEmpleados($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteEmpleado';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.ReporteEmpleado';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     break;
@@ -911,7 +899,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorProyectos($fechaI,$fechaF);
                     
 
-                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteProyectos';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.ReporteProyectos';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI);
                     
                     
@@ -921,7 +909,7 @@ class RendicionGastosController extends Controller
                     $listaX = RendicionGastos::reportePorSedeYEmpleados($fechaI,$fechaF,$codSede);
 
 
-                    $nombreVista = 'RendicionGastos.Administracion.Reportes.reporteEmpleadoXSede';
+                    $nombreVista = 'RendicionGastos.Administracion.Reportes.ReporteEmpleadoXSede';
                     $argumentosVista = array('listaX'=> $listaX,'fechaI' =>$fechaI,'fechaF' =>$fechaI,'sede'=>$sede);
                             
                     

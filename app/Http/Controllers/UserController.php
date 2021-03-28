@@ -67,7 +67,7 @@ class UserController extends Controller
         }
 
         public function verLogin(){
-            return view('loginCedepas');
+            return view('LoginCedepas');
         }
 
 
@@ -76,7 +76,7 @@ class UserController extends Controller
                 return redirect()->route('user.verLogin');
 
             
-            return view('bienvenido');
+            return view('Bienvenido');
         }
 
 }

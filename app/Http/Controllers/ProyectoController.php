@@ -18,14 +18,14 @@ class ProyectoController extends Controller
     function crear(){
         $listaSedes = Sede::All();
 
-        return view('Proyectos.create',compact('listaSedes'));
+        return view('Proyectos.Create',compact('listaSedes'));
     }
 
     function editar($codProyecto){
         $proyecto = Proyecto::findOrFail($codProyecto);
         $listaSedes = Sede::All();
 
-        return view('Proyectos.edit',compact('listaSedes','proyecto'));
+        return view('Proyectos.Edit',compact('listaSedes','proyecto'));
     }
 
     
@@ -130,7 +130,7 @@ class ProyectoController extends Controller
         $contadores=Empleado::where('codPuesto','=',Puesto::getCodigo('Contador'))->whereNotIn('codEmpleado',$arr)->get();
         
 
-        return view('Proyectos.contadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
+        return view('Proyectos.ContadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
     }
 
     function agregarContador(Request $request){
