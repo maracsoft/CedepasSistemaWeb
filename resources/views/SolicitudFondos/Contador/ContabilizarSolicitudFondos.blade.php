@@ -141,7 +141,7 @@ Solicitud
 {{-- ************************************************************************************************************* --}}
 
 
-@include('Layout.estilosPegados')
+@include('Layout.EstilosPegados')
 
 <style>
     

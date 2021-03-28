@@ -182,4 +182,4 @@
         </tbody>
     </table>
 </div> 
-@include('Layout.estilosPegados')
+@include('Layout.EstilosPegados')
