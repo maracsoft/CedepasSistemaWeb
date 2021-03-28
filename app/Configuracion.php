@@ -33,4 +33,11 @@ class Configuracion extends Model
     const tamañoMaximoGiraraAOrdenDe= 50;//solicitud
     const tamañoMaximoNroCuentaBanco= 50;//solicitud-reposicion
 
+
+    public static function getRutaImagenCedepas(){
+        if(Configuracion::enProduccion)
+            return "https://maracsoft.com/img/LogoCedepas.jpg";
+        else 
+            "../../img/LogoCedepas.jpg";
+    }
 }

@@ -46,7 +46,8 @@
                 <tr>
                     <th style="height: 70px;  " colspan="2">
                         <div style="height: 5px"></div>
-                        <img src="../../img/LogoCedepas.jpg" height="100%">
+                        
+                        <img src="{{App\Configuracion::getRutaImagenCedepas()}}" height="100%">
                     </th>
                     <th style="text-align: center" colspan="2">N° {{$solicitud->codigoCedepas}}</th>
                 </tr>
