@@ -789,7 +789,7 @@ class ReposicionGastosController extends Controller
     public function descargarPDF($id){
         $reposicion=ReposicionGastos::findOrFail($id);
         $pdf = $reposicion->getPDF();
-        return $pdf->download('Reposicion de Gastos '.$reposicion->codigoCedepas.'.pdf');
+        return $pdf->download('Reposicion de Gastos '.$reposicion->codigoCedepas.'.Pdf');
     }
     
     public function verPDF($id){

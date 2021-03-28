@@ -775,7 +775,7 @@ class SolicitudFondosController extends Controller
     public function descargarPDF($codSolicitud){
         $solicitud = SolicitudFondos::findOrFail($codSolicitud);
         $pdf = $solicitud->getPDF();
-        return $pdf->download('Solicitud de Fondos '.$solicitud->codigoCedepas.'.pdf');
+        return $pdf->download('Solicitud de Fondos '.$solicitud->codigoCedepas.'.Pdf');
     }   
     
     public function verPDF($codSolicitud){

@@ -33,7 +33,7 @@ class SolicitudFondos extends Model
 
     public function getPDF(){
         $listaItems = DetalleSolicitudFondos::where('codSolicitud','=',$this->codSolicitud)->get();
-        $pdf = \PDF::loadview('SolicitudFondos.plantillas.pdfSolicitudFondos',
+        $pdf = \PDF::loadview('SolicitudFondos.Plantillas.PdfSolicitudFondos',
             array('solicitud'=>$this,'listaItems'=>$listaItems)
                             )->setPaper('a4', 'portrait');
 

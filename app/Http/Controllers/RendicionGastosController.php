@@ -926,7 +926,7 @@ class RendicionGastosController extends Controller
        
             
             $pdf = PDF::loadView($nombreVista,$argumentosVista)->setPaper('a4','landscape');
-            return $pdf->download('informeMiau.pdf');
+            return $pdf->download('informeMiau.Pdf');
 
         } catch (\Throwable $th) {
         
@@ -964,7 +964,7 @@ class RendicionGastosController extends Controller
     public function descargarPDF($codRendicion){
         $rendicion = RendicionGastos::findOrFail($codRendicion);
         $pdf = $rendicion->getPDF();
-        return $pdf->download('Rendición de Gastos '.$rendicion->codigoCedepas.'.pdf');
+        return $pdf->download('Rendición de Gastos '.$rendicion->codigoCedepas.'.Pdf');
     }   
     
     public function verPDF($codRendicion){

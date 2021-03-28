@@ -52,7 +52,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/SolicitudFondos/MASTERINDEX','SolicitudFondosController@listarSolicitudes')
         ->name('solicitudFondos.ListarSolicitudes');
 
-
+    
     Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
         ->name('solicitudFondos.observar');
     Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')
