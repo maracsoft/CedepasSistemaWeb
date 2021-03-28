@@ -1,5 +1,7 @@
 <?php
 
+use App\DetalleSolicitudFondos;
+use App\SolicitudFondos;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,7 +14,14 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/', 'UserController@home')->name('user.home');
 
 
-Route::get('/prueba', 'RendicionGastosController@prueba');
+Route::get('/prueba/prueba/1256', function(){
+
+    $solicitud = SolicitudFondos::All();
+    $solicitud = $solicitud[0];
+    $listaItems = DetalleSolicitudFondos::where('codDetalleSolicitud','=',$solicitud->codSolicitud)->get();
+    return view('SolicitudFondos.Plantillas.PdfSolicitudFondos',compact('solicitud','listaItems'));
+
+});
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');
@@ -52,7 +61,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     Route::get('/SolicitudFondos/MASTERINDEX','SolicitudFondosController@listarSolicitudes')
         ->name('solicitudFondos.ListarSolicitudes');
 
-    
+
     Route::get('/SolicitudFondos/Observar/{value}','SolicitudFondosController@observar')
         ->name('solicitudFondos.observar');
     Route::get('/SolicitudFondos/Rechazar/{id}','SolicitudFondosController@rechazar')

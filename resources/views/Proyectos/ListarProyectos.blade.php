@@ -24,7 +24,7 @@
       <div class="card-tools">
         <ul class="nav nav-pills ml-auto">
           <li class="nav-item">
-            <a href="{{route('GestionProyectos.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
+            <a href="{{route('GestiónProyectos.crear')}}" class="nav-link active"><i class="fas fa-plus"></i> Nuevo Registro</a>
           </li>
         </ul>
       </div>
