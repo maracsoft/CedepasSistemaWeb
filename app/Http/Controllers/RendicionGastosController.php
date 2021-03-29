@@ -199,7 +199,7 @@ class RendicionGastosController extends Controller
         
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
-            return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado..");
         
         //solicitudes de un proyecto (filtro)
         $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();

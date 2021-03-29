@@ -133,7 +133,8 @@ class SolicitudFondosController extends Controller
 
         
         if(count($empleado->getListaProyectos())==0)
-            return "ERROR: NO TIENE NINGUN PROYECTO ASIGNADO.";
+            return redirect()->route('error')->with('datos', "No tiene ningún proyecto asignado.");
+
         
 
         $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente2();
