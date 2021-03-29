@@ -101,7 +101,7 @@ class Empleado extends Model
     //para modulo ProvisionFondos. 
     public function esJefeAdmin(){
         $puesto = Puesto::findOrFail($this->codPuesto);
-        if($puesto->nombre=='Jefe de Administración')
+        if($puesto->nombre=='Administrador')
             return true;
 
         return false;
