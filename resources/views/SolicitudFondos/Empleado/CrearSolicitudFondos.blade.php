@@ -115,7 +115,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                                     <option value="-1">-- Seleccionar -- </option>
                                     @foreach($listaProyectos as $itemProyecto)
                                         <option value="{{$itemProyecto['codProyecto']}}" >
-                                            {{$itemProyecto->nombre}} [{{$itemProyecto->codigoPresupuestal}}]
+                                            [{{$itemProyecto->codigoPresupuestal}}] {{$itemProyecto->nombre}} 
                                         </option>                                 
                                     @endforeach 
                                 </select>      
@@ -312,7 +312,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                 return false;
             }
 
-            confirmar('¿Seguro de crear la reposicion?','info','frmsoli');//[success,error,warning,info]
+            confirmar('¿Seguro de crear la solicitud?','info','frmsoli');//[success,error,warning,info]
         }
 
         function cambiarEstilo(name, clase){

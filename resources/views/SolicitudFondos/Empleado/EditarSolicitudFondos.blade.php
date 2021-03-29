@@ -125,7 +125,7 @@ Editar Solicitud
                                             selected
                                         @endif
                                         >
-                                            {{$itemProyecto->nombre}} [{{$itemProyecto->codigoPresupuestal}}]
+                                           [{{$itemproyecto->codigoPresupuestal}}] {{$itemProyecto->nombre}} [{{$itemProyecto->codigoPresupuestal}}]
                                         </option>                                 
                                     @endforeach 
                                 </select>      

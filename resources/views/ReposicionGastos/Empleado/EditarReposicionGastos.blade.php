@@ -55,7 +55,7 @@ Editar Reposición de Gastos
                                     @endif
                                     
                                     >
-                                    {{$itemproyecto->nombre}} [{{$itemproyecto->codigoPresupuestal}}]
+                                    [{{$itemproyecto->codigoPresupuestal}}] {{$itemproyecto->nombre}}
                                 </option>                                 
                             @endforeach 
                         </select>   

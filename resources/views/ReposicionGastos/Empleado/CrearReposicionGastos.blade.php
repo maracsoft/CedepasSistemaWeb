@@ -51,7 +51,7 @@
                             <option value="-1">Seleccionar</option>
                             @foreach($proyectos as $itemproyecto)
                                 <option value="{{$itemproyecto->codProyecto}}" >
-                                    {{$itemproyecto->nombre}} [{{$itemproyecto->codigoPresupuestal}}]
+                                    [{{$itemproyecto->codigoPresupuestal}}] {{$itemproyecto->nombre}} 
                                 </option>                                 
                             @endforeach 
                         </select>   

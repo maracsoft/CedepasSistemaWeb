@@ -52,7 +52,7 @@ Listar Reposiciones
           <option value="0">--Seleccionar--</option>
           @foreach($proyectos as $itemproyecto)
               <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
-                  {{$itemproyecto->nombre}}
+                [{{$itemproyecto->codigoPresupuestal}}] {{$itemproyecto->nombre}}
               </option>                                 
           @endforeach 
         </select>
