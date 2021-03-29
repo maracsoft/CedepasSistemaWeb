@@ -1,7 +1,6 @@
 @extends('Layout.Plantilla')
 @section('contenido')
-
-<img style="width:100%; height:50%;"src="img/INFOGRAFIA SIN FONDO.png"> 
+<img style="width:100%; height:50%;"src="img/InfografiaHome.png"> 
 
 @endsection
 

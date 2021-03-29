@@ -90,10 +90,15 @@
     <ul class="navbar-nav">
 
       <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#"
-           role="button"><i class="fas fa-bars"></i>
+          <a id="aRefOcultarMenuLateral"  class="nav-link"  data-widget="pushmenu" onclick="clicMenuLateral()" href="#"
+           role="button">
+              <i id="iconoOcultarMenuLateral" class="fas fa-chevron-left"></i>
           </a>
       </li>
+      
+      <a class="btn btn-primary"  title="Volver al Inicio" href="{{route('user.home')}}" >
+          Home
+      </a>
 
 
     </ul>
@@ -251,6 +256,34 @@
 
 
 <script type="application/javascript">
+
+  var menuLateralOcultado = true;
+
+
+  clicMenuLateral();
+
+  //YA FUNCIONA YA XD LE HABIA PUESTO TITLE AL icoono Y NO AL A REF
+  function clicMenuLateral(){
+    document.getElementById('iconoOcultarMenuLateral').classList="";
+    document.getElementById('iconoOcultarMenuLateral').classList.add('fas');
+    
+    if(menuLateralOcultado){
+      document.getElementById('aRefOcultarMenuLateral').title = "Expandir menú lateral";
+      document.getElementById('iconoOcultarMenuLateral').classList.add('fa-chevron-left');
+      console.log('ENTRA 1' + menuLateralOcultado);
+    }else{
+      
+      document.getElementById('aRefOcultarMenuLateral').title = "Ocultar menu lateral";  
+      document.getElementById('iconoOcultarMenuLateral').classList.add('fa-chevron-right');
+      console.log('ENTRA 2' + menuLateralOcultado);
+    }
+    
+    menuLateralOcultado = !menuLateralOcultado;
+
+
+  }
+
+
   function number_format(amount, decimals) {
           amount += ''; // por si pasan un numero en vez de un string
           amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto

@@ -1,7 +1,14 @@
+@extends('Layout.Plantilla')
+@section('contenido')
+<div style="text-align: center;">
 
-<h1> BIENVENIDO </h1>
-Versión php: {{phpversion()}}
+    <h1>
+        {{$datos}}
+    </h1>
+    
+    <img src="img/error.svg" width="66%"> 
 
+</div>
 
-LA HORA ES {{Carbon\Carbon::now()}}
-<img src="error.svg"> 
+@endsection
+

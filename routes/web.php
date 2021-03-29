@@ -15,12 +15,13 @@ Route::get('/cerrarSesion','UserController@cerrarSesion')->name('user.cerrarSesi
 Route::get('/', 'UserController@home')->name('user.home');
 
 
-Route::get('/prueba/prueba/1256', function(){
+Route::get('/encriptarContraseñas', function(){
 
+    return redirect()->route('error')->with('datos','Parece que te has perdido...');
 
     $contraseñas = "40556946;46636006;47541289;26682689;41943357;43485279;42090409;44847934;26682687;17914644;70355561;70585629;44685699;19327774;40360154;45740336;15738099;19330869;74240802;70386230;42927000;42305800;15766143;45540460;45372425;03120627;45576187;17877014;02897932;44155217;18175358;40068481;18126610;43162714;40392458;40242073;40994213;42122048;44896824;46352412;43953715;99999999;99999999";
     $vectorContraseñas = explode(';',$contraseñas);
-
+    
     $vectorContraseñasEncriptadas = [];
     foreach ($vectorContraseñas as $item){
         array_push($vectorContraseñasEncriptadas,Hash::make($item));   
@@ -28,8 +29,25 @@ Route::get('/prueba/prueba/1256', function(){
 
     $listaEncriptadasSeparadasComas= implode(';',$vectorContraseñasEncriptadas);
 
+
     return $listaEncriptadasSeparadasComas;
+
 });
+
+
+Route::get('/Error',function(){
+    
+    $msj = session('datos');
+    $datos='';
+    if($msj!='')
+        $datos = $msj;
+
+    session(['datos' => '']);
+    return view('ERROR',compact('datos'));
+
+})->name('error');
+
+
 
 /* RUTAS SERVICIOS */
 Route::get('/listarDetallesDeSolicitud/{id}','SolicitudFondosController@listarDetalles');

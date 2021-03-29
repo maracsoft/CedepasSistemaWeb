@@ -78,8 +78,8 @@ Listar Reposiciones
     <table class="table" style="font-size: 10pt; margin-top:10px;">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Cod. Rendición</th> {{-- COD CEDEPAS --}}
-                <th width="9%"  scope="col" style="text-align: center">F. Emision</th>
+                <th width="9%" scope="col">Cod. Reposición</th> {{-- COD CEDEPAS --}}
+                <th width="9%"  scope="col" style="text-align: center">F. Emisión</th>
                 <th with="3%">P.P</th>
                 <th  scope="col">Proyecto</th>              
                 <th width="16%"  scope="col">Orden de</th>

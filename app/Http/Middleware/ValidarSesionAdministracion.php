@@ -20,7 +20,7 @@ class ValidarSesionAdministracion
         if(!Empleado::getEmpleadoLogeado()->esAdminSistema())
             if(!Empleado::getEmpleadoLogeado()->esJefeAdmin())
                 return redirect()->route('user.home');
-
+        
         return $next($request);
     }
 }
