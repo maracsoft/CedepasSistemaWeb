@@ -76,7 +76,7 @@
         <table style="width:100%">
             <tbody style="width:100%">
                 <tr style="font-weight: bold">
-                    <td style="width: 40px; text-align: center;">Item</td>
+                    <td style="width: 40px; text-align: center;">Ítem</td>
                     <td style="text-align: center;">Concepto</td>
                     <td style="width: 80px; text-align: center;">Importe {{$solicitud->getMoneda()->simbolo}}</td>
                     <td style="width: 90px; text-align: center;">Código Presupuestal</td>

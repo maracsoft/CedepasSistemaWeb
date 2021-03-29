@@ -1,6 +1,6 @@
 
 <h1> BIENVENIDO </h1>
-Version php: {{phpversion()}}
+Versión php: {{phpversion()}}
 
 
 LA HORA ES {{Carbon\Carbon::now()}}

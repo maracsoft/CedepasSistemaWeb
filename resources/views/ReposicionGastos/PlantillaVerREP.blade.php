@@ -7,7 +7,7 @@
 
                 <div class="row">
                     <div  class="colLabel">
-                            <label for="fecha">Fescha</label>
+                            <label for="fecha">Fecha</label>
                     </div>
                     <div class="col">
                                             
@@ -52,7 +52,7 @@
 
                     <div class="w-100"></div> {{-- SALTO LINEA --}}
                     <div  class="colLabel">
-                            <label for="fecha">Codigo Cedepas</label>
+                            <label for="fecha">Código Cedepas</label>
 
                     </div>
 

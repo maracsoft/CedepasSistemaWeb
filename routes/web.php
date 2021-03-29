@@ -2,6 +2,7 @@
 
 use App\DetalleSolicitudFondos;
 use App\SolicitudFondos;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,11 +17,18 @@ Route::get('/', 'UserController@home')->name('user.home');
 
 Route::get('/prueba/prueba/1256', function(){
 
-    $solicitud = SolicitudFondos::All();
-    $solicitud = $solicitud[0];
-    $listaItems = DetalleSolicitudFondos::where('codDetalleSolicitud','=',$solicitud->codSolicitud)->get();
-    return view('SolicitudFondos.Plantillas.PdfSolicitudFondos',compact('solicitud','listaItems'));
 
+    $contraseñas = "40556946;46636006;47541289;26682689;41943357;43485279;42090409;44847934;26682687;17914644;70355561;70585629;44685699;19327774;40360154;45740336;15738099;19330869;74240802;70386230;42927000;42305800;15766143;45540460;45372425;03120627;45576187;17877014;02897932;44155217;18175358;40068481;18126610;43162714;40392458;40242073;40994213;42122048;44896824;46352412;43953715;99999999;99999999";
+    $vectorContraseñas = explode(';',$contraseñas);
+
+    $vectorContraseñasEncriptadas = [];
+    foreach ($vectorContraseñas as $item){
+        array_push($vectorContraseñasEncriptadas,Hash::make($item));   
+    }
+
+    $listaEncriptadasSeparadasComas= implode(';',$vectorContraseñasEncriptadas);
+
+    return $listaEncriptadasSeparadasComas;
 });
 
 /* RUTAS SERVICIOS */
@@ -463,3 +471,5 @@ Route::group(['prefix' => 'categoria'], function () {
     Route::post('/delete', ['as' => 'categoria.delete', 'uses' => 'CategoriaController@destroy']);
 });
 
+Route::get('/RellenarProyectoContador','ReposicionGastosController@RellenarProyectoContador')
+        ->name('probandoPanita');

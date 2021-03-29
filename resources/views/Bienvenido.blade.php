@@ -1,12 +1,7 @@
 @extends('Layout.Plantilla')
 @section('contenido')
-<h1> BIENVENIDO </h1>
-Version php: {{phpversion()}}
 
-
-LA HORA ES {{Carbon\Carbon::now()}}
-<
-aqui voy a practicar el wizard
+<img style="width:100%; height:50%;"src="img/INFOGRAFIA SIN FONDO.png"> 
 
 @endsection
 

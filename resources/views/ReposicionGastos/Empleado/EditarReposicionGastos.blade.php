@@ -1,14 +1,14 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-Editar Reposicion de Gastos
+Editar Reposición de Gastos
 @endsection
 
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Editar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Editar Reposición de Gastos</p>
 
 
 </div>

@@ -8,7 +8,7 @@
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Registrar Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Registrar Reposición de Gastos</p>
 
 
 </div>
@@ -112,7 +112,7 @@
 
                       <div class="w-100"></div>
                       <div  class="colLabel">
-                        <label for="fecha">Codigo Cedepas</label>
+                        <label for="fecha">Código Cedepas</label>
 
                       </div>
                       <div class="col">
@@ -417,7 +417,7 @@
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                         onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                    <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menú</a>              
                 </div>    
             </div>
         </div>

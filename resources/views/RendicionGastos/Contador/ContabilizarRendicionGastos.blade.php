@@ -142,7 +142,7 @@ Contabilizar Rendición
                                 <label for="">
 
                                     @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                        Saldo a favor del Empl: 
+                                        Saldo a favor del Empleado: 
                                     @else
                                         Saldo a favor de Cedepas: 
                                     @endif

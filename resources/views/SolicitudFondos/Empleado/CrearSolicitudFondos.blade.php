@@ -69,7 +69,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="colLabel">
-                            <label for="codSolicitud">Codigo Solicitud:</label>
+                            <label for="codSolicitud">Código Solicitud:</label>
 
                       </div>
                       <div class="col"> 
@@ -96,7 +96,7 @@ onsubmit="" id="frmsoli" name="frmsoli">
                 
                 
                 <div style="margin-bottom: 1%">
-                    <label for="fecha">Justificacion</label>
+                    <label for="fecha">Justificación</label>
                     <textarea class="form-control" name="justificacion" id="justificacion" aria-label="With textarea"
                          cols="3"></textarea>
     
@@ -214,10 +214,10 @@ onsubmit="" id="frmsoli" name="frmsoli">
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th  class="text-center">Item</th>                                        
+                        <th  class="text-center">Ítem</th>                                        
                         <th >Concepto</th>                                 
                         <th > Importe</th>
-                        <th  class="text-center">Codigo Presupuestal</th>
+                        <th  class="text-center">Código Presupuestal</th>
                         <th  class="text-center">Opciones</th>                                            
                      
                     </thead>

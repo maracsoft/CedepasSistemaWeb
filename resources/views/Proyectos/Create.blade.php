@@ -79,7 +79,7 @@ class="form-horizontal form-groups-bordered" method="post" enctype="multipart/fo
 
                     <div class="w-100"></div>
                     <div class="col">
-                        <label class="" style="">Codigo presupuestal:</label>
+                        <label class="" style="">Código presupuestal:</label>
                         <div class="">
                             <input type="text" class="form-control" id="codigoPresupuestal" name="codigoPresupuestal"
                             value=""  placeholder="..." >

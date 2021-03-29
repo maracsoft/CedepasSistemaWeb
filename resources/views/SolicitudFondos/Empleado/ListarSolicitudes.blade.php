@@ -89,8 +89,8 @@ margin-top: 18px;
     <table class="table" style="font-size: 10pt; margin-top:10px;">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Codigo Sol</th>
-                <th width="9%" scope="col" style="text-align: center">F. Emision</th>
+                <th width="9%" scope="col">Código Sol</th>
+                <th width="9%" scope="col" style="text-align: center">F. Emisión</th>
                 <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>
                 <th width="9%" scope="col" style="text-align: center">Total Solicitado // Rendido </th>

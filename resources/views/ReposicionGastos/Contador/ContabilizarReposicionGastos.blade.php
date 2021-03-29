@@ -6,7 +6,7 @@
     @else 
         Ver
     @endif
-Reposicion
+Reposición
 @endsection
 
 @section('contenido')
@@ -24,7 +24,7 @@ Reposicion
             @endif
             
             
-            Reposicion de Gastos
+            Reposición de Gastos
         </p>
     </div>
 
@@ -107,7 +107,7 @@ Reposicion
 
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
                         <div  class="colLabel">
-                                <label for="fecha">Codigo Cedepas</label>
+                                <label for="fecha">Código Cedepas</label>
 
                         </div>
 
@@ -238,7 +238,7 @@ Reposicion
             <a href="{{route('ReposicionGastos.Contador.Listar')}}" 
                 class='btn btn-info float-left float-left'>
                 <i class="fas fa-arrow-left"></i> 
-                Regresar al Menu
+                Regresar al Menú
             </a>    
         </div>
         

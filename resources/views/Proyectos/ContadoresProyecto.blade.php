@@ -28,7 +28,7 @@
     <table class="table table-bordered table-hover datatable" id="table-3">
       <thead>                  
         <tr>
-          <th>CODIGO</th>
+          <th>CÓDIGO</th>
           <th>NOMBRES Y APELLIDOS</th>
           <th>OPCIONES</th>
         </tr>

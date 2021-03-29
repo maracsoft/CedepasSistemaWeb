@@ -106,7 +106,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
 
                         <div class="row">
                             <div  class="colLabel">
-                                    <label for="fecha">Cod Rendicion</label>
+                                    <label for="fecha">Cod Rendición</label>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control" value="{{App\RendicionGastos::calcularCodigoCedepas($objNumeracion)}}" readonly>     
@@ -328,7 +328,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
                 <label class="label" for="filenames" style="font-size: 12pt;">       
                         <div id="divFileImagenEnvio" class="hovered">       
-                        Subir archivos comprobantes  
+                            Subir archivos comprobantes  
                         <i class="fas fa-upload"></i>        
                     </div>       
                 </label>       
@@ -353,7 +353,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                     onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
                    
-                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menú</a>              
                 </div>    
             </div>
         </div>
@@ -404,7 +404,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                     return false;
                 }
             
-            confirmar('¿Está seguro de crear la solicitud?','info','frmrend');
+            confirmar('¿Estás seguro de crear la solicitud?','info','frmrend');
             
         }
         function cambiarEstilo(name, clase){

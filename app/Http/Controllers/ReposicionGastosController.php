@@ -844,8 +844,20 @@ class ReposicionGastosController extends Controller
     }
 
 
+    /**PARA RELLENAR PROYECTO_CONTADOR */
+    public function RellenarProyectoContador(){
+        $contadores=Empleado::getListaContadoresActivos();
+        $proyectos=Proyecto::getProyectosActivos();
 
-
+        foreach ($proyectos as $itemproyecto) {
+            foreach ($contadores as $itemcontador) {
+                $detalle=new ProyectoContador();
+                $detalle->codEmpleadoContador=$itemcontador->codEmpleado;
+                $detalle->codProyecto=$itemproyecto->codProyecto;
+                $detalle->save();
+            }
+        }
+    }
 
 
 

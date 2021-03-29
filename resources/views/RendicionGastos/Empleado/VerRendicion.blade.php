@@ -1,6 +1,6 @@
 @extends('Layout.Plantilla')
 @section('titulo')
-Ver Rendicion
+Ver Rendición
 @endsection
 @section('estilos')
   
@@ -40,7 +40,7 @@ Ver Rendicion
                         <th width="10%"> N° Cbte</th>
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
-                        <th width="10%" class="text-center">Cod Presup </th>
+                        <th width="10%" class="text-center">Cod Presupuesto </th>
                         
                         
                     </thead>
@@ -94,7 +94,7 @@ Ver Rendicion
                                 <i class="fas fa-undo"></i>
                                 Regresar al menú
                             </a>    -->
-                            <a href="{{route('rendicionGastos.ListarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>        
+                            <a href="{{route('rendicionGastos.ListarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menú</a>        
                         </div>    
                     </div>
                     
@@ -127,7 +127,7 @@ Ver Rendicion
                             <label for="">
 
                                 @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                    Saldo a favor del Empl: 
+                                    Saldo a favor del Empleado: 
                                 @else
                                     Saldo a favor de Cedepas: 
                                 @endif

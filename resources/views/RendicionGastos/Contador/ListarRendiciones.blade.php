@@ -83,8 +83,8 @@ Listar Rendiciones
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
-                <th width="9%"  scope="col" style="text-align: center">F. Rendicion</th>
+                <th width="9%" scope="col">Cod. Rendición</th> {{-- COD CEDEPAS --}}
+                <th width="9%"  scope="col" style="text-align: center">F. Rendición</th>
                 
                 <th width="13%"  scope="col">Empleado </th>
                 <th width="3%">P.P</th>

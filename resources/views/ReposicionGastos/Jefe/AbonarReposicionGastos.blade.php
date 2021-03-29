@@ -8,7 +8,7 @@
                 @endif
             
                 
-                Reposicion de Gastos
+                Reposición de Gastos
     @endsection
 @section('contenido')
 
@@ -23,7 +23,7 @@
             @endif
         
             
-            Reposicion de Gastos
+            Reposición de Gastos
         </p>
     </div>
     <div class="col-md-2">

@@ -84,8 +84,8 @@ Listar Solicitudes
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Codigo Sol</th>
-                <th width="9%"  scope="col" style="text-align: center">F. Emision</th>
+                <th width="9%" scope="col">Código Sol</th>
+                <th width="9%"  scope="col" style="text-align: center">F. Emisión</th>
               
                 <th width="11%"  scope="col">Empleado </th>
                 <th width="3%">P.P</th>
@@ -94,7 +94,7 @@ Listar Solicitudes
                 
                 <th width="8%" scope="col" style="text-align: center">Total Solicitado</th>
                 
-                <th width="9%" scope="col" style="text-align: center">F. Revision</th>
+                <th width="9%" scope="col" style="text-align: center">F. Revisión</th>
                 <th width="11%" scope="col" style="text-align: center">Estado</th>
                 
                 <th width="9%" scope="col">Opciones</th>

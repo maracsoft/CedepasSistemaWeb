@@ -1,7 +1,7 @@
 @extends ('Layout.Plantilla')
 @section('titulo')
 
-Listar Reposciones
+Listar Reposiciones
 @endsection
 
 @section('contenido')
@@ -24,7 +24,7 @@ Listar Reposciones
   </style>
   
 <div>
-  <h3>ABONAR Reposiciones</h3>
+  <h3>Abonar Reposiciones</h3>
   
   <div class="row">
     <div class="col-md-12">
@@ -91,7 +91,7 @@ Listar Reposciones
             <thead class="thead-dark">
               <tr>
                 <th width="9%" scope="col">Codigo</th>
-                <th width="7%" scope="col" style = "text-align: center">F. Emision</th>
+                <th width="7%" scope="col" style = "text-align: center">F. Emisión</th>
                 <th width="7%" scope="col" style = "text-align: center">F. Gerente</th>
                 
                 <th width="11%" scope="col">Solicitante</th>
@@ -100,7 +100,7 @@ Listar Reposciones
                 <th width="6%" scope="col">Banco</th>
                 <th width="8%" scope="col" style="text-align: center">Total</th>
                 <th width="11%" scope="col" style="text-align: center">Estado</th>
-                <th width="7%" scope="col" style = "text-align: center">F. Revision</th>
+                <th width="7%" scope="col" style = "text-align: center">F. Revisión</th>
                 
 
                 <th width="9%" scope="col">Opciones</th>

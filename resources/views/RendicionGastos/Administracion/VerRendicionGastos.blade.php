@@ -39,7 +39,7 @@
                         <th width="10%"> N° Cbte</th>
                         <th width="20%" class="text-center">Concepto </th>
                         <th width="10%" class="text-center">Importe </th>
-                        <th width="10%" class="text-center">Cod Presup </th>
+                        <th width="10%" class="text-center">Código Presup </th>
                         
                         
                     </thead>
@@ -120,7 +120,7 @@
 
                             <div class="w-100"></div>
                             <div class="col">                        
-                                <label for="">Total Recibixdo: </label>    
+                                <label for="">Total Recibido: </label>    
                             </div>   
 
                             <div class="col">
@@ -132,7 +132,7 @@
                                 <label for="">
 
                                     @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                        Saldo a favor del Empl: 
+                                        Saldo a favor del Empleado: 
                                     @else
                                         Saldo a favor de Cedepas: 
                                     @endif

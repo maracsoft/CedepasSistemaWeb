@@ -40,7 +40,7 @@ Mis Rendiciones
       </div>
 
       <div class="col">
-        <button class="btn btn-success " onclick="crearRendicion()">Crear Rendicion</button>
+        <button class="btn btn-success " onclick="crearRendicion()">Crear Rendición</button>
       </div>
 
     </div>
@@ -93,8 +93,8 @@ Mis Rendiciones
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Cod. Rendicion</th> {{-- COD CEDEPAS --}}
-                <th width="9%" scope="col" style="text-align: center">F. Rendicion</th>
+                <th width="9%" scope="col">Cod. Rendición</th> {{-- COD CEDEPAS --}}
+                <th width="9%" scope="col" style="text-align: center">F. Rendición</th>
                 <th width="3%">P.P</th>
                 <th scope="col">Proyecto</th>              
                 <th width="9%" scope="col" style="text-align: center">Total Recibido</th>

@@ -108,7 +108,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
                         <div class="row">
                             <div  class="colLabel">
-                                    <label for="fecha">Cod Rendicion</label>
+                                    <label for="fecha">Cod Rendición</label>
                             </div>
                             <div class="col">
                                 <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     
@@ -119,7 +119,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
                             <div class="w-100"></div> {{-- SALTO LINEA --}}
                             <div  class="colLabel">
-                                    <label for="codSolicitud">Codigo Solicitud</label>
+                                    <label for="codSolicitud">Código Solicitud</label>
                             </div>
                             <div class="col">
                                     <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
@@ -393,7 +393,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                    
                     <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
                         <i class='fas fa-arrow-left'></i> 
-                        Regresar al Menu
+                        Regresar al Menú
                     </a>              
                 </div>    
             </div>

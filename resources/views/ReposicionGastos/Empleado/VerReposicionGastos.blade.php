@@ -5,13 +5,13 @@
 @endsection
 
 @section('titulo')
-    Ver Reposicion
+    Ver Reposición
 @endsection
 @section('contenido')
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <div >
-    <p class="h1" style="text-align: center">Ver Reposicion de Gastos</p>
+    <p class="h1" style="text-align: center">Ver Reposición de Gastos</p>
 
 
 </div>
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> 
-                        Regresar al Menu
+                        Regresar al Menú
                     </a>              
                 </div>    
             </div>

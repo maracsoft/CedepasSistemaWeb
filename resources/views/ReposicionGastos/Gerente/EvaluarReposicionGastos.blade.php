@@ -4,10 +4,10 @@
     @if($reposicion->verificarEstado('Creada') || 
         $reposicion->verificarEstado('Subsanada') )
         {{-- Estados en los que es valido Evaluar --}}
-        Evaluar Reposicion de Gastos
+        Evaluar Reposición de Gastos
 
     @else 
-        Ver Reposicion de Gastos
+        Ver Reposición de Gastos
 
     @endif
 @endsection
@@ -21,12 +21,12 @@
             @if($reposicion->verificarEstado('Creada') || 
                 $reposicion->verificarEstado('Subsanada') )
                 {{-- Estados en los que es valido Evaluar --}}
-                Evaluar Reposicion de Gastos
+                Evaluar Reposición de Gastos
                 <br>
-                <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edicion</button>
+                <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edición</button>
         
             @else 
-                Ver Reposicion de Gastos
+                Ver Reposición de Gastos
 
             @endif
                
@@ -75,7 +75,7 @@
 
                     <a href="{{route('ReposicionGastos.Gerente.Listar')}}" class='btn btn-info float-left'>
                         <i class="fas fa-arrow-left"></i> 
-                        Regresar al Menu
+                        Regresar al Menú
                     </a>
             </div>
             <!--

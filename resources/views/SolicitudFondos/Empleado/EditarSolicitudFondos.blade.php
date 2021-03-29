@@ -31,7 +31,7 @@ Editar Solicitud
 
                     <div class="row">
                       <div class="colLabel">
-                            <label for="fecha">Fecha emision</label>
+                            <label for="fecha">Fecha emisión</label>
                       </div>
                       <div class="col">
                                                      
@@ -83,7 +83,7 @@ Editar Solicitud
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div class="colLabel">
-                            <label for="codSolicitud">Codigo Solicitud</label>
+                            <label for="codSolicitud">Código Solicitud</label>
 
                       </div>
                       <div class="col"> {{-- Combo box de empleado --}}
@@ -104,7 +104,7 @@ Editar Solicitud
 
 
             <div class="col-md"> {{-- COLUMNA DERECHA --}}
-                <label for="fecha">Justificacion</label>
+                <label for="fecha">Justificación</label>
                 <textarea class="form-control" name="justificacion" id="justificacion"
                  aria-label="With textarea" style="resize:none; height:70px;">{{$solicitud->justificacion}}</textarea>
 
@@ -243,10 +243,10 @@ Editar Solicitud
                     
                     
                     <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th class="text-center">Item</th>                                        
+                        <th class="text-center">Ítem</th>                                        
                         <th >Concepto</th>                                 
                         <th > Importe</th>
-                        <th  class="text-center">Codigo Presupuestal</th>
+                        <th  class="text-center">Código Presupuestal</th>
                         <th  class="text-center">Opciones</th>                                            
                         
                     </thead>

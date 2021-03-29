@@ -118,7 +118,7 @@
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
                     <td style="border: 0;"></td>
-                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor de cedepas {{$rendicion->getMoneda()->simbolo}} </td>
+                    <td style="font-weight: bold; background-color:rgb(238, 238, 238);">Saldo a favor de Cedepas {{$rendicion->getMoneda()->simbolo}} </td>
                     <td style="text-align: right; background-color:rgb(238, 238, 238);">
                         @if($rendicion->saldoAFavorDeEmpleado>0)
                             {{number_format($rendicion->saldoAFavorDeEmpleado,2)}}

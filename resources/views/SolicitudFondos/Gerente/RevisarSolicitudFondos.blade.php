@@ -15,7 +15,7 @@
             
                 <br>
                 <button class="btn btn-success"  onclick="desOactivarEdicion()">
-                    Activar Edicion
+                    Activar Edición
                 </button>
           
             
@@ -71,7 +71,7 @@
                                 </a>-->
                                 <a href="{{route('SolicitudFondos.Gerente.Listar')}}" class='btn btn-info float-left'>
                                     <i class="fas fa-arrow-left"></i> 
-                                    Regresar al Menu
+                                    Regresar al Menú
                                 </a>
                             </div>
                             <div class="col"></div>
