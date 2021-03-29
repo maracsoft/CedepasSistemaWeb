@@ -277,7 +277,12 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
 
     /**PUEDE HACER EL EMPLEADO */
-    Route::get('/GestiónUsuarios/verPerfil','EmpleadoController@verPerfil')->name('GestionUsuarios.verPerfil');
+
+    Route::get('/GestiónUsuarios/misDatos','EmpleadoController@verMisDatos')->name('GestionUsuarios.verMisDatos');
+    Route::get('/GestiónUsuarios/cambiarContraseña','EmpleadoController@cambiarContraseña')->name('GestionUsuarios.cambiarContraseña');
+    
+    
+    
     Route::post('/GestiónUsuarios/updateContrasena','EmpleadoController@guardarContrasena')->name('GestionUsuarios.updateContrasena');
     Route::post('/GestiónUsuarios/updateDPersonales','EmpleadoController@guardarDPersonales')->name('GestionUsuarios.updateDPersonales');
 

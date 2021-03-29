@@ -70,33 +70,44 @@ class SolicitudFondosController extends Controller
 
 
     public function listarSolicitudesDeEmpleado(Request $request){
+        //filtros
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
         $empleado = Empleado::getEmpleadoLogeado();
 
         if($codProyectoBuscar==0){
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
             ->orderBy('codEstadoSolicitud','ASC')
-            ->orderBy('fechaHoraEmision','DESC')->get();
+            ->orderBy('fechaHoraEmision','DESC');
        
         }else
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
             ->orderBy('codEstadoSolicitud','ASC')
             ->orderBy('fechaHoraEmision','DESC')
-            ->where('codProyecto','=',$codProyectoBuscar)->get();
-          
-        $proyectos=Proyecto::getProyectosActivos();
+            ->where('codProyecto','=',$codProyectoBuscar);
+        
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
 
-
-        $listaSolicitudesFondos = SolicitudFondos::ordenarParaEmpleado($listaSolicitudesFondos)
+        $listaSolicitudesFondos = SolicitudFondos::ordenarParaEmpleado($listaSolicitudesFondos->get())
         ->paginate($this::PAGINATION);
         
         //return $listaSolicitudesFondos->paginate($this::PAGINATION);
 
+        $proyectos=Proyecto::getProyectosActivos();
         $listaBancos = Banco::All();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
-        return view('SolicitudFondos.Empleado.ListarSolicitudes',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar'));
+        return view('SolicitudFondos.Empleado.ListarSolicitudes',compact('proyectos','listaSolicitudesFondos','listaBancos','empleado','codProyectoBuscar','fechaInicio','fechaFin'));
     }
 
 
@@ -113,6 +124,9 @@ class SolicitudFondosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
 
 
         $empleado = Empleado::getEmpleadoLogeado();
@@ -129,20 +143,24 @@ class SolicitudFondosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
         
 
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos->get())
         ->paginate($this::PAGINATION);
 
+
         $proyectos=Proyecto::getProyectosActivos();
         $empleados=Empleado::getEmpleadosActivos();
-        //$buscarpor = "";
-
         $listaBancos = Banco::All();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
         return view('SolicitudFondos.Gerente.ListarSolicitudes',compact('codEmpleadoBuscar','codProyectoBuscar',
-            'listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados'));
+            'listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
 /*         //$listaSolicitudesFondos = $listaSolicitudesFondos->paginate($this::PAGINATION);
@@ -158,6 +176,10 @@ class SolicitudFondosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
         
         $empleado = Empleado::getEmpleadoLogeado();
         /* $empleados = Empleado::where('codUsuario','=',$codUsuario)
@@ -176,7 +198,10 @@ class SolicitudFondosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-        //PARA PODER PAGINAR EL COLECTTION USE https://gist.github.com/iamsajidjaved/4bd59517e4364ecec98436debdc51ecc#file-appserviceprovider-php-L23
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
         $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->get();
 
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaAdministrador($listaSolicitudesFondos)
@@ -184,16 +209,21 @@ class SolicitudFondosController extends Controller
 
         $proyectos=Proyecto::getProyectosActivos();
         $empleados=Empleado::getEmpleadosActivos();
-
         $listaBancos = Banco::All();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
-        return view('SolicitudFondos.Administracion.ListarSolicitudes',compact('empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado'));
+        return view('SolicitudFondos.Administracion.ListarSolicitudes',compact('empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','listaSolicitudesFondos','listaBancos','empleado','fechaInicio','fechaFin'));
     }
 
     public function listarSolicitudesParaContador(Request $request){
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
 
         $empleado = Empleado::getEmpleadoLogeado();
 
@@ -218,6 +248,10 @@ class SolicitudFondosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
         $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->get();
     
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaContador($listaSolicitudesFondos)
@@ -225,12 +259,12 @@ class SolicitudFondosController extends Controller
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::getEmpleadosActivos();
-
-        
         $listaBancos = Banco::All();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
         return view('SolicitudFondos.Contador.ListarSolicitudes',
-            compact('listaSolicitudesFondos','listaBancos','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
+            compact('listaSolicitudesFondos','listaBancos','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
     
     }
 

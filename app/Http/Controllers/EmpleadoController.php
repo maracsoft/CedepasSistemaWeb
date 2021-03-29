@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Proyecto;
 use App\Sede;
-
+use App\Debug;
 class EmpleadoController extends Controller
 {
     const PAGINATION = '10';
@@ -127,20 +127,50 @@ class EmpleadoController extends Controller
     }
 
 
-    /**PUEDE HACER EL EMPLEADO NORMAL */
-    public function verPerfil(){
+    
+
+    public function verMisDatos(){
         $empleado=Empleado::getEmpleadoLogeado();
 
-        return view('Empleados.VerPerfil',compact('empleado'));
+        return view('Empleados.MisDatos',compact('empleado'));
+
     }
 
-    public function guardarContrasena(Request $request){
-        $empleado=Empleado::find($request->codEmpleado);
-        $usuario=$empleado->usuario();
-        $usuario->password=hash::make($request->contraseña);
-        $usuario->save();
+    public function cambiarContraseña(){
+        $empleado=Empleado::getEmpleadoLogeado();
 
-        return redirect()->route('GestionUsuarios.verPerfil');
+        return view('Empleados.CambiarContraseña',compact('empleado'));
+    }
+
+
+    public function guardarContrasena(Request $request){
+
+
+
+        try {
+            $empleado=Empleado::find($request->codEmpleado);
+            $hashp = $empleado->usuario()->password;
+
+            if(!password_verify($request->contraseñaActual1,$hashp))
+                return redirect()->route('GestionUsuarios.cambiarContraseña')->with('datos','La contraseña actual que ingresó no es correcta.');
+
+            Db::beginTransaction();
+            $usuario=$empleado->usuario();
+            $usuario->password=hash::make($request->contraseña);
+            $usuario->save();
+
+            DB::commit();
+            return redirect()->route('GestionUsuarios.cambiarContraseña')->with('datos','Se ha actualizado su contraseña con exito.');
+        } catch (\Throwable $th) {
+            Debug::mensajeError('EMPLEAADO CONTROLLER guardarContraseña',$th);
+
+            DB::rollBack();
+            return redirect()->route('GestionUsuarios.cambiarContraseña')->with('datos','Se ha actualizado su contraseña con exito.');
+        }
+
+
+        
+
     }
     public function guardarDPersonales(Request $request){
 

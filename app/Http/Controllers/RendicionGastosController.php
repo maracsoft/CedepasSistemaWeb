@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Debug;
 use App\Numeracion;
 use App\ProyectoContador;
+use DateTime;
 use PhpOffice\PhpWord;
 use PhpOffice\PhpWord\Element\Cell;
 use PhpOffice\PhpWord\Style\Font;
@@ -66,6 +67,10 @@ class RendicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
 
         $empleado = Empleado::getEmpleadoLogeado();
 
@@ -99,6 +104,11 @@ class RendicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
+                ->where('fechaHoraRendicion','<',$fechaFin);
+        }
         $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion','ASC')->get();
         
         $listaRendiciones = RendicionGastos::ordenarParaContador($listaRendiciones)
@@ -112,12 +122,13 @@ class RendicionGastosController extends Controller
         }
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::getEmpleadosActivos();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
 
 
 
-
-        return view('RendicionGastos.Contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos'));
+        return view('RendicionGastos.Contador.ListarRendiciones',compact('listaRendiciones','empleado','codEmpleadoBuscar','codProyectoBuscar','empleados','proyectos','fechaInicio','fechaFin'));
     }
 
 
@@ -126,6 +137,10 @@ class RendicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
 
         $empleado = Empleado::getEmpleadoLogeado();
         //solo considera reposiciones hechas por empleados de su misma sede
@@ -151,6 +166,11 @@ class RendicionGastosController extends Controller
         }else{
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
+                ->where('fechaHoraRendicion','<',$fechaFin);
+        }
         $listaRendiciones=$listaRendiciones->orderby('codEstadoRendicion','ASC')->get();
 
         $listaRendiciones = RendicionGastos::ordenarParaGerente($listaRendiciones)
@@ -159,9 +179,10 @@ class RendicionGastosController extends Controller
 
         
         $proyectos=Proyecto::getProyectosActivos();
-
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
         
-        return view('RendicionGastos.Administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.Administracion.ListarRendiciones',compact('listaRendiciones','empleado','empleados','proyectos','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
         
     }
 
@@ -171,6 +192,10 @@ class RendicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
         
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
@@ -200,7 +225,11 @@ class RendicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $listaRendiciones=$listaRendiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
-
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
+                ->where('fechaHoraRendicion','<',$fechaFin);
+        }
 
         $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion')->get();
 
@@ -210,15 +239,23 @@ class RendicionGastosController extends Controller
 
 
         $empleados=Empleado::getEmpleadosActivos();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
 
-        return view('RendicionGastos.Gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar'));
+        return view('RendicionGastos.Gerente.ListarRendiciones',compact('listaRendiciones','empleado','proyectos','empleados','codEmpleadoBuscar','codProyectoBuscar','fechaInicio','fechaFin'));
         
     }
 
     //retorna las rendiciones del emp logeado, tienen prioridad de ordenamiento las que están esperando reposicion
     public function listarEmpleado(Request $request){
+        //filtros
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
+
         $empleado = Empleado::getEmpleadoLogeado();
         //primero agarramos las solicitudes del empleado logeado
         //$listaSolicitudes = SolicitudFondos::where('codEmpleadoSolicitante','=',$empleado->codEmpleado)->get();
@@ -233,33 +270,34 @@ class RendicionGastosController extends Controller
         }
 
         $listaRendiciones = RendicionGastos::
-            where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
-            ->orderBy('codEstadoRendicion')    
-            ->get();
+            where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado);
 
         if($codProyectoBuscar==0){
             $listaRendiciones= RendicionGastos::
-                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
-                ->orderBy('codEstadoRendicion')
-                ->get();
+                where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado);
         }else
             $listaRendiciones= RendicionGastos::
                 where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado)
-                ->whereIn('codSolicitud',$arr)
-                ->orderBy('codEstadoRendicion')
-                ->get();
+                ->whereIn('codSolicitud',$arr);
 
-
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
+                ->where('fechaHoraRendicion','<',$fechaFin);
+        }
         
 
-        $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones)
+        $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones->get())
             ->paginate($this::PAGINATION);
             
         $proyectos=Proyecto::getProyectosActivos();
 
+
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
         
         return view('RendicionGastos.Empleado.ListarRendiciones',
-            compact('listaRendiciones','empleado','listaSolicitudesPorRendir','proyectos','codProyectoBuscar'));
+            compact('listaRendiciones','empleado','listaSolicitudesPorRendir','proyectos','codProyectoBuscar','fechaInicio','fechaFin'));
         
     }
 

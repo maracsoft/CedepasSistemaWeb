@@ -76,24 +76,38 @@ class ReposicionGastosController extends Controller
 
 
     public function listarOfEmpleado(Request $request){
+        //filtros
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
+
         $empleado=Empleado::getEmpleadoLogeado();
 
         if($codProyectoBuscar==0){
             $reposiciones= ReposicionGastos::
-            where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-                ->orderBy('codEstadoReposicion')->get();
+            where('codEmpleadoSolicitante','=',$empleado->codEmpleado);
         }else
             $reposiciones= ReposicionGastos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-                ->where('codProyecto','=',$codProyectoBuscar)
-                ->orderBy('codEstadoReposicion')->get();
-        $proyectos=Proyecto::getProyectosActivos();
+                ->where('codProyecto','=',$codProyectoBuscar);
+            
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
 
-        $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones)->paginate($this::PAGINATION);
+        $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones->get())->paginate($this::PAGINATION);
+
+
+        $proyectos=Proyecto::getProyectosActivos();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
        
         return view('ReposicionGastos.Empleado.ListarReposiciones',
-            compact('reposiciones','empleado','codProyectoBuscar','proyectos'));
+            compact('reposiciones','empleado','codProyectoBuscar','proyectos','fechaInicio','fechaFin'));
     }
 
 
@@ -385,6 +399,9 @@ class ReposicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
 
 
         $empleado=Empleado::getEmpleadoLogeado();
@@ -403,6 +420,11 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
 
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
         $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
@@ -410,8 +432,10 @@ class ReposicionGastosController extends Controller
 
         $empleados=Empleado::getEmpleadosActivos();
         $proyectos=Proyecto::whereIn('codProyecto',$arr)->get();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
-        return view('ReposicionGastos.Gerente.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
+        return view('ReposicionGastos.Gerente.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
 
@@ -454,6 +478,10 @@ class ReposicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
 
         $empleado=Empleado::getEmpleadoLogeado();
        
@@ -477,13 +505,19 @@ class ReposicionGastosController extends Controller
         }else{
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
         $reposiciones= ReposicionGastos::ordenarParaAdministrador($reposiciones)->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::getProyectosActivos();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
-
-        return view('ReposicionGastos.Jefe.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','codEmpleadoBuscar'));
+        return view('ReposicionGastos.Jefe.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','proyectos','empleados','codEmpleadoBuscar','fechaInicio','fechaFin'));
     }
 
 
@@ -501,6 +535,10 @@ class ReposicionGastosController extends Controller
         //filtros
         $codEmpleadoBuscar=$request->codEmpleadoBuscar;
         $codProyectoBuscar=$request->codProyectoBuscar;
+        // AÑO                  MES                 DIA
+        $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
+        $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
+
 
         $empleado=Empleado::getEmpleadoLogeado();
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
@@ -521,6 +559,11 @@ class ReposicionGastosController extends Controller
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
+            //$fechaFin='es mayor';
+            $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
+                ->where('fechaHoraEmision','<',$fechaFin);
+        }
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
         $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
         
@@ -528,8 +571,10 @@ class ReposicionGastosController extends Controller
 
         $proyectos=Proyecto::whereIn('codProyecto',$arr2)->get();
         $empleados=Empleado::getEmpleadosActivos();
+        $fechaInicio=$request->fechaInicio;
+        $fechaFin=$request->fechaFin;
 
-        return view('ReposicionGastos.Contador.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados'));
+        return view('ReposicionGastos.Contador.ListarReposiciones',compact('reposiciones','empleado','codProyectoBuscar','codEmpleadoBuscar','proyectos','empleados','fechaInicio','fechaFin'));
     }
     public function viewConta($id){
         $reposicion=ReposicionGastos::find($id);

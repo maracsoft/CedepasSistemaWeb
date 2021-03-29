@@ -32,6 +32,7 @@ Listar Solicitudes
   <div class="row">
     <div class="col-md-12">
       <form class="form-inline">
+        
         <label for="">Empleado: </label>
         <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
           <option value="0">- Seleccione Empleado -</option>          
@@ -40,8 +41,23 @@ Listar Solicitudes
           @endforeach
         </select> 
 
+        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
+          <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
+                 value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
+          <div class="input-group-btn">                                        
+              <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+          </div>
+        </div>
+         - 
+        <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px">
+          <input type="text"  class="form-control" name="fechaFin" id="fechaFin" style="text-align: center"
+                 value="{{$fechaFin==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaFin}}" style="text-align:center;font-size: 10pt;">
+          <div class="input-group-btn">                                        
+              <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
+          </div>
+        </div>
       
-        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
               <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>

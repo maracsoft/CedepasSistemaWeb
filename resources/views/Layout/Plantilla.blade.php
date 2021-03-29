@@ -5,6 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> @yield('titulo') </title>
   
+
+  {{-- Cambiar esto por una url d --}}
   <link rel="shortcut icon" href="http://www.cedepas.org.pe/sites/default/files/logo-cedepas_0.png" type="image/png">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,8 +98,8 @@
 
     </ul>
     
-    
-    <ul class="navbar-nav ml-auto">
+
+    <ul class="navbar-nav ml-auto" style="margin-right:10%;">
       <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
       
       @include('Layout.Notificaciones.Solicitudes')
@@ -105,8 +107,16 @@
       @include('Layout.Notificaciones.Reposiciones')
       @include('Layout.Notificaciones.Rendiciones')
     </ul>
-    
+      
 
+
+
+
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
+        @include('Layout.Notificaciones.Usuario')
+    </ul>
+      
 
 
 
@@ -142,7 +152,7 @@
 
       
             <div class="info">
-              <a href="{{route('GestionUsuarios.verPerfil')}}" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
+              <a href="{{route('GestionUsuarios.verMisDatos')}}" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
              
                 <label for="" style="color: rgb(255, 255, 255))">
                   {{  (App\Empleado::getEmpleadoLogeado()->getPuestoActual()->nombre ) }}
@@ -177,14 +187,6 @@
           @endif
 
            
-          <li class="nav-item">
-            <a href="{{route('user.cerrarSesion')}}" class="nav-link">
-              <i class="fas fa-sign-out-alt"></i>
-              <p>
-                Cerrar Sesión
-              </p>
-            </a>
-          </li>
 
         </ul>
       </nav>
@@ -213,6 +215,7 @@
     <!-- Control sidebar content goes here -->
   <!--</aside>-->
   <!-- /.control-sidebar -->
+
 </div>
 <!-- ./wrapper -->
 
@@ -229,8 +232,7 @@
 <script src="/select2/bootstrap-select.min.js"></script>   
 
 <!-- PARA SOLUCIONAR EL PROBLEMA DE 'funcion(){' EN js--->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 <!-- LIBRERIAS PARA NOTIFICACION DE ELIMINACION--->
 <script src="/adminlte/dist/js/sweetalert.min.js"></script>
@@ -325,6 +327,30 @@
           }
       );
   }
+
+  function confirmarCerrarSesion(){
+      swal(
+          {//sweetalert
+              title: "Cerrar Sesion",
+              text: '¿Seguro que desea finalizar su sesión?',     //mas texto
+              type: "warning",//e=[success,error,warning,info]
+              showCancelButton: true,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText:  'SI',
+              cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(value){//se ejecuta cuando damos a aceptar
+              if(value)
+                location.href = "{{route('user.cerrarSesion')}}"
+          }
+      );
+
+
+    }
+
 </script>
 @yield('script')
 <link rel="stylesheet" href="/adminlte/dist/css/sweetalert.css">

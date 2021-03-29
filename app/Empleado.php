@@ -258,7 +258,7 @@ class Empleado extends Model
         }
         
         return $usuario;
-        return $this->hasOne('App\User','codUsuario','codUsuario');
+        
     }
 
     
