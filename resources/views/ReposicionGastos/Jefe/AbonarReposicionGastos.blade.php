@@ -175,35 +175,45 @@
     //se ejecuta cada vez que escogewmos un file
 
     function actualizarEstado(msj, action){
-        swal({//sweetalert
-            title: msj,
-            text: '',
-            type: 'warning',  
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText:  'SI',
-            cancelButtonText:  'NO',
-            closeOnConfirm:     true,//para mostrar el boton de confirmar
-            html : true
-        },
-        function(){//se ejecuta cuando damos a aceptar
-            switch (action) {
-                case 'Observar':
-                    observar();
-                    break;
-                case 'Abonar':
-                    window.location.href="{{route('ReposicionGastos.abonar',$reposicion->codReposicionGastos)}}";
-                    break;
-                case 'Rechazar':
-                    window.location.href="{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}";    
-                    break;
-            }
-            
-        });
+        texto=$('#observacion').val();
+        if(action=='Observar' && texto==''){
+            alerta('Ingrese observacion');
+        }
+        if((action=='Observar' && texto!='') || action=='Rechazar'|| action=='Abonar'){
+            swal({//sweetalert
+                title: msj,
+                text: '',
+                type: 'warning',  
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){//se ejecuta cuando damos a aceptar
+                switch (action) {
+                    case 'Observar':
+                        reposicion=$('#codReposicionGastos').val();
+                        //window.location.href='/Reposicion/'+reposicion+'*'+texto+'/observar';
+                        window.location.href='/ReposicionGastos/'+reposicion+'*'+texto+'/Observar'; 
+                        break;
+                    case 'Abonar':
+                        window.location.href="{{route('ReposicionGastos.abonar',$reposicion->codReposicionGastos)}}";
+                        break;
+                    case 'Rechazar':
+                        window.location.href="{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}";    
+                        break;
+                }
+                
+            }); 
+        }
+        
     }
 
 
+    /*
     function observar(){
         texto=$('#observacion').val();
         if(texto!=''){
@@ -214,7 +224,7 @@
         else{ 
             alerta('Ingrese observacion');
         }
-    }
+    }*/
     function cambio(index){
 
         if(index=='imagenEnvio'){//si es pal comprobante de envio

@@ -404,7 +404,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                     return false;
                 }
             
-            confirmar('¿Estás seguro de crear la solicitud?','info','frmrend');
+            confirmar('¿Estás seguro de crear la Rendicion?','info','frmrend');
             
         }
         function cambiarEstilo(name, clase){

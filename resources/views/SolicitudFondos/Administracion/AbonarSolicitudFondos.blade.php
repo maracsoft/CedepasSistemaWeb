@@ -80,7 +80,7 @@ enctype="multipart/form-data">
                             </div>
                             
                             <div class="col">
-                                <button type="button" onclick="observar()"
+                                <button type="button" onclick="actualizarEstado('¿Seguro de observar la reposicion?', 'Observar')"
                                     class='btn btn-danger'   style="float:right;">
                                     <i class="fas fa-eye-slash"></i>
                                     Observar
@@ -184,13 +184,35 @@ enctype="multipart/form-data">
         }
 
 
-        function observar(){
-
+        function actualizarEstado(msj, action){
             textoObs = $('#observacion').val();
-            codigoSolicitud = {{$solicitud->codSolicitud}};
-            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
-            location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
-
+            if(action=='Observar' && textoObs==''){
+                alerta('Ingrese observacion');
+            }
+            if(action=='Observar' && textoObs!=''){
+                swal({//sweetalert
+                    title: msj,
+                    text: '',
+                    type: 'warning',  
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(){//se ejecuta cuando damos a aceptar
+                    switch (action) {
+                        case 'Observar':
+                            codigoSolicitud = {{$solicitud->codSolicitud}};
+                            location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
+                            break;
+                    }
+                    
+                }); 
+            }
+            
         }
 
         /* function validar(){

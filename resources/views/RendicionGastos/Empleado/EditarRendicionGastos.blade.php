@@ -140,13 +140,6 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
 
 
-
-
-
-
-
-
-
                         </div>
                     </div>
 
@@ -156,7 +149,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                 
             </div>
         </div>
-      </div>
+    </div>
     
    
         @include('SolicitudFondos.Plantillas.DesplegableDetallesSOF')  
@@ -252,43 +245,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                                                                                     
                 </tfoot>
                 <tbody>
-                {{--       <tr>
-                        <td>
-                            a
-                        </td>
-                        <td>
-                            a
-                        </td>
-                        <td>
-                            a
-                        </td>
-                        <td>a
-
-                        </td>
-                        <td>
-                            
-        
-                            <input type="file" class="btn btn-primary" name="imagen1" id="imagen1" 
-                                    style="display: none" accept="" onchange="cambioInputFile()">
-                            <label class="label" for="imagen1" style="font-size: 10pt;">
-                                <div id='divFile1'>
-                                    Subir Archivo
-                                    <i class="fas fa-upload"></i> 
-                                </div>
-                            </label>
-                            
-                        </td>
-                        <td>
-        
-                        </td>
-                        <td>
-                            a
-                        </td>
-                        <td>
-                            a
-                        </td>
-                    </tr> --}}
-                    
+                
 
                 </tbody>
             </table>
@@ -301,7 +258,10 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col">
                 @include('RendicionGastos.DesplegableDescargarArchivosRend')
-                
+                <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
+                    <i class='fas fa-arrow-left'></i> 
+                    Regresar al Menú
+                </a>    
             </div>
 
 
@@ -356,49 +316,19 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                         </label>       
                     </div>  
 
-                </div>
-            </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
 
-
-
-
-
-
-        </div>
-                    
-
-        
-        
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group"><!--
-                    <button class="btn btn-primary" type="submit"
-                        id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
-                        <i class='fas fa-save'></i> 
-                        Actualizar
-                    </button>    -->
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                         onclick="registrar()">
                     <i class='fas fa-save'></i> Actualizar
                     </button>
-                   
-                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
-                        <i class='fas fa-arrow-left'></i> 
-                        Regresar al Menú
-                    </a>              
-                </div>    
+
+                </div>
             </div>
+            
+
+
         </div>
-    </div>
+                
 
 </form>
 @endsection

@@ -186,34 +186,41 @@ background-color:rgb(97, 170, 170);
         });
 
         function actualizarEstado(msj, action){
-            swal({//sweetalert
-                title: msj,
-                text: '',
-                type: 'warning',  
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText:  'SI',
-                cancelButtonText:  'NO',
-                closeOnConfirm:     true,//para mostrar el boton de confirmar
-                html : true
-            },
-            function(){//se ejecuta cuando damos a aceptar
-                switch (action) {
-                    case 'Observar':
-                        observar();
-                        break;
-                  
-                    case 'Rechazar':
-                        window.location.href="{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}";    
-                        break;
-                }
-                
-            });
+            texto=$('#observacion').val();
+            if(action=='Observar' && texto==''){
+                alerta('Ingrese observacion');
+            }
+            if((action=='Observar' && texto!='') || action=='Rechazar'){
+                swal({//sweetalert
+                    title: msj,
+                    text: '',
+                    type: 'warning',  
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(){//se ejecuta cuando damos a aceptar
+                    switch (action) {
+                        case 'Observar':
+                            reposicion=$('#codReposicionGastos').val();
+                            window.location.href='/ReposicionGastos/'+reposicion+'*'+texto+'/Observar'; 
+                            break;
+                        case 'Rechazar':
+                            window.location.href="{{route('ReposicionGastos.rechazar',$reposicion->codReposicionGastos)}}";    
+                            break;
+                    }
+                    
+                }); 
+            }
+            
         }
 
 
-
+        /*
         function observar(){
             texto=$('#observacion').val();
             if(texto!=''){
@@ -224,7 +231,7 @@ background-color:rgb(97, 170, 170);
             else{ 
                 alerta('Ingrese observacion');
             }
-        }
+        }*/
 
         
 
