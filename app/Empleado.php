@@ -65,6 +65,14 @@ class Empleado extends Model
     }
 
 
+    public function getNombrePuesto(){
+        $cad = $this->getPuestoActual()->nombre;
+        if($cad == 'Empleado')
+            $cad = "Colaborador";
+
+        return $cad;
+
+    }
 
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){
