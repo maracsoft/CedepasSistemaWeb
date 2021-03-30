@@ -58,6 +58,15 @@ class RendicionGastosController extends Controller
         {
             return redirect()->route('RendicionGastos.Administracion.Listar')->with($datos,$msj);
         }
+
+        if($empleado->esContador())//si es jefe de Administracion
+        {
+            return redirect()->route('RendicionGastos.Contador.Listar')->with($datos,$msj);
+        }
+
+        
+
+
         return redirect()->route('RendicionGastos.Empleado.Listar')->with($datos,$msj);
 
 
@@ -511,14 +520,14 @@ class RendicionGastosController extends Controller
 
             $rendicion->save();
             DB::commit();
-            return redirect()->route('RendicionGastos.Gerente.Listar')
+            return redirect()->route('rendicionGastos.ListarRendiciones')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER : OBSERVAR',$th);
       
             DB::rollBack();
-            return redirect()->route('RendicionGastos.Gerente.Listar')
+            return redirect()->route('rendicionGastos.ListarRendiciones')
             ->with('datos','Ha ocurrido un error');
         }
 

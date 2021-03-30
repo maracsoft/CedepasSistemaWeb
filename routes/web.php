@@ -288,7 +288,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
             ->name('RendicionGastos.Contador.Contabilizar');   
 
         Route::get('/RendicionGastos/Contador/listar/','RendicionGastosController@listarContador')
-            ->name('rendicionGastos.Contador.Listar');
+            ->name('RendicionGastos.Contador.Listar');
 
     });
 
@@ -297,7 +297,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
     ->name('rendicionGastos.ListarRendiciones');
 
 
-
+    
 
   
 

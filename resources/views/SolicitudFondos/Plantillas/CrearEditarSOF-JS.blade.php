@@ -26,8 +26,9 @@
                                 <td> 
                                    <input type="text" class="form-control" name="colConcepto`+item+`" id="colConcepto`+item+`" value="`+element.concepto+`" readonly>
                                 </td>               
-                                <td  style="text-align:right;">               
-                                   <input type="text" style="text-align:right;" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+ number_format(element.importe,2)+`" readonly>
+                                <td  style="text-align:right;">
+                                   <input type="text" style="text-align:right;" class="form-control" value = "`+number_format(element.importe,2)+`" readonly> 
+                                   <input type="hidden" style="text-align:right;" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+ (element.importe)+`" readonly>
                                 </td>               
                                 <td style="text-align:center;">              
                                 <input type="text" class="form-control" style="text-align:center;" name="colCodigoPresupuestal`+item+`" id="colCodigoPresupuestal`+item+`" value="`+element.codigoPresupuestal+`" readonly>

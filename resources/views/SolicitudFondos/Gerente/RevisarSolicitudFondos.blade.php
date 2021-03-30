@@ -157,10 +157,39 @@
 
         function observar(){
 
+
             textoObs = $('#observacion').val();
-            codigoSolicitud = {{$solicitud->codSolicitud}};
-            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
-            location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
+            if(textoObs==""){
+                alerta('No ha ingresado ninguna observación.');
+                return; 
+            }
+
+
+            swal(
+                {//sweetalert
+                    title: 'Confirmación',
+                    text: '¿Desea observar la Solicitud?',     //mas texto
+                    type: 'info',//e=[success,error,warning,info]
+                    showCancelButton: true,//para que se muestre el boton de cancelar
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText:  'SI',
+                    cancelButtonText:  'NO',
+                    closeOnConfirm:     true,//para mostrar el boton de confirmar
+                    html : true
+                },
+                function(value){//se ejecuta cuando damos a aceptar
+                    if(value){
+
+                        codigoSolicitud = {{$solicitud->codSolicitud}};
+                        console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
+            
+                        location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
+                    }
+                }
+            );
+
+
 
         }
 
@@ -172,6 +201,7 @@
                 alerta(msje);
                 return false;
             }
+
             console.log('TODO OK');
             confirmar('¿Está seguro de Aceptar la Solicitud?','info','frmSoli');
         }
