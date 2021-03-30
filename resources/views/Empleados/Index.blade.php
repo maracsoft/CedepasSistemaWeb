@@ -11,6 +11,17 @@
     
   <div class="well"><H3 style="text-align: center;"><strong>EMPLEADOS</strong></H3></div>
   <div class="row">
+    @if (session('datos'))
+        <div class ="alert alert-warning alert-dismissible fade show mt-3" role ="alert">
+            {{session('datos')}}
+          <button type = "button" class ="close" data-dismiss="alert" aria-label="close">
+              <span aria-hidden="true"> &times;</span>
+          </button>
+          
+        </div>
+      @ENDIF
+
+
     <div class="col-md-2">
       <a href="{{route('GestionUsuarios.create')}}" class="btn btn-primary"><i class="fas fa-plus"></i>Nuevo Registro</a>
     </div>
