@@ -95,7 +95,7 @@ Listar Reposiciones
                 <th width="7%" scope="col" style = "text-align: center">F. Gerente</th>
                 
                 <th width="11%" scope="col">Solicitante</th>
-                <th width="3%">P.P</th>
+                <th width="3%">Cod.</th>
                 <th scope="col">Proyecto</th>
                 <th width="6%" scope="col">Banco</th>
                 <th width="8%" scope="col" style="text-align: center">Total</th>

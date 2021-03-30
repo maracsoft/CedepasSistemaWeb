@@ -88,7 +88,7 @@ Listar Solicitudes
                 <th width="9%"  scope="col" style="text-align: center">F. Emisión</th>
               
                 <th width="11%"  scope="col">Empleado </th>
-                <th width="3%">P.P</th>
+                <th width="3%">Cod.</th>
                 <th  scope="col">Proyecto</th>
                 <th width="11%" scope="col">Evaluador</th>
                 

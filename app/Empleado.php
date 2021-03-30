@@ -74,6 +74,9 @@ class Empleado extends Model
 
     }
 
+
+
+
     //le pasamos la id del usuario y te retorna el codigo cedepas del empleado
     public function getNombrePorUser( $idAuth){
         $lista = Empleado::where('codUsuario','=',$idAuth)->get();
@@ -121,16 +124,6 @@ class Empleado extends Model
     }
 
 
-    //solo se aplica a los gerentes, retorna el proyecto que este gerente lidera
-    /* public function getProyectoGerencia(){
-        $proy = Proyecto::where('codEmpleadoDirector','=',$this->codEmpleado)->get();
-        if(count($proy) == 0 )
-            return new Proyecto();
-
-        return $proy[0];
-        
-    } */
-
 
     public static function getListaGerentesActivos(){
         $lista = Empleado::
@@ -142,7 +135,7 @@ class Empleado extends Model
 
     public static function getListaContadoresActivos(){
         $lista = Empleado::
-            where('codPuesto','=','11')
+            where('codPuesto','=',Puesto::getCodigo('Contador'))
             ->where('activo','=','1')->get();
         return $lista;
 
@@ -157,18 +150,7 @@ class Empleado extends Model
 
     // solo para gerente
     public function getListaSolicitudesDeGerente(){
-        /*
-        //Construimos primero la busqueda de todos los proyectos que tenga este gerente
-        $listaProyectos = $this->getListaProyectos();
-        $vecProy=[];
-        foreach ($listaProyectos as $itemProyecto ) {
-           array_push($vecProy,$itemProyecto->codProyecto );
-        }
-    
-        $listaSolicitudesFondos = SolicitudFondos::whereIn('codProyecto',$vecProy)
-        ->orderBy('codEstadoSolicitud')
-        ->get();
-        */
+        
         $listaSolicitudesFondos = $this->getListaSolicitudesDeGerente2()->get();
         return $listaSolicitudesFondos;
 
@@ -209,17 +191,7 @@ class Empleado extends Model
 
     }
 
-    //retorna -1 si no tiene un periodo actual
-    /* public function getPeriodoEmpleadoActual(){
-        $periodos=PeriodoEmpleado::where('codEmpleado','=',$this->codEmpleado)
-        ->where('activo','=',1)->get();
-        if(count($periodos)==0)
-            return '-1';
-
-        return $periodos[0];   
-
-
-    } */
+    
 
     public static function getEmpleadoLogeado(){
         $codUsuario = Auth::id();         
@@ -232,12 +204,9 @@ class Empleado extends Model
 
         if(count($empleados)<0) //si no encontró el empleado de este user 
         {
-            error_log('
-            
-            ERROR : 
-            EMPLEADO->getEmpleadoLogeado()
-            
-            ');
+
+            Debug::mensajeError('Empleado','    getEmpleadoLogeado() ');
+           
             return false;
         }
         return $empleados[0]; 
@@ -251,15 +220,8 @@ class Empleado extends Model
         $usuario = User::findOrFail($this->codUsuario);
         
         }catch(Throwable $th){
-            error_log('
+            Debug::mensajeError('MODELO EMPLEADO', $th);
             
-                HA OCURRIDO UN ERROR EN EL MODELO EMPLEADO: 
-
-                usuario no encontrato
-
-                '.$th.'
-            
-            ');
             return "usuario no encontrado.";
 
 

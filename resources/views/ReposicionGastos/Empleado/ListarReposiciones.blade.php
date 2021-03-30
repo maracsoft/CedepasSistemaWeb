@@ -80,7 +80,7 @@ Listar Reposiciones
               <tr>
                 <th width="9%" scope="col">Cod. Reposición</th> {{-- COD CEDEPAS --}}
                 <th width="9%"  scope="col" style="text-align: center">F. Emisión</th>
-                <th with="3%">P.P</th>
+                <th with="3%">Cod.</th>
                 <th  scope="col">Proyecto</th>              
                 <th width="16%"  scope="col">Orden de</th>
                 <th width="6%"  scope="col">Banco</th>
