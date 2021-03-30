@@ -7,7 +7,7 @@
     </li>
 
     <li class="nav-item">
-      <a href="{{route('rendicionGastos.Contador.Listar')}}" class="nav-link">
+      <a href="{{route('RendicionGastos.Contador.Listar')}}" class="nav-link">
         <i class="far fa-address-card nav-icon"></i>
         <p>Rendiciones</p>
       </a>

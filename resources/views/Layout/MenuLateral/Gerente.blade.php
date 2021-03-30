@@ -1,4 +1,4 @@
-    <li>- - - - - - -   GERENTE/DIRECTOR  - - - - - -</li>
+    <li>- - - - GERENTE/DIRECTOR  - - - </li>
     <li class="nav-item">
       <a href="{{route('SolicitudFondos.Gerente.Listar')}}" class="nav-link">
         <i class="far fa-address-card nav-icon"></i>
