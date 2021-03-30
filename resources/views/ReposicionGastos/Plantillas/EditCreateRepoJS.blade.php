@@ -175,7 +175,8 @@ function actualizarTabla(){
                     
 
                         <td  style="text-align:right;">              
-                            <input type="text" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+(element.importe)+`" readonly="readonly">
+                            <input type="text" class="form-control" value="`+number_format(element.importe,2)+`" readonly>
+                            <input type="hidden" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+(element.importe)+`" readonly="readonly">
                         </td>              
                         <td style="text-align:center;">              
                         <input type="text" class="form-control" name="colCodigoPresupuestal`+item+`" id="colCodigoPresupuestal`+item+`" value="`+element.codigoPresupuestal+`" readonly>

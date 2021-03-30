@@ -6,7 +6,17 @@
 
 <div class="card-body">
     
-    <div class="well"><H3 style="text-align: center;"><strong>CONTADORES</strong></H3></div>
+    <div class="well">
+      <H3 style="text-align: center;">
+        <strong>
+          Contadores del proyecto
+        </strong>
+        <br>
+        {{$proyecto->nombre}}
+      </H3>
+      
+    </div>
+
     <form id="frmContador" name="frmContador" role="form" action="{{route('GestiónProyectos.agregarContador')}}" method="post">
       @csrf 
       <input type="hidden" id="codProyecto" name="codProyecto" value="{{$proyecto->codProyecto}}">
