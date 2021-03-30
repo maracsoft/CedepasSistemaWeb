@@ -62,7 +62,7 @@
           </div>
         </div>
       
-        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
               <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
@@ -103,7 +103,7 @@
                 <th width="9%"  scope="col" style="text-align: center">Total Gastado</th>
                 <th width="9%"  scope="col" style="text-align: center">Saldo</th>
                 <th width="11%"  scope="col" style="text-align: center">Estado</th>
-                <th width="10%"  scope="col">Opciones</th>
+                <th width="11%"  scope="col">Opciones</th>
                 
               </tr>
             </thead>
@@ -139,7 +139,7 @@
 
                   @if($itemRendicion->verificarEstado('Aprobada') || $itemRendicion->verificarEstado('Creada'))
                   {{-- Es en estos estados que puede observar --}}  
-                    <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-danger btn-sm' title="Revisar Rendición">
+                    <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-warning btn-sm' title="Revisar Rendición">
                       <i class="fas fa-eye"></i>
                     </a>
                   @else 
