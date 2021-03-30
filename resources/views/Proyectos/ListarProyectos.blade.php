@@ -1,10 +1,9 @@
 @extends('Layout.Plantilla') 
-@section('estilos')
-<link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
-<link rel="stylesheet" href="/select2/bootstrap-select.min.css">
-<title> PROYECTOS Y GERENTES </title>
 
+@section('titulo')
+    Listado de Proyectos
 @endsection
+
 @section('contenido')
 <br>
 
@@ -20,7 +19,7 @@
 
 <div class="card">
     <div class="card-header" style=" ">
-      <h3 class="card-title">PROYECTOS Y GERENTES</h3>
+      <h3 class="card-title">PROYECTOS</h3>
       <div class="card-tools">
         <ul class="nav nav-pills ml-auto">
           <li class="nav-item">

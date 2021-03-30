@@ -1,6 +1,10 @@
 
 @extends('Layout.Plantilla')
 
+@section('titulo')
+    Cambiar mi contraseña
+@endsection
+
 @section('contenido')
 
     <br>

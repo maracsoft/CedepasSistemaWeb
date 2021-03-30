@@ -1,5 +1,7 @@
 @extends('Layout.Plantilla')
-
+@section('titulo')
+    Puestos
+@endsection
 @section('contenido')
 
 <div class="card-body">

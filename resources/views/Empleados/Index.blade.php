@@ -1,5 +1,9 @@
 @extends('Layout.Plantilla')
 
+@section('titulo')
+    Listar Empleados
+@endsection
+
 @section('contenido')
 
 

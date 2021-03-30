@@ -1,6 +1,8 @@
 @extends('Layout.Plantilla')
 
-
+@section('titulo')
+    Editar Datos de Empleado
+@endsection
 @section('estilos')
 <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">
 <link rel="stylesheet" href="/select2/bootstrap-select.min.css">

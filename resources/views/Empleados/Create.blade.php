@@ -1,5 +1,8 @@
 @extends('Layout.Plantilla')
 
+@section('titulo')
+    Crear Empleado
+@endsection
 
 @section('estilos')
 <link rel="stylesheet" href="/calendario/css/bootstrap-datepicker.standalone.css">

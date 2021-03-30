@@ -1,5 +1,7 @@
 @extends('Layout.Plantilla')
-
+@section('titulo')
+    Crear Puesto
+@endsection
 @section('contenido')
 
 

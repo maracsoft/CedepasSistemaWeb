@@ -1,6 +1,8 @@
 
 @extends('Layout.Plantilla')
-
+@section('titulo')
+    Mis Datos
+@endsection
 @section('contenido')
 
 
