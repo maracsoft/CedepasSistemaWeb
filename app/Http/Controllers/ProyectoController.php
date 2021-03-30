@@ -127,8 +127,10 @@ class ProyectoController extends Controller
         foreach ($contadoresSeleccionados as $itemcontador) {
             $arr[]=$itemcontador->codEmpleado;
         }
-        $contadores=Empleado::where('codPuesto','=',Puesto::getCodigo('Contador'))->whereNotIn('codEmpleado',$arr)->get();
-        
+        $contadores=Empleado
+            ::where('codPuesto','=',Puesto::getCodigo('Contador'))
+            ->whereNotIn('codEmpleado',$arr)->get();
+            
 
         return view('Proyectos.ContadoresProyecto',compact('proyecto','contadores','contadoresSeleccionados'));
     }
@@ -146,7 +148,7 @@ class ProyectoController extends Controller
         $detalle=ProyectoContador::where('codEmpleadoContador','=',$id)->get();
         $detalle[0]->delete();
 
-        return redirect()->route('proyecto.ListarContadores',$detalle[0]->codProyecto);
+        return redirect()->route('GestiónProyectos.ListarContadores',$detalle[0]->codProyecto);
     }
 
 

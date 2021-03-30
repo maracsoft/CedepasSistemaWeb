@@ -28,7 +28,7 @@ class Empleado extends Model
         $vector = [SolicitudFondos::getCodEstado('Abonada'),SolicitudFondos::getCodEstado('Contabilizada')];
 
         return SolicitudFondos::whereIn('codEstadoSolicitud',$vector)
-            
+        ->where('codEmpleadoSolicitante','=',$this->codEmpleado)
         ->where('estaRendida','=',0)
         ->get();
 

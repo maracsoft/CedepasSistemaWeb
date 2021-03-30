@@ -181,7 +181,7 @@ class EmpleadoController extends Controller
 
         $empleado->save();
 
-        return redirect()->route('GestionUsuarios.verPerfil');
+        return redirect()->route('GestionUsuarios.verMisDatos');
     }
 
 }
