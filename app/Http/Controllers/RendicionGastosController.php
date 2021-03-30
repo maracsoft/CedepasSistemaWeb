@@ -83,6 +83,9 @@ class RendicionGastosController extends Controller
 
         //proyectos del Contador
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        if(count($detalles)==0)
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
+         
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
             $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$itemproyecto->codProyecto)->get();
@@ -92,9 +95,9 @@ class RendicionGastosController extends Controller
         }
 
         $estados =[];
-        array_push($estados,SolicitudFondos::getCodEstado('Aprobada') );
-        array_push($estados,SolicitudFondos::getCodEstado('Contabilizada') );
-
+        array_push($estados,RendicionGastos::getCodEstado('Aprobada') );
+        array_push($estados,RendicionGastos::getCodEstado('Contabilizada') );
+        
         $listaRendiciones = RendicionGastos::whereIn('codEstadoRendicion',$estados);
         if($codProyectoBuscar==0){
             $listaRendiciones=$listaRendiciones->whereIn('codSolicitud',$arr2);
@@ -109,7 +112,7 @@ class RendicionGastosController extends Controller
             $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
                 ->where('fechaHoraRendicion','<',$fechaFin);
         }
-        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion','ASC')->get();
+        $listaRendiciones=$listaRendiciones->orderBy('fechaHoraRendicion','DESC')->get();
         
         $listaRendiciones = RendicionGastos::ordenarParaContador($listaRendiciones)
             ->paginate($this::PAGINATION);
@@ -171,7 +174,7 @@ class RendicionGastosController extends Controller
             $listaRendiciones=$listaRendiciones->where('fechaHoraRendicion','>',$fechaInicio)
                 ->where('fechaHoraRendicion','<',$fechaFin);
         }
-        $listaRendiciones=$listaRendiciones->orderby('codEstadoRendicion','ASC')->get();
+        $listaRendiciones=$listaRendiciones->orderby('fechaHoraRendicion','DESC')->get();
 
         $listaRendiciones = RendicionGastos::ordenarParaGerente($listaRendiciones)
             ->paginate($this::PAGINATION);
@@ -199,7 +202,7 @@ class RendicionGastosController extends Controller
         
         $empleado = Empleado::getEmpleadoLogeado();
         if(count($empleado->getListaProyectos())==0)
-            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado..");
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
         
         //solicitudes de un proyecto (filtro)
         $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$codProyectoBuscar)->get();
@@ -231,7 +234,7 @@ class RendicionGastosController extends Controller
                 ->where('fechaHoraRendicion','<',$fechaFin);
         }
 
-        $listaRendiciones=$listaRendiciones->orderBy('codEstadoRendicion')->get();
+        $listaRendiciones=$listaRendiciones->orderBy('fechaHoraRendicion','DESC')->get();
 
         $listaRendiciones = RendicionGastos::ordenarParaGerente($listaRendiciones)
             ->paginate($this::PAGINATION);
@@ -268,9 +271,10 @@ class RendicionGastosController extends Controller
         foreach ($solicitudesDeProyecto as $item) {
             $arr[]=$item->codSolicitud;
         }
-
+         
         $listaRendiciones = RendicionGastos::
             where('codEmpleadoSolicitante','=',Empleado::getEmpleadoLogeado()->codEmpleado);
+            
 
         if($codProyectoBuscar==0){
             $listaRendiciones= RendicionGastos::
@@ -286,8 +290,8 @@ class RendicionGastosController extends Controller
                 ->where('fechaHoraRendicion','<',$fechaFin);
         }
         
-
-        $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones->get())
+        $listaRendiciones = $listaRendiciones->orderBy('fechaHoraRendicion','DESC')->get();
+        $listaRendiciones = RendicionGastos::ordenarParaEmpleado($listaRendiciones)
             ->paginate($this::PAGINATION);
             
         $proyectos=Proyecto::getProyectosActivos();

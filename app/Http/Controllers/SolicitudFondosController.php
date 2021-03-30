@@ -81,13 +81,11 @@ class SolicitudFondosController extends Controller
         if($codProyectoBuscar==0){
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-            ->orderBy('codEstadoSolicitud','ASC')
             ->orderBy('fechaHoraEmision','DESC');
        
         }else
             $listaSolicitudesFondos = SolicitudFondos::
             where('codEmpleadoSolicitante','=',$empleado->codEmpleado)
-            ->orderBy('codEstadoSolicitud','ASC')
             ->orderBy('fechaHoraEmision','DESC')
             ->where('codProyecto','=',$codProyectoBuscar);
         
@@ -137,12 +135,16 @@ class SolicitudFondosController extends Controller
 
         
 
-        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente2();
+        $listaSolicitudesFondos = $empleado->getListaSolicitudesDeGerente2()->orderBy('fechaHoraEmision','DESC');
         if($codProyectoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codProyecto','=',$codProyectoBuscar);
+            $listaSolicitudesFondos=$listaSolicitudesFondos
+                ->where('codProyecto','=',$codProyectoBuscar)
+                ->orderBy('fechaHoraEmision','DESC');
         }
         if($codEmpleadoBuscar!=0){
-            $listaSolicitudesFondos=$listaSolicitudesFondos->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
+            $listaSolicitudesFondos=$listaSolicitudesFondos
+                ->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar)
+                ->orderBy('fechaHoraEmision','DESC');
         }
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
@@ -164,10 +166,7 @@ class SolicitudFondosController extends Controller
             'listaSolicitudesFondos','listaBancos','empleado','proyectos','empleados','fechaInicio','fechaFin'));
     }
 
-/*         //$listaSolicitudesFondos = $listaSolicitudesFondos->paginate($this::PAGINATION);
-        $listaSolicitudesFondos = SolicitudFondos::ordenarParaGerente($listaSolicitudesFondos)
-        ->paginate($this::PAGINATION);
- */
+
 
 /* DEBE LISTARLE 
     LAS QUE ESTÁN APROBADAS (Para que las abone)
@@ -203,7 +202,7 @@ class SolicitudFondosController extends Controller
             $listaSolicitudesFondos=$listaSolicitudesFondos->where('fechaHoraEmision','>',$fechaInicio)
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
-        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('codEstadoSolicitud')->get();
+        $listaSolicitudesFondos=$listaSolicitudesFondos->orderBy('fechaHoraEmision','DESC')->get();
 
         $listaSolicitudesFondos = SolicitudFondos::ordenarParaAdministrador($listaSolicitudesFondos)
         ->paginate($this::PAGINATION);
@@ -234,13 +233,16 @@ class SolicitudFondosController extends Controller
 
         //para ver que proyectos tiene el Contador
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        if(count($detalles)==0)
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
+         
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
             $arr2[]=$itemproyecto->codProyecto;
         }
 
 
-        $listaSolicitudesFondos = SolicitudFondos::whereIn('codEstadoSolicitud',$estados);
+        $listaSolicitudesFondos = SolicitudFondos::whereIn('codEstadoSolicitud',$estados)->orderBy('fechaHoraEmision','DESC');
         if($codProyectoBuscar==0){
             $listaSolicitudesFondos=$listaSolicitudesFondos->whereIn('codProyecto',$arr2);
         }else{

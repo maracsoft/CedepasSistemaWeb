@@ -99,7 +99,8 @@ class ReposicionGastosController extends Controller
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
 
-        $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones->get())->paginate($this::PAGINATION);
+        $reposiciones= ReposicionGastos::ordenarParaEmpleado($reposiciones->orderBy('fechaHoraEmision','DESC')->get())
+        ->paginate($this::PAGINATION);
 
 
         $proyectos=Proyecto::getProyectosActivos();
@@ -190,7 +191,7 @@ class ReposicionGastosController extends Controller
             $cantidadFilas = $request->cantElementos;
             while ($i< $cantidadFilas ) 
             {
-                    $detalle=new DetalleReposicionGastos();
+                                    $detalle=new DetalleReposicionGastos();
                     $detalle->codReposicionGastos=$reposicion->codReposicionGastos ;//ultimo insertad
                     // formato requerido por sql 2021-02-11   
                     //formato dado por mi calnedar 12/02/2020
@@ -265,7 +266,7 @@ class ReposicionGastosController extends Controller
             $reposicion=ReposicionGastos::findOrFail($request->codReposicionGastos);
 
 
-            if($reposicion->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado())
+            if($reposicion->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado)
             return redirect()->route('rendicionGastos.ListarRendiciones')
                 ->with('datos','Error: la reposicion no puede ser actualizada por un empleado distinto al que la creó.');
 
@@ -275,6 +276,7 @@ class ReposicionGastosController extends Controller
             return redirect()->route('rendicionGastos.ListarRendiciones')
                 ->with('datos','Error: la reposicion no puede ser actualizada ahora puesto que está en otro proceso.');
 
+                
 
 
 
@@ -405,7 +407,10 @@ class ReposicionGastosController extends Controller
 
 
         $empleado=Empleado::getEmpleadoLogeado();
-        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
+        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->where('activo','=','1')->get();
+        if(count($proyectos)==0)
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
+        
         $arr=[];
         foreach ($proyectos as $itemproyecto) {
             $arr[]=$itemproyecto->codProyecto;
@@ -417,16 +422,20 @@ class ReposicionGastosController extends Controller
         }else{
             $reposiciones=ReposicionGastos::where('codProyecto','=',$codProyectoBuscar);
         }
+        
         if($codEmpleadoBuscar!=0){
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+        
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
             $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
 
-        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        //return $reposiciones->get();
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision','DESC')->get();
+        
         $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
         
 
@@ -510,7 +519,7 @@ class ReposicionGastosController extends Controller
             $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
-        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision','DESC')->get();
         $reposiciones= ReposicionGastos::ordenarParaAdministrador($reposiciones)->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::getProyectosActivos();
@@ -539,9 +548,12 @@ class ReposicionGastosController extends Controller
         $fechaInicio=substr($request->fechaInicio,6,4).'-'.substr($request->fechaInicio,3,2).'-'.substr($request->fechaInicio,0,2).' 00:00:00';
         $fechaFin=substr($request->fechaFin,6,4).'-'.substr($request->fechaFin,3,2).'-'.substr($request->fechaFin,0,2).' 23:59:59';
 
-
+        
         $empleado=Empleado::getEmpleadoLogeado();
         $detalles=ProyectoContador::where('codEmpleadoContador','=',$empleado->codEmpleado)->get();
+        if(count($detalles)==0)
+            return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
+         
         //$proyectos=Proyecto::where('codEmpleadoConta','=',$empleado->codEmpleado)->get();
         $arr2=[];
         foreach ($detalles as $itemproyecto) {
@@ -564,7 +576,7 @@ class ReposicionGastosController extends Controller
             $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
-        $reposiciones=$reposiciones->orderBy('fechaHoraEmision')->get();
+        $reposiciones=$reposiciones->orderBy('fechaHoraEmision','DESC')->get();
         $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
         
         
