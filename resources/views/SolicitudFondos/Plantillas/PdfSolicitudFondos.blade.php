@@ -66,7 +66,7 @@
                     <td colspan="3">{{$solicitud->getFechaHoraEmision()}}</td>
                 </tr>
                 <tr>
-                    <td style="font-weight: bold;">Código del/a Trabajador/a:</td>
+                    <td style="font-weight: bold;">Código del/a Colaborador/a:</td>
                     <td colspan="3">{{$solicitud->getEmpleadoSolicitante()->codigoCedepas}}</td>
                 </tr>
             </tbody>

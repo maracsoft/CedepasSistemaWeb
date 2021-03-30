@@ -160,7 +160,7 @@
               <a href="{{route('GestionUsuarios.verMisDatos')}}" class="d-block"> {{ (new App\Empleado())->getNombrePorUser( Auth::id() ) }} </a>
              
                 <label for="" style="color: rgb(255, 255, 255))">
-                  {{  (App\Empleado::getEmpleadoLogeado()->getPuestoActual()->nombre ) }}
+                  {{  (App\Empleado::getEmpleadoLogeado()->getNombrePuesto() ) }}
                 </label>
       
             </div>

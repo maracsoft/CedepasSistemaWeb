@@ -24,7 +24,7 @@
               <li class="nav-item">
                 <a href="{{route('SolicitudFondos.Gerente.Listar')}}" class="nav-link">
                   <i class="far fa-address-card nav-icon"></i>
-                  <p>Gerente</p>
+                  <p>Gerente/Director</p>
                 </a>
               </li>
           
@@ -76,7 +76,7 @@
             <li class="nav-item">
               <a href="{{route('RendicionGastos.Gerente.Listar')}}" class="nav-link">
                 <i class="far fa-address-card nav-icon"></i>
-                <p>Gerente</p>
+                <p>Gerente/Director</p>
               </a>
             </li>
             <li class="nav-item">
@@ -135,7 +135,7 @@
           <li class="nav-item">
             <a href="{{route('ReposicionGastos.Gerente.Listar')}}" class="nav-link">
               <i class="far fa-address-card nav-icon"></i>
-              <p>Gerente</p>
+              <p>Gerente/Director</p>
             </a>
           </li>
           
