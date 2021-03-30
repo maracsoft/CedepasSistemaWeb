@@ -779,12 +779,15 @@ class ReposicionGastosController extends Controller
             $reposicion->codEmpleadoConta = Empleado::getEmpleadoLogeado()->codEmpleado;
             $reposicion->fechaHoraRevisionConta=new DateTime();
             $reposicion->save();
-            foreach ($listaItems as $item) { //guardamos como contabilizados los items que nos llegaron
-                Debug::mensajeSimple($item);
-                $detGasto = DetalleReposicionGastos::findOrFail($item);
-                $detGasto->contabilizado = 1;
-                $detGasto->save();   
-            }
+
+
+            if( $vector[1] != "" )
+                foreach ($listaItems as $item) { //guardamos como contabilizados los items que nos llegaron
+                    Debug::mensajeSimple($item);
+                    $detGasto = DetalleReposicionGastos::findOrFail($item);
+                    $detGasto->contabilizado = 1;
+                    $detGasto->save();   
+                }
 
             DB::commit();
             /*
@@ -840,7 +843,7 @@ class ReposicionGastosController extends Controller
     public function verPDF($id){
         $reposicion=ReposicionGastos::findOrFail($id);
         $pdf = $reposicion->getPDF();
-        return $pdf->stream();
+        return $pdf->stream('Reposicion de Gastos '.$reposicion->codigoCedepas.'.Pdf');
     }
 
 

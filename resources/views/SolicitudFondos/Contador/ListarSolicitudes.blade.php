@@ -53,7 +53,7 @@ Listar Solicitudes
           </div>
         </div>
       
-        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px">
+        <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
               <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>
@@ -90,7 +90,7 @@ Listar Solicitudes
                 <th width="11%"  scope="col">Empleado </th>
                 <th width="3%">Cod.</th>
                 <th  scope="col">Proyecto</th>
-                <th width="11%" scope="col">Evaluador</th>
+                <th width="11%" scope="col">Evaluador/a</th>
                 
                 <th width="8%" scope="col" style="text-align: center">Total Solicitado</th>
                 

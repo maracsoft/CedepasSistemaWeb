@@ -53,7 +53,7 @@ margin-top: 18px;
                 <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
             </div>
           </div>
-          <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 5px">
+          <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
             <option value="0">--Seleccionar--</option>
             @foreach($proyectos as $itemproyecto)
                 <option value="{{$itemproyecto->codProyecto}}" {{$itemproyecto->codProyecto==$codProyectoBuscar ? 'selected':''}}>

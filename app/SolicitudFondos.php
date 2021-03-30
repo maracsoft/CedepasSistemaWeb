@@ -36,7 +36,7 @@ class SolicitudFondos extends Model
         $pdf = \PDF::loadview('SolicitudFondos.Plantillas.PdfSolicitudFondos',
             array('solicitud'=>$this,'listaItems'=>$listaItems)
                             )->setPaper('a4', 'portrait');
-
+        
         return $pdf;
     }
     
@@ -144,11 +144,15 @@ class SolicitudFondos extends Model
 
     }
 
-    //MODIFICA EL VALOR PARA QUE SEA / en lugar de - 
+    //ENTRA formato MySQL 2020-12-03 
+    //  
     public function getFechaHoraEmision(){
+         
         $stringFecha =$this->fechaHoraEmision; 
-            $stringFecha =   str_replace('-','/',$stringFecha);
-            return $stringFecha;
+        
+        $nuevaFechaHora=substr($stringFecha,8,2).'/'.substr($stringFecha,5,2).'/'.substr($stringFecha,0,4).' '.substr($stringFecha,11,8);
+        
+            return $nuevaFechaHora;
 
     }
 

@@ -816,7 +816,7 @@ class SolicitudFondosController extends Controller
     public function verPDF($codSolicitud){
         $solicitud = SolicitudFondos::findOrFail($codSolicitud);
         $pdf = $solicitud->getPDF();
-        return $pdf->stream();
+        return $pdf->stream('Solicitud de Fondos '.$solicitud->codigoCedepas.'.Pdf');
     }
 
 

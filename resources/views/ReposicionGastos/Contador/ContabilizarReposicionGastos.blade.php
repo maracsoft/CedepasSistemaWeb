@@ -262,15 +262,13 @@ Reposición
                 <div class="col"></div>
                 <div class="col">
                     @if($reposicion->codEstadoReposicion==3)
-                    <button type="button" class='btn btn-success float-right'  style="float:right;" onclick="actualizarEstado('¿Seguro de contabilizar la reposicion?', 'Contabilizar')">
-                        <i class="fas fa-check"></i> Guardar como Contabilizado</button>
-                    <!--
-                    <button type="button" onclick="guardarContabilizar()"
+                    <div class="col">
+                        <button type="button" onclick="guardarContabilizar()"
                             class='btn btn-success'  style="float:right;">
                             <i class="fas fa-check"></i>
                             Guardar como Contabilizado
                         </button>    
-                    -->
+                    </div>
                     @endif
                 </div>
 
@@ -345,59 +343,9 @@ Reposición
 
        {{-- PARA EL FILE  --}}
 <script type="application/javascript">
-    @if (App\Configuracion::enProduccion)
-        document.getElementById('listaContabilizados').type = "hidden"
-    @endif
-
-
-    function actualizarEstado(msj, action){
-        swal({//sweetalert
-            title: msj,
-            text: '',
-            type: 'warning',  
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText:  'SI',
-            cancelButtonText:  'NO',
-            closeOnConfirm:     true,//para mostrar el boton de confirmar
-            html : true
-        },
-        function(){//se ejecuta cuando damos a aceptar
-            switch (action) {
-                case 'Observar':
-
-                    break;
-                case 'Contabilizar':
-                    guardarContabilizar();
-                    break;
-            }
-            
-        });
-    }
-
-    
-
-
-</script>
-
-     <script>
-        var cont=0;
-        
-        //var IGV=0;
-        var total=0;
-        var detalleRend=[];
-        //var importes=[];
-        //var controlproducto=[];
-        //var totalSinIGV=0;
-        //var saldoFavEmpl=0;
-
-
-        function alertaArchivo(){
-            alerta('Asegúrese de haber añadido todos los ítems antes de subir los archivos.');
-
-        }
-
+        @if (App\Configuracion::enProduccion)
+            document.getElementById('listaContabilizados').type = "hidden"
+        @endif
         var listaItems = [];//para contabilizar
         function contabilizarItem(item){
             
@@ -417,42 +365,34 @@ Reposición
         }
 
         function guardarContabilizar (){
+
+            
             codReposicion = {{$reposicion->codReposicionGastos}};
-            //location.href = '/Conta/Reposiciones/contabilizar/'+ codReposicion +'*' +listaItems;
-            location.href = '/ReposicionGastos/'+ codReposicion +'*' +listaItems+'/Contabilizar';
-        }
 
-        function cadAleatoria(length) {
-            var result           = '';
-            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            var abecedario = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            var charactersLength = characters.length;
-            var abecedarioLength = abecedario.length;
-            for ( var i = 0; i < length; i++ ) {
-                if(i==0)//primer caracter fijo letra
-                    result += abecedario.charAt(Math.floor(Math.random() * abecedarioLength));
-                else//los demas da igual que sean numeros
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-
+            msjExtra = "";
+            if(listaItems.length==0){
+                msjExtra = "No ha marcado ningún Item... ";
             }
-            return result;
+
+            swal({//sweetalert
+                title: msjExtra+'¿Seguro de contabilizar la rendicion?',
+                text: '',
+                type: 'info',  
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText:  'SI',
+                cancelButtonText:  'NO',
+                closeOnConfirm:     true,//para mostrar el boton de confirmar
+                html : true
+            },
+            function(){
+                location.href = '/ReposicionGastos/'+ codReposicion +'*' +listaItems+'/Contabilizar';
+            });
+            
         }
-    
-        function number_format(amount, decimals) {
-            amount += ''; // por si pasan un numero en vez de un string
-            amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-            decimals = decimals || 0; // por si la variable no fue fue pasada
-            // si no es un numero o es igual a cero retorno el mismo cero
-            if (isNaN(amount) || amount === 0) 
-                return parseFloat(0).toFixed(decimals);
-            // si es mayor o menor que cero retorno el valor formateado como numero
-            amount = '' + amount.toFixed(decimals);
-            var amount_parts = amount.split('.'),
-                regexp = /(\d+)(\d{3})/;
-            while (regexp.test(amount_parts[0]))
-                amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-            return amount_parts.join('.');
-        }
+
+        
     
     
     </script>

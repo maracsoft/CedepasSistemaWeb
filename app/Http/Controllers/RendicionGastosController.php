@@ -1008,7 +1008,7 @@ class RendicionGastosController extends Controller
     public function verPDF($codRendicion){
         $rendicion = RendicionGastos::findOrFail($codRendicion);
         $pdf = $rendicion->getPDF();
-        return $pdf->stream();
+        return $pdf->stream('Rendición de Gastos '.$rendicion->codigoCedepas.'.Pdf');
     }
 
 
