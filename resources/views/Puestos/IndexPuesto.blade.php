@@ -26,6 +26,8 @@
         <tr>
           <th>CODIGO</th>
           <th>NOMBRE</th>
+          <th>ACTIVO</th>
+          
           <th>OPCIONES</th>
         </tr>
       </thead>
@@ -34,6 +36,8 @@
             <tr>
                 <td>{{$itempuesto->codPuesto}}</td>
                 <td>{{$itempuesto->nombre}}</td>
+                <td>{{$itempuesto->getActivo()}}</td>
+                
                 
                 <td>
                     <a href="{{route('GestiónPuestos.edit',$itempuesto->codPuesto)}}" class="btn btn-warning btn-sm btn-icon icon-left"><i class="entypo-pencil"></i>Editar</a> 

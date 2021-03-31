@@ -43,8 +43,11 @@
             
             <th scope="col">Cod Proy</th>
             <th scope="col">NOMBRE PROYECTO</th>
+            <th scope="col">Activo</th>
             <th scope="col">GERENTE</th>
             <th scope="col">CONTADOR</th>
+            
+            
             <th scope="col">Opciones</th>
             
           </tr>
@@ -60,13 +63,18 @@
             <td>{{$itemProyecto->codigoPresupuestal}}</td>
             
             <td>{{$itemProyecto->nombre}}</td>
+            <td>{{$itemProyecto->estaActivo()}}</td>
             </td>
             <td>  {{-- BUSCADOR DINAMICO POR NOMBRES --}}
               <select class="form-control select2 select2-hidden-accessible selectpicker" onchange="guardar({{$itemProyecto->codProyecto}})" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true" id="Proyecto{{$itemProyecto->codProyecto}}" name="Proyecto{{$itemProyecto->codProyecto}}" data-live-search="true">
-                <option value="0" {{$itemProyecto->codEmpleadoDirector!=null ? 'hidden':'selected'}}>- Seleccione Gerente -</option>          
+                <option value="0" {{$itemProyecto->codEmpleadoDirector!=null ? 'hidden':'selected'}}>
+                  - Seleccione Gerente -
+                </option>          
               
                 @foreach($listaGerentes as $gerente)
-                  <option value="{{$gerente->codEmpleado}}" {{$itemProyecto->codEmpleadoDirector==$gerente->codEmpleado ? 'selected':''}}>{{$gerente->getNombreCompleto()}}</option>                                 
+                  <option value="{{$gerente->codEmpleado}}" {{$itemProyecto->codEmpleadoDirector==$gerente->codEmpleado ? 'selected':''}}>
+                    {{$gerente->getNombreCompleto()}}
+                  </option>                                 
                 @endforeach
                 
               

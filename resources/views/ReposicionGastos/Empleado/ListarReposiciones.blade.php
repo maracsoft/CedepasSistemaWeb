@@ -32,6 +32,11 @@ Listar Reposiciones
     </div>
     <div class="col-md-10">
       <form class="form-inline float-right">
+
+        <label style="" for="">
+          Fecha:
+          
+        </label>
         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
           <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                  value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -48,6 +53,11 @@ Listar Reposiciones
           </div>
         </div>
 
+        <label style="" for="">
+          &nbsp; Proyecto:
+          
+        </label>
+
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar--</option>
           @foreach($proyectos as $itemproyecto)
@@ -56,6 +66,8 @@ Listar Reposiciones
               </option>                                 
           @endforeach 
         </select>
+
+
         <button class="btn btn-success " type="submit">Buscar</button>
       </form>
     </div>
@@ -98,7 +110,7 @@ Listar Reposiciones
       
             <tr>
               <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
-              <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->getFechaHoraEmision()  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemreposicion->formatoFechaHoraEmision()}}</td>
               
               <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->codigoPresupuestal  }}</td>
               <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->nombre  }}</td>

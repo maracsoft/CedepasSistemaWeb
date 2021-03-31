@@ -71,13 +71,7 @@
                             <input value="{{$solicitud->codigoCedepas}}" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
                     </div>
                   
-                    <div class="colLabel">
-                        <label for="fecha">Cod Rendicion:</label>
-                    </div>
-                    <div class="col">
-                         <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     
-                    </div>
-
+                    
 
 
                 </div>
@@ -122,7 +116,17 @@
                             "
                             readonly value="{{$rendicion->getNombreEstado()}}@if($rendicion->verificarEstado('Observada')): {{$rendicion->observacion}}@endif"  >           
                         </div>
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
 
+
+
+                        <div class="colLabel">
+                            <label for="fecha">Cod Rendicion:</label>
+                        </div>
+                        <div class="col">
+                             <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     
+                        </div>
+    
 
                     </div>
 
@@ -137,7 +141,6 @@
         </div>
     </div>
 </div>
-
 
 @include('SolicitudFondos.Plantillas.DesplegableDetallesSOF')  
 

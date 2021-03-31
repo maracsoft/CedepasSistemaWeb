@@ -15,6 +15,17 @@ class Proyecto extends Model
     // le indicamos los campos de la tabla 
     protected $fillable = ['nombre','codEmpleadoDirector','codPresupuestal','activo','codSedePrincipal'];
     
+    public function getGerente(){
+        return Empleado::findOrFail($this->codEmpleadoDirector);
+
+    }
+    public function estaActivo(){
+        if($this->activo=='1')
+            return 'SÍ';
+
+        return 'NO';
+
+    }
 
     //retorna 1 si el proyecto tiene una caja chica, 0 si no
     public function tieneCaja(){

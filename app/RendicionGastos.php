@@ -23,6 +23,16 @@ class RendicionGastos extends Model
     'resumenDeActividad','codEstadoRendicion','fechaHoraRendicion',
     'cantArchivos','terminacionesArchivos','codEmpleadoEvaluador'];
 
+
+
+    /** FORMATO PARA FECHAS*/
+    public function formatoFechaHoraRendicion(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraRendicion));
+        return $fecha;
+    }
+
+ 
+
     function getFechaHoraRendicion(){
         return str_replace('-','/',$this->fechaHoraRendicion);
 
@@ -243,7 +253,7 @@ class RendicionGastos extends Model
     public static function ordenarParaGerente($coleccion){
         
         $subsanada = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Subsanada')); 
-        $creadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Creada')); 
+        $creadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Creada'));
         $aprobadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Aprobada')); 
         $contabilizadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Contabilizada')); 
         

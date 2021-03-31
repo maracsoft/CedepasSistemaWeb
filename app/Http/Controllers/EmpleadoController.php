@@ -16,11 +16,14 @@ use App\Sede;
 use App\Debug;
 class EmpleadoController extends Controller
 {
-    const PAGINATION = '10';
+    const PAGINATION = '20';
 
     public function listarEmpleados(Request $request){
         $dniBuscar=$request->dniBuscar;
-        $empleados = Empleado::where('activo','=',1)->where('dni','like',$dniBuscar.'%')->orderBy('fechaRegistro','desc')->paginate($this::PAGINATION);
+        $empleados = Empleado::where('activo','=',1)
+            ->where('dni','like',$dniBuscar.'%')
+            ->orderBy('fechaRegistro','desc')
+            ->paginate($this::PAGINATION);
         return view('Empleados.Index',compact('empleados','dniBuscar'));
     }
     public function crearEmpleado(){
@@ -84,16 +87,22 @@ class EmpleadoController extends Controller
         return redirect()->route('GestionUsuarios.Listar');
     }
 
+    public function editarUsuario($id){
+        $empleado=Empleado::find($id);
+        $usuario=$empleado->usuario();
+        return view('Empleados.EditUsuario',compact('usuario','empleado'));
+    }
+
     public function editarEmpleado($id){
         $puestos=Puesto::where('estado','!=',0)->get();
         $sedes=Sede::all();
         $empleado=Empleado::find($id);
         //$areas=Area::all();
         //$puestos=Puesto::all();
-        return view('Empleados.Edit',compact('empleado','puestos','sedes'));
+        return view('Empleados.EditEmpleado',compact('empleado','puestos','sedes'));
     }
 
-    public function guardarEditarEmpleado(Request $request){
+    public function guardarEditarUsuario(Request $request){
         //Usuario
         //$usuario=new User();
         $empleado=Empleado::find($request->codEmpleado);
@@ -102,7 +111,12 @@ class EmpleadoController extends Controller
         $usuario->password=hash::make($request->contraseña);
         //$usuario->isAdmin=0;
         $usuario->save();
-        //Empleado
+
+        return redirect()->route('GestionUsuarios.Listar');
+    }
+    public function guardarEditarEmpleado(Request $request){
+        $empleado=Empleado::find($request->codEmpleado);
+
         $empleado->nombres=$request->nombres;
         $empleado->apellidos=$request->apellidos;
         $empleado->codigoCedepas=$request->codigo;

@@ -18,6 +18,18 @@ class SolicitudFondos extends Model
     'totalSolicitado','girarAOrdenDe','numeroCuentaBanco','codBanco','justificacion',
     'codEmpleadoEvaluador','fechaHoraRevisado','codEstadoSolicitud','observacion','codMoneda'];
 
+
+
+    /** FORMATO PARA FECHAS*/
+    public function formatoFechaHoraEmision(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraEmision));
+        return $fecha;
+    }
+    public function formatoFechaHoraRevisado(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraRevisado));
+        return $fecha;
+    }
+
     //le pasamos un modelo numeracion y calcula la nomeclatura del cod cedepas SOF21-000001
     public static function calcularCodigoCedepas($objNumeracion){
         return  SolicitudFondos::RaizCodigoCedepas.
@@ -83,6 +95,13 @@ class SolicitudFondos extends Model
     public function estaRendida(){
         return $this->estaRendida==1;
 
+    }
+
+    public function estaRendidaSIoNo(){
+        if($this->estaRendida())
+            return "SÍ";
+
+        return "NO";
     }
     /* Retorna TRUE or FALSE cuando le mandamos el nombre de un estado */
     public function verificarEstado($nombreEstado){

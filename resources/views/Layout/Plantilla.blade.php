@@ -108,9 +108,9 @@
       <!-- Messages Dropdown Menu --> {{-- VER CARRITO RAPIDAMENTE --}}
       
       @include('Layout.Notificaciones.Solicitudes')
-      
-      @include('Layout.Notificaciones.Reposiciones')
       @include('Layout.Notificaciones.Rendiciones')
+      @include('Layout.Notificaciones.Reposiciones')
+      
     </ul>
       
 

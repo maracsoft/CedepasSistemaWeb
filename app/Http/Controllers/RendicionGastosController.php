@@ -210,7 +210,9 @@ class RendicionGastosController extends Controller
 
         
         $empleado = Empleado::getEmpleadoLogeado();
-        if(count($empleado->getListaProyectos())==0)
+        $proyectos= $empleado->getListaProyectos();
+        
+        if(count($proyectos)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
         
         //solicitudes de un proyecto (filtro)
@@ -220,7 +222,8 @@ class RendicionGastosController extends Controller
             $arr1[]=$item->codSolicitud;
         }
         //proyectos del gerente
-        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->get();
+      
+        
         $arr2=[];
         foreach ($proyectos as $itemproyecto) {
             $solicitudesDeProyecto=SolicitudFondos::where('codProyecto','=',$itemproyecto->codProyecto)->get();

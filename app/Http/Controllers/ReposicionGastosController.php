@@ -407,7 +407,8 @@ class ReposicionGastosController extends Controller
 
 
         $empleado=Empleado::getEmpleadoLogeado();
-        $proyectos=Proyecto::where('codEmpleadoDirector','=',$empleado->codEmpleado)->where('activo','=','1')->get();
+        $proyectos= $empleado->getListaProyectos();
+        
         if(count($proyectos)==0)
             return redirect()->route('error')->with('datos',"No tiene ningún proyecto asignado...");
         
@@ -496,30 +497,32 @@ class ReposicionGastosController extends Controller
        
         //solo considera reposiciones hechas por empleados de su misma sede
         $empleados=Empleado::where('codSede','=',$empleado->codSede)->get();
+        /*
         $arr2=[];
         foreach ($empleados as $itemempleado) {
             $arr2[]=$itemempleado->codEmpleado;
         }
-        $arr=[2,3,5,6,7];
+        */
+        
+        $reposiciones=ReposicionGastos::where('codProyecto','!=','-1'); //este en realidad es un All()
+        if($codProyectoBuscar!=0)
+            $reposiciones=$reposiciones->where('codProyecto','=',$codProyectoBuscar);
         
 
-
-        if($codProyectoBuscar==0){
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr);
-        }else{
-            $reposiciones=ReposicionGastos::whereIn('codEstadoReposicion',$arr)->where('codProyecto','=',$codProyectoBuscar);
-        }
-        if($codEmpleadoBuscar==0){
-            $reposiciones=$reposiciones->whereIn('codEmpleadoSolicitante',$arr2);
-        }else{
+        if($codEmpleadoBuscar!=0){
+           
             $reposiciones=$reposiciones->where('codEmpleadoSolicitante','=',$codEmpleadoBuscar);
         }
+
+
         if(strtotime($fechaFin) > strtotime($fechaInicio) && $request->fechaInicio!=$request->fechaFin){
             //$fechaFin='es mayor';
             $reposiciones=$reposiciones->where('fechaHoraEmision','>',$fechaInicio)
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision','DESC')->get();
+
+        //Aqui sucede el filtrado de estados
         $reposiciones= ReposicionGastos::ordenarParaAdministrador($reposiciones)->paginate($this::PAGINATION);
         
         $proyectos=Proyecto::getProyectosActivos();

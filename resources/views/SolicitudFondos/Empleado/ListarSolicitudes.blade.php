@@ -22,8 +22,8 @@ margin-top: 18px;
 
 
 
-<div>
-  <h3> LISTA DE MIS SOLICITUDES DE FONDOS </h3>
+<div style="text-align: center">
+  <h2> Mis Solicitudes de Fondos </h2>
   
 
 
@@ -38,6 +38,12 @@ margin-top: 18px;
       </div>
       <div class="col-md-10">
         <form class="form-inline float-right">
+
+          <label style="" for="">
+            Fecha:
+            
+          </label>
+
           <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px">
             <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                    value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -53,6 +59,12 @@ margin-top: 18px;
                 <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
             </div>
           </div>
+
+          <label style="" for="">
+            Proyectos:
+            
+          </label>
+
           <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
             <option value="0">--Seleccionar--</option>
             @foreach($proyectos as $itemproyecto)
@@ -66,13 +78,6 @@ margin-top: 18px;
       </div>
     </div>
     
-
-  {{--   <nav class = "navbar float-right"> 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Buscar por descripcion" aria-label="Search" id="buscarpor" name = "buscarpor" value ="{{($buscarpor)}}" >
-            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
-    </nav> --}}
 
 
 {{-- AQUI FALTA EL CODIGO SESSION DATOS ENDIF xdd --}}
@@ -112,7 +117,7 @@ margin-top: 18px;
         @foreach($listaSolicitudesFondos as $itemSolicitud)
             <tr>
                 <td style = "padding: 0.40rem">{{$itemSolicitud->codigoCedepas  }}</td>
-                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getfechaHoraEmision()  }}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->formatoFechaHoraEmision()}}</td>
                 <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemSolicitud->getnombreProyecto()  }}</td>
@@ -141,7 +146,7 @@ margin-top: 18px;
 
                 </td>
 
-                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->formatoFechaHoraRevisado()}}</td>
                 <td style = "padding: 0.40rem">
                     @switch($itemSolicitud->codEstadoSolicitud)
                         @case(App\SolicitudFondos::getCodEstado('Creada'))   {{-- Si solamente está creada --}}

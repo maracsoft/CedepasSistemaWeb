@@ -16,6 +16,12 @@ class Puesto extends Model
         'nombre','estado'
     ];
 
+    public function getActivo(){
+        if($this->estado=='1')
+            return "SÍ";
+
+        return "NO";
+    }
     public static function getCodigo($nombrePuesto){
         $lista = Puesto::where('nombre','=',$nombrePuesto)->get();
         if(count($lista)==0)

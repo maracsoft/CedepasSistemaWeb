@@ -16,25 +16,7 @@
     function validarregistro() 
         {
             var expreg = new RegExp("^[A-Za-zÑñ À-ÿ]+$");//para apellidos y nombres ^[a-zA-Z ]+$ ^[A-Za-zÑñ À-ÿ]$
-            /*
-            if(expreg2.test(document.getElementById("usuario").value))
-                alerta("La matrícula es correcta");
-            else
-                alerta("La matrícula NO es correcta");
-            */
-            if (document.getElementById("usuario").value == ""){
-                alerta("Ingrese el usuario");
-                $("#nombre").focus();
-            }
-            else if (document.getElementById("contraseña").value == ""){
-                alerta("Ingrese contraseña del usuario");
-                $("#contraseña").focus();
-            }
-            else if (document.getElementById("contraseña").value != document.getElementById("contraseña2").value){
-                alerta("Las contraseñas no coinciden");
-                $("#contraseña").focus();
-            }
-            else if (document.getElementById("nombres").value == ""){
+            if (document.getElementById("nombres").value == ""){
                 alerta("Ingrese nombres del usuario");
                 $("#nombres").focus();
             }
@@ -68,30 +50,10 @@
     
     <div class="well"><H3 style="text-align: center;">EDITAR EMPLEADO</H3></div>
     <br>
-    <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.update')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
+    <form id="frmempresa" name="frmempresa" role="form" action="{{route('GestionUsuarios.updateEmpleado')}}" class="form-horizontal form-groups-bordered" method="post" enctype="multipart/form-data">
         @csrf 
             <input type="text" class="form-control" id="codEmpleado" name="codEmpleado" placeholder="Codigo" value="{{ $empleado->codEmpleado}}" hidden>
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Usuario:</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario..." value="{{$empleado->usuario()->usuario}}">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Contraseña:</label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña...">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-1 col-form-label" style="margin-left:350px;">Repetir Contraseña:</label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" id="contraseña2" name="contraseña2" placeholder="Contraseña...">
-                </div>
-            </div>
-            <hr>
+           
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" style="margin-left:350px;">Codigo:</label>
                 <div class="col-sm-4">

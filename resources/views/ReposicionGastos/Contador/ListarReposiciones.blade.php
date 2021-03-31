@@ -36,7 +36,12 @@
             <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
           @endforeach
         </select> 
-
+        
+        <label style="" for="">
+          Fecha:
+          
+        </label>
+        
         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
           <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                  value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -53,6 +58,11 @@
           </div>
         </div>
       
+        <label style="" for="">
+          &nbsp; Proyecto:
+          
+        </label>
+
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
@@ -117,9 +127,9 @@
       
             <tr>
                 <td style = "padding: 0.40rem">{{$itemreposicion->codigoCedepas  }}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraEmision()  }}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionGerente()}}</td>
-                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionAdmin()}}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->formatoFechaHoraEmision()}}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->formatoFechaHoraRevisionGerente()}}</td>
+                <td style = "text-align: center; padding: 0.40rem">{{$itemreposicion->formatoFechaHoraRevisionAdmin()}}</td>
                 
                 <td style = "padding: 0.40rem">{{$itemreposicion->getEmpleadoSolicitante()->apellidos}}, {{$itemreposicion->getEmpleadoSolicitante()->nombres}}</td>
                 <td style = "padding: 0.40rem">{{$itemreposicion->getProyecto()->codigoPresupuestal  }}</td>
@@ -134,7 +144,7 @@
                           color: {{$itemreposicion->getColorLetrasEstado()}} ;
                   " title="{{$itemreposicion->getMensajeEstado()}}">
                 </td>
-                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionConta()==null ? 'No revisado':$itemreposicion->getFechaHoraRevisionConta()}}</td>
+                <td style="text-align: center; padding: 0.40rem">{{$itemreposicion->getFechaHoraRevisionConta()==null ? 'No revisado': $itemreposicion->formatoFechaHoraRevisionConta()}}</td>
                 <td style = "padding: 0.40rem">
                   @if($itemreposicion->codEstadoReposicion==3)
                   <a href="{{route('ReposicionGastos.Contador.ver',$itemreposicion->codReposicionGastos)}}" class="btn btn-warning btn-sm" title="Contabilizar Reposición"><i class="fas fa-hand-holding-usd"></i></a>

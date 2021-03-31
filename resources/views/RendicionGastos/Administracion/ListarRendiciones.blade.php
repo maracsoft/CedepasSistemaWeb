@@ -24,7 +24,7 @@
   </style>
   
 <div>
-  <h3> Rendiciones de Gastos a Reponer </h3>
+  <h3> Rendiciones de Gastos para observar </h3>
   <div class="container">
     <div class="row">
     
@@ -38,14 +38,19 @@
   <div class="row">
     <div class="col-md-12">
       <form class="form-inline">
+
         <label for="">Empleado: </label>
+        
         <select class="form-control select2 select2-hidden-accessible selectpicker" data-select2-id="1" tabindex="-1" aria-hidden="true" id="codEmpleadoBuscar" name="codEmpleadoBuscar" data-live-search="true">
           <option value="0">- Seleccione Empleado -</option>          
           @foreach($empleados as $itemempleado)
             <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
           @endforeach
         </select> 
-
+        <label style="" for="">
+          Fecha:
+          
+        </label>
         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
           <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                  value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -61,7 +66,10 @@
               <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
           </div>
         </div>
-      
+        <label style="" for="">
+          Proyectos:
+          
+        </label>
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
@@ -113,7 +121,7 @@
         @foreach($listaRendiciones as $itemRendicion)
             <tr>
               <td style = "padding: 0.40rem">{{$itemRendicion->codigoCedepas  }}</td>
-              <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->getFechaHoraRendicion()  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->formatoFechaHoraRendicion()}}</td>
              
               <td style = "padding: 0.40rem">{{$itemRendicion->getNombreSolicitante()  }}</td>
               <td style = "padding: 0.40rem">{{$itemRendicion->getProyecto()->codigoPresupuestal  }}</td>

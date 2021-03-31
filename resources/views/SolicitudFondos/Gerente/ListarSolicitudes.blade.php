@@ -25,8 +25,8 @@ Listar Solicitudes
   
   </style>
   
-<div>
-  <h3> Solicitudes de Fondos para Aprobar </h3>
+<div style="text-align: center">
+  <h3> Solicitudes de mis proyectos </h3>
    
   <br>
   <div class="row">
@@ -40,7 +40,7 @@ Listar Solicitudes
             <option value="{{$itemempleado->codEmpleado}}" {{$itemempleado->codEmpleado==$codEmpleadoBuscar ? 'selected':''}}>{{$itemempleado->getNombreCompleto()}}</option>                                 
           @endforeach
         </select> 
-
+        <label for="">Fecha: </label>
         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
           <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                  value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -56,7 +56,9 @@ Listar Solicitudes
               <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
           </div>
         </div>
-      
+
+        
+        <label for="">Mis Proyectos: </label>
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 200px;">
           <option value="0">--Seleccionar Proyecto--</option>
           @foreach($proyectos as $itemproyecto)
@@ -118,7 +120,7 @@ Listar Solicitudes
       
             <tr>
                 <td style = "padding: 0.40rem">{{$itemSolicitud->codigoCedepas  }}</td>
-                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaHoraEmision() }}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->formatoFechaHoraEmision()}}</td>
               
                 <td style = "padding: 0.40rem"> {{$itemSolicitud->getNombreSolicitante()}} </td>
                 <td style = "padding: 0.40rem">{{$itemSolicitud->getProyecto()->codigoPresupuestal  }}</td>
@@ -146,7 +148,7 @@ Listar Solicitudes
                   @endif
                 </td>
 
-                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->getFechaRevision()}}</td>
+                <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->formatoFechaHoraRevisado()}}</td>
                 <td style = "padding: 0.40rem">
                       {{-- Si la tenemos que evaluar --}}  
                       @if($itemSolicitud->verificarEstado('Creada') || $itemSolicitud->verificarEstado('Subsanada') )

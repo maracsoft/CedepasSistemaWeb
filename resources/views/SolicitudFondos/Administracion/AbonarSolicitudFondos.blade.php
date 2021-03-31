@@ -80,7 +80,7 @@ enctype="multipart/form-data">
                             </div>
                             
                             <div class="col">
-                                <button type="button" onclick="actualizarEstado('¿Seguro de observar la reposicion?', 'Observar')"
+                                <button type="button" onclick="actualizarEstado('¿Seguro de observar la solicitud?', 'Observar')"
                                     class='btn btn-danger'   style="float:right;">
                                     <i class="fas fa-eye-slash"></i>
                                     Observar
@@ -173,7 +173,7 @@ enctype="multipart/form-data">
             //cuando apenas carga la pagina, se debe copiar el contenido de la tabla a detalleSol
             
         });
-
+        
 
 
 

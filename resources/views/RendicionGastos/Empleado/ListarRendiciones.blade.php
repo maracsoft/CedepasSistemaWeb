@@ -46,9 +46,18 @@ Mis Rendiciones
     </div>
   </div>
   <br>
-  <div class="row">
-    <div class="col-md-12">
+  <div class="row" >
+
+    
+    <div class="col-md-12" >
+      
+
       <form class="form-inline float-right">
+        <label style="" for="">
+          Fecha:
+          
+        </label>
+
         <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker"  style="width: 140px; margin-left: 10px">
           <input type="text"  class="form-control" name="fechaInicio" id="fechaInicio" style="text-align: center"
                  value="{{$fechaInicio==null ? Carbon\Carbon::now()->format('d/m/Y') : $fechaInicio}}" style="text-align:center;font-size: 10pt;">
@@ -64,7 +73,10 @@ Mis Rendiciones
               <button class="btn btn-primary date-set" type="button"><i class="fa fa-calendar"></i></button>
           </div>
         </div>
-
+        <label style="" for="">
+          &nbsp;Proyectos:
+          
+        </label>
         <select class="form-control mr-sm-2"  id="codProyectoBuscar" name="codProyectoBuscar" style="margin-left: 10px;width: 300px;">
           <option value="0">--Seleccionar--</option>
           @foreach($proyectos as $itemproyecto)
@@ -75,6 +87,7 @@ Mis Rendiciones
         </select>
         <button class="btn btn-success " type="submit">Buscar</button>
       </form>
+
     </div>
   </div>
     
@@ -93,15 +106,15 @@ Mis Rendiciones
     <table class="table" style="font-size: 10pt; margin-top:10px; ">
             <thead class="thead-dark">
               <tr>
-                <th width="9%" scope="col">Cod. Rendición</th> {{-- COD CEDEPAS --}}
-                <th width="9%" scope="col" style="text-align: center">F. Rendición</th>
-                <th width="3%">Cod.</th>
-                <th scope="col">Proyecto</th>              
-                <th width="9%" scope="col" style="text-align: center">Total Recibido</th>
-                <th width="9%" scope="col" style="text-align: center">Total Gastado</th>
-                <th width="8%" scope="col" style="text-align: center">Saldo fav Emp</th>
-                <th width="11%" scope="col" style="text-align: center">Estado</th>
-                <th width="8%" scope="col">Opciones</th>
+                <th>Cod. Rendición</th> {{-- COD CEDEPAS --}}
+                <th   style="text-align: center">F. Rendición</th>
+                <th >Cod.</th>
+                <th >Proyecto</th>              
+                <th  style="text-align: center">Total Recibido</th>
+                <th style="text-align: center">Total Gastado</th>
+                <th style="text-align: center">Saldo fav Emp</th>
+                <th style="text-align: center">Estado</th>
+                <th width="10%" >Opciones</th>
                 
               </tr>
             </thead>
@@ -113,7 +126,7 @@ Mis Rendiciones
       
             <tr>
               <td style = "padding: 0.40rem">{{$itemRendicion->codigoCedepas  }}</td>
-              <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->getFechaHoraRendicion()  }}</td>
+              <td style = "padding: 0.40rem; text-align: center">{{$itemRendicion->formatoFechaHoraRendicion()}}</td>
              
               <td style = "padding: 0.40rem">{{$itemRendicion->getProyecto()->codigoPresupuestal  }}</td>
               <td style = "padding: 0.40rem">{{$itemRendicion->getNombreProyecto()  }}</td>

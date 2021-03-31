@@ -129,8 +129,9 @@ class SolicitudFondosController extends Controller
 
         $empleado = Empleado::getEmpleadoLogeado();
 
+        $proyectos= $empleado->getListaProyectos();
         
-        if(count($empleado->getListaProyectos())==0)
+        if(count($proyectos)==0)
             return redirect()->route('error')->with('datos', "No tiene ningún proyecto asignado.");
 
         
@@ -156,7 +157,7 @@ class SolicitudFondosController extends Controller
         ->paginate($this::PAGINATION);
 
 
-        $proyectos=Proyecto::getProyectosActivos();
+        
         $empleados=Empleado::getEmpleadosActivos();
         $listaBancos = Banco::All();
         $fechaInicio=$request->fechaInicio;

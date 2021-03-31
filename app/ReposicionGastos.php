@@ -22,6 +22,26 @@ class ReposicionGastos extends Model
     'fechaHoraRevisionGerente','fechaHoraRevisionAdmin','fechaHoraRevisionConta','observacion'];
 
 
+    /** FORMATO PARA FECHAS*/
+    public function formatoFechaHoraEmision(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraEmision));
+        return $fecha;
+    }
+    public function formatoFechaHoraRevisionGerente(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraRevisionGerente));
+        return $fecha;
+    }
+    public function formatoFechaHoraRevisionAdmin(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraRevisionAdmin));
+        return $fecha;
+    }
+    public function formatoFechaHoraRevisionConta(){
+        $fecha=date('d/m/Y H:i:s', strtotime($this->fechaHoraRevisionConta));
+        return $fecha;
+    }
+
+
+
     public static function calcularCodigoCedepas($objNumeracion){
         return  ReposicionGastos::RaizCodigoCedepas.
                 substr($objNumeracion->año,2,2).
