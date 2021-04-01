@@ -318,11 +318,14 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
             </div>
             <div class="col-md-8"></div>
 
-
+            
 
             {{-- Este es para subir todos los archivos x.x  --}}
-            <div class="col" id="divEnteroArchivo">            
-                <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+            <div class="col" id="divEnteroArchivo">          
+
+                <input type="{{App\Configuracion::getInputTextOHidden()}}" name="nombresArchivos" id="nombresArchivos" value="">
+
+
                 <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
                         style="display: none" onchange="cambio()">  
                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
@@ -341,21 +344,15 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
             
 
         
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group"><!--
-                    <button class="btn btn-primary" type="submit"
-                        id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
-                        <i class='fas fa-save'></i> 
-                        Registrar
-                    </button>-->
-                    
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
-                    onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
-                   
-                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'><i class='fas fa-arrow-left'></i> Regresar al Menú</a>              
-                </div>    
-            </div>
+        <div class="col">  
+            <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info'>
+                <i class='fas fa-arrow-left'></i> 
+                Regresar al Menú
+            </a> 
+            <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
+               
+             
         </div>
     
 </form>
@@ -442,8 +439,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
         }
 
     </script>
-     @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS');
-
+    @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS')
 
 
 

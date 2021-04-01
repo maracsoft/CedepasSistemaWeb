@@ -89,12 +89,12 @@ Ver Rendición
 
                     <div id="guardar">
                         <div class="form-group"><!--
-                            <a href="{{route('rendicionGastos.ListarRendiciones')}}" 
+                            <a href="{{route('RendicionGastos.ListarRendiciones')}}" 
                                 class='btn btn-primary' style="float:left;">
                                 <i class="fas fa-undo"></i>
                                 Regresar al menú
                             </a>    -->
-                            <a href="{{route('rendicionGastos.ListarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menú</a>        
+                            <a href="{{route('RendicionGastos.ListarRendiciones')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menú</a>        
                         </div>    
                     </div>
                     

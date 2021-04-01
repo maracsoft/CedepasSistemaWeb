@@ -109,7 +109,7 @@ Contabilizar Rendición
                     
                         @include('RendicionGastos.DesplegableDescargarArchivosRend')
                         
-                        <a href="{{route('rendicionGastos.ListarRendiciones')}}" 
+                        <a href="{{route('RendicionGastos.ListarRendiciones')}}" 
                             class='btn btn-primary' style="float:left;">
                             <i class="fas fa-undo"></i>
                             Regresar al menú

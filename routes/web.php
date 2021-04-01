@@ -295,7 +295,7 @@ Route::group(['middleware'=>"ValidarSesion"],function()
 
     //RUTA MAESTAR QUE REDIRIJE A LOS LISTADOS DE RENDICIONES DE LOS ACTORES EMP GER Y J.A
     Route::get('/RendicionGastos/MAESTRA/listar','RendicionGastosController@listarRendiciones')
-    ->name('rendicionGastos.ListarRendiciones');
+    ->name('RendicionGastos.ListarRendiciones');
 
 
     

@@ -33,6 +33,14 @@ class Configuracion extends Model
     const tamañoMaximoGiraraAOrdenDe= 50;//solicitud
     const tamañoMaximoNroCuentaBanco= 50;//solicitud-reposicion
 
+    public static function getInputTextOHidden(){
+        if(Configuracion::enProduccion)
+            return "hidden";
+    
+        return "text";
+
+
+    } 
     
     public static function getRutaImagenCedepasPNG(){
      

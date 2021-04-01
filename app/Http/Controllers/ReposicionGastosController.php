@@ -267,13 +267,13 @@ class ReposicionGastosController extends Controller
 
 
             if($reposicion->codEmpleadoSolicitante != Empleado::getEmpleadoLogeado()->codEmpleado)
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser actualizada por un empleado distinto al que la creó.');
 
 
 
             if(!$reposicion->listaParaActualizar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser actualizada ahora puesto que está en otro proceso.');
 
                 
@@ -609,7 +609,7 @@ class ReposicionGastosController extends Controller
 
             
             if(!$reposicion->listaParaAprobar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser aprobada ahora puesto que está en otro proceso.');
 
 
@@ -649,7 +649,7 @@ class ReposicionGastosController extends Controller
             $reposicion=ReposicionGastos::findOrFail($id);
 
             if(!$reposicion->listaParaAbonar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser abonada ahora puesto que está en otro proceso.');
 
 
@@ -678,7 +678,7 @@ class ReposicionGastosController extends Controller
             $reposicion=ReposicionGastos::find($arr[0]);
 
             if(!$reposicion->listaParaObservar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser observada ahora puesto que está en otro proceso.');
 
 
@@ -731,7 +731,7 @@ class ReposicionGastosController extends Controller
             $reposicion=ReposicionGastos::findOrFail($id);
 
             if(!$reposicion->listaParaRechazar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser rechazada ahora puesto que está en otro proceso.');
 
 
@@ -786,7 +786,7 @@ class ReposicionGastosController extends Controller
             $reposicion = ReposicionGastos::findOrFail($codReposicion);
 
             if(!$reposicion->listaParaContabilizar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser contabilizada ahora puesto que está en otro proceso.');
 
 
@@ -830,7 +830,7 @@ class ReposicionGastosController extends Controller
             $reposicion = ReposicionGastos::findOrFail($id);
 
             if(!$reposicion->listaParaCancelar())
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('ReposicionGastos.Listar')
                 ->with('datos','Error: la reposicion no puede ser cancelada ahora puesto que está en otro proceso.');
 
 

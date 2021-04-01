@@ -1,9 +1,16 @@
+<style>
+    
+    .hovered:hover{
+        background-color:rgb(97, 170, 170);
+
+    }
+</style>
+
+
 {{-- CODIGO QUE SE REUTILIZA EN LAS VISTAS DE CREAR Y EDITAR --}}
 <script>
 
-    @if (App\Configuracion::enProduccion)
-        document.getElementById('nombresArchivos').type = "hidden"
-    @endif
+    
 
     //se ejecuta cada vez que escogewmos un file
     function cambio(){
@@ -32,19 +39,19 @@
 
 
     function validarPesoArchivos(){
-    cantidadArchivos = document.getElementById('filenames').files.length;
-    
-    msj="";
-    for (let index = 0; index < cantidadArchivos; index++) {
-        var imgsize = document.getElementById('filenames').files[index].size;
-        nombre = document.getElementById('filenames').files[index].name;
-        if(imgsize > {{App\Configuracion::pesoMaximoArchivoMB}}*1000*1000 ){
-            msj=('El archivo '+nombre+' supera los  {{App\Configuracion::pesoMaximoArchivoMB}}Mb, porfavor ingrese uno más liviano o comprima.');
+        cantidadArchivos = document.getElementById('filenames').files.length;
+        
+        msj="";
+        for (let index = 0; index < cantidadArchivos; index++) {
+            var imgsize = document.getElementById('filenames').files[index].size;
+            nombre = document.getElementById('filenames').files[index].name;
+            if(imgsize > {{App\Configuracion::pesoMaximoArchivoMB}}*1000*1000 ){
+                msj=('El archivo '+nombre+' supera los  {{App\Configuracion::pesoMaximoArchivoMB}}Mb, porfavor ingrese uno más liviano o comprima.');
+            }
         }
-    }
-    
+        
 
-    return msj;
+        return msj;
 
     }
 

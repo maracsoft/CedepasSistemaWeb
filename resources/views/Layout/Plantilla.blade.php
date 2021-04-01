@@ -219,12 +219,15 @@
     <!-- /.content -->
   </div>
  
-  <footer class="main-footer">
-        <strong>Copyright &copy; 2021 
+  <footer class="main-footer" style="padding: 4px; font-size:9pt;">
+    <div style="text-align:right;">
+      <strong>Copyright &copy; 2021 
           
-          .
-        </strong> 
-        Powered by Maracsoft
+        .
+      </strong> 
+      Powered by Maracsoft
+    </div>
+        
   </footer>
    
 

@@ -523,14 +523,14 @@ class RendicionGastosController extends Controller
 
             $rendicion->save();
             DB::commit();
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('RendicionGastos.ListarRendiciones')
             ->with('datos','Rendicion '.$rendicion->codigoCedepas.' Observada');
 
         } catch (\Throwable $th) {
             Debug::mensajeError('RENDICION GASTOS CONTROLLER : OBSERVAR',$th);
       
             DB::rollBack();
-            return redirect()->route('rendicionGastos.ListarRendiciones')
+            return redirect()->route('RendicionGastos.ListarRendiciones')
             ->with('datos','Ha ocurrido un error');
         }
 
@@ -572,9 +572,11 @@ class RendicionGastosController extends Controller
                 return redirect()->route('RendicionGastos.ListarRendiciones')
                     ->with('datos','Error: la solicitud ya se ha rendido.');
 
+            if( !($solicitud->verificarEstado('Abonada') || $solicitud->verificarEstado('Contabilizada')) )
+                return redirect()->route('RendicionGastos.ListarRendiciones')
+                    ->with('datos','Esta solicitud no puede ser rendida puesto que está en el estado '.$solicitud->getNombreEstado().".");
 
-
-
+            
             $solicitud ->estaRendida = 1; //cambiamos el estaod de la solicitud a rendida
             $solicitud->save();
 
@@ -657,7 +659,7 @@ class RendicionGastosController extends Controller
                 ->route('RendicionGastos.Empleado.Listar')
                 ->with('datos','Se ha creado la rendicion N°'.$rendicion->codigoCedepas);
         }catch(Exception $e){
-
+            
             error_log('\\n ---------------------- RENDICION GASTOS CONTROLLER STORE 
             Ocurrió el error:'.$e->getMessage().'
             
