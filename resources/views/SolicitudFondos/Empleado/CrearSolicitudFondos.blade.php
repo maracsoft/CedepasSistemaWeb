@@ -222,8 +222,8 @@ onsubmit="" id="frmsoli" name="frmsoli">
                 <div class="col-md-2">
                     {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                     <input type="hidden" name="cantElementos" id="cantElementos">                              
-                    <input type="hidden" class="form-control text-right" name="total" id="total" readonly="readonly">   
-                    <input type="text" class="form-control text-right" name="totalMostrado" id="totalMostrado" readonly="readonly">   
+                    <input type="hidden" class="form-control text-right" name="total" id="total" readonly>   
+                    <input type="text" class="form-control text-right" name="totalMostrado" id="totalMostrado" readonly>   
                                                 
                 </div>   
             </div>

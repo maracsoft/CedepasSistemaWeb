@@ -140,7 +140,7 @@ enctype="multipart/form-data" id="frmRend" >
                             <div class="col">
                                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                                 <input type="hidden" name="cantElementos" id="cantElementos">                              
-                                <input type="text" class="form-control text-right" name="totalRendido" id="totalRendido" readonly="readonly" 
+                                <input type="text" class="form-control text-right" name="totalRendido" id="totalRendido" readonly 
                                     value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
                             </div>   
 
@@ -153,7 +153,7 @@ enctype="multipart/form-data" id="frmRend" >
 
                             <div class="col">
                             
-                                <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" 
+                                <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly 
                                     value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
                             </div>   
                             <div class="w-100"></div>

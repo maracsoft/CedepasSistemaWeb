@@ -47,7 +47,7 @@ Solicitud
                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                 <input type="hidden" name="cantElementos" id="cantElementos">                              
                 <input type="text" class="form-control text-right" name="total" 
-                    value="{{number_format($solicitud->totalSolicitado,2)}}" id="total" readonly="readonly">                              
+                    value="{{number_format($solicitud->totalSolicitado,2)}}" id="total" readonly>                              
             </div>   
         </div>
                     

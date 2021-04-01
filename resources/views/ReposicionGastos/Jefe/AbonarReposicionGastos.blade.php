@@ -91,7 +91,7 @@
             <input type="hidden" name="totalRendido" id="totalRendido">
 
             <input type="text" class="form-control text-right" name="total" 
-                id="total" readonly="readonly" value="{{number_format($reposicion->totalImporte,2)}}">   
+                id="total" readonly value="{{number_format($reposicion->totalImporte,2)}}">   
 
                 <br><br><br>
             <!--<a href="#" class="btn btn-warning" onclick="observar()">

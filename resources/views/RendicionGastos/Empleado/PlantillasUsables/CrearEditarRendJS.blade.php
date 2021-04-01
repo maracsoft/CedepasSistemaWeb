@@ -227,10 +227,10 @@
 
                             <td style="text-align:center;">              
                                                         
-                                <input type="text" class="form-control" name="nroEnRendicion`+item+`" id="nroEnRendicion`+item+`" value="`+element.nroEnRendicion+`" readonly="readonly">
+                                <input type="text" class="form-control" name="nroEnRendicion`+item+`" id="nroEnRendicion`+item+`" value="`+element.nroEnRendicion+`" readonly>
                             </td>               
                             <td style="text-align:center;">              
-                                <input type="text" class="form-control" name="colFecha`+item+`" id="colFecha`+item+`" value="`+element.fecha+`" readonly="readonly" style="font-size:10pt;"  >
+                                <input type="text" class="form-control" name="colFecha`+item+`" id="colFecha`+item+`" value="`+element.fecha+`" readonly style="font-size:10pt;"  >
                             </td>               
                     
                             <td style="text-align:center;">               

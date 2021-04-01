@@ -110,7 +110,7 @@ Ver Rendición
                         <div class="col">
                             {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                             <input type="hidden" name="cantElementos" id="cantElementos">                              
-                            <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
+                            <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
                         </div>   
 
                         <div class="w-100"></div>
@@ -120,7 +120,7 @@ Ver Rendición
                         </div>   
                         <div class="col">
                         
-                            <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly" value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
+                            <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
                         </div>   
                         <div class="w-100"></div>  
                         <div class="col">                        
@@ -251,25 +251,25 @@ Ver Rendición
                 //item = getUltimoIndex();
                 var fila=   '<tr class="selected" id="fila'+item+'" name="fila' +item+'">               ' +
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colFecha'+item+'" id="colFecha'+item+'" value="'+element.fecha+'" readonly>'   +
                             '    </td>               '+
                             
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colTipo'+item+'" id="colTipo'+item+'" value="'+element.tipo+'" readonly>'   +
                             '    </td>               '+
                             
                             '    <td style="text-align:center;">               '+
-                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly="readonly">'   +
+                            '       <input type="text" class="form-control" name="colComprobante'+item+'" id="colComprobante'+item+'" value="'+element.ncbte+'" readonly>'   +
                             '    </td>               '+
                             '    <td> '+
  
-                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly="readonly">' +
+                            '       <input type="text" class="form-control" name="colConcepto'+item+'" id="colConcepto'+item+'" value="'+element.concepto+'" readonly>' +
                             '    </td>               '+
                             '    <td  style="text-align:right;">               '+
-                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly="readonly">' +
+                            '       <input type="text" class="form-control" name="colImporte'+item+'" id="colImporte'+item+'" value="'+element.importe+'" readonly>' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
-                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly="readonly">' +
+                            '    <input type="text" class="form-control" name="colCodigoPresupuestal'+item+'" id="colCodigoPresupuestal'+item+'" value="'+element.codigoPresupuestal+'" readonly>' +
                             '    </td>               '+
                             '    <td style="text-align:center;">               '+
                             '        <button type="button" class="btn btn-danger btn-xs" onclick="eliminardetalle('+item+');">'+

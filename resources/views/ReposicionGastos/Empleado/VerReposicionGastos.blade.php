@@ -56,7 +56,7 @@
                 <input type="hidden" name="totalRendido" id="totalRendido">
 
                 <input type="text" class="form-control text-right" name="total" id="total" 
-                    readonly="readonly" value="{{$reposicion->totalImporte}}">   
+                    readonly value="{{$reposicion->totalImporte}}">   
 
             </div>   
 

@@ -74,7 +74,8 @@
 
                     </div>
                     <div class="col"> {{-- Combo box de proyecto --}}
-                            <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly value="{{$solicitud->getNombreProyecto()}}">     
+                            <input readonly  type="text" class="form-control" name="proyecto" id="proyecto" readonly 
+                            value="{{"[".$solicitud->getProyecto()->codigoPresupuestal."] ".$solicitud->getNombreProyecto()}}">     
                         
                     </div>
 
@@ -152,19 +153,19 @@
                     <td style="text-align:center;">               
 
                        <input type="text" class="inputLigero form-control" name="colItem{{$itemDetalle->nroItem}}" 
-                            id="colItem{{$itemDetalle->nroItem}}" value="{{$itemDetalle->nroItem}}" readonly="readonly">   
+                            id="colItem{{$itemDetalle->nroItem}}" value="{{$itemDetalle->nroItem}}" readonly>   
                     </td>               
                     
                     <td> 
                        <input type="text" class="inputLigero form-control" name="colConcepto{{$itemDetalle->nroItem}}" 
-                            id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly="readonly"> 
+                            id="colConcepto{{$itemDetalle->nroItem}}" value="{{$itemDetalle->concepto}}" readonly> 
                     </td>           
                     
                     
                     <td>               
                        <input type="text" class="inputLigero form-control" name="colImporte{{$itemDetalle->nroItem}}" 
                        id="colImporte{{$itemDetalle->nroItem}}"  value="{{number_format($itemDetalle->importe,2)}}" 
-                        style="text-align: right;" readonly="readonly"> 
+                        style="text-align: right;" readonly> 
                     </td>          
 
                     <td style="text-align:center;">               

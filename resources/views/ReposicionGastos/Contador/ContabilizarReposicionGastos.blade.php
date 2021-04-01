@@ -255,7 +255,7 @@ Reposición
                     <input type="hidden" name="totalRendido" id="totalRendido">
 
                     <input type="text" class="form-control text-right" 
-                        name="total" id="total" readonly="readonly" value="{{$reposicion->getMoneda()->simbolo}} {{number_format($reposicion->totalImporte,2)}}">   
+                        name="total" id="total" readonly value="{{$reposicion->getMoneda()->simbolo}} {{number_format($reposicion->totalImporte,2)}}">   
 
                 </div>   
                 <div class="w-100"></div>

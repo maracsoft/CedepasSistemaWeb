@@ -336,7 +336,7 @@
                 <input type="hidden" name="cantElementos" id="cantElementos">
                 <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
                 <input type="hidden" name="totalRendido" id="totalRendido">                              
-                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                <input type="text" class="form-control text-right" name="total" id="total" readonly>   
 
             </div>   
             <!--
@@ -348,7 +348,7 @@
 
             <div class="col">
                                             
-                <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly="readonly" value="">                              
+                <input type="text" class="form-control text-right" name="totalRecibido" id="totalRecibido" readonly value="">                              
             </div>   
             <div class="col-md-8">
             </div>   
@@ -357,7 +357,7 @@
             </div>   
             <div class="col">                     
                 <input type="text" class="form-control text-right"  
-                    name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
+                    name="saldoAFavor" id="saldoAFavor" readonly  value="0.00">                              
             </div>   
             -->
             <div class="w-100">

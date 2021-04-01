@@ -275,7 +275,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                         {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                         <input type="hidden" name="cantElementos" id="cantElementos">                              
                         <input type="hidden" name="totalRendido" id="totalRendido">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly>   
 
                     </div>   
                     
@@ -286,7 +286,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     </div>   
                     <div class="col">                       
                         <input type="text" class="form-control text-right" name="totalRecibido" 
-                            id="totalRecibido" readonly="readonly" value="{{number_format($solicitud->totalSolicitado,2)}}">                              
+                            id="totalRecibido" readonly value="{{number_format($solicitud->totalSolicitado,2)}}">                              
                     </div>   
 
                     <div class="w-100"></div>  
@@ -297,7 +297,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
 
                     <div class="col">                     
                         <input type="text" class="form-control text-right"  
-                            name="saldoAFavor" id="saldoAFavor" readonly="readonly"  value="0.00">                              
+                            name="saldoAFavor" id="saldoAFavor" readonly  value="0.00">                              
                     </div>   
 
                     <div class="w-100"></div>

@@ -158,25 +158,25 @@ function actualizarTabla(){
         //item = getUltimoIndex();
         var fila= `  <tr class="selected" id="fila`+item+`" name="fila` +item+`">          
                         <td style="text-align:center;">               
-                            <input type="text" class="form-control" name="colFecha`+item+`" id="colFecha`+item+`" value="`+element.fecha+`" readonly="readonly">
+                            <input type="text" class="form-control" name="colFecha`+item+`" id="colFecha`+item+`" value="`+element.fecha+`" readonly>
                         </td>             
                     
                         <td style="text-align:center;">            
-                            <input type="text" class="form-control" name="colTipo`+item+`" id="colTipo`+item+`" value="`+element.tipo+`" readonly="readonly">
+                            <input type="text" class="form-control" name="colTipo`+item+`" id="colTipo`+item+`" value="`+element.tipo+`" readonly>
                         </td>              
                         <td style="text-align:center;">               
-                            <input type="text" class="form-control" name="colComprobante`+item+`" id="colComprobante`+item+`" value="`+element.ncbte+`" readonly="readonly">
+                            <input type="text" class="form-control" name="colComprobante`+item+`" id="colComprobante`+item+`" value="`+element.ncbte+`" readonly>
                         </td>             
                         <td>
 
-                            <input type="text" class="form-control" name="colConcepto`+item+`" id="colConcepto`+item+`" value="`+element.concepto+`" readonly="readonly">
+                            <input type="text" class="form-control" name="colConcepto`+item+`" id="colConcepto`+item+`" value="`+element.concepto+`" readonly>
                         </td>              
                     
                     
 
                         <td  style="text-align:right;">              
                             <input type="text" class="form-control" value="`+number_format(element.importe,2)+`" readonly>
-                            <input type="hidden" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+(element.importe)+`" readonly="readonly">
+                            <input type="hidden" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+(element.importe)+`" readonly>
                         </td>              
                         <td style="text-align:center;">              
                         <input type="text" class="form-control" name="colCodigoPresupuestal`+item+`" id="colCodigoPresupuestal`+item+`" value="`+element.codigoPresupuestal+`" readonly>

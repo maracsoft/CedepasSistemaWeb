@@ -30,7 +30,7 @@ Ver Solicitud
                 <div class="col-md-2">
                     {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                     <input type="hidden" name="cantElementos" id="cantElementos">                              
-                    <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
+                    <input type="text" class="form-control text-right" name="total" id="total" readonly>                              
                 </div>   
 
                 <div class="w-100"></div>

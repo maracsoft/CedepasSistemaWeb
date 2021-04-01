@@ -344,7 +344,7 @@ Editar Reposición de Gastos
                         <input type="hidden" name="cantElementos" id="cantElementos">
                         <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
                         <input type="hidden" name="totalRendido" id="totalRendido">                              
-                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly>   
 
                     </div>   
                     
