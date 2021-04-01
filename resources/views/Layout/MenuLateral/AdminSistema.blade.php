@@ -191,13 +191,7 @@
           </a>
         </li>
         
-        <li class="nav-item">
-          <a href="{{route('probandoPanita')}}" class="nav-link">
-           
-            <p>BOTONSITO</p>
-          </a>
-        </li>
-          
+       
 
 
 

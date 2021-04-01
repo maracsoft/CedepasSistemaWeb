@@ -173,5 +173,29 @@ class ProyectoController extends Controller
     }
 
     
+    /**PARA RELLENAR PROYECTO_CONTADOR */
+    public function RellenarProyectoContador(){
+
+        //borramos todos los actuales
+        $listaActual = ProyectoContador::where('codProyectoContador','>','0')->delete();
+        
+        $contadores=Empleado::getListaContadoresActivos();
+        $proyectos=Proyecto::getProyectosActivos();
+
+        foreach ($proyectos as $itemproyecto) {
+            foreach ($contadores as $itemcontador) {
+                $detalle=new ProyectoContador();
+                $detalle->codEmpleadoContador=$itemcontador->codEmpleado;
+                $detalle->codProyecto=$itemproyecto->codProyecto;
+                $detalle->save();
+            }
+        }
+
+        Debug::mensajeSimple('Rellenando todos los proyectos con contadores');
+        return redirect()->route('GestiónProyectos.Listar')->with('datos','Se han rellenado todos los proyectos con los contadores.');
+
+
+    }
+
     
 }

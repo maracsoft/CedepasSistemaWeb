@@ -12,8 +12,7 @@
      <link rel="stylesheet" href="css/login.css">
      <link rel="stylesheet" href="css/style.css">
      <link  rel="stylesheet" href="public/uicons-regular-rounded/css/uicons-regular-rounded.css">
-     <link rel="shortcut icon" href="http://www.cedepas.org.pe/sites/default/files/logo-cedepas_0.png" type="image/png">
-      
+     
 </head>
 <div class="conteiner">
     <br>
@@ -95,9 +94,10 @@
 	--}}
 	
 			</div>
-			<div align="center">
+			<div >
 				<img src="/img/LogoCedepas.png"
-				width="200" height="140" ></div>
+				width="200" height="140" >
+			</div>
 		</div>
 		
 	</form>

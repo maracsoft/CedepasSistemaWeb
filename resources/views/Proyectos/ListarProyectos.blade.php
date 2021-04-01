@@ -112,6 +112,10 @@
     </div>
     <!-- /.card-body -->
   </div>
+  <a href="#" onclick="asignarContadoresATodosProyectos()" 
+      class="btn btn-success">
+    <p>Asignar todos los contadores a todos los proyectos</p>
+  </a>
   <!-- /.card -->
 <br>
 
@@ -124,6 +128,36 @@
 @endsection
 
 <script>
+
+
+  function asignarContadoresATodosProyectos(){
+
+    swal(
+          {//sweetalert
+              title: "Confirmar",
+              text: '¿Desea asignar todos los contadores activos a todos los proyectos activos?',     //mas texto
+              type: "warning",//e=[success,error,warning,info]
+              showCancelButton: true,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText:  'SI',
+              cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(value){//se ejecuta cuando damos a aceptar
+            direccion = "{{route('GestionProyectos.setearTodosLosContadoresATodosLosProyectos')}}";
+            location.href = direccion;
+          }
+      );
+
+
+
+
+
+    
+  }
+
   function guardar(codProyecto){
     var codGerente=$('#Proyecto'+codProyecto).val();
     if(codGerente!=0){
@@ -137,17 +171,5 @@
     }
     
   }
-  /*
-  function guardar2(codProyecto){
-    var codContador=$('#Proyecto2'+codProyecto).val();
-    if(codContador!=0){
-      $.get('/asignarGerentesContadores/actualizar/'+codProyecto+'*'+codContador+'*2', function(data){
-        if(data) alerta('Se actualizo el contador');
-        else alerta('No se pudo actualizar el contador');
-      });
-    }else{
-      alerta('seleccione un Contador');
-    }
-    
-  }*/
+  
 </script>

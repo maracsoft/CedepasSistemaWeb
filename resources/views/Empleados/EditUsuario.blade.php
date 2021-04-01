@@ -99,7 +99,7 @@
             }
 
             
-            confirmar('¿Seguro de guardar la contraseña?','warning','frmUsuario');
+            confirmar('¿Seguro de guardar los cambios?','warning','frmUsuario');
             
             
 
