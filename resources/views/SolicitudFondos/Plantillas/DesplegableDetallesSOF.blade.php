@@ -85,7 +85,7 @@
       elemento.className = nombreClase;
       giradoItems = !giradoItems;
     }
-  </script>
+</script>
 
 
 

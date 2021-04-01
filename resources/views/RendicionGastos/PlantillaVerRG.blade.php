@@ -106,8 +106,8 @@
                         <div class="w-100"></div> {{-- SALTO LINEA --}}
 
                         <div  class="colLabel">
-                                <label for="estado">Estado de <br> la Solicitud
-                                    @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Observación @endif:</label>
+                                <label for="estado">Estado de <br> la Rend
+                                    @if($rendicion->verificarEstado('Observada')){{-- Si está observada --}}& Obs @endif:</label>
                         </div>
                         <div class="col"> {{-- Combo box de estado --}}
                             <input readonly type="text" class="form-control" name="estado" id="estado"

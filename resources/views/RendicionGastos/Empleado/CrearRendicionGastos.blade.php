@@ -345,7 +345,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
 
         
         <div class="col">  
-            <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info'>
+            <a href="{{route('RendicionGastos.Empleado.Listar')}}" class='btn btn-info'>
                 <i class='fas fa-arrow-left'></i> 
                 Regresar al Menú
             </a> 

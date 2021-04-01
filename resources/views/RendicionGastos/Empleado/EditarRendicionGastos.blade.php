@@ -258,7 +258,7 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
         <div class="row" id="divTotal" name="divTotal">                       
             <div class="col">
                 @include('RendicionGastos.DesplegableDescargarArchivosRend')
-                <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
+                <a href="{{route('RendicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
                     <i class='fas fa-arrow-left'></i> 
                     Regresar al Menú
                 </a>    
@@ -304,13 +304,13 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     
                     {{-- Este es para subir todos los archivos x.x  --}}
                     <div class="col" id="divEnteroArchivo">            
-                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="{{App\Configuracion::getInputTextOHidden()}}" name="nombresArchivos" id="nombresArchivos" value="">
                         <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
                                 style="display: none" onchange="cambio()">  
                                         <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
                         <label class="label" for="filenames" style="font-size: 12pt;">       
                             <div id="divFileImagenEnvio" class="hovered">       
-                                Subir nuevos archivos comprobantes  
+                                Remplazar archivos comprobantes  
                             <i class="fas fa-upload"></i>        
                             </div>       
                         </label>       
@@ -426,13 +426,13 @@ onsubmit="return validarFormEdit()" enctype="multipart/form-data" id="frmrend" n
                     return false;
                 }
             
-            confirmar('¿Está seguro de actualizar la rendicion?','info','frmrend');
+            confirmar('¿Está seguro de actualizar la rendición?','info','frmrend');
             
         }
     </script>
      
 
-     @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS');
+     @include('RendicionGastos.Empleado.PlantillasUsables.CrearEditarRendJS')
 
 
 

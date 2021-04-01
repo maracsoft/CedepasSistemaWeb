@@ -145,16 +145,18 @@
                     S
                   </a>
 
-                  @if($itemRendicion->verificarEstado('Aprobada') || $itemRendicion->verificarEstado('Creada'))
+                  @if(!$itemRendicion->verificarEstado('Contabilizada') )
                   {{-- Es en estos estados que puede observar --}}  
                     <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-warning btn-sm' title="Revisar Rendición">
-                      <i class="fas fa-eye"></i>
+                      <i class="fas fa-eye">R</i>
                     </a>
+                  
                   @else 
-                    <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
-                      R
-                    </a>
 
+                    
+                  <a href="{{route('RendicionGastos.Administracion.Ver',$itemRendicion->codRendicionGastos)}}" class='btn btn-info btn-sm' title="Ver Rendición">
+                    R
+                  </a>
                   @endif
 
                   
@@ -165,7 +167,8 @@
                 <a class='btn btn-info btn-sm'  href="{{route('rendicionGastos.descargarPDF',$itemRendicion->codRendicionGastos)}}" title="Descargar PDF">
                   <i class="fas fa-file-download"></i>
                 </a>
-                <a target="pdf_rendicion_{{$itemRendicion->codRendicionGastos}}" class='btn btn-info btn-sm'  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}" title="Ver PDF">
+                <a target="pdf_rendicion_{{$itemRendicion->codRendicionGastos}}" class='btn btn-info btn-sm'  
+                  href="{{route('rendicionGastos.verPDF',$itemRendicion->codRendicionGastos)}}" title="Ver PDF">
                   <i class="fas fa-file-pdf"></i>
                 </a>
                   

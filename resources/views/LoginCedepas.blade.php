@@ -94,8 +94,8 @@
 	--}}
 	
 			</div>
-			<div >
-				<img src="/img/LogoCedepas.png"
+			<div style="text-align: center">
+				<img src="{{App\Configuracion::getRutaImagenCedepasPNG()}}"
 				width="200" height="140" >
 			</div>
 		</div>

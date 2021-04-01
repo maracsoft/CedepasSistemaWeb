@@ -91,79 +91,85 @@
                       
           
 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col">
-                        @include('RendicionGastos.DesplegableDescargarArchivosRend')
+            <div class="row" id="divTotal" name="divTotal">                       
+                <div class="col">
+                    @include('RendicionGastos.DesplegableDescargarArchivosRend')
+                    
+
+
+                    <a href="{{route('RendicionGastos.Administracion.Listar')}}" class='btn btn-info float-left'>
+                        <i class="fas fa-arrow-left"></i> 
+                        Regresar al Menu
+                    </a>  
+
+                </div>   
+
+                <div class="col" >
+                    <div class="row">
                         
+                        <div class="col">                        
+                            <label for="">Total Rendido/Gastado: </label>    
+                        </div>   
+                        <div class="col">
+                            {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                            <input type="hidden" name="cantElementos" id="cantElementos">                              
+                            <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
+                        </div>   
 
 
-                        <a href="{{route('RendicionGastos.Administracion.Listar')}}" class='btn btn-info float-left'>
-                            <i class="fas fa-arrow-left"></i> 
-                            Regresar al Menu
-                        </a>  
 
-                    </div>   
+                        <div class="w-100"></div>
+                        <div class="col">                        
+                            <label for="">Total Recibido: </label>    
+                        </div>   
 
-                    <div class="col" >
-                        <div class="row">
+                        <div class="col">
+                        
+                            <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
+                        </div>   
+                        <div class="w-100"></div>
+                        <div class="col">                        
+                            <label for="">
+
+                                @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
+                                    Saldo a favor del Empleado: 
+                                @else
+                                    Saldo a favor de Cedepas: 
+                                @endif
+                                
+                            </label>    
+                        </div>   
+                        <div class="col">
+                            <input type="text" class="form-control text-right" name="total" id="total" 
+                            readonly value="{{number_format(abs($rendicion->saldoAFavorDeEmpleado),2)}}">                              
+                        </div>   
+                        
+                        @if(
+                                $rendicion->verificarEstado('Creada') 
+                            ||$rendicion->verificarEstado('Aprobada') 
+                            ||$rendicion->verificarEstado('Subsanada') 
+                            || $rendicion->verificarEstado('Observada') 
+                        )
                             
-                            <div class="col">                        
-                                <label for="">Total Rendido/Gastado: </label>    
-                            </div>   
-                            <div class="col">
-                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                                <input type="hidden" name="cantElementos" id="cantElementos">                              
-                                <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format(($rendicion->totalImporteRendido),2)}}">                              
-                            </div>   
-
-
-
-                            <div class="w-100"></div>
-                            <div class="col">                        
-                                <label for="">Total Recibido: </label>    
-                            </div>   
-
-                            <div class="col">
-                            
-                                <input type="text" class="form-control text-right" name="total" id="total" readonly value="{{number_format($rendicion->totalImporteRecibido,2)}}">                              
-                            </div>   
-                            <div class="w-100"></div>
-                            <div class="col">                        
-                                <label for="">
-
-                                    @if($rendicion->saldoAFavorDeEmpleado>0) {{-- pal empl --}}
-                                        Saldo a favor del Empleado: 
-                                    @else
-                                        Saldo a favor de Cedepas: 
-                                    @endif
-                                    
-                                </label>    
-                            </div>   
-                            <div class="col">
-                                <input type="text" class="form-control text-right" name="total" id="total" 
-                                readonly value="{{number_format(abs($rendicion->saldoAFavorDeEmpleado),2)}}">                              
-                            </div>   
-                            
-                            
+                        
                             <div class="w-100"></div>
                             <label for="">Observación:</label>
                             <textarea class="form-control" name="observacion" id="observacion" cols="30" rows="4"></textarea>
                             <br>
                             <a href="#" class="btn btn-warning" onclick="observarRendicion()"><i class="entypo-pencil"></i>Observar</a>
-                       
-                        </div>
+                        @endif
                     </div>
-
-
-
                 </div>
+
+
+
+            </div>
                     
 
                 
         </div> 
         
-        
-    </div>
+      
 
 </form>
 @endsection

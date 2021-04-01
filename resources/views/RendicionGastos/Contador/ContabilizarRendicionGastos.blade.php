@@ -101,7 +101,7 @@ Contabilizar Rendición
                 </table>
             </div> 
                 
-                <input type="text" id="listaContabilizados" 
+                <input type="{{App\Configuracion::getInputTextOHidden()}}" id="listaContabilizados" 
                     name = "listaContabilizados" value="">
 
                 <div class="row" id="divTotal" name="divTotal">       
@@ -217,9 +217,7 @@ Contabilizar Rendición
                 </div>    
             </div>
         </div>
-    </div>
-
-
+    
 @endsection
 
 {{-- ************************************************************************************************************* --}}
@@ -259,15 +257,8 @@ Contabilizar Rendición
 @section('script')
        
      <script>
-        var cont=0;
-        
-        var IGV=0;
-        var total=0;
-        var detalleRend=[];
-        var importes=[];
-        var controlproducto=[];
-        var totalSinIGV=0;
-    
+       
+       
         $(document).ready(function(){
           
     
@@ -302,13 +293,13 @@ Contabilizar Rendición
 
             msjExtra = "";
             if(listaItems.length==0){
-                msjExtra = "No ha marcado ningún Item... ";
+                msjExtra = "No ha marcado ningún Ítem... ";
                 
             }
 
 
             swal({//sweetalert
-                title: msjExtra+'¿Seguro de contabilizar la rendicion?',
+                title: msjExtra+'¿Seguro de contabilizar la rendición?',
                 text: '',
                 type: 'info',  
                 showCancelButton: true,
