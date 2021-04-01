@@ -42,7 +42,7 @@ enctype="multipart/form-data">
             <div class="col-md-2">
                 {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
                 <input type="hidden" name="cantElementos" id="cantElementos">                              
-                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">                              
+                <input type="text" class="form-control text-right" name="total" id="total" value="{{number_format($solicitud->totalSolicitado,2)}}" readonly>                              
             </div>   
         </div>
                     
@@ -101,7 +101,7 @@ enctype="multipart/form-data">
                             <div class="col">
                                 <button type="button" class='btn btn-success' onclick="marcarComoAbonada()" style="float:right;">
                                     <i class="fas fa-check"></i>
-                                    Marcar como Abonado
+                                    Marcar como Abonada
                                 </button>
                             </div>
                           
@@ -126,8 +126,7 @@ enctype="multipart/form-data">
                 </div>
             </div>
         </div>
-    </div>
-
+  
 </form>
 @endsection
 

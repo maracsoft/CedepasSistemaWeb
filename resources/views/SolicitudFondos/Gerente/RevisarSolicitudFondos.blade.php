@@ -203,7 +203,7 @@
             }
 
             console.log('TODO OK');
-            confirmar('¿Está seguro de Aceptar la Solicitud?','info','frmSoli');
+            confirmar('¿Está seguro de Aprobar la Solicitud?','info','frmSoli');
         }
 
 

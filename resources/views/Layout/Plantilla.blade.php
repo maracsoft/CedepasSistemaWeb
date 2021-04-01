@@ -305,9 +305,9 @@
   function confirmarConMensaje(titulo,texto,tipoMensaje,nombreFuncionAEjecutar){
     swal(
           {//sweetalert
-              title: "titulo",
-              text: "texto",     //mas texto
-              type: "error",//e=[success,error,warning,info]
+              title: titulo,
+              text: texto,     //mas texto
+              type: tipoMensaje,//e=[success,error,warning,info]
               showCancelButton: true,//para que se muestre el boton de cancelar
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',

@@ -107,7 +107,7 @@
                             color:{{$solicitud->getColorLetrasEstado()}};
                             
                         "
-                        readonly value="{{$solicitud->getNombreEstado()}}{{": ".$solicitud->getObservacionONull()}}">     
+                        readonly value="{{$solicitud->getNombreEstado()}}{{$solicitud->getObservacionONull()}}">     
                     
                                 
                     </div>

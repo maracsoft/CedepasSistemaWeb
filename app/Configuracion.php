@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Configuracion extends Model
 {
-    const enProduccion = true;
+    const enProduccion = false;
     const pesoMaximoArchivoMB = 5;
 
     //en caracteres
@@ -33,11 +33,10 @@ class Configuracion extends Model
     const tamañoMaximoGiraraAOrdenDe= 50;//solicitud
     const tamañoMaximoNroCuentaBanco= 50;//solicitud-reposicion
 
-
-    public static function getRutaImagenCedepas(){
-        if(Configuracion::enProduccion)
-            return "https://maracsoft.com/img/LogoCedepas.jpg";
-        else 
-            "../../img/LogoCedepas.jpg";
+    
+    public static function getRutaImagenCedepasPNG(){
+     
+            return "https://maracsoft.com/img/LogoCedepas.png";
+       
     }
 }
