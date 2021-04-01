@@ -97,9 +97,14 @@
       </li>
       
       <a class="btn btn-primary"  title="Volver al Inicio" href="{{route('user.home')}}" >
-          Home
+        Home
       </a>
 
+      {{-- <a class="btn btn-primary" onclick="clickeoButton()" title="Volver al Inicio" href="#" >
+        CLICK AQUI
+      </a> --}}
+
+  
 
     </ul>
     
@@ -283,6 +288,41 @@
     menuLateralOcultado = !menuLateralOcultado;
 
 
+  }
+
+
+  function clickeoButton(){
+    confirmarConMensaje(funcionAEjecutarSiSí);
+
+  }
+
+
+  function funcionAEjecutarSiSí(){
+    console.log('oye ya estamos adentro');
+
+  }
+
+  function confirmarConMensaje(titulo,texto,tipoMensaje,nombreFuncionAEjecutar){
+    swal(
+          {//sweetalert
+              title: "titulo",
+              text: "texto",     //mas texto
+              type: "error",//e=[success,error,warning,info]
+              showCancelButton: true,//para que se muestre el boton de cancelar
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText:  'SI',
+              cancelButtonText:  'NO',
+              closeOnConfirm:     true,//para mostrar el boton de confirmar
+              html : true
+          },
+          function(value){//se ejecuta cuando damos a aceptar
+            if(value)
+              nombreFuncionAEjecutar();
+          }
+      );
+
+      
   }
 
 
