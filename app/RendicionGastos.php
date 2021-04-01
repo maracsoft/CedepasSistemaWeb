@@ -254,13 +254,17 @@ class RendicionGastos extends Model
         
         $subsanada = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Subsanada')); 
         $creadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Creada'));
+        $observadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Observada'));
+        
         $aprobadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Aprobada')); 
         $contabilizadas = RendicionGastos::separarDeColeccion($coleccion,RendicionGastos::getCodEstado('Contabilizada')); 
         
         $listaOrdenada = new Collection();
 
-        $listaOrdenada= $listaOrdenada->concat($creadas);
         $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($observadas);
+        
         $listaOrdenada= $listaOrdenada->concat($aprobadas);
         $listaOrdenada= $listaOrdenada->concat($contabilizadas);
    

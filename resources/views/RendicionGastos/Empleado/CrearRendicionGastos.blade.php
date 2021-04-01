@@ -357,8 +357,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                 </div>    
             </div>
         </div>
-    </div>
-
+    
 </form>
 @endsection
 

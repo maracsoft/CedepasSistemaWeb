@@ -375,6 +375,7 @@ class SolicitudFondos extends Model
         
         $creadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Creada')); 
         $subsanada = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Subsanada')); 
+        $observadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Observada')); 
         
         $aprobadas = SolicitudFondos::separarDeColeccion($coleccion,SolicitudFondos::getCodEstado('Aprobada')); 
 
@@ -385,6 +386,8 @@ class SolicitudFondos extends Model
 
         $listaOrdenada= $listaOrdenada->concat($creadas);
         $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($observadas);
+        
         $listaOrdenada= $listaOrdenada->concat($aprobadas);
         $listaOrdenada= $listaOrdenada->concat($abonadas);
         $listaOrdenada= $listaOrdenada->concat($contabilizadas);

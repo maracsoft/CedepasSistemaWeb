@@ -188,217 +188,190 @@ Editar Reposición de Gastos
                 
             </div>
         </div>
-      </div>
+    </div>
     
-      
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
-           
-         
-
-
-        {{-- LISTADO DE DETALLES  --}}
-        <div class="col-md-12 pt-3">     
-            <div class="table-responsive">                           
-                <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
-                    <thead >
-                        <th class="text-center">
-                                                     
-                                <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
-                                    {{-- INPUT PARA EL CBTE DE LA FECHA --}}
-                                    <input type="text" style="text-align: center" class="form-control" name="fechaComprobante" id="fechaComprobante"
-                                          value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="font-size: 10pt;"> 
-                                    
-                                    <div class="input-group-btn">                                        
-                                        <button class="btn btn-primary date-set btn-sm" type="button" style="display: none">
-                                            <i class="fas fa-calendar fa-xs"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                        </th>                                        
-                        <th> 
-                            <div> {{-- INPUT PARA tipo--}}
+    {{-- LISTADO DE DETALLES  --}}
+    <div class="col-md-12 pt-3">     
+        <div class="table-responsive">                           
+            <table id="detalles" class="table table-striped table-bordered table-condensed table-hover" style='background-color:#FFFFFF;'> 
+                <thead >
+                    <th class="text-center">
+                                                    
+                            <div class="input-group date form_date " data-date-format="dd/mm/yyyy" data-provide="datepicker">
+                                {{-- INPUT PARA EL CBTE DE LA FECHA --}}
+                                <input type="text" style="text-align: center" class="form-control" name="fechaComprobante" id="fechaComprobante"
+                                        value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" style="font-size: 10pt;"> 
                                 
-                                <select class="form-control"  id="ComboBoxCDP" name="ComboBoxCDP" >
-                                    <option value="-1">Seleccionar</option>
-                                    @foreach($listaCDP as $itemCDP)
-                                        <option value="{{$itemCDP->nombreCDP}}" >
-                                            {{$itemCDP->nombreCDP}}
-                                        </option>                                 
-                                    @endforeach 
-                                </select>        
+                                <div class="input-group-btn">                                        
+                                    <button class="btn btn-primary date-set btn-sm" type="button" style="display: none">
+                                        <i class="fas fa-calendar fa-xs"></i>
+                                    </button>
+                                </div>
                             </div>
+                    </th>                                        
+                    <th> 
+                        <div> {{-- INPUT PARA tipo--}}
                             
-                        </th>                                 
-                        <th>
-                            <div  > {{-- INPUT PARA ncbte--}}
-                                <input type="text" class="form-control" name="ncbte" id="ncbte">     
-                            </div>
-                        </th>
-                        <th  class="text-center">
-                            <div > {{-- INPUT PARA  concepto--}}
-                                <input type="text" class="form-control" name="concepto" id="concepto">     
-                            </div>
-
-                        </th>
-                   
-                        <th class="text-center">
-                            <div > {{-- INPUT PARA importe--}}
-                                <input type="text" class="form-control" name="importe" id="importe">     
-                            </div>
-
-                        </th>
-                        <th  class="text-center">
-                            <div > {{-- INPUT PARA codigo presup--}}
-                                <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
-                            </div>
-
-                        </th>
-                        <th  class="text-center">
-                            <div >
-                                <button type="button" id="btnadddet" name="btnadddet" 
-                                    class="btn btn-success btn-sm" onclick="agregarDetalle()" >
-                                    <i class="fas fa-plus"></i>Agregar
-                                </button>
-                            </div>      
-                        
-                        </th>                                            
-                     
-                    </thead>
-                    
-                    
-                    <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
-                        <th width="10%" class="text-center">Fecha Cbte</th>                                        
-                        <th width="13%">Tipo</th>                                 
-                        <th width="10%"> N° Cbte</th>
-                        <th width="25%" class="text-center">Concepto </th>
-                        
-                        <th width="10%" class="text-center">Importe </th>
-                        <th width="10%" class="text-center">Cod Presup </th>
-                        
-                        <th width="7%" class="text-center">Opciones</th>                                            
-                        
-                    </thead>
-                    <tfoot>
-
-                                                                                        
-                    </tfoot>
-                    <tbody>
-                  {{--       <tr>
-                            <td>
-                                a
-                            </td>
-                            <td>
-                                a
-                            </td>
-                            <td>
-                                a
-                            </td>
-                            <td>a
-
-                            </td>
-                            <td>
-                              
-            
-                                <input type="file" class="btn btn-primary" name="imagen1" id="imagen1" 
-                                        style="display: none" accept="" onchange="cambioInputFile()">
-                                <label class="label" for="imagen1" style="font-size: 10pt;">
-                                    <div id='divFile1'>
-                                        Subir Archivo
-                                     <i class="fas fa-upload"></i> 
-                                    </div>
-                                </label>
-                               
-                            </td>
-                            <td>
-         
-                            </td>
-                            <td>
-                                a
-                            </td>
-                            <td>
-                                a
-                            </td>
-                        </tr> --}}
-                      
-
-                    </tbody>
-                </table>
-            </div> 
-
-
-         
-              
-
-                <div class="row" id="divTotal" name="divTotal">     
-                    <div class="col">
-                        @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
-
-
-                    </div>
-                    
-                    <div class="col">
-                        <div class="row">
-
-
-                            <div class="col">
-                            </div>   
-                            <div class="col">                        
-                                <label for="">Total Gastado: </label>    
-                            </div>   
-                            <div class="col">
-                                {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                                <input type="hidden" name="cantElementos" id="cantElementos">
-                                <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
-                                <input type="hidden" name="totalRendido" id="totalRendido">                              
-                                <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
-        
-                            </div>   
-                           
-                            <div class="w-100">
-        
-                            </div>
-                            <div class="col"></div>
-        
-        
-        
-                            {{-- Este es para subir todos los archivos x.x  --}}
-                            <div class="col" id="divEnteroArchivo">            
-                                <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
-                                <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
-                                        style="display: none" onchange="cambio()">  
-                                                <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
-                                <label class="label" for="filenames" style="font-size: 12pt;">       
-                                     <div id="divFileImagenEnvio" class="hovered">       
-                                        Sobrescribir archivos comprobantes  
-                                     <i class="fas fa-upload"></i>        
-                                    </div>       
-                                </label>       
-                            </div>    
-        
-        
-        
-                            
-
-
-
-
-
-
-
+                            <select class="form-control"  id="ComboBoxCDP" name="ComboBoxCDP" >
+                                <option value="-1">Seleccionar</option>
+                                @foreach($listaCDP as $itemCDP)
+                                    <option value="{{$itemCDP->nombreCDP}}" >
+                                        {{$itemCDP->nombreCDP}}
+                                    </option>                                 
+                                @endforeach 
+                            </select>        
                         </div>
+                        
+                    </th>                                 
+                    <th>
+                        <div  > {{-- INPUT PARA ncbte--}}
+                            <input type="text" class="form-control" name="ncbte" id="ncbte">     
+                        </div>
+                    </th>
+                    <th  class="text-center">
+                        <div > {{-- INPUT PARA  concepto--}}
+                            <input type="text" class="form-control" name="concepto" id="concepto">     
+                        </div>
+
+                    </th>
+                
+                    <th class="text-center">
+                        <div > {{-- INPUT PARA importe--}}
+                            <input type="text" class="form-control" name="importe" id="importe">     
+                        </div>
+
+                    </th>
+                    <th  class="text-center">
+                        <div > {{-- INPUT PARA codigo presup--}}
+                            <input type="text" class="form-control" name="codigoPresupuestal" id="codigoPresupuestal">     
+                        </div>
+
+                    </th>
+                    <th  class="text-center">
+                        <div >
+                            <button type="button" id="btnadddet" name="btnadddet" 
+                                class="btn btn-success btn-sm" onclick="agregarDetalle()" >
+                                <i class="fas fa-plus"></i>Agregar
+                            </button>
+                        </div>      
+                    
+                    </th>                                            
+                    
+                </thead>
+                
+                
+                <thead class="thead-default" style="background-color:#3c8dbc;color: #fff;">
+                    <th width="10%" class="text-center">Fecha Cbte</th>                                        
+                    <th width="13%">Tipo</th>                                 
+                    <th width="10%"> N° Cbte</th>
+                    <th width="25%" class="text-center">Concepto </th>
+                    
+                    <th width="10%" class="text-center">Importe </th>
+                    <th width="10%" class="text-center">Cod Presup </th>
+                    
+                    <th width="7%" class="text-center">Opciones</th>                                            
+                    
+                </thead>
+                <tfoot>
+
+                                                                                    
+                </tfoot>
+                <tbody>
+                {{--       <tr>
+                        <td>
+                            a
+                        </td>
+                        <td>
+                            a
+                        </td>
+                        <td>
+                            a
+                        </td>
+                        <td>a
+
+                        </td>
+                        <td>
+                            
+        
+                            <input type="file" class="btn btn-primary" name="imagen1" id="imagen1" 
+                                    style="display: none" accept="" onchange="cambioInputFile()">
+                            <label class="label" for="imagen1" style="font-size: 10pt;">
+                                <div id='divFile1'>
+                                    Subir Archivo
+                                    <i class="fas fa-upload"></i> 
+                                </div>
+                            </label>
+                            
+                        </td>
+                        <td>
+        
+                        </td>
+                        <td>
+                            a
+                        </td>
+                        <td>
+                            a
+                        </td>
+                    </tr> --}}
+                    
+
+                </tbody>
+            </table>
+        </div> 
+
+
+        
+            
+
+        <div class="row" id="divTotal" name="divTotal">     
+            <div class="col">
+                @include('ReposicionGastos.DesplegableDescargarArchivosRepo')
+
+
+            </div>
+            
+            <div class="col">
+                <div class="row">
+
+
+                    <div class="col">
+                    </div>   
+                    <div class="col">                        
+                        <label for="">Total Gastado: </label>    
+                    </div>   
+                    <div class="col">
+                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                        <input type="hidden" name="cantElementos" id="cantElementos">
+                        <input type="hidden" name="codigoCedepas" id="codigoCedepas">                          
+                        <input type="hidden" name="totalRendido" id="totalRendido">                              
+                        <input type="text" class="form-control text-right" name="total" id="total" readonly="readonly">   
+
+                    </div>   
+                    
+                    <div class="w-100">
+
                     </div>
+                    <div class="col"></div>
 
 
 
+                    {{-- Este es para subir todos los archivos x.x  --}}
+                    <div class="col" id="divEnteroArchivo">            
+                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
+                                style="display: none" onchange="cambio()">  
+                                        <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
+                        <label class="label" for="filenames" style="font-size: 12pt;">       
+                                <div id="divFileImagenEnvio" class="hovered">       
+                                Sobrescribir archivos comprobantes  
+                                <i class="fas fa-upload"></i>        
+                            </div>       
+                        </label>       
+                    </div>    
 
 
+
+                    
 
 
 
@@ -407,33 +380,46 @@ Editar Reposición de Gastos
 
 
                 </div>
-                    
-
-                
-        </div> 
-        
-        <div class="col-md-12 text-center">  
-            <div id="guardar">
-                <div class="form-group">
-                    <!--
-                    <button class="btn btn-primary" type="submit"
-                        id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
-                        <i class='fas fa-save'></i> 
-                        Registrar
-                    </button>
-                    -->
-                    <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
-                        onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
-                   
-                    <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
-                        <i class="fas fa-arrow-left"></i>
-                        Regresar al Menu
-                    </a>              
-                </div>    
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+                
+
+            
+    </div> 
+    
+    <div class="col-md-12 text-center">  
+        <div id="guardar">
+            <div class="form-group">
+                <!--
+                <button class="btn btn-primary" type="submit"
+                    id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
+                    <i class='fas fa-save'></i> 
+                    Registrar
+                </button>
+                -->
+                <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                    onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
+                
+                <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
+                    <i class="fas fa-arrow-left"></i>
+                    Regresar al Menu
+                </a>              
+            </div>    
         </div>
     </div>
-
+   
     <input type="text" name = "codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
 </form>
 

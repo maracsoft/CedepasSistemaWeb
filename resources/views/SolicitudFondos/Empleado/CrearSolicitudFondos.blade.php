@@ -141,33 +141,15 @@ onsubmit="" id="frmsoli" name="frmsoli">
                                 </select>      
                         </div>
 
-                        
-
-
-
-
-
-
-
-
-
                     </div>
 
 
                 </div>
             </div>
         </div>
-      </div>
+    </div>
     
       
-           
-        {{-- <div class="container" style="background-color: brown; margin-top: 50px;" >
-            <div class="row">                                
-
-                      
-            </div> 
-        </div> --}}
-           
            
          
 
@@ -231,20 +213,20 @@ onsubmit="" id="frmsoli" name="frmsoli">
                 </table>
             </div> 
                 
-                <div class="row" id="divTotal" name="divTotal">                       
-                    <div class="col-md-8">
-                    </div>   
-                    <div class="col-md-2">                        
-                        <label for="">Total : </label>    
-                    </div>   
-                    <div class="col-md-2">
-                        {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
-                        <input type="hidden" name="cantElementos" id="cantElementos">                              
-                        <input type="hidden" class="form-control text-right" name="total" id="total" readonly="readonly">   
-                        <input type="text" class="form-control text-right" name="totalMostrado" id="totalMostrado" readonly="readonly">   
-                                                   
-                    </div>   
-                </div>
+            <div class="row" id="divTotal" name="divTotal">                       
+                <div class="col-md-8">
+                </div>   
+                <div class="col-md-2">                        
+                    <label for="">Total : </label>    
+                </div>   
+                <div class="col-md-2">
+                    {{-- HIDDEN PARA GUARDAR LA CANT DE ELEMENTOS DE LA TABLA --}}
+                    <input type="hidden" name="cantElementos" id="cantElementos">                              
+                    <input type="hidden" class="form-control text-right" name="total" id="total" readonly="readonly">   
+                    <input type="text" class="form-control text-right" name="totalMostrado" id="totalMostrado" readonly="readonly">   
+                                                
+                </div>   
+            </div>
                     
 
                 
@@ -263,17 +245,19 @@ onsubmit="" id="frmsoli" name="frmsoli">
                     <button type="button" class="btn btn-primary float-right" id="btnRegistrar" 
                         data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
                             onclick="registrar()">
-                    
-                    <i class='fas fa-save'></i> 
-                    Registrar
+                        
+                        <i class='fas fa-save'></i> 
+                        Registrar
                     </button> 
                    
-                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'><i class="fas fa-arrow-left"></i> Regresar al Menu</a>              
+                    <a href="{{route('SolicitudFondos.Empleado.Listar')}}" class='btn btn-info float-left'>
+                        <i class="fas fa-arrow-left"></i> 
+                        Regresar al Menu
+                    </a>              
                 </div>    
             </div>
         </div>
-    </div>
-
+   
 </form>
 @endsection
 

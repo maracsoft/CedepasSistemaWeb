@@ -223,8 +223,9 @@ class ReposicionGastos extends Model
 
 
         $listaOrdenada = new Collection();
-        $listaOrdenada= $listaOrdenada->concat($creadas);
         $listaOrdenada= $listaOrdenada->concat($subsanada);
+        $listaOrdenada= $listaOrdenada->concat($creadas);
+        $listaOrdenada= $listaOrdenada->concat($observadas);
         $listaOrdenada= $listaOrdenada->concat($aprobadas);
         
         $listaOrdenada= $listaOrdenada->concat($abonadas);

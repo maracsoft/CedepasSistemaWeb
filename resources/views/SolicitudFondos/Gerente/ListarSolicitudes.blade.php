@@ -147,7 +147,7 @@ Listar Solicitudes
 
                   @endif
                 </td>
-
+                
                 <td style = "padding: 0.40rem; text-align: center">{{$itemSolicitud->formatoFechaHoraRevisado()}}</td>
                 <td style = "padding: 0.40rem">
                       {{-- Si la tenemos que evaluar --}}  

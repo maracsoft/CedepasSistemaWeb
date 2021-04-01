@@ -186,7 +186,7 @@ Editar Solicitud
                 </div>
             </div>
         </div>
-      </div>
+    </div>
     
       
            
@@ -296,8 +296,7 @@ Editar Solicitud
                 </div>    
             </div>
         </div>
-    </div>
-
+    
 </form>
 @endsection
 

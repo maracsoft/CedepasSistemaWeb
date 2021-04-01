@@ -225,7 +225,7 @@
           .
         </strong> 
         Powered by Maracsoft
-   </footer>
+  </footer>
    
 
 </div>

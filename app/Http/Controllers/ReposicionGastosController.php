@@ -580,7 +580,7 @@ class ReposicionGastosController extends Controller
                 ->where('fechaHoraEmision','<',$fechaFin);
         }
         $reposiciones=$reposiciones->orderBy('fechaHoraEmision','DESC')->get();
-        $reposiciones= ReposicionGastos::ordenarParaGerente($reposiciones)->paginate($this::PAGINATION);
+        $reposiciones= ReposicionGastos::ordenarParaContador($reposiciones)->paginate($this::PAGINATION);
         
         
 
