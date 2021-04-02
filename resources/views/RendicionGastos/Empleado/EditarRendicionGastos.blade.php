@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-Editar Rendicion
+Editar Rendición
 @endsection
 
 @section('contenido')

@@ -182,7 +182,7 @@
                     if(value){
 
                         codigoSolicitud = {{$solicitud->codSolicitud}};
-                        console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
+                        console.log('Se presionó el botón observar, el texto observación es ' + textoObs + ' y el cod de la solicitud es ' +  codigoSolicitud);
             
                         location.href = '/SolicitudFondos/Observar/'+ codigoSolicitud +'*' +textoObs;
                     }

@@ -409,7 +409,7 @@
   function confirmarCerrarSesion(){
       swal(
           {//sweetalert
-              title: "Cerrar Sesion",
+              title: "Cerrar Sesión",
               text: '¿Seguro que desea finalizar su sesión?',     //mas texto
               type: "warning",//e=[success,error,warning,info]
               showCancelButton: true,//para que se muestre el boton de cancelar

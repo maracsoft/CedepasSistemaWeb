@@ -319,12 +319,12 @@ Contabilizar Rendición
         function observarRendicion(){
             textoObs = $('#observacion').val();
             codigoSolicitud = {{$rendicion->codRendicionGastos}};
-            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la rendicion es ' +  codigoSolicitud);
+            console.log('Se presionó el botón observar, el texto observación es ' + textoObs + ' y el cod de la rendición es ' +  codigoSolicitud);
             if(textoObs==''){
-                alerta('Debe ingresar la observacion');
+                alerta('Debe ingresar la observación');
             }else{
                 swal({//sweetalert
-                    title:'¿Seguro de observar la rendicion?',
+                    title:'¿Seguro de observar la rendición?',
                     text: '',
                     type: 'info',  
                     showCancelButton: true,

@@ -123,10 +123,10 @@
                 
 
 
-                <a href="#" class="btn btn-success float-right" onclick="actualizarEstado('¿Seguro de abonar la reposicion?', 'Abonar')">
+                <a href="#" class="btn btn-success float-right" onclick="actualizarEstado('¿Seguro de abonar la reposición?', 'Abonar')">
                     <i class="fas fa-check"></i> Marcar como Abonada</a>
                 
-                <a href="#" class="btn btn-danger float-right" style="margin-right:5px;" onclick="actualizarEstado('¿Seguro de rechazar la reposicion?', 'Rechazar')">
+                <a href="#" class="btn btn-danger float-right" style="margin-right:5px;" onclick="actualizarEstado('¿Seguro de rechazar la reposición?', 'Rechazar')">
                     <i class="fas fa-times"></i> Rechazar</a> 
 
 

@@ -121,7 +121,7 @@
 
 
                         <div class="colLabel">
-                            <label for="fecha">Cod Rendicion:</label>
+                            <label for="fecha">Cod. Rendición:</label>
                         </div>
                         <div class="col">
                              <input type="text" class="form-control" name="codigoCedepas" id="codigoCedepas" readonly value="{{$rendicion->codigoCedepas}}">     

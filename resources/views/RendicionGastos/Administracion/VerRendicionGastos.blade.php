@@ -1,13 +1,13 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-    Ver Rendicion
+    Ver Rendición
 @endsection
 
 @section('contenido')
 <div >
     <p class="h1" style="text-align: center">
-        Ver Rendicion de Gastos
+        Ver Rendición de Gastos
     </p>
 </div>
 

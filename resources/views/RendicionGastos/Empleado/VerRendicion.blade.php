@@ -8,7 +8,7 @@ Ver Rendición
 
 @section('contenido')
 <div >
-    <p class="h1" style="text-align: center">Ver Rendicion de Gastos</p>
+    <p class="h1" style="text-align: center">Ver Rendición de Gastos</p>
 
 
 </div>

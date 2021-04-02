@@ -384,10 +384,10 @@ Editar Solicitud
         limpiarEstilos();
         if($('#justificacion').val()=='' ){
             cambiarEstilo('justificacion','form-control-undefined');
-            msj='Debe ingresar la justificacion';
+            msj='Debe ingresar la justificación';
         }else if($('#justificacion').val().length>{{App\Configuracion::tamañoMaximoJustificacion}} ){
             cambiarEstilo('justificacion','form-control-undefined');
-            msj='La longitud de la justificacion tiene que ser maximo de {{App\Configuracion::tamañoMaximoJustificacion}} caracteres';
+            msj='La longitud de la justificación tiene que ser maximo de {{App\Configuracion::tamañoMaximoJustificacion}} caracteres';
         }
 
         if($('#ComboBoxProyecto').val()=='-1' ){

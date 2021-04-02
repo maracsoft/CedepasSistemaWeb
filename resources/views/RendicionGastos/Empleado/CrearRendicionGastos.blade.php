@@ -1,7 +1,7 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-Crear Rendicion
+Crear Rendición
 @endsection
 
 @section('contenido')
@@ -400,7 +400,7 @@ onsubmit="return validarFormCrear()"  enctype="multipart/form-data" id="frmrend"
                     return false;
                 }
             
-            confirmar('¿Estás seguro de crear la Rendicion?','info','frmrend');
+            confirmar('¿Estás seguro de crear la Rendición?','info','frmrend');
             
         }
         function cambiarEstilo(name, clase){

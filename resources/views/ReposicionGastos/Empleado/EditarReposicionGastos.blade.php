@@ -466,7 +466,7 @@ Editar Reposición de Gastos
             alerta(msj);
             return false;
         }
-        confirmar('¿Seguro de guardar los cambios de la reposicion?','info','frmrepo');//[success,error,warning,info]
+        confirmar('¿Seguro de guardar los cambios de la reposición?','info','frmrepo');//[success,error,warning,info]
 
     }
     function cambiarEstilo(name, clase){

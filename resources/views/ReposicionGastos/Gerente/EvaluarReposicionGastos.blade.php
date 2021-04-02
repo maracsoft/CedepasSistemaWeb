@@ -267,7 +267,7 @@ background-color:rgb(97, 170, 170);
                     return false;
                 }
             console.log('TODO OK');
-            confirmar('¿Está seguro de Aprobar la Reposicion?','info','frmRepo');
+            confirmar('¿Está seguro de Aprobar la Reposición?','info','frmRepo');
             
 
         }

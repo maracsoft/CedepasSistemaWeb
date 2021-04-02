@@ -186,7 +186,7 @@ enctype="multipart/form-data">
         function actualizarEstado(msj, action){
             textoObs = $('#observacion').val();
             if(action=='Observar' && textoObs==''){
-                alerta('Ingrese observacion');
+                alerta('Ingrese observación');
             }
             if(action=='Observar' && textoObs!=''){
                 swal({//sweetalert

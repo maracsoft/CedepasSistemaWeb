@@ -4,7 +4,7 @@
 @if($rendicion->verificarEstado('Creada') || $rendicion->verificarEstado('Subsanada') )
 Revisar Rendición
 @else 
-Ver Rendicion
+Ver Rendición
 @endif
 @endsection
 
@@ -17,10 +17,10 @@ Ver Rendicion
 
         Revisar Rendición de  Gastos
         <br>
-        <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edicion</button>
+        <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edición</button>
           
         @else 
-        Ver Rendicion de Gastos
+        Ver Rendición de Gastos
         @endif
          
        
@@ -353,12 +353,12 @@ enctype="multipart/form-data" id="frmRend" >
         function observarRendicion(){
             textoObs = $('#observacion').val();
             codigoSolicitud = {{$rendicion->codRendicionGastos}};
-            console.log('Se presionó el botón observar, el textoobservacion es ' + textoObs + ' y el cod de la rendicion es ' +  codigoSolicitud);
+            console.log('Se presionó el botón observar, el texto observación es ' + textoObs + ' y el cod de la rendición es ' +  codigoSolicitud);
             if(textoObs==''){
-                alerta('Debe ingresar la observacion');
+                alerta('Debe ingresar la observación');
             }else{
                 swal({//sweetalert
-                    title:'¿Seguro de observar la rendicion?',
+                    title:'¿Seguro de observar la rendición?',
                     text: '',
                     type: 'info',  
                     showCancelButton: true,
