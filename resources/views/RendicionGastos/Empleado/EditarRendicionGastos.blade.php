@@ -1,13 +1,23 @@
 @extends('Layout.Plantilla')
 
 @section('titulo')
-Editar Rendición
+    Editar Rendición
 @endsection
 
 @section('contenido')
 
 <div >
-    <p class="h1" style="text-align: center">Editar Rendición de Gastos</p>
+    <p class="h1" style="text-align: center">
+        @if($rendicion->verificarEstado('Observada'))
+            Subsanar
+        @else 
+        Editar 
+        
+        @endif
+        
+        Rendición de Gastos
+    
+    </p>
 
 
 </div>
