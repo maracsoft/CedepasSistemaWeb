@@ -9,7 +9,7 @@ LOG_CHANNEL=stack
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=maracsof_bdcedepaspesi
+DB_DATABASE=maracsof_BDCedepasNorte
 DB_USERNAME=maracsof_admin
 DB_PASSWORD=-@F$zqZy[Rw[
 
