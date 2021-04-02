@@ -1,9 +1,16 @@
+
+<style>
+    
+    .hovered:hover{
+        background-color:rgb(97, 170, 170);
+
+    }
+</style>
+
 <script>
 
 
-@if (App\Configuracion::enProduccion)
-    document.getElementById('nombresArchivos').type = "hidden"
-@endif
+
 
 
 var codPresupProyecto = -1;
@@ -103,6 +110,7 @@ function agregarDetalle(){
     cont++;
     actualizarTabla();
 
+    $('#fechaComprobante').val("");
     $('#ComboBoxCDP').val(0);
     $('#ncbte').val('');
 
@@ -113,7 +121,7 @@ function agregarDetalle(){
 
 function editarDetalle(index){
 
-    $('#fecha').val( detalleRepo[index].fecha );
+    $('#fechaComprobante').val( detalleRepo[index].fecha );
     $('#ComboBoxCDP').val( detalleRepo[index].tipo );
     $('#ncbte').val( detalleRepo[index].ncbte );
     $('#concepto').val( detalleRepo[index].concepto );
@@ -175,7 +183,7 @@ function actualizarTabla(){
                     
 
                         <td  style="text-align:right;">              
-                            <input type="text" class="form-control" value="`+number_format(element.importe,2)+`" readonly>
+                            <input type="text" class="form-control" style="text-align:right" value="`+number_format(element.importe,2)+`" readonly>
                             <input type="hidden" class="form-control" name="colImporte`+item+`" id="colImporte`+item+`" value="`+(element.importe)+`" readonly>
                         </td>              
                         <td style="text-align:center;">              

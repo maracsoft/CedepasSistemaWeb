@@ -29,7 +29,7 @@ Editar Reposición de Gastos
 
                     <div class="row">
                       <div  class="colLabel">
-                            <label for="fecha">Fecha</label>
+                            <label for="fechaHoy">Fecha</label>
                       </div>
                       <div class="col">
                                                
@@ -63,7 +63,7 @@ Editar Reposición de Gastos
              
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="colLabel">
-                            <label for="fecha">Moneda</label>
+                            <label for="">Moneda</label>
 
                       </div>
 
@@ -86,7 +86,7 @@ Editar Reposición de Gastos
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="colLabel">
-                            <label for="fecha">Banco</label>
+                            <label for="">Banco</label>
 
                       </div>
 
@@ -109,7 +109,7 @@ Editar Reposición de Gastos
                       
                       <div class="w-100"></div> {{-- SALTO LINEA --}}
                       <div  class="colLabel">
-                            <label for="fecha">Codigo Cedepas</label>
+                            <label for="">Codigo Cedepas</label>
 
                       </div>
 
@@ -143,43 +143,42 @@ Editar Reposición de Gastos
 
                     <div class="container row"> {{-- OTRO CONTENEDOR DENTRO DE LA CELDA --}}
 
-                      <div  class="colLabel">
-                            <label for="fecha">CuentaBancaria</label>
-
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}">    
-                      </div>
-                      <div class="w-100"></div> {{-- SALTO LINEA --}}
-                      <div  class="colLabel">
-                            <label for="fecha">Girar a Orden de </label>
-
-                      </div>
-                      <div class="col">
-                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}">    
-                      </div>
-
-                        <!--
-                        <div class="row">
-                          <div  class="col">
-                                <label for="fecha">Cod Rendicion</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
-                          </div>
-
-
-                          <div class="w-100"></div> {{-- SALTO LINEA --}}
-                          <div  class="col">
-                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-                          </div>
-                          <div class="col">
-                                <input value="" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                          </div>
-
+                        <div  class="colLabel">
+                                <label for="fecha">CuentaBancaria</label>
 
                         </div>
-                        -->
+                        <div class="col">
+                                <input type="text" class="form-control" name="numeroCuentaBanco" id="numeroCuentaBanco" value="{{$reposicion->numeroCuentaBanco}}">    
+                        </div>
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                                <label for="fecha">Girar a Orden de </label>
+
+                        </div>
+                        <div class="col">
+                                <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{$reposicion->girarAOrdenDe}}">    
+                        </div>
+                        <div class="w-100"></div> {{-- SALTO LINEA --}}
+                        <div  class="colLabel">
+                            <label for="estado">Estado 
+                                @if($reposicion->verificarEstado('Observada')){{-- Si está observada --}}& Obs @endif:</label>
+                        </div>
+
+
+                        <div class="col"> {{-- Combo box de estado --}}
+                            <input readonly type="text" class="form-control" name="estado" id="estado"
+                            style="background-color: {{$reposicion->getColorEstado()}} ;
+                                color:{{$reposicion->getColorLetrasEstado()}};   
+                            "
+                            readonly value="{{$reposicion->getNombreEstado()}}@if($reposicion->verificarEstado('Observada')): {{$reposicion->observacion}}@endif"  >           
+                        </div>
+
+
+
+
+
+
+
                     </div>
 
                 </div>
@@ -357,7 +356,7 @@ Editar Reposición de Gastos
 
                     {{-- Este es para subir todos los archivos x.x  --}}
                     <div class="col" id="divEnteroArchivo">            
-                        <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                        <input type="{{App\Configuracion::getInputTextOHidden()}}" name="nombresArchivos" id="nombresArchivos" value="">
                         <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
                                 style="display: none" onchange="cambio()">  
                                         <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
@@ -400,27 +399,35 @@ Editar Reposición de Gastos
     </div> 
     
     <div class="col-md-12 text-center">  
-        <div id="guardar">
-            <div class="form-group">
-                <!--
-                <button class="btn btn-primary" type="submit"
-                    id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando">
-                    <i class='fas fa-save'></i> 
-                    Registrar
-                </button>
-                -->
-                <button type="button" class="btn btn-primary float-right" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
-                    onclick="registrar()"><i class='fas fa-save'></i> Registrar</button> 
-                
-                <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info float-left'>
+        <div class="row">
+            <div class="col" style="text-align: left">
+                <a href="{{route('ReposicionGastos.Empleado.Listar')}}" class='btn btn-info'>
                     <i class="fas fa-arrow-left"></i>
                     Regresar al Menu
-                </a>              
-            </div>    
+                </a>
+                
+                
+                
+                            
+            </div>   
+            
+            <div class="col" style="text-align: right">
+
+                <button type="button" class="btn btn-primary" id="btnRegistrar" data-loading-text="<i class='fa a-spinner fa-spin'></i> Registrando" 
+                    onclick="registrar()">
+                    <i class='fas fa-save'></i> 
+                    Registrar
+                </button> 
+
+            </div>
+
         </div>
     </div>
-   
-    <input type="text" name = "codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
+
+    
+
+
+    <input type="hidden" name = "codReposicionGastos" value="{{$reposicion->codReposicionGastos}}">
 </form>
 
 
@@ -491,7 +498,7 @@ Editar Reposición de Gastos
         
         function cargarDetallesReposicion(){
 
-        //console.log('aaaa ' + '/listarDetallesDeRendicion/'+);
+        //console.log('aaaa ' + '/listarDetallesDereposicion/'+);
         //obtenemos los detalles de una ruta GET 
         $.get('/listarDetallesDeReposicion/'+{{$reposicion->codReposicionGastos}}, function(data)
         {      
@@ -500,7 +507,7 @@ Editar Reposición de Gastos
                     
                     detalleRepo.push({
                         codDetalleReposicion:   listaDetalles[index].codDetalleReposicion,
-                        nroEnRendicion:         listaDetalles[index].nroEnRendicion,
+                        nroEnreposicion:         listaDetalles[index].nroEnreposicion,
                         fecha:                  listaDetalles[index].fechaFormateada,
                         tipo:                   listaDetalles[index].nombreTipoCDP,
                         ncbte:                  listaDetalles[index].nroComprobante,

@@ -205,9 +205,9 @@ Reposición
                         <td>{{$itemdetalle->nroComprobante}}</td>
                         <td>{{$itemdetalle->concepto}}</td>
                 
-                        <td>{{number_format($itemdetalle->importe,2)}}</td>
+                        <td style="text-align: right">{{number_format($itemdetalle->importe,2)}}</td>
                        
-                        <td>{{$itemdetalle->codigoPresupuestal}}</td>
+                        <td style="text-align: center"> {{$itemdetalle->codigoPresupuestal}}</td>
                         <td style="text-align:center;">               
                             <input type="checkbox"  readonly
                             @if($reposicion->verificarEstado('Contabilizada')) {{-- Ya está contabilizada --}}
@@ -229,7 +229,7 @@ Reposición
     
             
               
-    <input type="text" id="listaContabilizados" 
+    <input type="{{App\Configuracion::getInputTextOHidden()}}" id="listaContabilizados" 
     name = "listaContabilizados" value="">
 
     <div class="row" id="divTotal" name="divTotal">     
@@ -375,7 +375,7 @@ Reposición
             }
 
             swal({//sweetalert
-                title: msjExtra+'¿Seguro de contabilizar la rendicion?',
+                title: msjExtra+'¿Seguro de contabilizar la reposicion?',
                 text: '',
                 type: 'info',  
                 showCancelButton: true,

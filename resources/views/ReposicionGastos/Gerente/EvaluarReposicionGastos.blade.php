@@ -4,7 +4,7 @@
     @if($reposicion->verificarEstado('Creada') || 
         $reposicion->verificarEstado('Subsanada') )
         {{-- Estados en los que es valido Evaluar --}}
-        Evaluar Reposición de Gastos
+        Revisar Reposición de Gastos
 
     @else 
         Ver Reposición de Gastos
@@ -21,7 +21,7 @@
             @if($reposicion->verificarEstado('Creada') || 
                 $reposicion->verificarEstado('Subsanada') )
                 {{-- Estados en los que es valido Evaluar --}}
-                Evaluar Reposición de Gastos
+                Revisar Reposición de Gastos
                 <br>
                 <button class="btn btn-success"  onclick="desOactivarEdicion()">Activar Edición</button>
         
@@ -114,20 +114,18 @@
             <div id="guardar">
                 <div class="form-group">
                     
-                    <!--
-                    <a href="" 
-                        class="btn btn-success float-right">
-                        <i class="entypo-pencil"></i>
-                        Marcar como Abonada
-                    </a>-->
-
                     @if($reposicion->verificarEstado('Creada') || $reposicion->verificarEstado('Subsanada') )
- 
-                    <a href="#" class="btn btn-success float-right" onclick="aprobar()">
-                        <i class="fas fa-check"></i> Aceptar</a>
-                    <!--<a href="" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  -->
-                    <a href="#" class="btn btn-danger float-right" style="margin-right:5px;"onclick="actualizarEstado('¿Seguro de rechazar la reposicion?', 'Rechazar')">
-                        <i class="fas fa-times"></i> Rechazar</a>
+                        <a href="#" class="btn btn-danger" style="margin-right:5px;"onclick="actualizarEstado('¿Seguro de rechazar la reposicion?', 'Rechazar')">
+                            <i class="fas fa-times"></i> 
+                            Rechazar
+                        </a>
+
+                        <a href="#" class="btn btn-success" onclick="aprobar()">
+                            <i class="fas fa-check"></i> 
+                            Aprobar
+                        </a>
+                        <!--<a href="" class="btn btn-danger float-right"><i class="entypo-pencil"></i>Rechazar</a>  -->
+                        
 
 
                     @endif
@@ -269,7 +267,7 @@ background-color:rgb(97, 170, 170);
                     return false;
                 }
             console.log('TODO OK');
-            confirmar('¿Está seguro de Aceptar la Reposicion?','info','frmRepo');
+            confirmar('¿Está seguro de Aprobar la Reposicion?','info','frmRepo');
             
 
         }

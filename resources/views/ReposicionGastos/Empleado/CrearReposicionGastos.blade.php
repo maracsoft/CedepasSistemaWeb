@@ -158,30 +158,9 @@
 
                       </div>
                       <div class="col">
-                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="">    
+                            <input type="text" class="form-control" name="girarAOrdenDe" id="girarAOrdenDe" value="{{App\Empleado::getEmpleadoLogeado()->getNombreCompleto()}}">    
                       </div>
 
-                        <!--
-                        <div class="row">
-                          <div  class="col">
-                                <label for="fecha">Cod Rendicion</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" name="codRendicion" id="codRendicion" readonly>     
-                          </div>
-
-
-                          <div class="w-100"></div> {{-- SALTO LINEA --}}
-                          <div  class="col">
-                                <label for="codSolicitud">Codigo Solicitud de Fondos</label>
-                          </div>
-                          <div class="col">
-                                <input value="" type="text" class="form-control" name="codSolicitud" id="codSolicitud" readonly>     
-                          </div>
-
-
-                        </div>
-                        -->
                     </div>
 
                 </div>
@@ -369,7 +348,7 @@
 
             {{-- Este es para subir todos los archivos x.x  --}}
             <div class="col" id="divEnteroArchivo">            
-                <input type="text" name="nombresArchivos" id="nombresArchivos" value="">
+                <input type="{{App\Configuracion::getInputTextOHidden()}}" name="nombresArchivos" id="nombresArchivos" value="">
                 <input type="file" multiple class="btn btn-primary" name="filenames[]" id="filenames"        
                         style="display: none" onchange="cambio()">  
                                 <input type="hidden" name="nombreImgImagenEnvio" id="nombreImgImagenEnvio">                 
