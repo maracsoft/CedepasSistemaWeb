@@ -152,7 +152,7 @@
                                 showCancelButton: true,//para que se muestre el boton de cancelar
                                 confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
-                                confirmButtonText:  'SI',
+                                confirmButtonText:  'SÍ',
                                 cancelButtonText:  'NO',
                                 closeOnConfirm:     true,//para mostrar el boton de confirmar
                                 html : true
@@ -205,7 +205,7 @@
                 showCancelButton: true,//para que se muestre el boton de cancelar
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText:  'SI',
+                confirmButtonText:  'SÍ',
                 cancelButtonText:  'NO',
                 closeOnConfirm:     true,//para mostrar el boton de confirmar
                 html : true
